@@ -1,0 +1,263 @@
+@import "app/globals.scss";
+
+.MainBanner-Container{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100vh;
+    background-color: #141414;
+    overflow-x: hidden;
+
+    .MainBanner-slider{
+        position: relative;
+        display: flex;
+        width: 300vw;
+        height: 100%;
+        padding : 8vh 0 0 0;
+
+        .AboutWISH-Container{
+            position: relative;
+            width: 100vw;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding : 50px 0;
+
+            .AboutWISH-section{
+                width: 70%;
+                height: 100%;
+                display: flex;
+                padding : 0 0 0 6.25rem;
+            
+                .AboutWISH-titleBox{
+                    flex : 4;
+                    height: 100%;
+
+                    .AboutWISH-index{
+                        width: 100%;
+                        margin-bottom: 3rem;
+
+                        span{
+                            font-size: 1.3rem;
+                            color: #fff;
+                            font-family: $Raleway-font;
+                            line-height: 3rem;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+                    }
+
+                    .AboutWISH-title{
+                        width: 80%;
+                        margin-bottom: 3rem;
+
+                        h1{
+                            width: 100%;
+                            font-size: 2.2rem;
+                            font-family: $Pacifico-font;
+                            color: #fff;
+                            font-weight: 100;
+                            word-break: keep-all;
+                        }
+                    }
+
+                    .AboutWISH-info{
+                        width: 20rem;
+                        height: 50%;
+                        display: flex;
+                        align-items: center;
+
+                        p{
+                            font-size: 1.3rem;
+                            font-family: $Raleway-font;
+                            color: #fff;
+                        }
+                    }
+                }
+
+                .AboutWISH-solutions{
+                    flex : 6;
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap : 50px;
+                    place-items: center;
+
+                    .solutions-item{
+                        width: 22rem;
+                        height: 22rem;
+                        text-align: center;
+                        cursor: default;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        .solution-icon{
+                            width: 100%;
+                            height: 100px;
+                            margin-bottom: 50px;
+                        }
+
+                        .solution-content{
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            align-items: center;
+                            width: 100%;
+                            height: 12rem;
+
+                            .solution-title{
+                                width: 80%;
+                                height: 3rem;
+
+                                h1{
+                                    font-size: 1.2rem;
+                                    color: #fff;
+                                    font-family: $Raleway-font;
+                                    text-transform: uppercase;
+                                    text-align: center;
+                                }
+                            }
+
+                            .solution-info{
+                                width: 80%;
+                                height: 6rem;
+
+                                p{
+                                    width: 100%;
+                                    font-size: 15px;
+                                    color: #fff;
+                                    font-family: $Noto-Korean;
+                                    word-break: keep-all;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            .NextAbout-Preview{
+                position: relative;
+                width: 20%;
+                height: 100%;
+
+                .Rotate-Scroll{
+                    position: relative;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 200px;
+                    height: 200px;
+
+                    img{
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        width: fit-content;
+                        animation: animations 10s linear infinite;
+                    }
+
+                    h1{
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: 1.3rem;
+                        text-transform: uppercase;
+                        font-family: $Pacifico-font;
+                        color: #fff;
+                    }
+
+                    @keyframes animations{
+                        100%{
+                            transform: translate(-50%, -50%) rotate(360deg);
+                        }
+                    }
+                }
+            }
+        }
+
+        .AboutSeason-Container{
+            position: relative;
+            width: 100vw;
+            height: 100%;
+            overflow: hidden;
+            color: #fff;
+            padding : 50px 6.25rem;
+
+            .Season-content{
+                position: relative;
+                width: 100%;
+                height: 150px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10rem;
+
+                .Season-title{
+                    width: 100%;
+                    padding: 0 50px;
+
+                    h1{
+                        font-size: 3rem;
+                        font-family: $Pacifico-font;
+                        line-height: 10rem;
+                    }
+                }
+
+                .Season-info{
+                        width: 40rem;
+                        padding: 0 50px;
+
+                    p{
+                        width: 100%;
+                        word-break: keep-all;
+                        font-family: $Raleway-font;
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+
+            .Season-typeBox{
+                position: relative;
+                width: 100%;
+                height: 20rem;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 100px;
+                place-items: center;
+
+                .Season-item{
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+
+                    .Season-icon{
+                        width: 100%;
+                        text-align: center;
+                        line-height: 10rem;
+                    }
+
+                    .Season-state{
+                        width: 100%;
+                        color: #fff;
+                        text-transform: uppercase;
+
+                        .Season-name{
+                            font-family: $Raleway-font;
+                            font-size: 1.2rem;
+                            line-height: 5rem;
+                        }
+
+                        .Season-date{
+                            font-family: $Raleway-font;
+                            font-size: 1rem;
+                            line-height: 5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

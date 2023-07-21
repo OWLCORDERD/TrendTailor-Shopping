@@ -1,0 +1,138 @@
+@import 'app/globals.scss';
+
+.MainPeed-News{
+    position: sticky;
+    top: 10rem;
+    left: 0;
+    width: 28rem;
+    height: 45rem;
+    padding : 0 3.125rem;
+    background-color: #fff;
+
+    .News-title{
+        width: 100%;
+
+        h1{
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-family: $Raleway-font;
+            line-height: 5rem;
+        }
+    }
+
+    .News-Slider{
+        position: relative;
+        width: 100%;
+        height: 40rem;
+        overflow: hidden;
+
+        .Slide-control{
+            position: absolute;
+            width: 100%;
+            height: max-content;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+
+            .slide-before{
+                width: 50px;
+                text-align: center;
+                font-size: 2rem;
+                line-height: 100px;
+                background-color: rgba($color: #fff, $alpha: 0.5);
+                cursor: pointer;
+                border: none;
+                color: rgb(80, 80, 80);
+            }
+
+            .slide-next{
+                width: 50px;
+                text-align: center;
+                font-size: 2rem;
+                line-height: 100px;
+                background-color: rgba($color: #fff, $alpha: 0.5);
+                cursor: pointer;
+                border: none;
+                color: rgb(80, 80, 80);
+            }
+        }
+
+        .Slider-wrapper{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400%;
+            height: 100%;
+            display: inline-flex;
+
+            .Slide-item{
+                width: 100%;
+                height: 100%;
+
+                .Slide-ImgBox{
+                    position: relative;
+                    width: 100%;
+                    height: 28rem;
+
+                    img{
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                        object-fit: cover;
+                    }
+                }
+
+                .Slide-content{
+                    position: relative;
+                    width: 100%;
+                    height: 7rem;
+                    font-family: $Noto-Korean;
+
+                    h2{
+                        width: 100%;
+                        line-height: 4rem;
+                        word-break: keep-all;
+                        font-size: 1rem;
+                    }
+
+                    p{
+                        width: 90%;
+                        height: 3rem;
+                        word-break: keep-all;
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+
+        .Slider-status{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 5rem;
+
+            .status-bar{
+                position: relative;
+                width: 100%;
+                height: 5px;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: rgb(112, 112, 112);
+
+                span{
+                    position: relative;
+                    left: 0;
+                    display: block;
+                    width: 25%;
+                    height: 100%;
+                    background-color: rgb(195, 195, 195);
+                }
+            }
+        }
+    }
+}

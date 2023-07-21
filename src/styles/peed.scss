@@ -1,0 +1,79 @@
+@import 'app/globals.scss';
+
+.MainPeed-container{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: max-content;
+
+    .MainPeed-wrapper{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding : 5rem 6.25rem;
+
+        .Peed-wrapper{
+            width: 70%;
+            height: max-content;
+
+            .Peed-banner{
+                position: relative;
+                width: 100%;
+                height: 36rem;
+                overflow: hidden;
+                margin-bottom: 100px;
+
+                img{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                &::before{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    content: '';
+                    background-color: rgba($color: #000000, $alpha: 0.7);
+                    z-index: 1;
+                }
+
+                .banner-content{
+                    position: absolute;
+                    width: 80%;
+                    height: max-content;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50% ,-50%);
+                    color: #fff;
+                    font-family: $Raleway-font;
+                    z-index: 10;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+
+                    h1{
+                        width: max-content;
+                        text-align: center;
+                        font-size: 5rem;
+                        line-height: 10rem;
+                        text-transform: uppercase;
+                    }
+
+                    p{
+                        width: 60%;
+                        word-break: keep-all;
+                        font-size: 1.5rem;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}

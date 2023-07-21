@@ -1,0 +1,163 @@
+@import "app/globals.scss";
+
+.YoutubePeed-container{
+        position: relative;
+        width: 100%;
+        height: 40rem;
+        background-color: #fff;
+
+        .YoutubePeed-titleBox{
+                position : relative;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .YoutubePeed-title{
+                        font-size: 2rem;
+                        font-family: $Raleway-font;
+                        text-transform: uppercase;
+                        line-height: 8rem;
+                }
+
+                .slide-control{
+                        position: relative;
+                        width: 10rem;
+                        height: max-content;
+                        z-index: 100;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .slide-before{
+                                width: 50px;
+                                text-align: center;
+                                font-size: 1.5rem;
+                                line-height: 5rem;
+                                background-color: transparent;
+                                cursor: pointer;
+                                border: none;
+                                color: #000;
+                        }
+                
+                        .slide-next{
+                                width: 50px;
+                                text-align: center;
+                                font-size: 1.5rem;
+                                line-height: 5rem;
+                                background-color: transparent;
+                                cursor: pointer;
+                                border: none;
+                                color: #000;
+                        }
+                }
+        }
+
+        .Youtube-slider{
+                position: relative;
+                width: 100%;
+                height: 32rem;
+                overflow: hidden;
+
+                .slide-wrap{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: max-content;
+                        height: 100%;
+                        display: inline-flex;
+
+                        .video-item{
+                                position: relative;
+                                width: 30rem;
+                                height: 100%;
+                                margin-left: 50px;
+
+                                &:first-child{
+                                        margin-left: 0;
+                                }
+
+                                .video-thumbnail{
+                                        position: relative;
+                                        width: 100%;
+                                        height: 60%;
+
+                                        img{
+                                                width: 100%;
+                                                height: 100%;
+                                                object-fit: cover;
+                                        }
+
+                                        .hover-playButton{
+                                                position: absolute;
+                                                top: 0;
+                                                left: 0;
+                                                width: 100%;
+                                                height: 100%;
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                z-index: 10;
+                                                background-color: transparent;
+                                                border: none;
+
+                                                .play-button{
+                                                        position: relative;
+                                                        font-size: 4rem;
+                                                        color: #fff;
+                                                        z-index: 10;
+                                                        cursor: pointer;
+                                                        transition: all 0.2s ease-out;
+
+                                                        &:hover{
+                                                                font-size: 4.5rem;
+                                                                transition: all 0.2s ease-in;
+                                                        }
+                                                }
+
+                                                &::before{
+                                                        position: absolute;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                        top: 0;
+                                                        left: 0;
+                                                        content: '';
+                                                        background-color: rgba($color: #000000, $alpha: 0.5);
+                                                        z-index: 0;
+                                                }
+                                        }
+                                }
+
+                                .video-content{
+                                        width: 100%;
+                                        height: 30%;
+                                        font-family: $Noto-Korean;
+
+                                        .video-title{
+                                                width: 100%;
+                                                height: 5rem;
+                                                display: flex;
+                                                align-items: center;
+
+                                                h2{
+                                                        width: 80%;
+                                                        text-transform: uppercase;
+                                                        word-break: keep-all;
+                                                        font-size: 1rem;
+                                                }
+                                        }
+                                        
+                                        .video-channel{
+                                                width: 100%;
+
+                                                span{
+                                                        font-size: 15px;
+                                                        font-weight: bold;
+                                                        line-height: 5rem;
+                                                }
+                                        }
+                                }
+                        }
+                }
+        }
+}

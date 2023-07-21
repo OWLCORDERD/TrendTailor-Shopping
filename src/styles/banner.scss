@@ -1,0 +1,162 @@
+@import "app/globals.scss";
+
+.Banner-container{
+    position : relative;
+    display: inline-block;
+    width : 100vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: hidden;
+    padding: 0 6.25rem;
+
+    .Introduce-Banner{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .Introduce-contentBox{
+            width: 50%;
+            height: 100%;
+            padding : 6rem 0;
+
+            .Static-Welcome{
+                position: relative;
+                width : 100%;
+                height: 6rem;
+
+                h1{
+                    font-size: 4rem;
+                    color: #fff;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    font-family: $Raleway-font;
+                    font-weight: 100;
+                }
+            }
+
+            .Introduce-content{
+                position: relative;
+                width: 100%;
+                height: 8rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 6rem;
+
+                .Dynamic-contentBox{
+                    position: relative;
+                    width: 25rem;
+                    height: 8rem;
+
+                    .Dynamic-bracket{
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        span{
+                            font-size: 4rem;
+                            font-family: $Raleway-font;
+                            color: #fff;
+                        }
+                    }
+
+                    .Dynamic-content{
+                        position: absolute;
+                        top: 0;
+                        width: max-content;
+                        height: 100%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        overflow: hidden;
+
+                        li{
+                            position: relative;
+                            top: 0;
+                            width: 100%;
+                            display: block;
+                            text-align: center;
+
+                            h2{
+                                font-size: 3rem;
+                                line-height: 8rem;
+                                color: #fff;
+                                text-transform: uppercase;
+                                font-family: $Raleway-font;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+
+                .Static-content{
+                    position: relative;
+
+                    p{
+                        font-size: 3rem;
+                        color: #fff;
+                        line-height: 8rem;
+                        font-family: $Raleway-font;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+
+        .rotate-scroll{
+            position: relative;
+            width: 200px;
+            height: 200px;
+
+            .scroll-text{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50% ,-50%);
+                width: max-content;
+
+                span{
+                    color: #fff;
+                    font-size: 1.2rem;
+                    text-transform: uppercase;
+                    font-family: $Pacifico-font;
+                    font-weight: bold;
+                }
+            }
+
+            img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: fit-content;
+                animation: rotateScroll 6s linear infinite;
+            }
+
+            @keyframes rotateScroll {
+                100%{
+                    transform: translate(-50%, -50%) rotate(360deg) ;
+                }
+            }
+        }
+    }
+
+    .Banner-ImgBox{
+        position: relative;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 25rem;
+
+        video{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
