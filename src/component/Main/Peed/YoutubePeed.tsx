@@ -40,7 +40,8 @@ const YoutubePeed = () => {
       setFetchStatus(false);
     };
   }, []);
-
+  {
+    /*
   if (!fetchStatus) {
     const datas = use(youtubeFetch());
 
@@ -48,6 +49,8 @@ const YoutubePeed = () => {
       setVideoData(datas?.props.videoDB);
       setFetchStatus(false);
     }
+  }
+*/
   }
 
   useEffect(() => {

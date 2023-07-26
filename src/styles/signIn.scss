@@ -1,0 +1,144 @@
+@import "app/globals.scss";
+
+.loginPage-container{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    
+    .login-wrapper{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40rem;
+        height: calc(100% - 16vh);
+
+        .loginPage-titleBox{
+            position: relative;
+            width: 100%;
+            height: 8rem;
+            margin: 2rem 0 5rem 0;
+
+            .login-title{
+                width: 100%;
+                text-align: center;
+                font-size: 2rem;
+                font-family: $Raleway-font;
+                line-height: 6rem;
+            }
+
+            .login-subTitle{
+                width: 100%;
+                text-align: center;
+                font-weight: bold;
+                font-family: $Noto-Korean;
+                color: rgb(106, 106, 106);
+            }
+        }
+
+        .login-Box{
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 35rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .loginPage-InputBox{
+                width: 100%;
+                height: 25rem;
+
+                input{
+                    width: 100%;
+                    height: 5rem;
+                    border: none;
+                    border-bottom: 2px solid rgb(182, 182, 182);
+                    font-size: 1.2rem;
+                    font-family: $Raleway-font;
+                    padding: 0 1rem;
+                    margin-top: 2rem;
+                    font-weight: bold;
+
+                    &:nth-child(1){
+                        margin-top: 0;
+                    }
+
+                    &:focus{
+                        outline: none;
+                        border-bottom: 2px solid #000;
+                    }
+                }
+
+                .login-button{
+                    display: block;
+                    width: 100%;
+                    padding: 1rem 0;
+                    background-color: rgb(38, 38, 38);
+                    border: none;
+                    color: #fff;
+                    font-family: $Noto-Korean;
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    cursor: pointer;
+                    margin-top: 5rem;
+                }
+            }
+
+            .login-Boxline{
+                position: relative;
+                width: 100%;
+                height: 2rem;
+
+                .line{
+                    position: relative;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    display: block;
+                    width: 100%;
+                    height: 1px;
+                    background-color: rgb(182, 182, 182);
+                }
+
+                .line-text{
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 5rem;
+                    text-align: center;
+                    background-color: #fff;
+                    color: rgb(182, 182, 182);
+                    line-height: 2rem;
+                    z-index: 10;
+                    font-weight: bold;
+                }
+            }
+
+            .kakaoLogin-button{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                padding: 1rem 0;
+                background-color: #ffe300;
+                border: none;
+                color: #000;
+                font-family: $Noto-Korean;
+                font-weight: bold;
+                cursor: pointer;
+
+                .kakao{
+                    font-size: 2rem;
+                    margin-right: 1rem;
+                }
+
+                span{
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

@@ -24,6 +24,6 @@
     },
     "baseUrl": "src",
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src", "server/db.js", "server/index.js"],
   "exclude": ["node_modules"]
 }

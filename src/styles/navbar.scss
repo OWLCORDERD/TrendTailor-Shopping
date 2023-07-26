@@ -11,6 +11,7 @@
     align-items: center;
     padding: 0 50px;
     z-index: 100;
+    background-color: #000;
 
     .Navbar-menu{
         width: 60rem;
@@ -57,8 +58,6 @@
 
         .login-button{
             display: block;
-            background-color: transparent;
-            border: none;
             color: #fff;
             width: 5rem;
             font-family: $Raleway-font;
@@ -67,12 +66,11 @@
             text-transform: uppercase;
             color: #fff;
             cursor: pointer;
+            text-align: center;
         }
 
         .signUp-button{
             display: block;
-            background-color: transparent;
-            border: none;
             color: #fff;
             width: 5rem;
             font-family: $Raleway-font;
@@ -81,6 +79,32 @@
             text-transform: uppercase;
             color: #fff;
             cursor: pointer;
+            text-align: center;
+        }
+
+        .user-name{
+            display: block;
+            width: 10rem;
+            line-height: 2rem;
+            font-size: 12px;
+            font-family: $Noto-Korean;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            
+            &:hover{
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+
+        .user-profile{
+            position: relative;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #fff;
+            border-radius: 50%;
+            overflow: hidden;
         }
     }
 }

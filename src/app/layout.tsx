@@ -1,5 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
+import Navbar from "component/Main/Navbar";
+import AuthSession from "./AuthSession";
 
 export const metadata: Metadata = {
   title: "WISH",
@@ -12,8 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body>{children}</body>
-    </html>
+    <AuthSession>
+      <html lang='en'>
+        <body>
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </AuthSession>
   );
 }

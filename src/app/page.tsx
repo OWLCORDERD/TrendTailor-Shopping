@@ -6,8 +6,6 @@ import About from "component/Main/About";
 import "./page.module.css";
 import { ScrollTrigger } from "gsap/all";
 import { gsap } from "gsap";
-import { SessionProvider } from "next-auth/react";
-import Navbar from "component/Main/Navbar";
 
 export default function Home() {
   gsap.registerPlugin(ScrollTrigger);
@@ -43,12 +41,9 @@ export default function Home() {
   });
 
   return (
-    <SessionProvider>
-      <main className='main'>
-        <Navbar />
-        <About aboutRef={AboutRef} slideRef={slideRef} />
-        <Peed />
-      </main>
-    </SessionProvider>
+    <main className='main'>
+      <About aboutRef={AboutRef} slideRef={slideRef} />
+      <Peed />
+    </main>
   );
 }
