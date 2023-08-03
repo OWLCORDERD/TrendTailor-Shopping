@@ -1,0 +1,212 @@
+@import "app/globals.scss";
+
+.shop-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding : 10rem 6.25rem 5rem 6.25rem;
+
+    .wrap{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+
+        .productList-container{
+            position: relative;
+            width: 70%;
+            height: 100%;
+
+            .List-tabMenu{
+                width: 100%;
+                height: 20rem;
+
+                .tabMenu-title{
+                    width: 100%;
+
+                    h1{
+                        font-family: $Raleway-font;
+                        font-size: 2rem;
+                        line-height: 7rem;
+                        text-transform: uppercase;
+                        text-align: center;
+                        color: #000;
+                    }
+                }
+
+                .tab-Menu{
+                    position: relative;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 46rem;
+                    height: 6rem;
+
+                    li{
+                        display: inline-block;
+                        width: calc(40rem / 4);
+                        margin-right: 2rem;
+                        text-align: center;
+
+                        &:nth-child(4){
+                            margin-right: 0;
+                        }
+
+                        a{
+                            width: 100%;
+                            line-height: 6rem;
+                            color: #7D7D7D;
+                            font-family: $Noto-Korean;
+                            font-weight: bold;
+
+                            &:hover{
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+
+                .searchCount-Box{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    height: 7rem;
+
+                    .Search-input{
+                        position: relative;
+                        width: 30rem;
+                        height: 3rem;
+
+                        input{
+                            line-height: 3rem;
+                            border: none;
+                            border-bottom: 2px solid #7D7D7D;
+                            font-family: $Noto-Korean;
+                            font-size: 14px;
+                            font-weight: 400;
+                            padding : 0 1rem;
+
+                            &:focus{
+                                outline: none;
+                            }
+                        }
+
+                        .search-icon{
+                            position: absolute;
+                            top: 50%;
+                            right: 2rem;
+                            transform: translateY(-50%);
+                            z-index: 10;
+                        }
+                    }
+
+                    .product-count{
+                        width: max-content;
+
+                        span{
+                            line-height: 3rem;
+                            font-family: $Noto-Korean;
+                            font-weight: 400;
+                            font-size: 1rem;
+                            color : #7D7D7D;
+                        }
+                    }
+                }
+            }
+
+            .product-Box{
+                width: 100%;
+                height: max-content;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                place-items: center;
+                gap : 2rem;
+                padding : 0 0 5rem 0;
+
+                .product-item{
+                    position: relative;
+                    width: 100%;
+                    height: 32rem;
+                    cursor: pointer;
+
+                    .product-image{
+                        position: relative;
+                        width: 100%;
+                        height: 20rem;
+                        overflow: hidden;
+
+                        img{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .product-content{
+                        width: 100%;
+                        height: 12rem;
+                        font-family: $Noto-Korean;
+
+                        .product-title{
+                            width: 100%;
+                            height: 5rem;
+                            word-break: keep-all;
+                            font-size: 15px;
+                            font-weight: 400;
+                            color: #7D7D7D;
+                        }
+
+                        .product-mall{
+                            width: 100%;
+                            line-height: 3rem;
+                            font-size: 14px;
+                            font-weight: 400;
+                            text-transform: uppercase;
+                        }
+
+                        .product-price{
+                            width: 100%;
+                            line-height: 4rem;
+                            font-weight: 400;
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+
+            .pagenation-container{
+                position: relative;
+                width: 100%;
+                height: 5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .pagenation{
+                    width: max-content;
+
+                    li{
+                        display: inline-block;
+                        width: 3rem;
+                        text-align: center;
+                        line-height: 2rem;
+
+                        a{
+                            color: rgb(105, 105, 105);
+                            font-family: $Noto-Korean;
+                            font-weight: 400;
+
+                            &.active{
+                                color: #000;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

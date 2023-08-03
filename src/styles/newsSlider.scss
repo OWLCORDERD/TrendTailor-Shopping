@@ -2,7 +2,7 @@
 
 .MainPeed-News{
     position: sticky;
-    top: 10rem;
+    top: 12rem;
     left: 0;
     width: 28rem;
     height: 45rem;
@@ -13,7 +13,7 @@
         width: 100%;
 
         h1{
-            font-size: 2rem;
+            font-size: 1.5rem;
             text-transform: uppercase;
             font-family: $Raleway-font;
             line-height: 5rem;
@@ -23,7 +23,7 @@
     .News-Slider{
         position: relative;
         width: 100%;
-        height: 40rem;
+        height: 37rem;
         overflow: hidden;
 
         .Slide-control{
@@ -74,7 +74,7 @@
                 .Slide-ImgBox{
                     position: relative;
                     width: 100%;
-                    height: 28rem;
+                    height: 25rem;
 
                     img{
                         position: absolute;
@@ -96,14 +96,14 @@
                         width: 100%;
                         line-height: 4rem;
                         word-break: keep-all;
-                        font-size: 1rem;
+                        font-size: 15px;
                     }
 
                     p{
                         width: 90%;
                         height: 3rem;
                         word-break: keep-all;
-                        font-size: 14px;
+                        font-size: 12px;
                         font-weight: 400;
                     }
                 }

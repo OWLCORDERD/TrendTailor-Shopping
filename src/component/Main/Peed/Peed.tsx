@@ -39,7 +39,6 @@ const Peed = (): JSX.Element => {
         <NewsSlider />
         <div className='Peed-wrapper'>
           <SeasonPeed />
-
           <YoutubePeed />
         </div>
       </div>

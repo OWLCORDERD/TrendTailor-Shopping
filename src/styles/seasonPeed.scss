@@ -16,7 +16,7 @@
         line-height: 8rem;
 
         .Season-title{
-            font-size: 2rem;
+            font-size: 1.5rem;
             text-transform: uppercase;
             font-family: $Raleway-font;
             color : #000;
@@ -44,10 +44,10 @@
                 text-align: center;
                 font-size: 2rem;
                 line-height: 100px;
-                background-color: rgba($color: #fff, $alpha: 0.8);
+                background-color: rgba($color: #000, $alpha: 0.8);
                 cursor: pointer;
                 border: none;
-                color: rgb(80, 80, 80);
+                color: #fff;
             }
 
             .slide-next{
@@ -55,10 +55,10 @@
                 text-align: center;
                 font-size: 2rem;
                 line-height: 100px;
-                background-color: rgba($color: #fff, $alpha: 0.8);
+                background-color: rgba($color: #000, $alpha: 0.8);
                 cursor: pointer;
                 border: none;
-                color: rgb(80, 80, 80);
+                color: #fff;
             }
         }
 
@@ -103,14 +103,14 @@
                         align-items: center;
                         width: 80%;
                         height: 4rem;
-                        font-size: 15px;
+                        font-size: 13px;
                         word-break: keep-all;
                         font-weight: 400;
                     }
 
                     .product-mall{
                         width: 100%;
-                        font-size: 15px;
+                        font-size: 13px;
                         line-height: 2rem;
                         text-transform: uppercase;
                         font-weight: 400;
@@ -118,9 +118,10 @@
 
                     .product-price{
                         width: 100%;
-                        font-size: 1.1rem;
+                        font-size: 1rem;
                         font-weight: bold;
                         line-height: 3rem;
+                        font-family: $DoHyeon-font;
                     }
                 }
             }

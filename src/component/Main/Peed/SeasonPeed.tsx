@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight, AiOutlinePlus } from "react-icons/ai";
 import "styles/seasonPeed.scss";
 import UseFetch from "component/UseFetch";
+
 interface seasonType {
   month: number;
   season: string;

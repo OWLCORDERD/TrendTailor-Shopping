@@ -6,6 +6,7 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface queryType {
   username: string;
@@ -86,6 +87,13 @@ const Login = () => {
             <button type='submit' className='login-button'>
               로그인
             </button>
+
+            <div className='signup-form'>
+              <h1 className='signup-question'>New to Wish?</h1>
+              <Link href='/signup' className='signup-link'>
+                Create an acount
+              </Link>
+            </div>
           </form>
 
           <div className='login-Boxline'>

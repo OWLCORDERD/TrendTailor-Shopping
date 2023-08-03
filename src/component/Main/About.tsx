@@ -39,7 +39,7 @@ const About = ({ aboutRef, slideRef }: AboutRefPropsType) => {
             <div className='AboutWISH-solutions'>
               <a href='#Search' className='solutions-item'>
                 <div className='solution-icon'>
-                  <BsSearch fontSize={80} fill='white' />
+                  <BsSearch fontSize={60} fill='white' />
                 </div>
 
                 <div className='solution-content'>
@@ -58,7 +58,7 @@ const About = ({ aboutRef, slideRef }: AboutRefPropsType) => {
 
               <a href='#shop' className='solutions-item'>
                 <div className='solution-icon'>
-                  <IoShirtSharp fontSize={80} fill='white' />
+                  <IoShirtSharp fontSize={60} fill='white' />
                 </div>
 
                 <div className='solution-content'>
@@ -77,7 +77,7 @@ const About = ({ aboutRef, slideRef }: AboutRefPropsType) => {
 
               <a href='#youtube' className='solutions-item'>
                 <div className='solution-icon'>
-                  <BsYoutube fontSize={80} fill='white' />
+                  <BsYoutube fontSize={60} fill='white' />
                 </div>
 
                 <div className='solution-content'>
@@ -96,7 +96,7 @@ const About = ({ aboutRef, slideRef }: AboutRefPropsType) => {
 
               <a href='#Peed' className='solutions-item'>
                 <div className='solution-icon'>
-                  <RiContactsFill fontSize={80} fill='white' />
+                  <RiContactsFill fontSize={60} fill='white' />
                 </div>
 
                 <div className='solution-content'>

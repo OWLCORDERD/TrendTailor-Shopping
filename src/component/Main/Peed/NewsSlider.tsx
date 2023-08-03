@@ -1,3 +1,5 @@
+"use client";
+
 import UseFetch from "component/UseFetch";
 import "styles/newsSlider.scss";
 import React, { useEffect, useState, useRef } from "react";

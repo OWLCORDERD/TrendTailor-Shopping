@@ -23,8 +23,6 @@ export interface videoType {
 }
 
 const YoutubePeed = () => {
-  const [fetchStatus, setFetchStatus] = useState<boolean>(false);
-
   const [videoData, setVideoData] = useState<videoType[]>([]);
 
   const videoItemRef = useRef<HTMLDivElement>(null);
@@ -33,25 +31,28 @@ const YoutubePeed = () => {
 
   const [productWidth, setProductWidth] = useState<number>(0);
 
+  const youtubeAPI = axios.create({
+    baseURL: "https://youtube.googleapis.com/youtube/v3",
+    params: { key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY },
+  });
+
   useEffect(() => {
-    setFetchStatus(true);
+    youtubeAPI
+      .get("search", {
+        params: {
+          part: "snippet",
+          type: "video",
+          q: "패션 트랜드",
+          maxResults: 20,
+        },
+      })
+      .then((res) => res.data.items)
+      .then((data) => setVideoData(data));
 
     return () => {
-      setFetchStatus(false);
+      setVideoData([]);
     };
   }, []);
-  {
-    /*
-  if (!fetchStatus) {
-    const datas = use(youtubeFetch());
-
-    if (videoData.length === 0) {
-      setVideoData(datas?.props.videoDB);
-      setFetchStatus(false);
-    }
-  }
-*/
-  }
 
   useEffect(() => {
     const slideWidth = videoItemRef.current?.clientWidth;
@@ -121,23 +122,3 @@ const YoutubePeed = () => {
 };
 
 export default YoutubePeed;
-
-export async function youtubeFetch() {
-  const youtubeAPI = axios.create({
-    baseURL: "http://localhost:3001",
-  });
-
-  try {
-    const apiCall = await youtubeAPI.get("/videos");
-
-    const data = apiCall.data;
-
-    return {
-      props: {
-        videoDB: data,
-      },
-    };
-  } catch (err) {
-    console.log(err);
-  }
-}
