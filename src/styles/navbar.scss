@@ -5,148 +5,108 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 10rem;
+    height: 5rem;
     padding: 0 50px;
     z-index: 100;
     background-color: #000;
-
-    .main-Navbar{
-        width: 100%;
-        height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .logo{
+        position: relative;
+        width: 20rem;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: center;
     
-        .logo{
-            position: relative;
-            width: 20rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-    
-            h1{
-                font-size: 1.5rem;
-                font-family: $Raleway-font;
-                text-transform: uppercase;
-                color: #fff;
-            }
+        h1{
+            font-size: 1.5rem;
+            font-family: $Raleway-font;
+            text-transform: uppercase;
+            color: #fff;
+            line-height: 5rem;
         }
-
-        .search-input{
-            position: relative;
-            width: 40rem;
-            height: 3rem;
-
-            input{
-                width: 40rem;
-                line-height: 3rem;
-                background-color: transparent;
-                border: none;
-                color: #fff;
-                font-size: 15px;
-                font-weight: 400;
-                font-family: $Noto-Korean;
-                border-bottom: 2px solid #fff;
-
-                &:focus{
-                    outline: none;
-                }
-            }
-
-            .search-icon{
-                position: absolute;
-                top: 50%;
-                right: 0;
-                transform: translateY(-50%);
-            }
+    }
+    
+    .login-menu{
+        position: relative;
+        width: 20rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    
+        .login-button{
+            display: block;
+            color: #fff;
+            width: 5rem;
+            font-family: $Raleway-font;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
         }
     
-        .login-menu{
-            position: relative;
-            width: 20rem;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
+        .signUp-button{
+            display: block;
+            color: #fff;
+            width: 5rem;
+            font-family: $Raleway-font;
+            font-weight: bold;
+            font-size: 15px;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+        }
     
-            .login-button{
-                display: block;
-                color: #fff;
-                width: 5rem;
-                font-family: $Raleway-font;
-                font-weight: bold;
-                font-size: 15px;
-                text-transform: uppercase;
-                color: #fff;
-                cursor: pointer;
-                text-align: center;
-            }
-    
-            .signUp-button{
-                display: block;
-                color: #fff;
-                width: 5rem;
-                font-family: $Raleway-font;
-                font-weight: bold;
-                font-size: 15px;
-                text-transform: uppercase;
-                color: #fff;
-                cursor: pointer;
-                text-align: center;
-            }
-    
-            .user-name{
-                display: block;
-                width: 10rem;
-                line-height: 2rem;
-                font-size: 12px;
-                font-family: $Noto-Korean;
-                color: #fff;
-                font-weight: bold;
-                text-align: center;
+        .user-name{
+            display: block;
+            width: 10rem;
+            line-height: 2rem;
+            font-size: 12px;
+            font-family: $Noto-Korean;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
                 
-                &:hover{
-                    cursor: pointer;
-                    text-decoration: underline;
-                }
+            &:hover{
+                cursor: pointer;
+                text-decoration: underline;
             }
+        }
     
-            .user-profile{
-                position: relative;
-                width: 2.5rem;
-                height: 2.5rem;
-                background-color: #fff;
-                border-radius: 50%;
-                overflow: hidden;
-            }
+        .user-profile{
+            position: relative;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #fff;
+            border-radius: 50%;
+            overflow: hidden;
         }
     }
 
-    .sub-Navbar{
-        width: 100%;
-        height: 4rem;
-
-        .Navbar-menu{
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60rem;
+    .Navbar-menu{
+        position: relative;
+        width: 60rem;
     
-            li{
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 20%;
-                height: 4rem;
+        li{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20%;
+            height: 4rem;
     
-                a{
-                    width: max-content;
-                    font-family: $Raleway-font;
-                    color: #fff;
-                    font-size: 15px;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                }
+            a{
+                width: max-content;
+                font-family: $Raleway-font;
+                color: #fff;
+                font-size: 15px;
+                font-weight: bold;
+                text-transform: uppercase;
             }
         }
     }

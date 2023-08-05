@@ -6,6 +6,7 @@ import YoutubePeed from "component/Main/Peed/YoutubePeed";
 import Navbar from "../Navbar";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import NoticeBoard from "./NoticeBoard";
 
 export interface NewsItemType {
   id: string;
@@ -36,7 +37,10 @@ const Peed = (): JSX.Element => {
     <section className='MainPeed-container' ref={peedRef}>
       <Navbar />
       <div className='MainPeed-wrapper'>
-        <NewsSlider />
+        <div className='Notice-wrapper'>
+          <NewsSlider />
+          <NoticeBoard />
+        </div>
         <div className='Peed-wrapper'>
           <SeasonPeed />
           <YoutubePeed />

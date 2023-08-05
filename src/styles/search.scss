@@ -1,0 +1,91 @@
+@import "app/globals.scss";
+
+.search-container{
+    position: relative;
+    width: 100%;
+    height: 10rem;
+    margin-top: 2rem;
+
+    .search-input{
+        position: relative;
+        width: 60rem;
+        border: 2px solid rgb(180, 180, 180);
+        padding : 0 4rem 0 1rem; 
+
+        input{
+            width: 100%;
+            line-height: 1rem;
+            font-size: 15px;
+            font-family: $Noto-Korean;
+            padding: 1rem;
+            color: #000;
+            border: none;
+
+            &:focus{
+                outline: none;
+            }
+        }
+
+        .search-button{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1rem;
+            color: rgb(101, 101, 101);
+            cursor: pointer;
+        }
+    }
+
+    .search-keywords{
+        width: 43rem;
+        height: 6rem;
+
+        .title{
+            display: inline-block;
+            width: 10rem;
+            text-align: center;
+            border-right: 2px solid #000;
+            
+            h2{
+                font-size: 1rem;
+                text-transform: uppercase;
+                font-family: $Raleway-font;
+            }
+        }
+
+        .keywords-list{
+            display: inline-block;
+            width: 33rem;
+
+            li{
+                display: inline-block;
+                width: calc(25rem / 4);
+                text-align: center;
+                margin-right: 2rem;
+    
+                a{
+                    color: #000;
+                    line-height: 6rem;
+    
+                    span{
+                        font-family: $Noto-Korean;
+                        font-weight: bold;
+                        font-size: 13px;
+    
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+
+                &:first-child{
+                    margin: 0 2rem;
+                }
+    
+                &:nth-child(4){
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}

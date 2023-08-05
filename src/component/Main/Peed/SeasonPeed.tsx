@@ -75,7 +75,11 @@ const SeasonPeed = (): JSX.Element => {
     <div className='SeasonPeed-container'>
       <div className='Season-titleBox'>
         <h1 className='Season-title'>{monthState[0]?.season}</h1>
-        <AiOutlinePlus fill='#656565' fontSize='2rem' />
+
+        <button type='button' className='viewMore-button'>
+          <span>view more</span>
+          <AiOutlinePlus fill='#656565' fontSize='1rem' />
+        </button>
       </div>
 
       <div className='Season-slider'>

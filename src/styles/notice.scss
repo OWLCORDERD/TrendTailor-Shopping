@@ -1,0 +1,81 @@
+@import "app/globals.scss";
+
+.Notice-container{
+    position: relative;
+    width: 70%;
+    height: 100%;
+
+    .Notice-board{
+        position: relative;
+        width: 100%;
+        height: 30rem;
+
+        .Notice-titleBox{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .Notice-title{
+                line-height: 5rem;
+                font-family: $Raleway-font;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+            }
+
+            .viewMore-button{
+                
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .board-list{
+            position: absolute;
+            top: 5rem;
+            left: 0;
+            width: 100%;
+            height: 25rem;
+
+            li{
+                position: relative;
+                width: 100%;
+                height: calc(25rem / 5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                a{
+                    width: 100%;
+                    height: max-content;
+                    font-family: $Noto-Korean;
+
+                    &:hover h2{
+                        text-decoration: underline;
+                    }
+
+                    h2{
+                        display: inline-block;
+                        font-size: 14px;
+                        font-weight: bold;
+                        color: #000;
+
+                        &:hover{
+                            text-decoration: underline;
+                        }
+                    }
+
+                    span{
+                        position: absolute;
+                        display: inline-block;
+                        right: 0;
+                        font-weight: bold;
+                        color: #000;
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+    }
+}

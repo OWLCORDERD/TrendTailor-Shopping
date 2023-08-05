@@ -9,12 +9,17 @@
     .MainPeed-wrapper{
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: space-between;
         padding : 5rem 6.25rem;
 
+        .Notice-wrapper{
+            width: 100%;
+            height: max-content;
+            display: flex;
+            justify-content: space-between;
+        }
+
         .Peed-wrapper{
-            width: 70%;
+            width: 100%;
             height: max-content;
 
             .Peed-banner{
