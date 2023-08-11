@@ -3,158 +3,196 @@
 .YoutubePeed-container{
         position: relative;
         width: 100%;
-        height: 38rem;
+        height: max-content;
         background-color: #fff;
 
         .YoutubePeed-titleBox{
                 position : relative;
-                width: 100%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 30rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-bottom: 2rem;
 
                 .YoutubePeed-title{
-                        font-size: 1.5rem;
+                        font-size: 1.7rem;
                         font-family: $Raleway-font;
                         text-transform: uppercase;
                         font-weight: 600;
                         line-height: 8rem;
                 }
+        }
 
-                .slide-control{
+        /*slick slider video item 자식 컴포넌트*/
+        .video-item{
+                position: relative;
+                width: 25rem;
+                height: 30rem;
+        
+                .video-thumbnail{
                         position: relative;
-                        width: 10rem;
-                        height: max-content;
-                        z-index: 100;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-
-                        .slide-before{
-                                width: 50px;
-                                text-align: center;
-                                font-size: 1.5rem;
-                                line-height: 5rem;
-                                background-color: transparent;
-                                cursor: pointer;
-                                border: none;
-                                color: #000;
+                        width: 100%;
+                        height: 20rem;
+        
+                        img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
                         }
-                
-                        .slide-next{
-                                width: 50px;
-                                text-align: center;
-                                font-size: 1.5rem;
-                                line-height: 5rem;
+        
+                        .hover-playButton{
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                width: 100%;
+                                height: 100%;
+                                display: none;
+                                align-items: center;
+                                justify-content: center;
+                                z-index: 10;
                                 background-color: transparent;
-                                cursor: pointer;
                                 border: none;
-                                color: #000;
+                        }
+
+                        &::before{
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                content: '';
+                                top: 0;
+                                left: 0;
+                                background-color: rgba($color: #000000, $alpha: 0.7);
+                        }
+                }
+        
+                .video-content{
+                        width: 100%;
+                        height: 40%;
+                        font-family: $Noto-Korean;
+
+                        .video-title{
+                                width: 100%;
+                                height: 5rem;
+                                padding: 1rem 0;
+
+                                h2{
+                                        width: 100%;
+                                        text-transform: uppercase;
+                                        word-break: keep-all;
+                                        font-size: 14px;
+                                }
+                        }
+                        
+                        .video-channel{
+                                display: none;
+                                width: 100%;
+
+                                span{
+                                        font-size: 15px;
+                                        font-weight: 400;
+                                        line-height: 5rem;
+                                }
                         }
                 }
         }
 
-        .Youtube-slider{
-                position: relative;
-                width: 100%;
-                height: 30rem;
-                overflow: hidden;
+         /*slick slider center mode slick-center 적용된 item 자식 컴포넌트*/
+        .slick-center{
 
-                .slide-wrap{
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: max-content;
-                        height: 100%;
-                        display: inline-flex;
-
-                        .video-item{
+                .video-item{
+                        position: relative;
+                        width: 100%;
+                        height: 30rem;
+        
+                        .video-thumbnail{
                                 position: relative;
-                                width: 30rem;
-                                height: 100%;
-                                margin-left: 50px;
-
-                                &:first-child{
-                                        margin-left: 0;
-                                }
-
-                                .video-thumbnail{
-                                        position: relative;
+                                width: 100%;
+                                height: 20rem;
+        
+                                img{
                                         width: 100%;
-                                        height: 50%;
-
-                                        img{
+                                        height: 100%;
+                                        object-fit: cover;
+                                }
+        
+                                .hover-playButton{
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        z-index: 10;
+                                        background-color: transparent;
+                                        border: none;
+        
+                                        .play-button{
+                                                position: relative;
+                                                font-size: 4rem;
+                                                color: #fff;
+                                                z-index: 10;
+                                                cursor: pointer;
+                                                transition: all 0.2s ease-out;
+        
+                                                &:hover{
+                                                        font-size: 4.5rem;
+                                                        transition: all 0.2s ease-in;
+                                                }
+                                        }
+        
+                                        &::before{
+                                                position: absolute;
                                                 width: 100%;
                                                 height: 100%;
-                                                object-fit: cover;
-                                        }
-
-                                        .hover-playButton{
-                                                position: absolute;
                                                 top: 0;
                                                 left: 0;
-                                                width: 100%;
-                                                height: 100%;
-                                                display: flex;
-                                                align-items: center;
-                                                justify-content: center;
-                                                z-index: 10;
-                                                background-color: transparent;
-                                                border: none;
-
-                                                .play-button{
-                                                        position: relative;
-                                                        font-size: 4rem;
-                                                        color: #fff;
-                                                        z-index: 10;
-                                                        cursor: pointer;
-                                                        transition: all 0.2s ease-out;
-
-                                                        &:hover{
-                                                                font-size: 4.5rem;
-                                                                transition: all 0.2s ease-in;
-                                                        }
-                                                }
-
-                                                &::before{
-                                                        position: absolute;
-                                                        width: 100%;
-                                                        height: 100%;
-                                                        top: 0;
-                                                        left: 0;
-                                                        content: '';
-                                                        background-color: rgba($color: #000000, $alpha: 0.5);
-                                                        z-index: 0;
-                                                }
+                                                content: '';
+                                                background-color: rgba($color: #000000, $alpha: 0.1);
+                                                z-index: 0;
                                         }
                                 }
 
-                                .video-content{
+                                &::before{
+                                        position: absolute;
                                         width: 100%;
-                                        height: 30%;
-                                        font-family: $Noto-Korean;
-
-                                        .video-title{
+                                        height: 100%;
+                                        content: '';
+                                        top: 0;
+                                        left: 0;
+                                        background-color: rgba($color: #ffffff, $alpha: 0);
+                                }
+                        }
+        
+                        .video-content{
+                                width: 100%;
+                                height: 40%;
+                                font-family: $Noto-Korean;
+        
+                                .video-title{
+                                        width: 100%;
+                                        height: 5rem;
+                                        padding: 1rem 0;
+        
+                                        h2{
                                                 width: 100%;
-                                                height: 5rem;
-                                                padding: 1rem 0;
-
-                                                h2{
-                                                        width: 100%;
-                                                        text-transform: uppercase;
-                                                        word-break: keep-all;
-                                                        font-size: 14px;
-                                                }
+                                                text-transform: uppercase;
+                                                word-break: keep-all;
+                                                font-size: 14px;
                                         }
-                                        
-                                        .video-channel{
-                                                width: 100%;
-
-                                                span{
-                                                        font-size: 15px;
-                                                        font-weight: 400;
-                                                        line-height: 5rem;
-                                                }
+                                }
+                                
+                                .video-channel{
+                                        display: block;
+                                        width: 100%;
+        
+                                        span{
+                                                font-size: 15px;
+                                                font-weight: 400;
+                                                line-height: 5rem;
                                         }
                                 }
                         }

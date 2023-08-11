@@ -4,7 +4,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    padding : 10rem 6.25rem 5rem 6.25rem;
+    padding : 5rem 6.25rem 5rem 6.25rem;
 
     .wrap{
         display: flex;
@@ -18,16 +18,17 @@
             height: 100%;
 
             .List-tabMenu{
+                margin-top: 2rem;
                 width: 100%;
-                height: 20rem;
+                height: 23rem;
 
                 .tabMenu-title{
                     width: 100%;
 
                     h1{
                         font-family: $Raleway-font;
-                        font-size: 2rem;
-                        line-height: 7rem;
+                        font-size: 1.6rem;
+                        line-height: 5rem;
                         text-transform: uppercase;
                         text-align: center;
                         color: #000;
@@ -40,6 +41,7 @@
                     transform: translateX(-50%);
                     width: 46rem;
                     height: 6rem;
+                    margin-bottom: 2rem;
 
                     li{
                         display: inline-block;
@@ -70,7 +72,7 @@
                     justify-content: space-between;
                     align-items: center;
                     width: 100%;
-                    height: 7rem;
+                    height: 10rem;
 
                     .Search-input{
                         position: relative;

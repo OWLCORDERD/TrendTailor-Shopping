@@ -2,22 +2,21 @@
 
 .search-container{
     position: relative;
-    width: 100%;
+    width: 50rem;
     height: 10rem;
-    margin-top: 2rem;
 
     .search-input{
         position: relative;
-        width: 60rem;
+        width: 100%;
         border: 2px solid rgb(180, 180, 180);
-        padding : 0 4rem 0 1rem; 
+        padding : 0 4rem 0 1rem;
 
         input{
             width: 100%;
             line-height: 1rem;
-            font-size: 15px;
+            font-size: 14px;
             font-family: $Noto-Korean;
-            padding: 1rem;
+            padding: 10px;
             color: #000;
             border: none;
 

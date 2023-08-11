@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 interface pageProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   postMaxLength: number;
   DBlength: number;
   currentPage: number;
+  searchDBlength: number | undefined;
 }
 
 const Pagenation = ({
@@ -12,12 +13,30 @@ const Pagenation = ({
   postMaxLength,
   DBlength,
   currentPage,
+  searchDBlength,
 }: pageProps) => {
-  const pageNumber = [];
+  const pageNumber: number[] = [];
 
-  for (let i = 1; i <= Math.ceil(DBlength / postMaxLength); i++) {
-    pageNumber.push(i);
+  const totalDBPage = () => {
+    for (let i = 1; i <= Math.ceil(DBlength / postMaxLength); i++) {
+      pageNumber.push(i);
+    }
+  };
+
+  const searchDBPage = () => {
+    if (searchDBlength !== undefined) {
+      for (let i = 1; i <= Math.ceil(searchDBlength / postMaxLength); i++) {
+        pageNumber.push(i);
+      }
+    }
+  };
+
+  if (searchDBlength !== undefined && searchDBlength > 0) {
+    searchDBPage();
+  } else {
+    totalDBPage();
   }
+
   return (
     <div className='pagenation-container'>
       <ul className='pagenation'>

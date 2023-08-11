@@ -4,7 +4,7 @@ import "styles/currentVideo.scss";
 import { videoType } from "./YoutubePeed";
 
 interface currentIdPropsType {
-  currentVideo: videoType;
+  currentVideo: videoType | null;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   allVideo: videoType[];
 }
@@ -14,10 +14,11 @@ const CurrentVideo = ({
   setOpen,
   allVideo,
 }: currentIdPropsType) => {
-  const [selectVideoData, setselectVideoData] =
-    useState<videoType>(currentVideo);
+  const [selectVideoData, setselectVideoData] = useState<videoType | null>(
+    currentVideo
+  );
 
-  const iframeSrc = `https://www.youtube.com/embed/${selectVideoData.id.videoId}`;
+  const iframeSrc = `https://www.youtube.com/embed/${selectVideoData?.id.videoId}`;
 
   const closeBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -47,12 +48,12 @@ const CurrentVideo = ({
           </div>
 
           <div className='CurrentVideo-contentBox'>
-            <h2 className='Video-title'>{selectVideoData.snippet.title}</h2>
+            <h2 className='Video-title'>{selectVideoData?.snippet.title}</h2>
             <p className='Video-channel'>
-              {selectVideoData.snippet.channelTitle}
+              {selectVideoData?.snippet.channelTitle}
             </p>
             <div className='Video-description'>
-              <span>{selectVideoData.snippet.description}</span>
+              <span>{selectVideoData?.snippet.description}</span>
             </div>
           </div>
         </div>

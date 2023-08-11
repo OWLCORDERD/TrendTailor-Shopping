@@ -1,8 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef, use, useMemo } from "react";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import React, { useEffect, useState, useRef } from "react";
+import Slider from "react-slick";
 import Videoitem from "./Videoitem";
 import "styles/youtubePeed.scss";
+import "styles/slick/slick.css";
+import SlideNext from "component/slideButton/SlideNext";
+import SlideBefore from "component/slideButton/SlideBefore";
+import { AiOutlinePlus } from "react-icons/ai";
+import CurrentVideo from "./CurrentVideo";
 
 export interface videoType {
   id: {
@@ -23,13 +28,26 @@ export interface videoType {
 }
 
 const YoutubePeed = () => {
+  const settings = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    speed: 700,
+    dots: false,
+    infinite: true,
+    centerMode: true,
+    nextArrow: <SlideNext />,
+    prevArrow: <SlideBefore />,
+  };
+
+  const slickRef = useRef(null);
+
   const [videoData, setVideoData] = useState<videoType[]>([]);
 
   const videoItemRef = useRef<HTMLDivElement>(null);
 
-  const [slideWidth, setSlideWidth] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false);
 
-  const [productWidth, setProductWidth] = useState<number>(0);
+  const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
 
   const youtubeAPI = axios.create({
     baseURL: "https://youtube.googleapis.com/youtube/v3",
@@ -54,69 +72,33 @@ const YoutubePeed = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const slideWidth = videoItemRef.current?.clientWidth;
-
-    if (slideWidth !== undefined && videoData.length !== 0) {
-      setProductWidth(productWidth + slideWidth);
-    }
-  }, [videoData]);
-
-  const nextSlide = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    if (slideWidth < 9540) {
-      setSlideWidth(slideWidth + productWidth + 50);
-    }
-  };
-
-  const beforeSlide = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    if (slideWidth > 0) {
-      setSlideWidth(slideWidth - productWidth - 50);
-    }
-  };
-
   return (
     <div className='YoutubePeed-container'>
       <div className='YoutubePeed-titleBox'>
         <h1 className='YoutubePeed-title'>Fashion Trend</h1>
-        <div className='slide-control'>
-          <button
-            type='button'
-            className='slide-before'
-            onClick={(e) => beforeSlide(e)}
-          >
-            <AiOutlineLeft />
-          </button>
+        <AiOutlinePlus fontSize={20} color='rgb(90, 90, 90)' />
+      </div>
+      <Slider {...settings} ref={slickRef}>
+        {videoData.map((video) => {
+          return (
+            <Videoitem
+              key={video.id.videoId}
+              video={video}
+              videoItemRef={videoItemRef}
+              setOpen={setOpen}
+              setCurrentVideo={setCurrentVideo}
+            />
+          );
+        })}
+      </Slider>
 
-          <button
-            type='button'
-            className='slide-next'
-            onClick={(e) => nextSlide(e)}
-          >
-            <AiOutlineRight />
-          </button>
-        </div>
-      </div>
-      <div className='Youtube-slider'>
-        <div
-          className='slide-wrap'
-          style={{ left: `-${slideWidth}px`, transition: "all 0.5s ease-in" }}
-        >
-          {videoData.map((video) => {
-            return (
-              <Videoitem
-                key={video.id.videoId}
-                video={video}
-                videoItemRef={videoItemRef}
-                videoData={videoData}
-              />
-            );
-          })}
-        </div>
-      </div>
+      {open === true ? (
+        <CurrentVideo
+          setOpen={setOpen}
+          allVideo={videoData}
+          currentVideo={currentVideo}
+        />
+      ) : null}
     </div>
   );
 };

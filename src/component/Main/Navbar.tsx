@@ -13,7 +13,7 @@ const Navbar = () => {
     <header>
       <nav className='Navbar-container'>
         <div className='logo'>
-          <h1>wish</h1>
+          <Link href='/'>wish</Link>
         </div>
 
         <ul className='Navbar-menu'>

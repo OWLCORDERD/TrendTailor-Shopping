@@ -1,11 +1,11 @@
 "use client";
 
+import Search from "component/Search/Search";
 import UseFetch from "component/UseFetch";
 import React, { useState, useEffect } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import Pagenation from "./Pagenation";
 
-interface clothes {
+export interface clothes {
   type: string;
   title: string;
   link: string;
@@ -22,7 +22,11 @@ interface clothes {
   category4: string;
 }
 
-const ProductList = () => {
+interface propsType {
+  searchData: clothes[] | undefined;
+}
+
+const ProductList = ({ searchData }: propsType) => {
   const clothDB: clothes[] = UseFetch("http://localhost:3001/items");
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -35,13 +39,19 @@ const ProductList = () => {
 
   useEffect(() => {
     const currentPosts = (clothDB: clothes[]) => {
-      const currentPostDB = clothDB.slice(indexOfFirst, indexOfLast);
+      if (searchData !== undefined && searchData.length > 0) {
+        const currentPostDB = searchData.slice(indexOfFirst, indexOfLast);
 
-      setCurrentPost(currentPostDB);
+        setCurrentPost(currentPostDB);
+      } else {
+        const currentPostDB = clothDB.slice(indexOfFirst, indexOfLast);
+
+        setCurrentPost(currentPostDB);
+      }
     };
 
     currentPosts(clothDB);
-  }, [clothDB, currentPage]);
+  }, [clothDB, currentPage, searchData]);
 
   return (
     <div className='productList-container'>
@@ -66,21 +76,13 @@ const ProductList = () => {
         </ul>
 
         <div className='searchCount-Box'>
-          <div className='Search-input'>
-            <AiOutlineSearch
-              fontSize={25}
-              color='#7D7D7D'
-              className='search-icon'
-            />
-            <input
-              type='text'
-              placeholder='찾으시는 의류를 검색해보세요. 예 ) 청바지'
-              className='Search-input'
-            />
-          </div>
+          <Search />
 
           <div className='product-count'>
-            <span>{clothDB.length}개의 상품</span>
+            <span>
+              {searchData?.length ? searchData.length : clothDB.length}
+              개의 상품
+            </span>
           </div>
         </div>
       </div>
@@ -107,6 +109,7 @@ const ProductList = () => {
         postMaxLength={postMaxLength}
         DBlength={clothDB.length}
         currentPage={currentPage}
+        searchDBlength={searchData?.length}
       />
     </div>
   );

@@ -18,6 +18,7 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+
 .slick-list
 {
     position: relative;
@@ -100,7 +101,10 @@
 }
 .slick-initialized .slick-slide
 {
-    display: block;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .slick-loading .slick-slide
 {
@@ -110,10 +114,15 @@
 {
     display: block;
 
+    width: max-content;
     height: auto;
 
     border: 1px solid transparent;
 }
 .slick-arrow.slick-hidden {
     display: none;
+}
+
+.slick-slide.slick-center{
+    display: block;
 }

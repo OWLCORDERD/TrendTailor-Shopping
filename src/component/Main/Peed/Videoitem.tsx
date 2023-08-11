@@ -7,15 +7,22 @@ import { videoType } from "./YoutubePeed";
 interface videoProps {
   video: videoType;
   videoItemRef: React.ForwardedRef<HTMLDivElement>;
-  videoData: videoType[];
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentVideo: React.Dispatch<React.SetStateAction<videoType | null>>;
 }
 
-const Videoitem = ({ video, videoItemRef, videoData }: videoProps) => {
-  const [open, setOpen] = useState<boolean>(false);
+const Videoitem = ({
+  video,
+  videoItemRef,
+  setOpen,
+  setCurrentVideo,
+}: videoProps) => {
   const viewVideo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    setOpen(!open);
+    setOpen(true);
+
+    setCurrentVideo(video);
   };
 
   return (
@@ -41,13 +48,6 @@ const Videoitem = ({ video, videoItemRef, videoData }: videoProps) => {
           </div>
         </div>
       </div>
-      {open === true ? (
-        <CurrentVideo
-          currentVideo={video}
-          setOpen={setOpen}
-          allVideo={videoData}
-        />
-      ) : null}
     </>
   );
 };

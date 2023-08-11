@@ -89,12 +89,6 @@ const NewsSlider = (): JSX.Element => {
             );
           })}
         </div>
-
-        <div className='Slider-status'>
-          <div className='status-bar'>
-            <span />
-          </div>
-        </div>
       </div>
     </div>
   );

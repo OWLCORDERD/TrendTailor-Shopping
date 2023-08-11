@@ -1,7 +1,7 @@
 import React from "react";
 import "styles/notice.scss";
 import { AiOutlinePlus } from "react-icons/ai";
-import Search from "component/Search";
+import Search from "component/Search/Search";
 
 const NoticeBoard = () => {
   return (

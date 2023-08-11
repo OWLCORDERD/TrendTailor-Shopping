@@ -1,0 +1,91 @@
+@import "app/globals.scss";
+
+.Preview-container{
+    position: absolute;
+    top : 2.5rem;
+    left : 0;
+    width: 50rem;
+    height: 40rem;
+    overflow-y: auto;
+    background-color: #fff;
+    z-index: 100;
+    display: none;
+
+    &#active{
+        display: block;
+    }
+
+    ul{
+        position: relative;
+        width: 100%;
+        height: max-content;
+        padding : 1rem;
+
+        li{
+            display: block;
+            width: 100%;
+            height: 5rem;
+            margin-bottom: 1rem;
+
+            a{
+                width: 100%;
+                height: 100%;
+
+                .Preview-item{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .Preview-Img{
+                        width: 10%;
+                        height: 100%;
+                        overflow: hidden;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .Preview-contentBox{
+                        width: 90%;
+                        height: 100%;
+                        padding: 0 1rem;
+                        font-family: $Noto-Korean;
+
+                        .item-title{
+                            width: 100%;
+
+                            h2{
+                                font-size: 1rem;
+                                font-weight: bold;
+                                color: #000;
+                                line-height: 3rem;
+                            }
+                        }
+
+                        .item-info{
+                            display: flex;
+                            justify-content: flex-start;
+                            width: 100%;
+                            color: #000;
+
+                            .mallName{
+                                font-size: 15px;
+                                margin-right: 2rem;
+                                font-weight: bold;
+                            }
+
+                            .category{
+                                font-size: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
