@@ -3,29 +3,36 @@ import "styles/search.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Preview from "./Preview";
-import { clothes } from "component/Product/ProductList";
+import { setTimeout } from "timers";
 
 const Search = () => {
   const router = useRouter();
 
   const [searchKeyword, setSearchKeyword] = useState<string>("");
 
-  const [keywordPreview, setKeywordPreview] = useState<clothes[]>([]);
+  const [keywordPreview, setKeywordPreview] = useState([]);
+
+  const [closePreview, setClosePreview] = useState(false);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     setSearchKeyword(e.target.value);
 
-    if (searchKeyword !== undefined) {
-      PreviewData(searchKeyword);
-    }
+    setClosePreview(false);
   };
 
-  const PreviewData = async (searchKeyword: string) => {
-    const res = await fetch(`http://localhost:3001/items?q=${searchKeyword}`);
+  const PreviewData = async () => {
+    const url = "http://localhost:3000/api/search";
 
-    const data = await res.json();
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        query: searchKeyword,
+      }),
+    });
+
+    const { data } = await res.json();
 
     setKeywordPreview(data);
   };
@@ -36,7 +43,18 @@ const Search = () => {
     const encodedSearchKeyword = encodeURI(searchKeyword);
 
     router.push(`/shop?q=${encodedSearchKeyword}`);
+
+    setClosePreview(true);
   };
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (searchKeyword) PreviewData();
+    }, 500);
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [searchKeyword]);
 
   return (
     <>
@@ -50,6 +68,7 @@ const Search = () => {
           />
         </div>
 
+        {/*
         <div className='search-keywords'>
           <div className='title'>
             <h2>Keyword</h2>
@@ -78,10 +97,12 @@ const Search = () => {
             </li>
           </ul>
         </div>
+      */}
 
         <Preview
           keywordPreview={keywordPreview}
           searchKeyword={searchKeyword}
+          closePreview={closePreview}
         />
       </form>
     </>

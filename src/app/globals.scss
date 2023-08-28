@@ -18,6 +18,14 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
     text-decoration: none;
 }
 
+body{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 main{
     position: relative;
     top : 0;

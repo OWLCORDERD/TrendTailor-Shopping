@@ -5,7 +5,7 @@
     top : 2.5rem;
     left : 0;
     width: 50rem;
-    height: 40rem;
+    height: max-content;
     overflow-y: auto;
     background-color: #fff;
     z-index: 100;
@@ -18,7 +18,7 @@
     ul{
         position: relative;
         width: 100%;
-        height: max-content;
+        height: 30rem;
         padding : 1rem;
 
         li{
@@ -60,7 +60,7 @@
                             width: 100%;
 
                             h2{
-                                font-size: 1rem;
+                                font-size: 14px;
                                 font-weight: bold;
                                 color: #000;
                                 line-height: 3rem;
@@ -74,17 +74,43 @@
                             color: #000;
 
                             .mallName{
-                                font-size: 15px;
+                                font-size: 12px;
                                 margin-right: 2rem;
                                 font-weight: bold;
                             }
 
                             .category{
-                                font-size: 15px;
+                                font-size: 12px;
                             }
                         }
                     }
                 }
+            }
+        }
+    }
+
+    .nonSearch-keywordBox{
+        position: relative;
+        width: 100%;
+        height: max-content;
+
+        .noneSearch-keyword{
+            display: inline-flex;
+            width: 100%;
+            padding : 0 2rem;
+
+            h2{
+                font-family: $Noto-Korean;
+                font-size: 1rem;
+                color: rgb(255, 67, 67);
+                line-height: 4rem;
+                margin-right: 1rem;
+            }
+
+            span{
+                font-family: $Noto-Korean;
+                font-size: 1rem;
+                line-height: 4rem;
             }
         }
     }

@@ -1,6 +1,5 @@
 import "./globals.scss";
 import type { Metadata } from "next";
-import Navbar from "component/Main/Navbar";
 import AuthSession from "./AuthSession";
 
 export const metadata: Metadata = {
@@ -16,10 +15,7 @@ export default function RootLayout({
   return (
     <AuthSession>
       <html lang='en'>
-        <body>
-          <Navbar />
-          {children}
-        </body>
+        <body>{children}</body>
       </html>
     </AuthSession>
   );

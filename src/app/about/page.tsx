@@ -1,21 +1,36 @@
-import React from "react";
+"use client";
+
+import { useEffect, useRef } from "react";
 import "styles/about.scss";
 import { BsSearch, BsYoutube } from "react-icons/bs";
 import { IoShirtSharp } from "react-icons/io5";
 import { RiContactsFill } from "react-icons/ri";
-import { svgDataList } from "../svgData";
-import Banner from "./Banner";
+import { svgDataList } from "../../component/svgData";
+import gsap from "gsap/all";
 
-interface AboutRefPropsType {
-  aboutRef: React.ForwardedRef<HTMLDivElement>;
-  slideRef: React.ForwardedRef<HTMLDivElement>;
-}
+export default function page() {
+  const slideRef = useRef<HTMLDivElement>(null);
+  const AboutRef = useRef<HTMLElement>(null);
 
-const About = ({ aboutRef, slideRef }: AboutRefPropsType) => {
+  useEffect(() => {
+    gsap.to(slideRef.current, {
+      xPercent: -100,
+      x: () => window.innerWidth,
+      ease: "none",
+      scrollTrigger: {
+        trigger: AboutRef.current,
+        start: "top top",
+        end: () => `+=${window.innerWidth}`,
+        scrub: true,
+        pin: true,
+        invalidateOnRefresh: true,
+      },
+    });
+  });
+
   return (
-    <section className='MainBanner-Container' ref={aboutRef}>
+    <section className='MainBanner-Container' ref={AboutRef}>
       <div className='MainBanner-slider' ref={slideRef}>
-        <Banner />
         <article className='AboutWISH-Container'>
           <div className='AboutWISH-section'>
             <div className='AboutWISH-titleBox'>
@@ -158,6 +173,4 @@ const About = ({ aboutRef, slideRef }: AboutRefPropsType) => {
       </div>
     </section>
   );
-};
-
-export default About;
+}

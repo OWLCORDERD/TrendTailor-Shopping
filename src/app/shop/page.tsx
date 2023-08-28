@@ -3,7 +3,7 @@
 import NewsSlider from "component/Main/Peed/NewsSlider";
 import ProductList from "component/Product/ProductList";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import "styles/shop.scss";
 
 interface searchDataType {
@@ -13,7 +13,7 @@ interface searchDataType {
   image: string;
   price: string;
   mallName: string;
-  productId: string;
+  productId: number;
   productType: string;
   brand: string;
   maker: string;
@@ -29,12 +29,17 @@ export default function page() {
 
   const [searchData, setSearchData] = useState<searchDataType[] | undefined>();
 
-  const url = `http://localhost:3001/items?q=${searchQuery}`;
+  const url = `http://localhost:3000/api/search`;
 
   const fetchKeyword = async (url: string) => {
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        keyword: searchQuery,
+      }),
+    });
 
-    const data: searchDataType[] = await res.json();
+    const { data } = await res.json();
 
     setSearchData(data);
   };

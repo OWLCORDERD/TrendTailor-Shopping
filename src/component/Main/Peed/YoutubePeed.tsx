@@ -54,7 +54,7 @@ const YoutubePeed = () => {
     params: { key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY },
   });
 
-  useEffect(() => {
+  const youtubeFetch = async () => {
     youtubeAPI
       .get("search", {
         params: {
@@ -66,17 +66,17 @@ const YoutubePeed = () => {
       })
       .then((res) => res.data.items)
       .then((data) => setVideoData(data));
+  };
 
-    return () => {
-      setVideoData([]);
-    };
+  useEffect(() => {
+    youtubeFetch();
   }, []);
 
   return (
     <div className='YoutubePeed-container'>
       <div className='YoutubePeed-titleBox'>
         <h1 className='YoutubePeed-title'>Fashion Trend</h1>
-        <AiOutlinePlus fontSize={20} color='rgb(90, 90, 90)' />
+        <AiOutlinePlus fontSize={30} color='#fff' />
       </div>
       <Slider {...settings} ref={slickRef}>
         {videoData.map((video) => {

@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import Search from "component/Search/Search";
 import UseFetch from "component/UseFetch";
 import React, { useState, useEffect } from "react";
@@ -12,7 +13,7 @@ export interface clothes {
   image: string;
   price: string;
   mallName: string;
-  productId: string;
+  productId: number;
   productType: string;
   brand: string;
   maker: string;
@@ -27,8 +28,15 @@ interface propsType {
 }
 
 const ProductList = ({ searchData }: propsType) => {
-  const clothDB: clothes[] = UseFetch("http://localhost:3001/items");
+  const getClothesDB = async () => {
+    const res = await axios.get("http://localhost:3000/api/clothes");
 
+    const { data } = res.data;
+
+    setClothDB(data);
+  };
+
+  const [clothDB, setClothDB] = useState<clothes[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [postMaxLength, setPostMaxLength] = useState<number>(12);
 
@@ -53,27 +61,16 @@ const ProductList = ({ searchData }: propsType) => {
     currentPosts(clothDB);
   }, [clothDB, currentPage, searchData]);
 
+  useEffect(() => {
+    getClothesDB();
+  }, []);
+
   return (
     <div className='productList-container'>
       <div className='List-tabMenu'>
         <div className='tabMenu-title'>
           <h1>all wish clothes</h1>
         </div>
-
-        <ul className='tab-Menu'>
-          <li>
-            <a href='#'>전체보기</a>
-          </li>
-          <li>
-            <a href='#'>블라우스 & 셔츠</a>
-          </li>
-          <li>
-            <a href='#'>아우터</a>
-          </li>
-          <li>
-            <a href='#'>하의</a>
-          </li>
-        </ul>
 
         <div className='searchCount-Box'>
           <Search />

@@ -3,43 +3,32 @@ import NewsSlider from "./NewsSlider";
 import "styles/peed.scss";
 import SeasonPeed from "./SeasonPeed";
 import YoutubePeed from "component/Main/Peed/YoutubePeed";
-import Navbar from "../Navbar";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import NoticeBoard from "./NoticeBoard";
+import MainBoard from "./MainBoard/MainBoard";
 
-export interface NewsItemType {
-  id: string;
-  img_url: string;
+export interface clothes {
+  type: string;
   title: string;
-  info: string;
+  link: string;
+  image: string;
+  price: string;
+  mallName: string;
+  productId: string;
+  productType: string;
+  brand: string;
+  maker: string;
+  category1: string;
+  category2: string;
+  category3: string;
+  category4: string;
 }
 
 const Peed = (): JSX.Element => {
-  const peedRef = useRef<HTMLElement>(null);
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  useEffect(() => {
-    gsap.to(".Navbar-container", {
-      backgroundColor: "#000",
-      transition: "all 0.5s ease-in",
-
-      scrollTrigger: {
-        trigger: peedRef.current,
-        start: "110% top",
-        end: "center bottom",
-        scrub: true,
-      },
-    });
-  }, [peedRef]);
   return (
-    <section className='MainPeed-container' ref={peedRef}>
-      <Navbar />
+    <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
         <div className='Notice-wrapper'>
           <NewsSlider />
-          <NoticeBoard />
+          <MainBoard />
         </div>
         <div className='Peed-wrapper'>
           <SeasonPeed />
