@@ -64,10 +64,10 @@ const Navbar = () => {
               <a href='#'>Trend</a>
             </li>
             <li>
-              <a href='#'>News</a>
+              <Link href='/notice'>Notice</Link>
             </li>
             <li>
-              <a href='#'>peed</a>
+              <a href='#'>Megazine</a>
             </li>
           </ul>
         </div>

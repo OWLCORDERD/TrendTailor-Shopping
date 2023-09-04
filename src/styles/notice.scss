@@ -1,0 +1,342 @@
+@import "../app/globals.scss";
+
+.wrap{
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    /*Notice Board Main Page Css*/
+    .NoticePage-container{
+        width: 100%;
+        height: max-content;
+
+        .Notice-header{
+            position: relative;
+            width: 100%;
+            height: 5rem;
+            margin : 5rem 0 2rem 0;
+            padding : 0 10rem;
+
+            .Notice-title{
+                position: relative;
+                width: 100%;
+                height: 5rem;
+    
+                h1{
+                    width: 100%;
+                    line-height: 5rem;
+                    font-size: 2rem;
+                    font-family: $Noto-Korean;
+                    text-align: center;
+                    color: #4b4b4b;
+                }
+            }
+
+            .AddNotice-button{
+                position: absolute;
+                top : 50%;
+                right : 10rem;
+                width: max-content;
+                height: 3rem;
+                transform: translateY(-50%);
+
+                a{
+                    display: block;
+                    line-height: 3rem;
+                    width: 10rem;
+                    font-size: 1rem;
+                    font-family: $Noto-Korean;
+                    color: #fff;
+                    background-color: #000;
+                    text-align: center;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        .Notice-table{
+            width: 100%;
+            padding : 0 10rem;
+
+            table{
+                display: table;
+                width: 100%;
+                border-collapse: collapse;
+                border-bottom: 2px solid rgb(203, 203, 203);
+                border-top: 2px solid #000;
+        
+                thead{
+                    tr{
+                        border-bottom: 2px solid rgb(196, 196, 196);
+                    }
+                }
+                
+                th{
+                    padding: 0.5rem 0;
+
+                    &:nth-child(2){
+                        width: 50%;
+                        h1{
+                            text-align: start;
+                        }
+                    }
+
+                    h1{
+                        font-family: $Noto-Korean;
+                        font-size: 1rem;
+                        text-align: center;
+                    }
+                }
+
+                td{
+                    padding : 1.5rem 0;
+                    text-align: center;
+                    font-family: $Noto-Korean;
+                    font-size: 15px;
+                    color: #4b4b4b;
+                    border-bottom: 1px solid rgb(222, 222, 222);
+
+                    &:nth-child(2){
+                        text-align: start;
+
+                        a{
+                            font-weight: bold;
+                            font-family: $Noto-Korean;
+                            font-size: 15px;
+                            color: #4b4b4b;
+                            cursor: pointer;
+    
+                            &:hover{
+                                text-decoration: underline;
+                                color: #000;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+
+                    &:first-child{
+                        width: 15%;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    /*Main page Notice Board pagenation Css*/
+    .pagenation-container{
+        position: relative;
+        width: 100%;
+        height: 5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin : 2rem 0;
+
+        .pagenation{
+            width: max-content;
+
+            li{
+                display: inline-block;
+                width: 3rem;
+                text-align: center;
+                line-height: 2rem;
+
+                a{
+                    color: rgb(105, 105, 105);
+                    font-family: $Noto-Korean;
+                    font-weight: 400;
+
+                    &.active{
+                        color: #000;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    /*공지사항 등록 addNotice Page css*/
+    .addNotice-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding : 2rem 6.25rem 5rem 6.25rem;
+
+        .addNotice-titleBox{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 5rem;
+            border-bottom: 2px solid #4D4D4D;
+
+            .addNotice-title{
+                width: 10rem;
+                height: 5rem;
+                line-height: 5rem;
+                font-size: 1.5rem;
+                font-family: $Noto-Korean;
+                color: #4b4b4b;
+            }
+
+            .NoticeList-button{
+                position: relative;
+                width: max-content;
+                height: 2rem;
+
+                a{
+                        display: block;
+                        line-height: 2rem;
+                        width: 8rem;
+                        font-size: 15px;
+                        font-family: $Noto-Korean;
+                        color: #4b4b4b;
+                        border: 1px solid #CDCDCD;
+                        background-color: transparent;
+                        text-align: center;
+                        font-weight: bold;
+                        transition: all 0.5s ease-out;
+
+                        &:hover{
+                            background-color: #959595;
+                            color: #fff;
+                            transition: all 0.5s ease-in;
+                        }
+                }
+            }
+        }
+
+        .addNotice-Form{
+            width: 100%;
+            height: 40rem;
+            padding-top: 2rem;
+
+            .form-header{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                height: 5rem;
+
+                .header-title{
+                    width: 20rem;
+                    height: 5rem;
+                    line-height: 5rem;
+                    font-family: $Noto-Korean;
+                    color: #4b4b4b;
+                    font-size: 1.5rem;
+                }
+
+                .submit-button{
+                    width: max-content;
+                    height: 3rem;
+
+                    button{
+                        border: none;
+                        color: #fff;
+                        background-color: #525252;
+                        width: 8rem;
+                        line-height: 3rem;
+                        font-family: $Noto-Korean;
+                        font-weight: bold;
+                        font-size: 1rem;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .form-info{
+                width: 100%;
+                height: 35rem;
+
+                .Notice-mainInfo{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    height: 5rem;
+
+                    .title-input{
+                        width: 70%;
+                        height: 2.5rem;
+                        font-size: 1rem;
+                        font-family: $Noto-Korean;
+                        padding: 0 1rem;
+                    }
+
+                    .writer-input{
+                        width: 25%;
+                        height: 2.5rem;
+                        font-size: 1rem;
+                        font-family: $Noto-Korean;
+                        padding: 0 1rem;
+                    }
+                }
+
+                .Notice-textInfo{
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    height: 25rem;
+                    margin-top: 3rem;
+
+                    .textInfo-area{
+                        width: 70%;
+                        height: 100%;
+                        font-size: 1rem;
+                        padding : 1rem;
+                        font-family: $Noto-Korean;
+                        resize: none;
+                    }
+
+                    .image-wrapper{
+                        width: 25%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        .preview-image{
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 100%;
+                            height: 70%;
+                            background-color: #D1D1D1;
+                            font-family: $Noto-Korean;
+                            font-weight: bold;
+                            font-size: 1rem;
+
+                            img{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: scale-down;
+                                background-color: #fff;
+                            }
+                        }
+
+                        .upload-button{
+
+                            h1{
+                                display: block;
+                                width: 100%;
+                                line-height: 3rem;
+                                text-align: center;
+                                font-family: $Noto-Korean;
+                                font-size: 1rem;
+                                cursor: pointer;
+                                background-color: #525252;
+                                color: #fff;
+                            }
+                        }
+
+                        input{
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
