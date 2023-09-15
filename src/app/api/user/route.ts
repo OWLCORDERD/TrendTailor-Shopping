@@ -9,27 +9,29 @@ interface RequestBody {
 }
 
 export async function POST(request: Request) {
+  let connection = null;
+
   const body: RequestBody = await request.json();
 
   const username = body.username;
   const email = body.email;
   const password = await bcrypt.hash(body.password, 10);
 
-  const dbconnection = await mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: "root",
-    password: process.env.MYSQL_PASSWORD,
-    database: "wish",
-  });
+  if (connection === null) {
+    connection = await mysql.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "root",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+    });
+  }
 
   try {
     const query = "insert into User(username, password, email) values(?, ?, ?)";
 
     const values = [username, password, email];
 
-    const [data] = await dbconnection.execute(query, values);
-
-    dbconnection.end();
+    const [data] = await connection.execute(query, values);
 
     return NextResponse.json({ message: data });
   } catch (err) {

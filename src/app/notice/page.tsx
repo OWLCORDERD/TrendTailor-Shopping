@@ -1,18 +1,15 @@
+"use client";
+
+import axios from "axios";
 import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
 import Pagenation from "component/Notice/Pagenation";
-import React from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import "styles/notice.scss";
+import { RotatingLines } from "react-loader-spinner";
 
-export async function fetchData() {
-  const res = await fetch("http://localhost:3000/api/viewNotice");
-
-  const { data } = await res.json();
-
-  return data;
-}
-
-interface dataType {
+export interface NoticeType {
   idx: number;
   title: string;
   writer: string;
@@ -21,10 +18,30 @@ interface dataType {
   text: string;
 }
 
-const page = async () => {
-  const data: dataType[] = await fetchData();
+const page = () => {
+  const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
 
-  console.log(data);
+  const [loading, setLoading] = useState(true);
+
+  const fetchNotice = async () => {
+    const res = await axios.get("http://localhost:3000/api/viewNotice", {
+      params: { selectAll: "all" },
+    });
+
+    if (res.status === 200) {
+      const { data } = res.data;
+
+      setNoticeDB(data);
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotice();
+  }, []);
 
   return (
     <div className='wrap'>
@@ -41,43 +58,62 @@ const page = async () => {
           </div>
         </div>
         <div className='Notice-table'>
-          <table>
-            <thead>
-              <tr>
-                <th>
-                  <h1>번호</h1>
-                </th>
-                <th>
-                  <h1>제목</h1>
-                </th>
-                <th>
-                  <h1>글쓴이</h1>
-                </th>
-                <th>
-                  <h1>조회수</h1>
-                </th>
-                <th>
-                  <h1>날짜</h1>
-                </th>
-              </tr>
-            </thead>
+          {loading ? (
+            <div className='loader'>
+              <RotatingLines
+                strokeColor='black'
+                strokeWidth='3'
+                animationDuration='0.75'
+                width='50'
+                visible={true}
+              />
+            </div>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <h1>번호</h1>
+                  </th>
+                  <th>
+                    <h1>제목</h1>
+                  </th>
+                  <th>
+                    <h1>글쓴이</h1>
+                  </th>
+                  <th>
+                    <h1>조회수</h1>
+                  </th>
+                  <th>
+                    <h1>날짜</h1>
+                  </th>
+                </tr>
+              </thead>
 
-            <tbody>
-              {data.map((item) => {
-                return (
-                  <tr key={item.idx}>
-                    <td>{item.idx}</td>
-                    <td>
-                      <a href='#'>{item.title}</a>
-                    </td>
-                    <td>{item.writer}</td>
-                    <td>123</td>
-                    <td>{item.date}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+              <tbody>
+                {noticeDB.map((item) => {
+                  return (
+                    <tr key={item.idx}>
+                      <td>{item.idx}</td>
+                      <td>
+                        <Link
+                          href={{
+                            pathname: "/currentNotice",
+                            query: { id: item.idx },
+                          }}
+                        >
+                          {item.title}
+                        </Link>
+                      </td>
+                      <td>{item.writer}</td>
+                      <td>0</td>
+                      <td>{item.date.slice(0, 10)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
 
         <Pagenation />

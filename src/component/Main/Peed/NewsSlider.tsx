@@ -3,14 +3,6 @@
 import "styles/newsSlider.scss";
 import React, { useEffect, useState, useRef, use } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { commonService } from "component/fetchDB";
-
-interface NewsItemType {
-  id: string;
-  img_url: string;
-  title: string;
-  info: string;
-}
 
 const NewsSlider = (): JSX.Element => {
   const NewsItems = [
@@ -44,11 +36,10 @@ const NewsSlider = (): JSX.Element => {
   const [loop, setLoop] = useState<any>();
   const [product, setProduct] = useState<number>(0);
 
-  /*
   useEffect(() => {
     const swiperLoop = setTimeout(() => {
       setProduct((prev) => {
-        if (prev < NewsItems.length) {
+        if (prev < NewsItems.length - 1) {
           return prev + 1;
         }
         return 0;
@@ -60,8 +51,7 @@ const NewsSlider = (): JSX.Element => {
     return () => {
       clearTimeout(loop);
     };
-  }, [NewsItems, product, setProduct]);
-  */
+  }, [product, setProduct]);
 
   const beforeSlide = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -3,6 +3,7 @@
 import axios from "axios";
 import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
+import Link from "next/link";
 import React, { useState } from "react";
 import "styles/notice.scss";
 
@@ -63,10 +64,14 @@ const page = () => {
 
     const formData = new FormData();
 
+    const replaceText = () => {
+      return noticeInfo.text.replaceAll("<br>", "\r\n");
+    };
+
     const body = {
       title: noticeInfo.title,
       writer: noticeInfo.writer,
-      text: noticeInfo.text,
+      text: replaceText(),
     };
 
     formData.append("file", uploadImage);
@@ -94,7 +99,7 @@ const page = () => {
           <h1 className='addNotice-title'>공지사항</h1>
 
           <div className='NoticeList-button'>
-            <a href='#'>목록으로</a>
+            <Link href='/notice'>목록으로</Link>
           </div>
         </div>
 

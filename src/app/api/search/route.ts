@@ -3,18 +3,22 @@ import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  let connection = null;
+
   if (req.method === "POST") {
     const body = await req.json();
 
     const keyword = body.keyword;
     const previewKeyword = body.query;
 
-    const connection = await mysql2.createConnection({
-      host: process.env.MYSQL_HOST,
-      database: "wish",
-      password: process.env.MYSQL_PASSWORD,
-      user: "root",
-    });
+    if (connection === null) {
+      connection = await mysql2.createConnection({
+        host: process.env.MYSQL_HOST,
+        database: "wish",
+        password: process.env.MYSQL_PASSWORD,
+        user: "root",
+      });
+    }
 
     try {
       if (previewKeyword !== undefined && keyword === undefined) {

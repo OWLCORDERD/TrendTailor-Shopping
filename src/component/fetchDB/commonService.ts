@@ -11,9 +11,9 @@ const getDB = {
       url: "api/clothes",
     }).then((res) => res.data);
   },
-  getNews: () => {
+  getNotice: () => {
     return service({
-      url: "api/News",
+      url: "api/viewNotice",
     }).then((res) => res.data);
   },
 };

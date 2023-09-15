@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import NewsSlider from "./NewsSlider";
 import "styles/peed.scss";
 import SeasonPeed from "./SeasonPeed";
@@ -22,7 +22,7 @@ export interface clothes {
   category4: string;
 }
 
-const Peed = (): JSX.Element => {
+const Peed = () => {
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>

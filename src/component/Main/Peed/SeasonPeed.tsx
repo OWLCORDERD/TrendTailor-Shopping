@@ -1,5 +1,3 @@
-import { useState, useEffect, useRef } from "react";
-import { AiOutlineLeft, AiOutlineRight, AiOutlinePlus } from "react-icons/ai";
 import "styles/seasonPeed.scss";
 import { commonService } from "component/fetchDB";
 import { clothes } from "./Peed";
@@ -9,10 +7,22 @@ interface seasonType {
   season: string;
 }
 
-const SeasonPeed = (): JSX.Element => {
-  const [clothesDB, setClothesDB] = useState<clothes[]>([]);
+export async function getClothesDB() {
+  const { data } = await commonService.getClothes();
 
-  const [seasonDB, setSeasonDB] = useState<seasonType[]>([]);
+  return data;
+}
+
+export async function getSeasonDB() {
+  const { data } = await commonService.getSeason();
+
+  return data;
+}
+
+const SeasonPeed = async () => {
+  const clothesDB: clothes[] = await getClothesDB();
+
+  const seasonDB: seasonType[] = await getSeasonDB();
 
   const date = new Date();
 
@@ -23,25 +33,6 @@ const SeasonPeed = (): JSX.Element => {
   const seasonClothes = clothesDB.filter(
     (item) => item.category4 === monthState[0]?.season
   );
-
-  useEffect(() => {
-    getClothesDB();
-    getSeasonDB();
-  }, []);
-
-  const getClothesDB = async () => {
-    commonService
-      .getClothes()
-      .then((res) => res.data)
-      .then((data) => setClothesDB(data));
-  };
-
-  const getSeasonDB = async () => {
-    commonService
-      .getSeason()
-      .then((res) => res.data)
-      .then((data) => setSeasonDB(data));
-  };
 
   return (
     <div className='SeasonPeed-container'>

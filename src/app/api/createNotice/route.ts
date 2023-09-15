@@ -9,6 +9,8 @@ export const config = {
 };
 
 export async function POST(req: NextRequest) {
+  let connection = null;
+
   if (req.method === "POST") {
     const fromDataFlag = await req.formData();
     const file: File | null = fromDataFlag.get("file") as unknown as File;
@@ -21,18 +23,18 @@ export async function POST(req: NextRequest) {
 
       await writeFile(savePath, buffer);
 
-      const title: string | null = fromDataFlag.get(
-        "title"
-      ) as unknown as string;
+      const title = fromDataFlag.get("title");
       const text = fromDataFlag.get("text");
       const writer = fromDataFlag.get("writer");
 
-      const connection = await mysql.createConnection({
-        host: process.env.MYSQL_HOST,
-        password: process.env.MYSQL_PASSWORD,
-        database: "wish",
-        user: "root",
-      });
+      if (connection === null) {
+        connection = await mysql.createConnection({
+          host: process.env.MYSQL_HOST,
+          password: process.env.MYSQL_PASSWORD,
+          database: "wish",
+          user: "root",
+        });
+      }
 
       try {
         const SqlQuery =
