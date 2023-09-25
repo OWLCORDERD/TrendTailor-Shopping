@@ -5,6 +5,7 @@ import "app/globals.scss";
 import "styles/register.scss";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Navbar from "component/Main/Navbar";
 
 interface infoType {
   email: string;
@@ -183,6 +184,7 @@ const page = () => {
 
   return (
     <div className='register-container'>
+      <Navbar />
       <div className='register-wrap'>
         <div className='register-titleBox'>
           <h1 className='register-title'>Join us wish</h1>

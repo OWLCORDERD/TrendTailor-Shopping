@@ -1,6 +1,7 @@
 import "styles/seasonPeed.scss";
 import { commonService } from "component/fetchDB";
 import { clothes } from "./Peed";
+import { use } from "react";
 
 interface seasonType {
   month: number;
@@ -19,10 +20,10 @@ export async function getSeasonDB() {
   return data;
 }
 
-const SeasonPeed = async () => {
-  const clothesDB: clothes[] = await getClothesDB();
+const SeasonPeed = () => {
+  const clothesDB: clothes[] = use(getClothesDB());
 
-  const seasonDB: seasonType[] = await getSeasonDB();
+  const seasonDB: seasonType[] = use(getSeasonDB());
 
   const date = new Date();
 

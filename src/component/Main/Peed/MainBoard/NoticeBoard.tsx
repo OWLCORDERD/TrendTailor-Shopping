@@ -1,4 +1,5 @@
 import { NoticeType } from "app/notice/page";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Oval } from "react-loader-spinner";
 
@@ -27,6 +28,7 @@ const NoticeBoard = ({ noticeDB, loader }: propsNotice) => {
       clearTimeout(loop);
     };
   }, [currentSlide, setCurrentSlide, noticeDB]);
+
   return (
     <div className='Notice-container'>
       <div className='Notice-board'>
@@ -62,7 +64,16 @@ const NoticeBoard = ({ noticeDB, loader }: propsNotice) => {
                 return (
                   <li key={item.idx}>
                     <a href='#'>
-                      <h2>{item.title}</h2>
+                      <Link
+                        href={{
+                          pathname: "/currentNotice",
+                          query: {
+                            id: item.idx,
+                          },
+                        }}
+                      >
+                        <h2>{item.title}</h2>
+                      </Link>
                       <span>{item.date.slice(0, 10)}</span>
                     </a>
                   </li>

@@ -329,6 +329,15 @@
                             }
                         }
 
+                        .error-Message{
+                            width: 100%;
+                            text-align: center;
+                            line-height: 2rem;
+                            color: rgb(243, 75, 75);
+                            font-family: $Raleway-font;
+                            font-weight: bold;
+                        }
+
                         .upload-button{
 
                             h1{
@@ -493,7 +502,7 @@
                         display: inline-block;
                         width: 10rem;
                         line-height: 3rem;
-                        font-size: 1rem;
+                        font-size: 14px;
                         font-family: $Noto-Korean;
                         color: rgb(63, 63, 63);
                     }
@@ -502,7 +511,7 @@
                         display: inline-block;
                         width: max-content;
                         line-height: 3rem;
-                        font-size: 1rem;
+                        font-size: 14px;
                         font-family: $Noto-Korean;
                         color: rgb(63, 63, 63);
                         font-weight: bold;
@@ -521,7 +530,7 @@
                         display: inline-block;
                         width: 10rem;
                         line-height: 3rem;
-                        font-size: 1rem;
+                        font-size: 14px;
                         font-family: $Noto-Korean;
                         color: rgb(63, 63, 63);
                     }
@@ -530,7 +539,7 @@
                         display: inline-block;
                         width: max-content;
                         line-height: 3rem;
-                        font-size: 1rem;
+                        font-size: 14px;
                         font-family: $Noto-Korean;
                         color: rgb(63, 63, 63);
                         font-weight: bold;

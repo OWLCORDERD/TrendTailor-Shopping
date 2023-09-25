@@ -30,6 +30,12 @@ export interface videoType {
 }
 
 const YoutubePeed = () => {
+  const [videoData, setVideoData] = useState<videoType[]>([]);
+
+  const [open, setOpen] = useState<boolean>(false);
+
+  const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
+
   const settings = {
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -40,16 +46,6 @@ const YoutubePeed = () => {
     nextArrow: <SlideNext />,
     prevArrow: <SlideBefore />,
   };
-
-  const slickRef = useRef(null);
-
-  const [videoData, setVideoData] = useState<videoType[]>([]);
-
-  const videoItemRef = useRef<HTMLDivElement>(null);
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
 
   const youtubeAPI = axios.create({
     baseURL: "https://youtube.googleapis.com/youtube/v3",
@@ -80,13 +76,12 @@ const YoutubePeed = () => {
         <h1 className='YoutubePeed-title'>Fashion Trend</h1>
         <AiOutlinePlus fontSize={30} color='#fff' />
       </div>
-      <Slider {...settings} ref={slickRef}>
+      <Slider {...settings}>
         {videoData.map((video) => {
           return (
             <Videoitem
               key={video.id.videoId}
               video={video}
-              videoItemRef={videoItemRef}
               setOpen={setOpen}
               setCurrentVideo={setCurrentVideo}
             />

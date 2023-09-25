@@ -2,7 +2,7 @@ import React from "react";
 import NewsSlider from "./NewsSlider";
 import "styles/peed.scss";
 import SeasonPeed from "./SeasonPeed";
-import YoutubePeed from "component/Main/Peed/YoutubePeed";
+import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 
 export interface clothes {

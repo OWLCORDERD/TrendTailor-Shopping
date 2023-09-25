@@ -50,7 +50,7 @@ const Search = () => {
   useEffect(() => {
     const debounce = setTimeout(() => {
       if (searchKeyword) PreviewData();
-    }, 500);
+    }, 1000);
     return () => {
       clearTimeout(debounce);
     };

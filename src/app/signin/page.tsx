@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Navbar from "component/Main/Navbar";
 
 interface queryType {
   username: string;
@@ -63,6 +64,7 @@ const Login = () => {
 
   return (
     <div className='loginPage-container'>
+      <Navbar />
       <div className='login-wrapper'>
         <div className='loginPage-titleBox'>
           <h1 className='login-title'>LOGIN</h1>

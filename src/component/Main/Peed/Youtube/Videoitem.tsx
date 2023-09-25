@@ -1,22 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiFillPlayCircle } from "react-icons/ai";
-import { clothes } from "component/Main/Peed/SeasonPeed";
-import CurrentVideo from "./CurrentVideo";
 import { videoType } from "./YoutubePeed";
 
 interface videoProps {
   video: videoType;
-  videoItemRef: React.ForwardedRef<HTMLDivElement>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentVideo: React.Dispatch<React.SetStateAction<videoType | null>>;
 }
 
-const Videoitem = ({
-  video,
-  videoItemRef,
-  setOpen,
-  setCurrentVideo,
-}: videoProps) => {
+const Videoitem = ({ video, setOpen, setCurrentVideo }: videoProps) => {
   const viewVideo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -27,7 +19,7 @@ const Videoitem = ({
 
   return (
     <>
-      <div className='video-item' ref={videoItemRef}>
+      <div className='video-item'>
         <div className='video-thumbnail'>
           <img src={video.snippet.thumbnails.high.url} alt='thumbnail' />
           <button

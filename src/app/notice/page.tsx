@@ -8,6 +8,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import "styles/notice.scss";
 import { RotatingLines } from "react-loader-spinner";
+import { useSession } from "next-auth/react";
 
 export interface NoticeType {
   idx: number;
@@ -16,6 +17,7 @@ export interface NoticeType {
   image: string;
   date: string;
   text: string;
+  view_cnt: number;
 }
 
 const page = () => {
@@ -43,6 +45,25 @@ const page = () => {
     fetchNotice();
   }, []);
 
+  const { data: session, status } = useSession();
+
+  const viewCount = async (currentCount: number, currentIdx: number) => {
+    const updateCount = currentCount + 1;
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/createNotice", {
+        count: updateCount,
+        currentIndex: currentIdx,
+      });
+
+      if (res.status === 200) {
+        console.log("success post");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className='wrap'>
       <Navbar />
@@ -53,9 +74,11 @@ const page = () => {
             <h1>공지사항</h1>
           </div>
 
-          <div className='AddNotice-button'>
-            <a href='/addNotice'>공지사항 작성</a>
-          </div>
+          {status === "authenticated" && (
+            <div className='AddNotice-button'>
+              <a href='/addNotice'>공지사항 작성</a>
+            </div>
+          )}
         </div>
         <div className='Notice-table'>
           {loading ? (
@@ -101,12 +124,13 @@ const page = () => {
                             pathname: "/currentNotice",
                             query: { id: item.idx },
                           }}
+                          onClick={() => viewCount(item.view_cnt, item.idx)}
                         >
                           {item.title}
                         </Link>
                       </td>
                       <td>{item.writer}</td>
-                      <td>0</td>
+                      <td>{item.view_cnt}</td>
                       <td>{item.date.slice(0, 10)}</td>
                     </tr>
                   );
