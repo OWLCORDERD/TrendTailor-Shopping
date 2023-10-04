@@ -2,7 +2,7 @@ import mysql2 from "mysql2/promise";
 import { NextResponse } from "next/server";
 
 interface example {
-  username: string;
+  userEmail: string;
   password: string;
 }
 
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
   const body: example = await request.json();
 
-  const usernames = body.username;
+  const email = body.userEmail;
 
   if (connection === null) {
     connection = await mysql2.createConnection({
@@ -23,10 +23,9 @@ export async function POST(request: Request) {
   }
 
   try {
-    const query =
-      "select username, email, password from User where username = ?";
+    const query = "select username, password from User where email = ?";
 
-    const values = [usernames];
+    const values = [email];
 
     const [data] = await connection.execute(query, values);
 

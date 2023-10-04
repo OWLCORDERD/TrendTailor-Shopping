@@ -16,23 +16,105 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
-}
 
-body{
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
+    body{
+        max-width: 100vw;
+        overflow-x: hidden;
+        background-color: #fff;
 
-main{
-    position: relative;
-    top : 0;
-    left : 0;
-    width : 100%;
-    height : 100%;
-    display: block;
+        main{
+            position: relative;
+            top : 0;
+            left : 0;
+            width : 100%;
+            height : 100%;
+            display: block;
+        }
+
+        .theme{
+            transition : all 0.5s ease-out;
+        }
+
+        .dark{
+            background-color: #000;
+            
+            a, p, h1, h2, span, svg{
+                color: #fff;
+            }
+
+            input, textarea{
+                color: #fff;
+                border : 1px solid #fff;
+            }
+
+            .Preview-container{
+                background-color: #000;
+                color: #fff;
+
+                &::-webkit-scrollbar-thumb{
+                    background-color: #000;
+                }
+            
+                &::-webkit-scrollbar{
+                    background-color: #fff;
+                }
+            }
+
+            .AddNotice-button{
+                a{
+                    background-color: #fff;
+                    color : #000;
+                }
+            }
+
+            .NoticeList-button{
+                a{
+                    border : 2px solid #fff;
+                    color : #fff;
+                }
+            }
+        }
+
+        .light{
+            background-color: #fff;
+
+            a, p, h1, h2, span, svg, input{
+                color: #000;
+            }
+
+            input, textarea{
+                color: #000;
+                border : 1px solid #000;
+            }
+
+            .Preview-container{
+                background-color: #fff;
+                color: #000;
+
+                &::-webkit-scrollbar-thumb{
+                    background-color: #000;
+                }
+            
+                &::-webkit-scrollbar{
+                    background-color: #fff;
+                }
+            }
+
+            .AddNotice-button{
+                a{
+                    background-color: #000;
+                    color : #fff;
+                }
+            }
+
+            .NoticeList-button{
+                a{
+                    border : 2px solid rgb(96, 96, 96);
+                    color : #000;
+                }
+            }
+        }
+    }
 }
 
 nav{

@@ -7,7 +7,6 @@
     width: 100%;
     height: 10rem;
     z-index: 200;
-    background-color: #fff;
 
     .Main-nav{
         display: flex;
@@ -30,7 +29,6 @@
                 font-size: 1.8rem;
                 font-family: $Raleway-font;
                 text-transform: uppercase;
-                color: #000;
                 line-height: 5rem;
                 font-weight: 500;
             }
@@ -56,7 +54,6 @@
                 font-weight: bold;
                 font-size: 12px;
                 text-transform: uppercase;
-                color: rgb(70, 70, 70);
                 cursor: pointer;
                 text-align: center;
 
@@ -76,10 +73,8 @@
                 font-weight: bold;
                 font-size: 12px;
                 text-transform: uppercase;
-                color: #000;
                 cursor: pointer;
                 text-align: center;
-                color: rgb(70, 70, 70);
 
                 .icon{
                     font-size: 1.5rem;
@@ -106,15 +101,20 @@
                 position: relative;
                 width: 2.5rem;
                 height: 2.5rem;
-                background-color: #fff;
                 border-radius: 50%;
                 overflow: hidden;
+
+                img{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
             }
         }
     }
 
     .Sub-nav{
-        position: sticky;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -122,58 +122,74 @@
         height: 5rem;
         padding : 0 0 0 150px;
         border-bottom: 1px solid rgb(220, 220, 220);
-    }
 
-    .Navbar-menu{
-        position: relative;
-        width: 60rem;
-    
-        li{
-            display: inline-flex;
+        .mode-button{
+            position: relative;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            width: 20%;
-            height: 3rem;
-    
-            a{
-                width: max-content;
-                font-family: $Raleway-font;
-                color: rgb(135, 135, 135);
-                font-size: 15px;
-                font-weight: bold;
-                text-transform: uppercase;
-                transition : all 0.5s ease-out;
+            width: 8rem;
+            height: 2rem;
+            cursor: pointer;
+            margin-left : 6rem;
 
-                &:hover{
+            .light-mode{
+                width: 4rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 2rem;
+                background-color: #fff;
+                transition: all 0.5s ease-out;
+
+                svg{
                     color: #000;
+                }
+
+                &#active{
+                    background-color: #000;
+                    transition: all 0.5s ease-in;
+
+                    svg{
+                        color: #fff;
+                    }
+                }
+            }
+
+            .dark-mode{
+                width: 4rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 2rem;
+                transition: all 0.5s ease-out;
+
+                &#active{
+                    background-color: #000;
+                    color: #fff;
                     transition: all 0.5s ease-in;
                 }
             }
         }
-    }
 
-    .menu-button{
-        position: relative;
-        width: 20rem;
-        height: 100%;
-
-        .button-icon{
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            border : none;
-            background-color: transparent;
-            cursor: pointer;
-            color: rgb(189, 189, 189);
-            transition : all 0.5s ease-out;
-
-            &:hover{
-                color: #000;
-                transition: all 0.5s ease-in;
+        .Navbar-menu{
+            position: relative;
+            width: 60rem;
+        
+            li{
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 20%;
+                height: 3rem;
+        
+                a{
+                    width: max-content;
+                    font-family: $Raleway-font;
+                    font-size: 15px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
             }
         }
     }

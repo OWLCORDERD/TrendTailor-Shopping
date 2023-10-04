@@ -66,7 +66,6 @@
                             width: 100%;
                             height: max-content;
                             font-family: $Noto-Korean;
-                            color : #000;
 
                             &:hover h2{
                                 text-decoration: underline;
@@ -76,7 +75,6 @@
                                 display: inline-block;
                                 font-size: 14px;
                                 font-weight: bold;
-                                color: #000;
 
                                 &:hover{
                                     text-decoration: underline;
@@ -88,7 +86,6 @@
                                 display: inline-block;
                                 right: 0;
                                 font-weight: bold;
-                                color: #000;
                                 font-size: 13px;
                             }
                         }

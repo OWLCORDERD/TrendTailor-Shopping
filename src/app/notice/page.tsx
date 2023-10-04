@@ -5,10 +5,11 @@ import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
 import Pagenation from "component/Notice/Pagenation";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "styles/notice.scss";
 import { RotatingLines } from "react-loader-spinner";
 import { useSession } from "next-auth/react";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 export interface NoticeType {
   idx: number;
@@ -24,6 +25,8 @@ const page = () => {
   const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
 
   const [loading, setLoading] = useState(true);
+
+  const { mode } = useContext(ThemeContext);
 
   const fetchNotice = async () => {
     const res = await axios.get("http://localhost:3000/api/viewNotice", {
@@ -48,12 +51,14 @@ const page = () => {
   const { data: session, status } = useSession();
 
   const viewCount = async (currentCount: number, currentIdx: number) => {
-    const updateCount = currentCount + 1;
+    const count = currentCount + 1;
 
     try {
-      const res = await axios.post("http://localhost:3000/api/createNotice", {
-        count: updateCount,
-        currentIndex: currentIdx,
+      const res = await fetch(`http://localhost:3000/api/viewNotice/${count}`, {
+        method: "POST",
+        body: JSON.stringify({
+          currentIndex: currentIdx,
+        }),
       });
 
       if (res.status === 200) {
@@ -84,7 +89,7 @@ const page = () => {
           {loading ? (
             <div className='loader'>
               <RotatingLines
-                strokeColor='black'
+                strokeColor={mode === "dark" ? "white" : "black"}
                 strokeWidth='3'
                 animationDuration='0.75'
                 width='50'
@@ -117,7 +122,9 @@ const page = () => {
                 {noticeDB.map((item) => {
                   return (
                     <tr key={item.idx}>
-                      <td>{item.idx}</td>
+                      <td>
+                        <span>{item.idx}</span>
+                      </td>
                       <td>
                         <Link
                           href={{
@@ -129,9 +136,15 @@ const page = () => {
                           {item.title}
                         </Link>
                       </td>
-                      <td>{item.writer}</td>
-                      <td>{item.view_cnt}</td>
-                      <td>{item.date.slice(0, 10)}</td>
+                      <td>
+                        <span>{item.writer}</span>
+                      </td>
+                      <td>
+                        <span>{item.view_cnt}</span>
+                      </td>
+                      <td>
+                        <span>{item.date.slice(0, 10)}</span>
+                      </td>
                     </tr>
                   );
                 })}

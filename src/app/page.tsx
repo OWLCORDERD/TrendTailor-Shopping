@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className='main'>
+      <main className='container'>
         <Peed />
       </main>
       <Footer />

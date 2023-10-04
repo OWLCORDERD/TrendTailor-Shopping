@@ -1,15 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import "styles/navbar.scss";
 import { signOut, useSession } from "next-auth/react";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { BsFillSunFill } from "react-icons/bs";
+import { IoCloudyNightSharp } from "react-icons/io5";
 import Search from "component/Search/Search";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const Navbar = () => {
   const { data: session, status }: any = useSession();
+
+  const { mode, toggle } = useContext(ThemeContext);
 
   return (
     <header>
@@ -23,7 +27,9 @@ const Navbar = () => {
 
           <div className='login-menu'>
             {status === "authenticated" ? (
-              <div className='user-profile'></div>
+              <div className='user-profile'>
+                <img src={session.user.image} alt='profile-img' />
+              </div>
             ) : (
               <Link href='/signin' className='login-button'>
                 <AiOutlineLogin className='icon' />
@@ -47,10 +53,14 @@ const Navbar = () => {
         </div>
 
         <div className='Sub-nav'>
-          <div className='menu-button'>
-            <button className='button-icon'>
-              <HiOutlineMenuAlt2 />
-            </button>
+          <div className='mode-button' onClick={toggle}>
+            <div className='light-mode' id={mode === "light" ? "active" : ""}>
+              <BsFillSunFill />
+            </div>
+
+            <div className='dark-mode' id={mode === "dark" ? "active" : ""}>
+              <IoCloudyNightSharp />
+            </div>
           </div>
 
           <ul className='Navbar-menu'>

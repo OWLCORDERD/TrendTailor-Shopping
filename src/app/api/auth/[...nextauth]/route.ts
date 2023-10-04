@@ -1,7 +1,13 @@
 import axios from "axios";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import KakaoProvider from "next-auth/providers/kakao";
 import * as bcrypt from "bcrypt";
+
+interface example {
+  clientId: string;
+  clientSecret: string;
+}
 
 const handler = NextAuth({
   providers: [
@@ -9,9 +15,9 @@ const handler = NextAuth({
       name: "Crendentials",
 
       credentials: {
-        username: {
-          label: "아이디",
-          type: "text",
+        userEmail: {
+          label: "이메일",
+          type: "email",
           placeholder: "example@naver.com",
         },
         password: { label: "비밀번호", type: "password" },
@@ -19,11 +25,11 @@ const handler = NextAuth({
 
       authorize: async (credentials) => {
         try {
-          const CurrentUsername = String(credentials?.username);
+          const CurrentUserEmail = String(credentials?.userEmail);
           const CurrentPassword = String(credentials?.password);
 
           const res = await axios.post("http://localhost:3000/api/login", {
-            username: CurrentUsername,
+            userEmail: CurrentUserEmail,
           });
 
           const user = res.data;
@@ -34,19 +40,23 @@ const handler = NextAuth({
           );
 
           const username = user.data[0].username;
-          const email = user.data[0].email;
 
           if (user && isValid) {
             return {
-              email: email,
+              email: CurrentUserEmail,
               name: username,
             };
           }
         } catch (err) {
-          console.error(err);
+          console.log(err);
         }
         return null;
       },
+    }),
+
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET,
     }),
   ],
 
@@ -63,6 +73,7 @@ const handler = NextAuth({
 
   pages: {
     signIn: "/signin",
+    error: "/signin",
   },
 });
 

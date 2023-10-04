@@ -27,7 +27,7 @@ const Videoitem = ({ video, setOpen, setCurrentVideo }: videoProps) => {
             className='hover-playButton'
             onClick={(e) => viewVideo(e)}
           >
-            <AiFillPlayCircle className='play-button' />
+            <AiFillPlayCircle className='play-button' color={"#fff"} />
           </button>
         </div>
 

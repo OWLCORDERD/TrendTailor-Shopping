@@ -1,39 +1,51 @@
 import "styles/seasonPeed.scss";
-import { commonService } from "component/fetchDB";
 import { clothes } from "./Peed";
-import { use } from "react";
 
 interface seasonType {
   month: number;
   season: string;
 }
 
-export async function getClothesDB() {
-  const { data } = await commonService.getClothes();
+async function getClothesDB() {
+  const res = await fetch("http://localhost:3000/api/clothes", {
+    cache: "no-store",
+  });
 
-  return data;
+  if (!res.ok) {
+    throw new Error("not connect clothes db");
+  }
+
+  return res.json();
 }
 
-export async function getSeasonDB() {
-  const { data } = await commonService.getSeason();
+async function getSeasonDB() {
+  const res = await fetch("http://localhost:3000/api/season", {
+    cache: "no-store",
+  });
 
-  return data;
+  if (!res.ok) {
+    throw new Error("not connect season db");
+  }
+
+  return res.json();
 }
 
-const SeasonPeed = () => {
-  const clothesDB: clothes[] = use(getClothesDB());
+const SeasonPeed = async () => {
+  const clothesDB: clothes[] = await getClothesDB().then((res) => res.data);
 
-  const seasonDB: seasonType[] = use(getSeasonDB());
+  const seasonDB: seasonType[] = await getSeasonDB().then((res) => res.data);
 
   const date = new Date();
 
-  const nowMonth = date.getMonth();
+  const nowMonth = date.getMonth() + 1;
 
   const monthState = seasonDB.filter((item) => item.month === nowMonth);
 
   const seasonClothes = clothesDB.filter(
     (item) => item.category4 === monthState[0]?.season
   );
+
+  console.log(nowMonth);
 
   return (
     <div className='SeasonPeed-container'>

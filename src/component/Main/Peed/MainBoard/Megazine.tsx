@@ -59,7 +59,7 @@ const Megazine = () => {
   return (
     <div className='Megazine-container'>
       <div className='Megazine-titleBox'>
-        <h2 className='Megazine-title'>Style Megazine</h2>
+        <h1 className='Megazine-title'>Style Megazine</h1>
         <div className='view-more'>
           <AiOutlinePlus />
         </div>
@@ -85,7 +85,7 @@ const Megazine = () => {
                 </div>
 
                 <div className='item-infoBox'>
-                  <h3 className='item-title'>{item.title}</h3>
+                  <h2 className='item-title'>{item.title}</h2>
 
                   <div className='item-info'>
                     <p>{item.info}</p>

@@ -28,7 +28,6 @@
                     font-size: 2rem;
                     font-family: $Noto-Korean;
                     text-align: center;
-                    color: #4b4b4b;
                 }
             }
 
@@ -46,8 +45,6 @@
                     width: 10rem;
                     font-size: 1rem;
                     font-family: $Noto-Korean;
-                    color: #fff;
-                    background-color: #000;
                     text-align: center;
                     font-weight: bold;
                 }
@@ -65,7 +62,7 @@
                 height: 100%;
                 top: 0;
                 left: 0;
-                background-color: #fff;
+                background-color: transparent;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -76,7 +73,7 @@
                 width: 100%;
                 border-collapse: collapse;
                 border-bottom: 2px solid rgb(203, 203, 203);
-                border-top: 2px solid #000;
+                border-top: 2px solid rgb(203, 203, 203);
         
                 thead{
                     tr{
@@ -85,7 +82,7 @@
                 }
                 
                 th{
-                    padding: 0.5rem 0;
+                    padding: 1.5rem 0;
 
                     &:nth-child(2){
                         width: 50%;
@@ -106,7 +103,6 @@
                     text-align: center;
                     font-family: $Noto-Korean;
                     font-size: 15px;
-                    color: #4b4b4b;
                     border-bottom: 1px solid rgb(222, 222, 222);
 
                     &:nth-child(2){
@@ -116,12 +112,10 @@
                             font-weight: bold;
                             font-family: $Noto-Korean;
                             font-size: 15px;
-                            color: #4b4b4b;
                             cursor: pointer;
     
                             &:hover{
                                 text-decoration: underline;
-                                color: #000;
                                 cursor: pointer;
                             }
                         }
@@ -156,12 +150,11 @@
                 line-height: 2rem;
 
                 a{
-                    color: rgb(105, 105, 105);
                     font-family: $Noto-Korean;
                     font-weight: 400;
+                    font-size: 1rem;
 
                     &.active{
-                        color: #000;
                         font-weight: bold;
                     }
                 }
@@ -182,7 +175,7 @@
             align-items: center;
             width: 100%;
             height: 5rem;
-            border-bottom: 2px solid #4D4D4D;
+            border-bottom: 2px solid #8e8e8e;
 
             .addNotice-title{
                 width: 10rem;
@@ -190,7 +183,6 @@
                 line-height: 5rem;
                 font-size: 1.5rem;
                 font-family: $Noto-Korean;
-                color: #4b4b4b;
             }
 
             .NoticeList-button{
@@ -204,18 +196,9 @@
                         width: 8rem;
                         font-size: 15px;
                         font-family: $Noto-Korean;
-                        color: #4b4b4b;
-                        border: 1px solid #CDCDCD;
-                        background-color: transparent;
                         text-align: center;
                         font-weight: bold;
                         transition: all 0.5s ease-out;
-
-                        &:hover{
-                            background-color: #959595;
-                            color: #fff;
-                            transition: all 0.5s ease-in;
-                        }
                 }
             }
         }
@@ -237,7 +220,6 @@
                     height: 5rem;
                     line-height: 5rem;
                     font-family: $Noto-Korean;
-                    color: #4b4b4b;
                     font-size: 1.5rem;
                 }
 
@@ -247,14 +229,14 @@
 
                     button{
                         border: none;
-                        color: #fff;
-                        background-color: #525252;
                         width: 8rem;
                         line-height: 3rem;
                         font-family: $Noto-Korean;
                         font-weight: bold;
                         font-size: 1rem;
                         cursor: pointer;
+                        background-color: #6b6b6b;
+                        color: #fff;
                     }
                 }
             }
@@ -276,6 +258,7 @@
                         font-size: 1rem;
                         font-family: $Noto-Korean;
                         padding: 0 1rem;
+                        background-color: transparent;
                     }
 
                     .writer-input{
@@ -284,6 +267,7 @@
                         font-size: 1rem;
                         font-family: $Noto-Korean;
                         padding: 0 1rem;
+                        background-color: transparent;
                     }
                 }
 
@@ -301,6 +285,7 @@
                         padding : 1rem;
                         font-family: $Noto-Korean;
                         resize: none;
+                        background-color: transparent;
                     }
 
                     .image-wrapper{
@@ -348,7 +333,7 @@
                                 font-family: $Noto-Korean;
                                 font-size: 1rem;
                                 cursor: pointer;
-                                background-color: #525252;
+                                background-color: #6b6b6b;
                                 color: #fff;
                             }
                         }
@@ -412,7 +397,6 @@
                     margin-right: 2rem;
                     font-size: 1rem;
                     font-family: $Noto-Korean;
-                    color: #4b4b4b;
                     line-height: 5rem;
                     height: 5rem;
                 }
@@ -422,7 +406,6 @@
                     width: 10rem;
                     font-size: 1rem;
                     font-family: $Noto-Korean;
-                    color: #4b4b4b;
                     line-height: 5rem;
                     height: 5rem;
                 }
@@ -476,7 +459,6 @@
                         width: 8rem;
                         font-size: 15px;
                         font-family: $Noto-Korean;
-                        color: #4b4b4b;
                         border: 1px solid #CDCDCD;
                         background-color: transparent;
                         text-align: center;
@@ -504,7 +486,6 @@
                         line-height: 3rem;
                         font-size: 14px;
                         font-family: $Noto-Korean;
-                        color: rgb(63, 63, 63);
                     }
 
                     .nextNotice-title{
@@ -513,7 +494,6 @@
                         line-height: 3rem;
                         font-size: 14px;
                         font-family: $Noto-Korean;
-                        color: rgb(63, 63, 63);
                         font-weight: bold;
 
                         &:hover{
@@ -532,7 +512,6 @@
                         line-height: 3rem;
                         font-size: 14px;
                         font-family: $Noto-Korean;
-                        color: rgb(63, 63, 63);
                     }
 
                     .beforeNotice-title{
@@ -541,7 +520,6 @@
                         line-height: 3rem;
                         font-size: 14px;
                         font-family: $Noto-Korean;
-                        color: rgb(63, 63, 63);
                         font-weight: bold;
 
                         &:hover{

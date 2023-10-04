@@ -4,7 +4,6 @@
     position: relative;
     width: 100%;
     height: max-content;
-    background-color: #fff;
     padding : 0 6.25rem;
 
     .Season-titleBox{
@@ -17,7 +16,6 @@
             font-size: 2.5rem;
             text-transform: uppercase;
             font-family: $Raleway-font;
-            color : rgb(72, 72, 72);
             line-height: 5rem;
             text-align: center;
         }
@@ -25,7 +23,6 @@
         .season-info{
             width: 100%;
             font-size: 15px;
-            color: rgb(72, 72, 72);
             font-family: $Noto-Korean;
             text-align: center;
             line-height: 3rem;

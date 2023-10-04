@@ -52,7 +52,7 @@ const page = () => {
 
   const beforeDB = noticeDB.filter((item) => item.idx === Number(query) - 1);
 
-  const beforeNotice = (e: React.MouseEvent<HTMLDivElement>) => {
+  const beforeNotice = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (beforeDB) {
       setCurrentDB(beforeDB);
 
@@ -62,7 +62,7 @@ const page = () => {
     }
   };
 
-  const nextNotice = (e: React.MouseEvent<HTMLDivElement>) => {
+  const nextNotice = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (nextDB) {
       setCurrentDB(nextDB);
 
@@ -115,12 +115,12 @@ const page = () => {
                   <>
                     <span>다음 글</span>
 
-                    <div
+                    <a
                       className='nextNotice-title'
                       onClick={(e) => nextNotice(e)}
                     >
                       {nextDB[0]?.title}
-                    </div>
+                    </a>
                   </>
                 ) : null}
               </div>
@@ -130,12 +130,12 @@ const page = () => {
                   <>
                     <span>이전 글</span>
 
-                    <div
+                    <a
                       className='beforeNotice-title'
                       onClick={(e) => beforeNotice(e)}
                     >
                       {beforeDB[0]?.title}
-                    </div>
+                    </a>
                   </>
                 ) : null}
               </div>

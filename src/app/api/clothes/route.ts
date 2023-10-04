@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import mysql2 from "mysql2/promise";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: Request) {
   let connection = null;
 
   if (req.method === "GET") {

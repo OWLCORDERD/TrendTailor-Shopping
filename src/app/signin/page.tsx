@@ -10,13 +10,13 @@ import Link from "next/link";
 import Navbar from "component/Main/Navbar";
 
 interface queryType {
-  username: string;
+  userEmail: string;
   password: string;
 }
 
 const Login = () => {
   const [loginQuery, setLoginQuery] = useState<queryType>({
-    username: "",
+    userEmail: "",
     password: "",
   });
 
@@ -24,7 +24,7 @@ const Login = () => {
     e.preventDefault();
 
     setLoginQuery({
-      username: e.target.value,
+      userEmail: e.target.value,
       password: loginQuery.password,
     });
   };
@@ -33,7 +33,7 @@ const Login = () => {
     e.preventDefault();
 
     setLoginQuery({
-      username: loginQuery.username,
+      userEmail: loginQuery.userEmail,
       password: e.target.value,
     });
   };
@@ -41,10 +41,14 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const email = loginQuery.userEmail;
+
+    const password = loginQuery.password;
+
     const result = await signIn("credentials", {
       redirect: false,
-      username: loginQuery.username,
-      password: loginQuery.password,
+      userEmail: email,
+      password: password,
     });
 
     if (!result?.error) {
@@ -57,6 +61,8 @@ const Login = () => {
 
   const { status } = useSession();
   const router = useRouter();
+
+  console.log(status);
 
   if (status === "authenticated") {
     router.replace("/");
@@ -103,7 +109,11 @@ const Login = () => {
             <span className='line-text'>또는</span>
           </div>
 
-          <button type='button' className='kakaoLogin-button'>
+          <button
+            type='button'
+            className='kakaoLogin-button'
+            onClick={() => signIn("kakao")}
+          >
             <RiKakaoTalkFill className='kakao' />
             <span>카카오 로그인</span>
           </button>

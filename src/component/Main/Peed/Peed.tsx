@@ -31,6 +31,7 @@ const Peed = () => {
           <MainBoard />
         </div>
         <div className='Peed-wrapper'>
+          {/* @ts-expect-error Async Server Component */}
           <SeasonPeed />
           <YoutubePeed />
         </div>
