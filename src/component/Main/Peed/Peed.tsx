@@ -26,10 +26,7 @@ const Peed = () => {
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <div className='Notice-wrapper'>
-          <NewsSlider />
-          <MainBoard />
-        </div>
+        <MainBoard />
         <div className='Peed-wrapper'>
           {/* @ts-expect-error Async Server Component */}
           <SeasonPeed />

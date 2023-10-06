@@ -2,25 +2,27 @@
 
 .MainPage-Board{
     position: relative;
-    width: 70%;
-    height: 45rem;
-    padding : 2rem 0 0 0;
+    width: 100%;
+    height: max-content;
+    padding : 2rem 6.25rem 6.25rem 6.25rem;
 
     .Notice-container{
         position: relative;
         width: 100%;
         height: 5rem;
-
-        .Notice-board{
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgb(220, 220, 220);
 
             .Notice-titleBox{
-                width: 20%;
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 30%;
+                height: 5rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
 
                 .Notice-title{
                     line-height: 5rem;
@@ -32,10 +34,11 @@
 
             .Notice-slider{
                 position: relative;
-                width: 80%;
+                width: 50%;
                 height: 5rem;
                 z-index: 100;
                 overflow: hidden;
+                margin-left : 5rem;
 
                 .loader{
                     position: absolute;
@@ -45,7 +48,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background-color: #fff;
+                    background-color: transparent;
                 }
 
                 .list-slider{
@@ -93,77 +96,100 @@
                 }
             }
         }
-    }
 
     .Megazine-container{
         position: relative;
         width: 100%;
-        height: 33rem;
+        height: 30rem;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        align-items: center;
         margin-top: 2rem;
 
-        .slide-control{
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: max-content;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            .slide-before{
-                display: block;
-                border: none;
-                background-color: transparent;
-                width: max-content;
-                font-size: 3rem;
-                text-align: center;
-                line-height: 5rem;
-                cursor: pointer;
-                color: rgb(165, 165, 165);
-            }
-
-            .slide-next{
-                display: block;
-                border: none;
-                background-color: transparent;
-                width: max-content;
-                font-size: 3rem;
-                text-align: center;
-                line-height: 5rem;
-                cursor: pointer;
-                color: rgb(165, 165, 165);
-            }
-        }
-
         .Megazine-titleBox{
-            width: 100%;
-            height: 5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            width: 30%;
+            height: 100%;
 
             .Megazine-title{
-                font-family: $Raleway-font;
-                font-size: 1.5rem;
-                text-transform: uppercase;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                h1{
+                    font-family: $Raleway-font;
+                    font-size: 1.5rem;
+                    text-transform: uppercase;
+                }
+
+                .view-more{
+                    font-size: 1.2rem;
+                }
             }
 
-            .view-more{
-                font-size: 1.2rem;
+            .Megazine-list{
+                position: relative;
+                width: 100%;
+                margin-top: 3rem;
+                
+                li{
+                    width: max-content;
+                    line-height: 5rem;
+
+                    a{
+                        font-size: 1.2rem;
+                        font-family: $Raleway-font;
+                        text-transform: uppercase;
+                        font-weight: 500;
+
+                        &.active{
+                            font-weight: bold;
+                        }
+                    }
+                }
             }
         }
 
         .Megazine-slideBox{
             position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(300px * 3 + 80px);
-            height: 26rem;
+            width: 65%;
+            height: 100%;
             overflow: hidden;
+            margin-left : 5rem;
+
+            .slide-control{
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 0;
+                width: 100%;
+                height: max-content;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                z-index: 10;
+    
+                .slide-before{
+                    display: block;
+                    border: none;
+                    background-color: rgba($color: #fff, $alpha: 0.8);
+                    width: 3rem;
+                    font-size: 2rem;
+                    text-align: center;
+                    line-height: 5rem;
+                    cursor: pointer;
+                }
+    
+                .slide-next{
+                    display: block;
+                    border: none;
+                    background-color: rgba($color: #fff, $alpha: 0.8);
+                    width: 3rem;
+                    font-size: 2rem;
+                    text-align: center;
+                    line-height: 5rem;
+                    cursor: pointer;
+                }
+            }
 
             .Megazine-slider{
                 position: absolute;
@@ -182,8 +208,7 @@
                     .item-imgBox{
                         position: relative;
                         width: 100%;
-                        height: 15rem;
-                        border-radius: 10px;
+                        height: 19rem;
                         overflow: hidden;
 
                         img{

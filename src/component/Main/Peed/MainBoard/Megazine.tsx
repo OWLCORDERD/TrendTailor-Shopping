@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
@@ -59,23 +60,37 @@ const Megazine = () => {
   return (
     <div className='Megazine-container'>
       <div className='Megazine-titleBox'>
-        <h1 className='Megazine-title'>Style Megazine</h1>
-        <div className='view-more'>
-          <AiOutlinePlus />
+        <div className='Megazine-title'>
+          <h1>Style Megazine</h1>
+          <Link href='/' className='view-more'>
+            <AiOutlinePlus />
+          </Link>
         </div>
-      </div>
 
-      <div className='slide-control'>
-        <button className='slide-before' type='button'>
-          <IoIosArrowBack />
-        </button>
+        <ul className='Megazine-list'>
+          <li>
+            <a href='#' className='active'>
+              musinsa
+            </a>
+          </li>
 
-        <button className='slide-next' type='button'>
-          <IoIosArrowForward />
-        </button>
+          <li>
+            <a href='#'>sona</a>
+          </li>
+        </ul>
       </div>
 
       <div className='Megazine-slideBox'>
+        <div className='slide-control'>
+          <button className='slide-before' type='button'>
+            <IoIosArrowBack color={"#000"} />
+          </button>
+
+          <button className='slide-next' type='button'>
+            <IoIosArrowForward color={"#000"} />
+          </button>
+        </div>
+
         <div className='Megazine-slider'>
           {items.map((item) => {
             return (

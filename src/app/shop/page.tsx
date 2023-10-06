@@ -1,6 +1,7 @@
 "use client";
 
-import NewsSlider from "component/Main/Peed/NewsSlider";
+import Footer from "component/Main/Footer";
+import Navbar from "component/Main/Navbar";
 import ProductList from "component/Product/ProductList";
 import { useSearchParams } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
@@ -49,12 +50,12 @@ export default function page() {
   }, [searchQuery]);
 
   return (
-    <div className='shop-container'>
+    <main className='shop-container'>
+      <Navbar />
       <div className='wrap'>
-        <NewsSlider />
-
         <ProductList searchData={searchData} />
       </div>
-    </div>
+      <Footer />
+    </main>
   );
 }

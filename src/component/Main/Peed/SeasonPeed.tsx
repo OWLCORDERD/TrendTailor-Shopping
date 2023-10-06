@@ -45,8 +45,6 @@ const SeasonPeed = async () => {
     (item) => item.category4 === monthState[0]?.season
   );
 
-  console.log(nowMonth);
-
   return (
     <div className='SeasonPeed-container'>
       <div className='Season-titleBox'>
@@ -67,7 +65,7 @@ const SeasonPeed = async () => {
               <div className='product-content'>
                 <h2 className='product-title'>{item.title}</h2>
                 <p className='product-mall'>{item.mallName}</p>
-                <span className='product-price'>{item.price}원</span>
+                <span className='product-price'>{item.price}</span>
               </div>
             </div>
           );

@@ -73,6 +73,13 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
                     color : #fff;
                 }
             }
+
+            .login-Boxline{
+
+                .line-text{
+                    background-color: #000;
+                }
+            }
         }
 
         .light{
@@ -111,6 +118,13 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
                 a{
                     border : 2px solid rgb(96, 96, 96);
                     color : #000;
+                }
+            }
+
+            .login-Boxline{
+
+                .line-text{
+                    background-color: #fff;
                 }
             }
         }

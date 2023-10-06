@@ -32,7 +32,6 @@
                 text-align: center;
                 font-weight: bold;
                 font-family: $Noto-Korean;
-                color: rgb(106, 106, 106);
             }
         }
 
@@ -61,6 +60,7 @@
                     padding: 0 1rem;
                     margin-top: 2rem;
                     font-weight: bold;
+                    background-color: transparent;
 
                     &:nth-child(1){
                         margin-top: 0;
@@ -68,7 +68,6 @@
 
                     &:focus{
                         outline: none;
-                        border-bottom: 2px solid #000;
                     }
                 }
 
@@ -138,8 +137,6 @@
                     transform: translateX(-50%);
                     width: 5rem;
                     text-align: center;
-                    background-color: #fff;
-                    color: rgb(182, 182, 182);
                     line-height: 2rem;
                     z-index: 10;
                     font-weight: bold;

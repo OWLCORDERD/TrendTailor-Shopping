@@ -64,7 +64,7 @@ const CurrentVideo = ({
             className='close-button'
             onClick={(e) => closeBtn(e)}
           >
-            <AiOutlineClose />
+            <AiOutlineClose color={"#fff"} />
           </button>
 
           <div className='Video-ListBox'>

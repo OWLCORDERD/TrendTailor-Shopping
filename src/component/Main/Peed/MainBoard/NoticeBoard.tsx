@@ -1,7 +1,9 @@
 import { NoticeType } from "app/notice/page";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Oval } from "react-loader-spinner";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ThemeContext } from "../../../../../context/ThemeContext";
 
 interface propsNotice {
   noticeDB: NoticeType[];
@@ -11,6 +13,8 @@ interface propsNotice {
 const NoticeBoard = ({ noticeDB, loader }: propsNotice) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loop, setLoop] = useState<any>();
+
+  const { mode } = useContext(ThemeContext);
 
   useEffect(() => {
     const swiperLoop = setTimeout(() => {
@@ -31,57 +35,62 @@ const NoticeBoard = ({ noticeDB, loader }: propsNotice) => {
 
   return (
     <div className='Notice-container'>
-      <div className='Notice-board'>
-        <div className='Notice-titleBox'>
-          <h1 className='Notice-title'>Notice</h1>
-        </div>
+      <div className='Notice-titleBox'>
+        <h1 className='Notice-title'>Notice</h1>
 
-        <div className='Notice-slider'>
-          {loader ? (
-            <div className='loader'>
-              <Oval
-                height={40}
-                width={40}
-                color='#333333'
-                wrapperStyle={{}}
-                wrapperClass=''
-                visible={true}
-                ariaLabel='oval-loading'
-                secondaryColor='#999999'
-                strokeWidth={2}
-                strokeWidthSecondary={2}
-              />
-            </div>
-          ) : (
-            <ul
-              className='list-slider'
-              style={{
-                top: `-${currentSlide}00%`,
-                transitionDuration: "1s",
-              }}
-            >
-              {noticeDB.map((item) => {
-                return (
-                  <li key={item.idx}>
-                    <a href='#'>
-                      <Link
-                        href={{
-                          pathname: "/currentNotice",
-                          query: {
-                            id: item.idx,
-                          },
-                        }}
-                      >
-                        <h2>{item.title}</h2>
-                      </Link>
-                      <span>{item.date.slice(0, 10)}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
+        <Link href='/notice'>
+          <AiOutlinePlus
+            color={mode === "dark" ? "#fff" : "#000"}
+            fontSize={20}
+          />
+        </Link>
+      </div>
+
+      <div className='Notice-slider'>
+        {loader ? (
+          <div className='loader'>
+            <Oval
+              height={40}
+              width={40}
+              color='#333333'
+              wrapperStyle={{}}
+              wrapperClass=''
+              visible={true}
+              ariaLabel='oval-loading'
+              secondaryColor='#999999'
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          </div>
+        ) : (
+          <ul
+            className='list-slider'
+            style={{
+              top: `-${currentSlide}00%`,
+              transitionDuration: "1s",
+            }}
+          >
+            {noticeDB.map((item) => {
+              return (
+                <li key={item.idx}>
+                  <a href='#'>
+                    <Link
+                      href={{
+                        pathname: "/currentNotice",
+                        query: {
+                          id: item.idx,
+                        },
+                      }}
+                    >
+                      <h2>{item.title}</h2>
+                    </Link>
+                    <span>{item.date.slice(0, 10)}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );
