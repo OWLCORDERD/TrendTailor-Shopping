@@ -2,12 +2,6 @@ import { writeFile } from "fs/promises";
 import mysql from "mysql2/promise";
 import { NextRequest, NextResponse } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 interface example {
   title: string;
   text: string;

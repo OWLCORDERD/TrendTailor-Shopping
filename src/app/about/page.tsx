@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import "styles/about.scss";
-import gsap from "gsap";
 import AboutSection from "component/About/AboutSection";
-import Banner from "component/Main/Banner";
+import Navbar from "component/Main/Navbar";
+import Footer from "component/Main/Footer";
 
 export default function page() {
   return (
     <main className='main'>
+      <Navbar />
       <AboutSection />
+      <Footer />
     </main>
   );
 }

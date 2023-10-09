@@ -41,9 +41,9 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const email = loginQuery.userEmail;
+    const email: string = loginQuery.userEmail;
 
-    const password = loginQuery.password;
+    const password: string = loginQuery.password;
 
     const result = await signIn("credentials", {
       redirect: false,

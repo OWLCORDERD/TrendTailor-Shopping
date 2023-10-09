@@ -38,19 +38,6 @@ const Banner = () => {
             </div>
           </div>
         </div>
-
-        <div className='rotate-scroll'>
-          <Image
-            src='/images/scroll.png'
-            alt='scrollImg'
-            width={200}
-            height={200}
-          />
-
-          <div className='scroll-text'>
-            <span>Scroll</span>
-          </div>
-        </div>
       </div>
 
       <div className='Banner-ImgBox'>
