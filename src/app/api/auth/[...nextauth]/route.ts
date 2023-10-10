@@ -14,7 +14,7 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Crendentials",
 
-      authorize: async (credentials: currentType) => {
+      authorize: async (credentials: currentType | undefined) => {
         try {
           const currentUserEmail = String(credentials?.userEmail);
           const currentPassword = String(credentials?.password);

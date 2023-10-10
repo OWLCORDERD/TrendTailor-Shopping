@@ -14,7 +14,7 @@ interface infoType {
   checkPassword: string;
 }
 
-const page = () => {
+const Register = () => {
   /* 가입정보의 모든 value 값 저장 & 관리 하는 프로퍼티 객체 값 */
   const [registerInfo, setRegisterInfo] = useState<infoType>({
     email: "",
@@ -285,4 +285,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Register;

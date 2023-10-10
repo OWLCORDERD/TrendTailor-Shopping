@@ -21,7 +21,7 @@ export interface NoticeType {
   view_cnt: number;
 }
 
-const page = () => {
+export default function Notice() {
   const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ const page = () => {
       const res = await fetch(`http://localhost:3000/api/viewNotice/${count}`, {
         method: "POST",
         body: JSON.stringify({
-          currentIndex: currentIdx,
+          currentIdx: currentIdx,
         }),
       });
 
@@ -127,10 +127,7 @@ const page = () => {
                       </td>
                       <td>
                         <Link
-                          href={{
-                            pathname: "/currentNotice",
-                            query: { id: item.idx },
-                          }}
+                          href={`/notice/${item.idx}`}
                           onClick={() => viewCount(item.view_cnt, item.idx)}
                         >
                           {item.title}
@@ -159,6 +156,4 @@ const page = () => {
       <Footer />
     </div>
   );
-};
-
-export default page;
+}

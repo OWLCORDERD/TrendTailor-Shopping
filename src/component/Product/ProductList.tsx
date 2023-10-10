@@ -29,14 +29,6 @@ interface propsType {
 }
 
 const ProductList = ({ searchData }: propsType) => {
-  const getClothesDB = async () => {
-    const res = await axios.get("http://localhost:3000/api/clothes");
-
-    const { data } = res.data;
-
-    setClothDB(data);
-  };
-
   const { mode } = useContext(ThemeContext);
 
   const [clothDB, setClothDB] = useState<clothes[]>([]);
@@ -48,7 +40,15 @@ const ProductList = ({ searchData }: propsType) => {
 
   const [currentPost, setCurrentPost] = useState<clothes[]>([]);
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const getClothesDB = async () => {
+    const res = await axios.get("http://localhost:3000/api/clothes");
+
+    const { data } = res.data;
+
+    setClothDB(data);
+  };
 
   useEffect(() => {
     const currentPosts = (clothDB: clothes[]) => {
@@ -68,8 +68,6 @@ const ProductList = ({ searchData }: propsType) => {
 
   useEffect(() => {
     getClothesDB();
-
-    setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
@@ -95,7 +93,7 @@ const ProductList = ({ searchData }: propsType) => {
         {loading === false ? (
           currentPost.map((item) => {
             return (
-              <div className='product-item'>
+              <div className='product-item' key={item.productId}>
                 <div className='product-image'>
                   <img src={item.image} alt='product-image' />
                 </div>

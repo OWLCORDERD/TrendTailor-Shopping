@@ -1,16 +1,12 @@
-import { useEffect, useRef } from "react";
 import "styles/about.scss";
 import { BsSearch, BsYoutube } from "react-icons/bs";
 import { IoShirtSharp } from "react-icons/io5";
 import { RiContactsFill } from "react-icons/ri";
 import { svgDataList } from "../../component/svgData";
-import gsap from "gsap/all";
-import Banner from "component/Main/Banner";
 
 const AboutSection = () => {
   return (
     <section className='MainBanner-container'>
-      <Banner />
       <article className='AboutWISH-container'>
         <div className='AboutWISH-section'>
           <div className='AboutWISH-titleBox'>
@@ -131,7 +127,7 @@ const AboutSection = () => {
 
                 <div className='Season-state'>
                   <div className='Season-name'>
-                    <h1>{name}</h1>
+                    <h2>{name}</h2>
                   </div>
 
                   <div className='Season-date'>

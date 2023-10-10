@@ -24,7 +24,7 @@ interface searchDataType {
   category4: string;
 }
 
-export default function page() {
+export default function Shop() {
   const search = useSearchParams();
   const searchQuery = search ? search?.get("q") : null;
 

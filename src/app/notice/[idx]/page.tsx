@@ -6,15 +6,11 @@ import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
 import "styles/notice.scss";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { commonService } from "component/fetchDB";
 import { NoticeType } from "app/notice/page";
 import axios from "axios";
 
-const page = () => {
-  const params = useSearchParams();
-
-  const query: string | null = params ? params.get("id") : null;
-
+const CurrentNotice = ({ params }: any) => {
+  const id = params.idx;
   const router = useRouter();
 
   const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
@@ -36,7 +32,7 @@ const page = () => {
 
   const currentNotice = useCallback(() => {
     const result: NoticeType[] = noticeDB.filter(
-      (item) => item.idx === Number(query)
+      (item) => item.idx === Number(id)
     );
 
     setCurrentDB(result);
@@ -50,13 +46,13 @@ const page = () => {
     currentNotice();
   }, [noticeDB]);
 
-  const beforeDB = noticeDB.filter((item) => item.idx === Number(query) - 1);
+  const beforeDB = noticeDB.filter((item) => item.idx === Number(id) - 1);
 
   const beforeNotice = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (beforeDB) {
       setCurrentDB(beforeDB);
 
-      const beforeIndex: number = Number(query) - 1;
+      const beforeIndex: number = Number(id) - 1;
 
       router.push(`http://localhost:3000/currentNotice?id=${beforeIndex}`);
     }
@@ -66,13 +62,13 @@ const page = () => {
     if (nextDB) {
       setCurrentDB(nextDB);
 
-      const nextIndex: number = Number(query) + 1;
+      const nextIndex: number = Number(id) + 1;
 
       router.push(`http://localhost:3000/currentNotice?id=${nextIndex}`);
     }
   };
 
-  const nextDB = noticeDB.filter((item) => item.idx === Number(query) + 1);
+  const nextDB = noticeDB.filter((item) => item.idx === Number(id) + 1);
 
   return (
     <div className='wrap'>
@@ -94,7 +90,7 @@ const page = () => {
           <div className='currentBoard-text'>
             {currentDB[0]?.text.split("\n").map((keyword) => {
               return (
-                <p>
+                <p key={currentDB[0].idx}>
                   {keyword}
                   <br />
                 </p>
@@ -153,4 +149,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CurrentNotice;

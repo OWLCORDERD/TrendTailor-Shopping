@@ -8,7 +8,7 @@ import React, { useRef, useState } from "react";
 import "styles/notice.scss";
 import { useSession } from "next-auth/react";
 
-const page = () => {
+const AddNotice = () => {
   const [noticeInfo, setNoticeInfo] = useState({
     title: "",
     writer: "",
@@ -208,4 +208,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AddNotice;
