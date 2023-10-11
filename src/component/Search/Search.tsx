@@ -23,9 +23,7 @@ const Search = () => {
   };
 
   const PreviewData = async () => {
-    const url = "http://localhost:3000/api/search";
-
-    const res = await fetch(url, {
+    const res = await fetch("/api/search", {
       method: "POST",
       body: JSON.stringify({
         query: searchKeyword,

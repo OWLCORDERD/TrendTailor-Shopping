@@ -30,10 +30,8 @@ export default function Shop() {
 
   const [searchData, setSearchData] = useState<searchDataType[] | undefined>();
 
-  const url = `${process.env.NEXT_PUBLIC_CLIENT_API}/api/search`;
-
-  const fetchKeyword = async (url: string) => {
-    const res = await fetch(url, {
+  const fetchKeyword = async () => {
+    const res = await fetch("api/search", {
       method: "POST",
       body: JSON.stringify({
         keyword: searchQuery,
@@ -46,7 +44,7 @@ export default function Shop() {
   };
 
   useEffect(() => {
-    fetchKeyword(url);
+    fetchKeyword();
   }, [searchQuery]);
 
   return (

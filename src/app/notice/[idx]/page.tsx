@@ -57,9 +57,7 @@ const CurrentNotice = ({ params }: any) => {
 
       const beforeIndex: number = Number(id) - 1;
 
-      router.push(
-        `${process.env.NEXT_PUBLIC_CLIENT_API}/currentNotice?id=${beforeIndex}`
-      );
+      router.push(`/currentNotice?id=${beforeIndex}`);
     }
   };
 
@@ -69,9 +67,7 @@ const CurrentNotice = ({ params }: any) => {
 
       const nextIndex: number = Number(id) + 1;
 
-      router.push(
-        `${process.env.NEXT_PUBLIC_CLIENT_API}/currentNotice?id=${nextIndex}`
-      );
+      router.push(`/currentNotice?id=${nextIndex}`);
     }
   };
 

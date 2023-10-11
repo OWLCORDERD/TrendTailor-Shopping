@@ -29,12 +29,9 @@ export default function Notice() {
   const { mode } = useContext(ThemeContext);
 
   const fetchNotice = async () => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_CLIENT_API}/api/viewNotice`,
-      {
-        params: { selectAll: "all" },
-      }
-    );
+    const res = await axios.get("/api/viewNotice", {
+      params: { selectAll: "all" },
+    });
 
     if (res.status === 200) {
       const { data } = res.data;
@@ -57,15 +54,12 @@ export default function Notice() {
     const count = currentCount + 1;
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_CLIENT_API}/api/viewNotice/${count}`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            currentIdx: currentIdx,
-          }),
-        }
-      );
+      const res = await fetch(`/api/viewNotice/${count}`, {
+        method: "POST",
+        body: JSON.stringify({
+          currentIdx: currentIdx,
+        }),
+      });
 
       if (res.status === 200) {
         console.log("success post");

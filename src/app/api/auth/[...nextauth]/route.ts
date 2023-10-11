@@ -30,12 +30,9 @@ const handler = NextAuth({
           const currentUserEmail = String(credentials?.userEmail);
           const currentPassword = String(credentials?.password);
 
-          const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_CLIENT_API}/api/login`,
-            {
-              userEmail: currentUserEmail,
-            }
-          );
+          const res = await axios.post("/api/login", {
+            userEmail: currentUserEmail,
+          });
 
           const user = res.data;
 

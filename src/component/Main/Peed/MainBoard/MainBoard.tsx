@@ -12,12 +12,9 @@ const MainBoard = () => {
   const [loader, setLoader] = useState(true);
 
   const limitNotice = async () => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_CLIENT_API}/api/viewNotice`,
-      {
-        params: { selectLimit: "limit" },
-      }
-    );
+    const res = await axios.get("/api/viewNotice", {
+      params: { selectLimit: "limit" },
+    });
 
     if (res.status === 200) {
       const { data } = res.data;

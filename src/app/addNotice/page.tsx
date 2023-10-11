@@ -116,13 +116,10 @@ const AddNotice = () => {
         imgRoute: resRoute,
       };
 
-      const data = await fetch(
-        `${process.env.NEXT_PUBLIC_CLIENT_API}/api/createNotice`,
-        {
-          method: "POST",
-          body: JSON.stringify(final),
-        }
-      );
+      const data = await fetch(`/api/createNotice`, {
+        method: "POST",
+        body: final,
+      });
 
       console.log(data.json());
     } catch (err) {

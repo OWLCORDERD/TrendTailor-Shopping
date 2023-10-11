@@ -7,7 +7,7 @@ interface seasonType {
 }
 
 async function getClothesDB() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/api/clothes`, {
+  const res = await fetch(`/api/clothes`, {
     cache: "no-store",
   });
 
@@ -19,7 +19,7 @@ async function getClothesDB() {
 }
 
 async function getSeasonDB() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_API}/api/season`, {
+  const res = await fetch(`/api/season`, {
     cache: "no-store",
   });
 
