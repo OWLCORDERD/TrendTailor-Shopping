@@ -17,11 +17,14 @@ const CurrentNotice = ({ params }: any) => {
   const [currentDB, setCurrentDB] = useState<NoticeType[]>([]);
 
   const fetchNotice = async () => {
-    const res = await axios.get("http://localhost:3000/api/viewNotice", {
-      params: {
-        selectAll: "all",
-      },
-    });
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_CLIENT_API}/api/viewNotice`,
+      {
+        params: {
+          selectAll: "all",
+        },
+      }
+    );
 
     if (res.status === 200) {
       const { data } = res.data;
@@ -54,7 +57,9 @@ const CurrentNotice = ({ params }: any) => {
 
       const beforeIndex: number = Number(id) - 1;
 
-      router.push(`http://localhost:3000/currentNotice?id=${beforeIndex}`);
+      router.push(
+        `${process.env.NEXT_PUBLIC_CLIENT_API}/currentNotice?id=${beforeIndex}`
+      );
     }
   };
 
@@ -64,7 +69,9 @@ const CurrentNotice = ({ params }: any) => {
 
       const nextIndex: number = Number(id) + 1;
 
-      router.push(`http://localhost:3000/currentNotice?id=${nextIndex}`);
+      router.push(
+        `${process.env.NEXT_PUBLIC_CLIENT_API}/currentNotice?id=${nextIndex}`
+      );
     }
   };
 

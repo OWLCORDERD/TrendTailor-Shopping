@@ -2,7 +2,7 @@ import axios from "axios";
 import commonService from "./commonService";
 
 const getService = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: process.env.NEXT_PUBLIC_CLIENT_API,
   timeout: 60000,
 });
 

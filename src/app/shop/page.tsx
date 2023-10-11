@@ -30,7 +30,7 @@ export default function Shop() {
 
   const [searchData, setSearchData] = useState<searchDataType[] | undefined>();
 
-  const url = `http://localhost:3000/api/search`;
+  const url = `${process.env.NEXT_PUBLIC_CLIENT_API}/api/search`;
 
   const fetchKeyword = async (url: string) => {
     const res = await fetch(url, {

@@ -14,14 +14,28 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Crendentials",
 
+      credentials: {
+        userEmail: {
+          label: "UserEmail",
+          type: "text",
+        },
+        password: {
+          label: "Password",
+          type: "text",
+        },
+      },
+
       authorize: async (credentials: currentType | undefined) => {
         try {
           const currentUserEmail = String(credentials?.userEmail);
           const currentPassword = String(credentials?.password);
 
-          const res = await axios.post("http://localhost:3000/api/login", {
-            userEmail: currentUserEmail,
-          });
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_CLIENT_API}/api/login`,
+            {
+              userEmail: currentUserEmail,
+            }
+          );
 
           const user = res.data;
 
@@ -36,7 +50,7 @@ const handler = NextAuth({
             return {
               email: currentUserEmail,
               name: username,
-            };
+            } as any;
           }
         } catch (e) {
           throw new Error("error to access account");
@@ -48,7 +62,7 @@ const handler = NextAuth({
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID,
       clientSecret: process.env.KAKAO_CLIENT_SECRET,
-    }),
+    } as any),
   ],
 
   callbacks: {

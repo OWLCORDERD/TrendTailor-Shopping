@@ -58,7 +58,7 @@ const Preview = ({
       ) : (
         <div className='nonSearch-keywordBox'>
           <div className='noneSearch-keyword'>
-            <h2>'{searchKeyword}'</h2>
+            <h2>{searchKeyword}</h2>
             <span>에 대한 검색결과가 없습니다.</span>
           </div>
         </div>
