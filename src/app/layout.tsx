@@ -1,6 +1,5 @@
 import "./globals.scss";
 import type { Metadata } from "next";
-import AuthSession from "./AuthSession";
 import { ThemeProvider } from "../../context/ThemeContext";
 
 export const metadata: Metadata = {
@@ -14,12 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthSession>
-      <html lang='en'>
-        <body>
-          <ThemeProvider>{children}</ThemeProvider>
-        </body>
-      </html>
-    </AuthSession>
+    <html lang='en'>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
   );
 }

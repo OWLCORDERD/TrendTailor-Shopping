@@ -66,37 +66,6 @@ const Search = () => {
           />
         </div>
 
-        {/*
-        <div className='search-keywords'>
-          <div className='title'>
-            <h2>Keyword</h2>
-          </div>
-
-          <ul className='keywords-list'>
-            <li>
-              <a href='#'>
-                <span>슬랙스</span>
-              </a>
-            </li>
-            <li>
-              <a href='#'>
-                <span>코트</span>
-              </a>
-            </li>
-            <li>
-              <a href='#'>
-                <span>블라우스</span>
-              </a>
-            </li>
-            <li>
-              <a href='#'>
-                <span>셔츠</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      */}
-
         <Preview
           keywordPreview={keywordPreview}
           searchKeyword={searchKeyword}

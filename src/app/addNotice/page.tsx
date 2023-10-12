@@ -116,7 +116,7 @@ const AddNotice = () => {
         imgRoute: resRoute,
       };
 
-      const data = await fetch(`/api/createNotice`, {
+      const data = await fetch("/api/createNotice", {
         method: "POST",
         body: final,
       });
