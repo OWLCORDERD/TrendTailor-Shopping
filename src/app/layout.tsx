@@ -1,6 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
 import { ThemeProvider } from "../../context/ThemeContext";
+import AuthSession from "component/AuthSession";
 
 export const metadata: Metadata = {
   title: "WISH",
@@ -13,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
-    </html>
+    <AuthSession>
+      <html lang='en'>
+        <body>
+          <ThemeProvider>{children}</ThemeProvider>
+        </body>
+      </html>
+    </AuthSession>
   );
 }

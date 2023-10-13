@@ -1,3 +1,4 @@
+import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { clothes } from "./Peed";
 
@@ -11,9 +12,12 @@ async function getClothesDB() {
     `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`,
     {
       cache: "no-store",
-      headers: { "Content-Type": "application/json" },
     }
   );
+
+  if (!res.ok) {
+    throw new Error("not connect clothes db");
+  }
 
   return res.json();
 }
@@ -23,7 +27,6 @@ async function getSeasonDB() {
     `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/season`,
     {
       cache: "no-store",
-      headers: { "Content-Type": "application/json" },
     }
   );
 
@@ -63,7 +66,7 @@ const SeasonPeed: any = async () => {
           return (
             <div className='product-item' key={item.productId}>
               <div className='slide-ImgBox'>
-                <img src={item.image} alt='ClothesImg' />
+                <Image src={item.image} alt='ClothesImg' />
               </div>
 
               <div className='product-content'>

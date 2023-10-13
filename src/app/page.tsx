@@ -6,6 +6,7 @@ import Footer from "component/Main/Footer";
 export default function Home() {
   return (
     <>
+      <Navbar />
       <main className='container'>
         <Peed />
       </main>

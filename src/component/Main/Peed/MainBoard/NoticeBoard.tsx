@@ -60,15 +60,13 @@ const NoticeBoard = ({ noticeDB }: propsNotice) => {
               <li key={item.idx}>
                 <Link
                   href={{
-                    pathname: "/currentNotice",
-                    query: {
-                      id: item.idx,
-                    },
+                    pathname: `/notice/${item.idx}`,
                   }}
                 >
                   <h2>{item.title}</h2>
+
+                  <span>{item.date.slice(0, 10)}</span>
                 </Link>
-                <span>{item.date.slice(0, 10)}</span>
               </li>
             );
           })}
