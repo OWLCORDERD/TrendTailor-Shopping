@@ -1,38 +1,26 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Megazine from "./Megazine";
 import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
-import { NoticeType } from "app/notice/page";
 import axios from "axios";
 
-const MainBoard = () => {
-  const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
-  const [loader, setLoader] = useState(true);
-
-  const limitNotice = async () => {
-    const res = await axios.get("/api/viewNotice", {
+export async function NoticeFetch() {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
+    {
       params: { selectLimit: "limit" },
-    });
-
-    if (res.status === 200) {
-      const { data } = res.data;
-
-      setNoticeDB(data);
-
-      setTimeout(() => {
-        setLoader(false);
-      }, 1000);
     }
-  };
-  useEffect(() => {
-    limitNotice();
-  }, []);
+  );
+
+  return res.data;
+}
+
+const MainBoard: any = async () => {
+  const noticeDB = await NoticeFetch();
 
   return (
     <div className='MainPage-Board'>
-      <NoticeBoard noticeDB={noticeDB} loader={loader} />
+      <NoticeBoard noticeDB={noticeDB.data} />
       <Megazine />
     </div>
   );

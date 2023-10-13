@@ -1,7 +1,6 @@
 import "./globals.scss";
 import type { Metadata } from "next";
 import { ThemeProvider } from "../../context/ThemeContext";
-import AuthSession from "component/AuthSession";
 
 export const metadata: Metadata = {
   title: "WISH",
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body>
-        <AuthSession>
-          <ThemeProvider>{children}</ThemeProvider>
-        </AuthSession>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

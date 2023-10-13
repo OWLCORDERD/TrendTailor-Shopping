@@ -1,3 +1,5 @@
+"use client";
+
 import { NoticeType } from "app/notice/page";
 import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
@@ -7,10 +9,9 @@ import { ThemeContext } from "../../../../../context/ThemeContext";
 
 interface propsNotice {
   noticeDB: NoticeType[];
-  loader: boolean;
 }
 
-const NoticeBoard = ({ noticeDB, loader }: propsNotice) => {
+const NoticeBoard = ({ noticeDB }: propsNotice) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loop, setLoop] = useState<any>();
 
@@ -47,50 +48,31 @@ const NoticeBoard = ({ noticeDB, loader }: propsNotice) => {
       </div>
 
       <div className='Notice-slider'>
-        {loader ? (
-          <div className='loader'>
-            <Oval
-              height={40}
-              width={40}
-              color='#333333'
-              wrapperStyle={{}}
-              wrapperClass=''
-              visible={true}
-              ariaLabel='oval-loading'
-              secondaryColor='#999999'
-              strokeWidth={2}
-              strokeWidthSecondary={2}
-            />
-          </div>
-        ) : (
-          <ul
-            className='list-slider'
-            style={{
-              top: `-${currentSlide}00%`,
-              transitionDuration: "1s",
-            }}
-          >
-            {noticeDB.map((item) => {
-              return (
-                <li key={item.idx}>
-                  <a href='#'>
-                    <Link
-                      href={{
-                        pathname: "/currentNotice",
-                        query: {
-                          id: item.idx,
-                        },
-                      }}
-                    >
-                      <h2>{item.title}</h2>
-                    </Link>
-                    <span>{item.date.slice(0, 10)}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <ul
+          className='list-slider'
+          style={{
+            top: `-${currentSlide}00%`,
+            transitionDuration: "1s",
+          }}
+        >
+          {noticeDB.map((item) => {
+            return (
+              <li key={item.idx}>
+                <Link
+                  href={{
+                    pathname: "/currentNotice",
+                    query: {
+                      id: item.idx,
+                    },
+                  }}
+                >
+                  <h2>{item.title}</h2>
+                </Link>
+                <span>{item.date.slice(0, 10)}</span>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
