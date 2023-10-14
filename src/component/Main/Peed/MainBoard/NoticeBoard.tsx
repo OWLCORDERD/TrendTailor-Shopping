@@ -3,7 +3,6 @@
 import { NoticeType } from "app/notice/page";
 import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
-import { Oval } from "react-loader-spinner";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 
@@ -58,13 +57,8 @@ const NoticeBoard = ({ noticeDB }: propsNotice) => {
           {noticeDB.map((item) => {
             return (
               <li key={item.idx}>
-                <Link
-                  href={{
-                    pathname: `/notice/${item.idx}`,
-                  }}
-                >
+                <Link href={`/notice/${item.idx}`}>
                   <h2>{item.title}</h2>
-
                   <span>{item.date.slice(0, 10)}</span>
                 </Link>
               </li>

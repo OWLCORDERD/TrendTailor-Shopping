@@ -5,7 +5,7 @@ import Navbar from "component/Main/Navbar";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
 import "styles/notice.scss";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { NoticeType } from "app/notice/page";
 import axios from "axios";
 
@@ -18,7 +18,7 @@ const CurrentNotice = ({ params }: any) => {
 
   const fetchNotice = async () => {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_CLIENT_API}/api/viewNotice`,
+      `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
       {
         params: {
           selectAll: "all",
@@ -57,7 +57,7 @@ const CurrentNotice = ({ params }: any) => {
 
       const beforeIndex: number = Number(id) - 1;
 
-      router.push(`/currentNotice?id=${beforeIndex}`);
+      router.push(`/notice/${beforeIndex}`);
     }
   };
 
@@ -67,7 +67,7 @@ const CurrentNotice = ({ params }: any) => {
 
       const nextIndex: number = Number(id) + 1;
 
-      router.push(`/currentNotice?id=${nextIndex}`);
+      router.push(`/notice/${nextIndex}`);
     }
   };
 

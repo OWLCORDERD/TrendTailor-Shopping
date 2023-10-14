@@ -43,7 +43,9 @@ const ProductList = ({ searchData }: propsType) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getClothesDB = async () => {
-    const res = await axios.get("http://localhost:3000/api/clothes");
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`
+    );
 
     const { data } = res.data;
 

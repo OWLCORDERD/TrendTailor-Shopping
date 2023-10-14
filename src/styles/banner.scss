@@ -167,3 +167,94 @@
         }
     }
 }
+
+@media screen and (max-width : 1440px) {
+    .Banner-container{
+    
+        .Introduce-Box{
+    
+            .Static-Welcome{
+    
+                h1{
+                    font-size: 3rem;
+                }
+            }
+    
+            .Introduce-content{
+                position: relative;
+                width: 80%;
+                height: 8rem;
+                padding: 0 5rem;
+                display: flex;
+    
+                .Dynamic-content{
+    
+                    .content-bracket{
+    
+                        span{
+                            font-size: 3rem;
+                        }
+                    }
+    
+                    ul{
+    
+                        li{
+    
+                            h2{
+                                font-size: 2.5rem;
+                            }
+                        }
+                    }
+                }
+    
+                .Static-content{
+                    flex: 6;
+                    text-align: center;
+        
+                    h2{
+                        font-family: $Raleway-font;
+                        font-size: 3rem;
+                        text-transform: uppercase;
+                        line-height: 8rem;
+                        font-weight: 100;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    
+        .rotate-scroll{
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
+    
+            .scroll-text{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50% ,-50%);
+                width: max-content;
+    
+                span{
+                    font-size: 1rem;
+                    color: #fff;
+                    text-transform: uppercase;
+                    font-family: $Pacifico-font;
+                    font-weight: bold;
+                }
+            }
+    
+            img{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: fit-content;
+                animation: rotateScroll 6s linear infinite;
+            }
+        }
+    }
+}

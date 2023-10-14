@@ -193,3 +193,112 @@ footer{
         }
     }
 }
+
+@media screen and (max-width : 1440px) {
+    footer{
+    
+        .Ft-cont1{
+            width: 40%;
+            height: 26rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+    
+            .Ft-logo{
+                width: 100%;
+                height: 8rem;
+                text-align: left;
+    
+                .Main-logo{
+                    width: 100%;
+    
+                    h1{
+                        font-size: 2rem;
+                    }
+                }
+    
+                .logo-info{
+                    width: 100%;
+    
+                    p{
+                        font-size: 15px;
+                    }
+                }
+            }
+    
+            .Ft-menu{
+                width: 100%;
+                height: 3rem;
+    
+                ul{
+                    width: 100%;
+                    height: 100%;
+    
+                    li{
+                        width: calc(30rem / 3);
+    
+                        a{
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+    
+            .Ft-Community{
+                width: 100%;
+                height: 9rem;
+    
+                ul{
+                    width: 100%;
+                    height: 3rem;
+    
+                    li{
+                        width: calc(30rem / 3);
+    
+                        a{
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    
+        .Ft-Customer{
+            position: relative;
+            width: 30%;
+            height: 100%;
+            color: #fff;
+    
+            .Customer-number{
+                line-height: 6rem;
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+    
+            .Operation-info{
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                height: max-content;
+            }
+        }
+    
+        .Ft-Banking{
+            position: relative;
+            width: 25%;
+            height: 100%;
+    
+            .CopyRight-info{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                word-break: normal;
+                line-height: 3rem;
+                text-transform: uppercase;
+                font-size: 15px;
+                color: #fff;
+            }
+        }
+    }
+}

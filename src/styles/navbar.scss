@@ -194,3 +194,37 @@
         }
     }
 }
+
+@media screen and (max-width : 1440px){
+    .Navbar-container{
+    
+        .Main-nav{
+            padding : 0 2rem;
+        }
+    
+        .Sub-nav{
+            padding : 0 2rem;
+    
+            .Navbar-menu{
+                position: relative;
+                width: 50rem;
+            
+                li{
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 20%;
+                    height: 3rem;
+            
+                    a{
+                        width: max-content;
+                        font-family: $Raleway-font;
+                        font-size: 15px;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,47 +1,13 @@
 import Image from "next/image";
 import "styles/seasonPeed.scss";
-import { clothes } from "./Peed";
+import { clothes, seasonType } from "./Peed";
 
-interface seasonType {
-  month: number;
-  season: string;
+interface propsDataType {
+  clothesDB: clothes[];
+  seasonDB: seasonType[];
 }
 
-async function getClothesDB() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("not connect clothes db");
-  }
-
-  return res.json();
-}
-
-async function getSeasonDB() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/season`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("not connect season db");
-  }
-
-  return res.json();
-}
-
-const SeasonPeed: any = async () => {
-  const clothesDB: clothes[] = await getClothesDB().then((res) => res.data);
-
-  const seasonDB: seasonType[] = await getSeasonDB().then((res) => res.data);
-
+const SeasonPeed = ({ clothesDB, seasonDB }: propsDataType) => {
   const date = new Date();
 
   const nowMonth = date.getMonth() + 1;
