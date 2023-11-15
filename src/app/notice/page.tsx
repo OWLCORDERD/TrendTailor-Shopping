@@ -29,9 +29,7 @@ export default function Notice() {
   const { mode } = useContext(ThemeContext);
 
   const fetchNotice = async () => {
-    const res = await axios.get("/api/viewNotice", {
-      params: { selectAll: "all" },
-    });
+    const res = await axios.get("/api/viewNotice");
 
     if (res.status === 200) {
       const { data } = res.data;

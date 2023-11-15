@@ -3,7 +3,6 @@ import mysql from "mysql2/promise";
 
 export async function GET(req: NextRequest) {
   const selectLimit = req.nextUrl.searchParams.get("selectLimit");
-  const selectAll = req.nextUrl.searchParams.get("selectAll");
 
   let limitConnection = null;
   let selectConnection = null;
@@ -26,9 +25,7 @@ export async function GET(req: NextRequest) {
     } catch (err) {
       return NextResponse.json({ err: err });
     }
-  }
-
-  if (selectAll) {
+  } else {
     if (selectConnection === null) {
       selectConnection = await mysql.createConnection({
         host: process.env.MYSQL_HOST,
