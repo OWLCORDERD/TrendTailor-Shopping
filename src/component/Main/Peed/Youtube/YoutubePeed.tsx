@@ -43,6 +43,7 @@ const YoutubePeed = () => {
     dots: false,
     infinite: true,
     centerMode: true,
+    centerPadding: "50px",
     nextArrow: <SlideNext />,
     prevArrow: <SlideBefore />,
   };

@@ -1,38 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "styles/search.scss";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRouter } from "next/navigation";
-import Preview from "./Preview";
-import { setTimeout } from "timers";
 
 const Search = () => {
   const router = useRouter();
 
   const [searchKeyword, setSearchKeyword] = useState<string>("");
 
-  const [keywordPreview, setKeywordPreview] = useState([]);
-
-  const [closePreview, setClosePreview] = useState(false);
-
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     setSearchKeyword(e.target.value);
-
-    setClosePreview(false);
-  };
-
-  const PreviewData = async () => {
-    const res = await fetch("/api/search", {
-      method: "POST",
-      body: JSON.stringify({
-        query: searchKeyword,
-      }),
-    });
-
-    const { data } = await res.json();
-
-    setKeywordPreview(data);
   };
 
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,18 +20,7 @@ const Search = () => {
     const encodedSearchKeyword = encodeURI(searchKeyword);
 
     router.push(`/shop?q=${encodedSearchKeyword}`);
-
-    setClosePreview(true);
   };
-
-  useEffect(() => {
-    const debounce = setTimeout(() => {
-      if (searchKeyword) PreviewData();
-    }, 1000);
-    return () => {
-      clearTimeout(debounce);
-    };
-  }, [searchKeyword]);
 
   return (
     <>
@@ -65,12 +33,6 @@ const Search = () => {
             onChange={(e) => onChangeHandler(e)}
           />
         </div>
-
-        <Preview
-          keywordPreview={keywordPreview}
-          searchKeyword={searchKeyword}
-          closePreview={closePreview}
-        />
       </form>
     </>
   );

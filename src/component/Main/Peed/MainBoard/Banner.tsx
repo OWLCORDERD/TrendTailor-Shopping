@@ -1,14 +1,10 @@
+"use client";
+
 import React, { useState, useEffect, SetStateAction, useCallback } from "react";
 import "styles/banner.scss";
 import Image from "next/image";
 
-interface propsType {
-  current: number;
-  setCurrent: React.Dispatch<SetStateAction<number>>;
-  loading: boolean;
-}
-
-const Banner = ({ current, setCurrent, loading }: propsType) => {
+const Banner = () => {
   const introContent = [
     {
       id: 1,
@@ -30,6 +26,16 @@ const Banner = ({ current, setCurrent, loading }: propsType) => {
 
   const [loop, setLoop] = useState<any>();
 
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const [current, setCurrent] = useState<number>(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
+
   useEffect(() => {
     if (loading === false) {
       const timeout = setTimeout(() => {
@@ -47,7 +53,7 @@ const Banner = ({ current, setCurrent, loading }: propsType) => {
     return () => {
       clearTimeout(loop);
     };
-  }, [loading, current]);
+  }, [current, loading]);
 
   return (
     <section className='Banner-container'>

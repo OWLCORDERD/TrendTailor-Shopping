@@ -4,8 +4,10 @@ import { ThemeProvider } from "../../context/ThemeContext";
 import AuthSession from "component/AuthSession";
 
 export const metadata: Metadata = {
-  title: "WISH",
-  description: "Wearing Interface Shopping Homepage",
+  title: "WISH | SHOPPING SITE",
+  description:
+    "Wearing Interface Shopping Homepage, 트렌드 의류 정보를 공유하고 추천하며 다양한 의류를 판매하는 위시 의류 사이트입니다.",
+  keywords: "옷, 트렌드, 의류, 쇼핑, 상점, 유튜브, 의류 트렌드, 스타일, 유행",
 };
 
 export default function RootLayout({

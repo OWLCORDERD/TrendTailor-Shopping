@@ -26,47 +26,13 @@ export interface seasonType {
   season: string;
 }
 
-async function getClothesDB() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("not connect clothes db");
-  }
-
-  return res.json();
-}
-
-async function getSeasonDB() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/season`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("not connect season db");
-  }
-
-  return res.json();
-}
-
-const Peed: any = async () => {
-  const clothesDB = await getClothesDB();
-
-  const seasonDB = await getSeasonDB();
-
+const Peed = () => {
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
         <MainBoard />
         <div className='Peed-wrapper'>
-          <SeasonPeed clothesDB={clothesDB} seasonDB={seasonDB} />
+          <SeasonPeed />
           <YoutubePeed />
         </div>
       </div>

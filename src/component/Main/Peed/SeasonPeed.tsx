@@ -2,12 +2,41 @@ import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { clothes, seasonType } from "./Peed";
 
-interface propsDataType {
-  clothesDB: clothes[];
-  seasonDB: seasonType[];
+export async function getClothesDB() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("not connect clothes db");
+  }
+
+  return res.json();
 }
 
-const SeasonPeed = ({ clothesDB, seasonDB }: propsDataType) => {
+export async function getSeasonDB() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/season`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("not connect season db");
+  }
+
+  return res.json();
+}
+
+const SeasonPeed: any = async () => {
+  const clothesDB: clothes[] = await getClothesDB().then((res) => res.data);
+
+  const seasonDB: seasonType[] = await getSeasonDB().then((res) => res.data);
+
   const date = new Date();
 
   const nowMonth = date.getMonth() + 1;
@@ -32,7 +61,12 @@ const SeasonPeed = ({ clothesDB, seasonDB }: propsDataType) => {
           return (
             <div className='product-item' key={item.productId}>
               <div className='slide-ImgBox'>
-                <Image src={item.image} alt='ClothesImg' />
+                <Image
+                  src={item.image}
+                  alt='ClothesImg'
+                  width='500'
+                  height='500'
+                />
               </div>
 
               <div className='product-content'>

@@ -21,6 +21,8 @@
         left: 0;
         width: 100%;
         height: max-content;
+        padding: 3.125rem 0;
+        background-color: #000;
 
         .AboutWISH-container{
             position: relative;
@@ -29,7 +31,6 @@
             display: flex;
             justify-content: space-between;
             padding : 50px 0;
-            background-color: #000;
 
             .AboutWISH-section{
                 width: 100%;
@@ -163,7 +164,7 @@
 
                 .Season-title{
                     width: 100%;
-                    padding: 0 50px;
+                    padding: 0 50px 0 0;
 
                     h1{
                         font-size: 3rem;

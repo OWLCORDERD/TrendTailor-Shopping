@@ -1,8 +1,8 @@
 import React from "react";
-import Megazine from "./Megazine";
 import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
 import axios from "axios";
+import Banner from "./Banner";
 
 export async function NoticeFetch() {
   const res = await axios.get(
@@ -21,7 +21,7 @@ const MainBoard: any = async () => {
   return (
     <div className='MainPage-Board'>
       <NoticeBoard noticeDB={noticeDB.data} />
-      <Megazine />
+      <Banner />
     </div>
   );
 };
