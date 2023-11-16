@@ -5,13 +5,15 @@ import { NoticeType } from "./notice/page";
 const publicURL = "https://wish-jade.vercel.app";
 
 export async function fetchNotice() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`
-  );
+  const res = await fetch(`${publicURL}/api/viewNotice`, {
+    cache: "no-store",
+  });
 
-  const data = res.json();
+  if (!res.ok) {
+    throw new Error("not connect to notice db");
+  }
 
-  return data;
+  return res.json();
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -21,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const postUrls = postsData.map((post) => ({
     url: `${publicURL}/notice/${post.idx}`,
-    lastModefied: new Date(),
+    lastModified: post.date,
   }));
 
   return [
