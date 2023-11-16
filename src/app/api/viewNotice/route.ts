@@ -4,12 +4,11 @@ import mysql from "mysql2/promise";
 export async function GET(req: NextRequest) {
   const selectLimit = req.nextUrl.searchParams.get("selectLimit");
 
-  let limitConnection = null;
-  let selectConnection = null;
+  let connection = null;
 
-  if (selectLimit) {
-    if (limitConnection === null) {
-      limitConnection = await mysql.createConnection({
+  if (req.method === "GET") {
+    if (connection === null) {
+      connection = await mysql.createConnection({
         host: process.env.MYSQL_HOST,
         user: "root",
         password: process.env.MYSQL_PASSWORD,
@@ -17,27 +16,20 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    try {
-      const SQLquery = "select * from notice limit 5";
-      const [data] = await limitConnection.execute(SQLquery);
+    if (selectLimit) {
+      try {
+        const SQLquery = "select * from notice limit 5";
+        const [data] = await connection.execute(SQLquery);
 
-      return NextResponse.json({ data: data, success: true });
-    } catch (err) {
-      return NextResponse.json({ err: err });
-    }
-  } else {
-    if (selectConnection === null) {
-      selectConnection = await mysql.createConnection({
-        host: process.env.MYSQL_HOST,
-        user: "root",
-        password: process.env.MYSQL_PASSWORD,
-        database: "wish",
-      });
+        return NextResponse.json({ data: data, success: true });
+      } catch (err) {
+        return NextResponse.json({ err: err });
+      }
     }
 
     try {
       const SQLquery = "select * from notice";
-      const [data] = await selectConnection.execute(SQLquery);
+      const [data] = await connection.execute(SQLquery);
 
       return NextResponse.json({ data: data, success: true });
     } catch (err) {

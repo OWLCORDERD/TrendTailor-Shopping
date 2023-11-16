@@ -26,34 +26,35 @@ const Banner = () => {
 
   const [loop, setLoop] = useState<any>();
 
-  const [loading, setLoading] = useState<boolean>(true);
-
   const [current, setCurrent] = useState<number>(0);
 
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
-    }, 2500);
+      setCurrent((prev) => {
+        if (prev === 0) {
+          return prev + 1;
+        }
+        return 0;
+      });
+    }, 2000);
   }, []);
 
   useEffect(() => {
-    if (loading === false) {
-      const timeout = setTimeout(() => {
-        setCurrent((prev) => {
-          if (prev < introContent.length - 1) {
-            return prev + 1;
-          }
-          return 0;
-        });
-      }, 3000);
+    const timeout = setTimeout(() => {
+      setCurrent((prev) => {
+        if (prev < introContent.length - 1) {
+          return prev + 1;
+        }
+        return 0;
+      });
+    }, 3000);
 
-      setLoop(timeout);
-    }
+    setLoop(timeout);
 
     return () => {
       clearTimeout(loop);
     };
-  }, [current, loading]);
+  }, [current]);
 
   return (
     <section className='Banner-container'>
