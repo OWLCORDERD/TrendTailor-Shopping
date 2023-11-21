@@ -1,5 +1,4 @@
 import mysql2 from "mysql2/promise";
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -9,7 +8,6 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const keyword = body.keyword;
-    const previewKeyword = body.query;
 
     if (connection === null) {
       connection = await mysql2.createConnection({
@@ -21,13 +19,7 @@ export async function POST(req: Request) {
     }
 
     try {
-      if (previewKeyword !== undefined && keyword === undefined) {
-        const previewQuery = `SELECT * FROM clothes WHERE title LIKE '%${previewKeyword}%'`;
-
-        const [data] = await connection.execute(previewQuery);
-
-        return NextResponse.json({ data: data });
-      } else if (keyword !== undefined) {
+      if (keyword !== undefined) {
         const SQLquery = `SELECT * FROM clothes WHERE title LIKE '%${keyword}%'`;
 
         const [data] = await connection.execute(SQLquery);

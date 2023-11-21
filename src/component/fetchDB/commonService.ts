@@ -16,6 +16,11 @@ const getDB = {
       url: "api/viewNotice",
     }).then((res) => res.data);
   },
+  getMainSlider: () => {
+    return service({
+      url: "api/mainSlider",
+    }).then((res) => res.data);
+  },
 };
 
 export default getDB;

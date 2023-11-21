@@ -4,90 +4,130 @@
     position: relative;
     width: 100%;
     height: max-content;
-    padding : 3.125rem 6.25rem;
+    padding: 3.125rem 6.25rem;
 
-    .Season-titleBox{
-        position: relative;
-        width : 100%;
+    .SeasonPeed-title{
+        width: 100%;
+        height: 5rem;
         margin-bottom: 3rem;
 
-        .Season-title{
-            width: 100%;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            font-family: $Raleway-font;
+        h1{
             line-height: 5rem;
+            font-size: 2rem;
+            font-family: $Raleway-font;
             text-align: center;
-        }
-
-        .season-info{
-            width: 100%;
-            font-size: 15px;
-            font-family: $Noto-Korean;
-            text-align: center;
-            line-height: 3rem;
+            text-transform: uppercase;
         }
     }
-    .slider-wrap{
+
+    .SeasonPeed-slider{
         position: relative;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        place-items: center;
-        gap : 2rem;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(25rem * 4 + 150px);
+        height: 43rem;
+        overflow: hidden;
 
-        .product-item{
-            position: relative;
-            width: 100%;
+        .slide-wrap{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: max-content;
             height: 100%;
-            
-            .slide-ImgBox{
-                display: block;
-                width: 100%;
-                height: 70%;
+            display: inline-flex;
 
-                img{
+            .slide-item{
+                position: relative;
+                width: 25rem;
+                height: 100%;
+                margin-right: 50px;
+
+                .product-imgBox{
+                    position: relative;
                     width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
+                    height: 30rem;
 
-            .product-content{
-                display: block;
-                width: 100%;
-                height: 30%;
-                font-family: $Noto-Korean;
-
-                .product-title{
-                    display: flex;
-                    align-items: center;
-                    width: 80%;
-                    height: 4rem;
-                    font-size: 13px;
-                    word-break: keep-all;
-                    font-weight: 400;
+                    img{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                 }
 
-                .product-mall{
+                .product-info{
                     width: 100%;
-                    font-size: 13px;
-                    line-height: 2rem;
-                    text-transform: uppercase;
-                    font-weight: 400;
-                }
-
-                .product-price{
-                    width: 100%;
-                    font-size: 1rem;
-                    font-weight: bold;
-                    line-height: 3rem;
+                    height: 13rem;
                     font-family: $Noto-Korean;
+
+                    .product-name{
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        width: 100%;
+                        height: 4rem;
+                        margin: 1rem 0;
+
+                        h2{
+                            font-size: 15px;
+                            font-weight: 500;
+                        }
+                    }
+
+                    .product-brand{
+                        width: 100%;
+                        height: 4rem;
+
+                        p{
+                            line-height: 4rem;
+                            font-size: 13px;
+                        }
+                    }
+
+                    .product-price{
+                        width: 100%;
+                        height: 3rem;
+
+                        span{
+                            line-height: 3rem;
+                            font-size: 15px;
+                            font-weight: bold;
+                        }
+                    }
                 }
             }
+        }
+
+        .slide-prev{
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 5rem;
+            height: 5rem;
+            z-index: 10;
+            background-color: rgba($color: #000000, $alpha: 0.5);
+            cursor: pointer;
+        }
+    
+        .slide-next{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 5rem;
+            height: 5rem;
+            z-index: 10;
+            background-color: rgba($color: #000000, $alpha: 0.5);
+            cursor: pointer;
         }
     }
 }

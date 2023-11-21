@@ -1,111 +1,86 @@
 "use client";
 
-import React, { useState, useEffect, SetStateAction, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import "styles/banner.scss";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const Banner = () => {
-  const introContent = [
-    {
-      id: 1,
-      keyword: "search",
-    },
-    {
-      id: 2,
-      keyword: "season",
-    },
-    {
-      id: 3,
-      keyword: "youtube",
-    },
-    {
-      id: 4,
-      keyword: "shared",
-    },
-  ];
+import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
 
-  const [loop, setLoop] = useState<any>();
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-  const [current, setCurrent] = useState<number>(0);
+interface slideType {
+  id: number;
+  image: string;
+  title: string;
+  info: string;
+}
+
+interface fetchPropsType {
+  slideDB: slideType[];
+}
+
+const Banner = ({ slideDB }: fetchPropsType) => {
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      setCurrent((prev) => {
-        if (prev === 0) {
-          return prev + 1;
-        }
-        return 0;
-      });
-    }, 2000);
+      setLoading(false);
+    }, 3000);
   }, []);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setCurrent((prev) => {
-        if (prev < introContent.length - 1) {
-          return prev + 1;
-        }
-        return 0;
-      });
-    }, 3000);
-
-    setLoop(timeout);
-
-    return () => {
-      clearTimeout(loop);
-    };
-  }, [current]);
-
   return (
-    <section className='Banner-container'>
-      <div className='Introduce-Box'>
-        <div className='Static-Welcome'>
-          <h1>welcome to wish</h1>
-        </div>
+    <div className='Banner-container'>
+      <Swiper
+        className='slide-wrap'
+        slidesPerView={1}
+        navigation={{
+          nextEl: ".slide-next",
+          prevEl: ".slide-prev",
+        }}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 3500, disableOnInteraction: false }}
+        modules={[Pagination, Navigation, Autoplay]}
+      >
+        {slideDB.map((slide) => {
+          return (
+            <SwiperSlide className='slide-item' key={slide.id}>
+              <div className='slide-imgBox'>
+                <Image
+                  src={slide.image}
+                  alt='슬라이드 이미지'
+                  width={2560}
+                  height={1440}
+                />
+              </div>
 
-        <div className='Introduce-content'>
-          <div className='Dynamic-content'>
-            <div className='content-bracket'>
-              <span>[</span>
-              <span>]</span>
-            </div>
+              <div className='slide-infoBox' key={slide.id}>
+                <div className='slide-title'>
+                  <h1>{slide.title}</h1>
+                </div>
 
-            <ul
-              style={{ top: `-${current}00%`, transition: "all 0.5s ease-in" }}
-            >
-              {introContent.map((item) => {
-                return (
-                  <li key={item.id}>
-                    <h2>{item.keyword}</h2>
-                  </li>
-                );
-              })}
-            </ul>
+                <div className='slide-info'>
+                  <p>{slide.info}</p>
+                </div>
+              </div>
+            </SwiperSlide>
+          );
+        })}
+
+        <div className='slide-control'>
+          <div className='slide-prev'>
+            <IoIosArrowBack color='#fff' fontSize={70} />
           </div>
 
-          <div className='Static-content'>
-            <h2>Clothes Trand</h2>
+          <div className='slide-next'>
+            <IoIosArrowForward color='#fff' fontSize={70} />
           </div>
         </div>
-      </div>
-
-      <div className='Banner-ImgBox'>
-        <video src='./sampleVideo/bannerVideo.mp4' muted loop autoPlay />
-      </div>
-
-      <div className='rotate-scroll'>
-        <div className='scroll-text'>
-          <span>scroll</span>
-        </div>
-
-        <Image
-          src='/images/scroll.png'
-          width={150}
-          height={150}
-          alt='rotate-img'
-        />
-      </div>
-    </section>
+      </Swiper>
+    </div>
   );
 };
 

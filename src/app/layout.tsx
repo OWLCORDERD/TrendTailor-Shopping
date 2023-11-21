@@ -7,8 +7,9 @@ import Head from "next/head";
 export const metadata: Metadata = {
   title: "WISH | SHOPPING SITE",
   description:
-    "Wearing Interface Shopping Homepage, 트렌드 의류 정보를 공유하고 추천하며 다양한 의류를 판매하는 위시 의류 사이트입니다.",
-  keywords: "옷, 트렌드, 의류, 쇼핑, 상점, 유튜브, 의류 트렌드, 스타일, 유행",
+    "Wearing Interface Shopping Homepage, 트렌드 의류 정보를 공유하고 추천하는 포트폴리오 의류 사이트입니다.",
+  keywords:
+    "포트폴리오, 옷, 의류, 트렌드, 쇼핑, 유튜브, 의류 트렌드, 스타일, 유행",
   verification: {
     google: "Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0",
   },

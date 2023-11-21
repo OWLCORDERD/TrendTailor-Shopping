@@ -1,8 +1,17 @@
 import axios from "axios";
 import { MetadataRoute } from "next";
-import { NoticeType } from "./notice/page";
 
 const publicURL = "https://wish-jade.vercel.app";
+
+export interface NoticeType2 {
+  idx: number;
+  title: string;
+  writer: string;
+  image: string;
+  date: string;
+  text: string;
+  view_cnt: number;
+}
 
 export const getNoticePosts = () => {
   return fetch(`${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`, {
@@ -20,11 +29,11 @@ export const getNoticePosts = () => {
 };
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const posts = await getNoticePosts();
+  const posts: NoticeType2[] = await getNoticePosts().then((res) => res.data);
 
-  const postsData: NoticeType[] = posts.data;
+  console.log(posts);
 
-  const postUrls = postsData.map((post) => ({
+  const postUrls = posts.map((post) => ({
     url: `${publicURL}/notice/${post.idx}`,
     lastModified: post.date,
   }));
