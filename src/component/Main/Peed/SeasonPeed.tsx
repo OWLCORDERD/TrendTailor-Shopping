@@ -1,11 +1,20 @@
 "use client";
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { clothes, peedFetchDBType, seasonType } from "./Peed";
 import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
+  const slideRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  const [slideWidth, setSlideWidth] = useState(0);
+  const [slideMaxWidth, setSlideMaxWidth] = useState(0);
+  const [isDrag, setIsDrag] = useState<boolean>(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
   const date = new Date();
 
   const month = date.getMonth() + 1;
@@ -17,17 +26,95 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
   const seasonClothes: clothes[] = clothesDB.filter(
     (clothes) => clothes.category4 === filterSeason[0].season
   );
+
+  const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (itemRef.current && slideWidth > 0) {
+      const itemWidth = itemRef.current.clientWidth;
+      setSlideWidth((initialWidth) => initialWidth - itemWidth - 50);
+    }
+  };
+
+  const nextSlide = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const scrollMaxLength = slideMaxWidth - 450 * 4;
+
+    if (itemRef.current && slideWidth < scrollMaxLength) {
+      const itemWidth = itemRef.current.clientWidth;
+      setSlideWidth((initialWidth) => initialWidth + itemWidth + 50);
+    }
+  };
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      setSlideMaxWidth(scrollRef.current.clientWidth);
+    }
+  }, []);
+
+  const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
+    setIsDrag(true);
+
+    if (slideRef.current) {
+      setStartX(e.pageX);
+      setScrollLeft(slideRef.current.scrollLeft);
+    }
+  };
+
+  const onDragEnd = () => {
+    setIsDrag(false);
+  };
+
+  const onDragMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDrag) return;
+
+    e.preventDefault();
+
+    if (slideRef.current) {
+      const delta = e.pageX - startX;
+
+      slideRef.current.scrollLeft = scrollLeft + delta;
+    }
+  };
+
   return (
     <div className='SeasonPeed-container'>
-      <div className='SeasonPeed-title'>
-        <h1>Seasonal collection</h1>
+      <div className='SeasonPeed-titleBox'>
+        <div className='SeasonPeed-title'>
+          <h1>Seasonal collection</h1>
+        </div>
+
+        <div className='slide-control'>
+          <div className='slide-prev' onClick={(e) => prevSlide(e)}>
+            <IoIosArrowBack color='#000' fontSize={30} />
+          </div>
+
+          <div className='slide-next' onClick={(e) => nextSlide(e)}>
+            <IoIosArrowForward color='#000' fontSize={30} />
+          </div>
+        </div>
       </div>
 
-      <div className='SeasonPeed-slider'>
-        <div className='slide-wrap'>
+      <div
+        className='SeasonPeed-slider'
+        ref={slideRef}
+        onMouseDown={(e) => onDragStart(e)}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        onMouseMove={(e) => onDragMove(e)}
+      >
+        <div
+          className='slide-wrap'
+          ref={scrollRef}
+          style={{
+            transform: `translateX(-${slideWidth}px)`,
+            transition: "all 0.5s ease-in",
+          }}
+        >
           {seasonClothes.map((clothes) => {
             return (
-              <div className='slide-item' key={clothes.productId}>
+              <div className='slide-item' key={clothes.productId} ref={itemRef}>
                 <div className='product-imgBox'>
                   <Image
                     src={clothes.image}
@@ -53,14 +140,6 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
               </div>
             );
           })}
-        </div>
-
-        <div className='slide-prev'>
-          <IoIosArrowBack color='#fff' fontSize={40} />
-        </div>
-
-        <div className='slide-next'>
-          <IoIosArrowForward color='#fff' fontSize={40} />
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ const slideNext = ({ onClick }: NextArrowProps): JSX.Element => {
         top: "30%",
         width: "50px",
         height: "50px",
-        right: "15rem",
+        right: "15%",
         transform: "translateY(-30%)",
         zIndex: 99,
         cursor: "pointer",

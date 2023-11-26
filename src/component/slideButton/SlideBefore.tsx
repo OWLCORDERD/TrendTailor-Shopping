@@ -12,7 +12,7 @@ const slideBefore = ({ onClick }: NextBeforeType): JSX.Element => {
         top: "30%",
         width: "50px",
         height: "50px",
-        left: "15rem",
+        left: "15%",
         transform: "translateY(-30%)",
         zIndex: 99,
         cursor: "pointer",

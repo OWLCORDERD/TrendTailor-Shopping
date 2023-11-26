@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Videoitem from "./Videoitem";
 import "styles/youtubePeed.scss";
@@ -30,7 +30,131 @@ export interface videoType {
 }
 
 const YoutubePeed = () => {
+  /*
   const [videoData, setVideoData] = useState<videoType[]>([]);
+  */
+
+  const videoData: videoType[] = [
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+    {
+      id: {
+        kind: "ko",
+        videoId: "ho",
+      },
+      snippet: {
+        channelId: "123",
+        channelTitle: "민혁",
+        description: "임시 데이터입니다.",
+        thumbnails: {
+          high: {
+            url: "/News/Avandress.jpg",
+          },
+        },
+        title: "제목입니다.",
+      },
+    },
+  ];
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -43,11 +167,12 @@ const YoutubePeed = () => {
     dots: false,
     infinite: true,
     centerMode: true,
-    centerPadding: "50px",
+    centerPadding: "0",
     nextArrow: <SlideNext />,
     prevArrow: <SlideBefore />,
   };
 
+  /*
   const youtubeAPI = axios.create({
     baseURL: "https://youtube.googleapis.com/youtube/v3",
     params: { key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY },
@@ -70,6 +195,7 @@ const YoutubePeed = () => {
   useEffect(() => {
     youtubeFetch();
   }, []);
+  */
 
   return (
     <div className='YoutubePeed-container'>

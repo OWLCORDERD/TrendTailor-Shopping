@@ -21,7 +21,7 @@
                         font-size: 2rem;
                         font-family: $Raleway-font;
                         text-transform: uppercase;
-                        font-weight: 300;
+                        font-weight: bold;
                         line-height: 8rem;
                         color : #fff;
                 }
@@ -32,7 +32,8 @@
                 position: relative;
                 width: 100%;
                 height: 30rem;
-                transform: scale(0.9);
+                transform: scale(1);
+                padding: 0 2rem;
         
                 .video-thumbnail{
                         position: relative;
@@ -41,8 +42,12 @@
                         overflow: hidden;
         
                         img{
+                                position: absolute;
+                                top: 0;
+                                left: 0;
                                 width: 100%;
                                 height: 100%;
+                                object-fit: cover;
                         }
         
                         .hover-playButton{
@@ -57,6 +62,7 @@
                                 top: 0;
                                 left: 0;
                                 background-color: rgba($color: #000000, $alpha: 0.7);
+                                z-index: 10;
                         }
                 }
         
@@ -85,6 +91,7 @@
                         width: 100%;
                         height: 30rem;
                         transform: scale(1.0);
+                        padding: 0;
         
                         .video-thumbnail{
                                 position: relative;
@@ -140,7 +147,7 @@
                                 .video-title{
                                         display: block;
                                         width: 100%;
-                                        height: 5rem;
+                                        height: 3rem;
         
                                         h2{
                                                 width: 100%;
