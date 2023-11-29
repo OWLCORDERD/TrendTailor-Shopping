@@ -10,7 +10,7 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
 
-  const [slideWidth, setSlideWidth] = useState(0);
+  const [scrollWidth, setScrollWidth] = useState(0);
   const [slideMaxWidth, setSlideMaxWidth] = useState(0);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState(0);
@@ -30,20 +30,20 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    if (itemRef.current && slideWidth > 0) {
+    if (itemRef.current && slideMaxWidth > 0) {
       const itemWidth = itemRef.current.clientWidth;
-      setSlideWidth((initialWidth) => initialWidth - itemWidth - 50);
+      setScrollWidth((initialWidth) => initialWidth - itemWidth - 50);
     }
   };
 
   const nextSlide = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    const scrollMaxLength = slideMaxWidth - 450 * 4;
-
-    if (itemRef.current && slideWidth < scrollMaxLength) {
-      const itemWidth = itemRef.current.clientWidth;
-      setSlideWidth((initialWidth) => initialWidth + itemWidth + 50);
+    if (itemRef.current) {
+      const itemWidth = itemRef.current.clientWidth + 50;
+      if (scrollWidth < slideMaxWidth - itemWidth * 3) {
+        setScrollWidth((initialWidth) => initialWidth + itemWidth);
+      }
     }
   };
 
@@ -87,11 +87,11 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
 
         <div className='slide-control'>
           <div className='slide-prev' onClick={(e) => prevSlide(e)}>
-            <IoIosArrowBack color='#000' fontSize={30} />
+            <IoIosArrowBack fontSize={30} />
           </div>
 
           <div className='slide-next' onClick={(e) => nextSlide(e)}>
-            <IoIosArrowForward color='#000' fontSize={30} />
+            <IoIosArrowForward fontSize={30} />
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
           className='slide-wrap'
           ref={scrollRef}
           style={{
-            transform: `translateX(-${slideWidth}px)`,
+            transform: `translateX(-${scrollWidth}px)`,
             transition: "all 0.5s ease-in",
           }}
         >

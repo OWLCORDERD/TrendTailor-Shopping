@@ -9,6 +9,7 @@ import { IoCloudyNightSharp } from "react-icons/io5";
 import Search from "component/Search/Search";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 import { ThemeContext } from "../../../context/ThemeContext";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
   const { data: session, status }: any = useSession();
@@ -76,10 +77,11 @@ const Navbar = () => {
             <li>
               <Link href='/notice'>Notice</Link>
             </li>
-            <li>
-              <a href='#'>Megazine</a>
-            </li>
           </ul>
+
+          <div className='Responsive-button'>
+            <GiHamburgerMenu />
+          </div>
         </div>
       </nav>
     </header>

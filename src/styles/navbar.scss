@@ -122,6 +122,10 @@
         height: 5rem;
         padding : 0 0 0 150px;
 
+        .Responsive-button{
+            display: none;
+        }
+
         .mode-button{
             position: relative;
             display: flex;
@@ -173,19 +177,19 @@
 
         .Navbar-menu{
             position: relative;
-            width: 60rem;
+            width: 40rem;
         
             li{
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 20%;
+                width: 25%;
                 height: 3rem;
         
                 a{
                     width: max-content;
                     font-family: $Raleway-font;
-                    font-size: 15px;
+                    font-size: 13px;
                     font-weight: bold;
                     text-transform: uppercase;
                 }
@@ -206,23 +210,73 @@
     
             .Navbar-menu{
                 position: relative;
-                width: 50rem;
+                width: 40rem;
             
                 li{
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
-                    width: 20%;
+                    width: 25%;
                     height: 3rem;
             
                     a{
                         width: max-content;
                         font-family: $Raleway-font;
-                        font-size: 15px;
+                        font-size: 13px;
                         font-weight: bold;
                         text-transform: uppercase;
                     }
                 }
+            }
+        }
+    }
+}
+
+/*모바일 ~ 소형 테블릿 반응형*/
+@media screen and (min-width : 375px) and (max-width : 768px){
+    .Navbar-container{
+    
+        .Main-nav{
+    
+            .logo{
+                width: 8rem;
+
+                a{
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                }
+            }
+    
+            .login-menu{
+                display: none;
+            }
+        }
+    
+        .Sub-nav{
+
+            .Responsive-button{
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                cursor: pointer;
+            }
+    
+            .mode-button{
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 8rem;
+                height: 2rem;
+                cursor: pointer;
+                margin-left : 0;
+            }
+    
+            .Navbar-menu{
+                display: none;
             }
         }
     }

@@ -30,10 +30,9 @@ export interface videoType {
 }
 
 const YoutubePeed = () => {
-  /*
   const [videoData, setVideoData] = useState<videoType[]>([]);
-  */
 
+  /*
   const videoData: videoType[] = [
     {
       id: {
@@ -155,6 +154,7 @@ const YoutubePeed = () => {
       },
     },
   ];
+  */
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -172,7 +172,6 @@ const YoutubePeed = () => {
     prevArrow: <SlideBefore />,
   };
 
-  /*
   const youtubeAPI = axios.create({
     baseURL: "https://youtube.googleapis.com/youtube/v3",
     params: { key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY },
@@ -195,7 +194,6 @@ const YoutubePeed = () => {
   useEffect(() => {
     youtubeFetch();
   }, []);
-  */
 
   return (
     <div className='YoutubePeed-container'>

@@ -5,6 +5,8 @@ import "styles/clothesPeed.scss";
 import { clothes } from "./Peed";
 import { useCallback, useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
+import { useContext } from "react";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 interface propsClothesType {
   clothesDB: clothes[];
@@ -17,6 +19,7 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
   const [currentDB, setCurrentDB] = useState<clothes[]>([]);
+  const { mode } = useContext(ThemeContext);
 
   const currentDBUpdate = useCallback(() => {
     const currentData: clothes[] = clothesDB.slice(firstIndex, lastIndex);
@@ -83,7 +86,9 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
         {loading ? (
           <div className='loading-spinner'>
             <RotatingLines
-              strokeColor='rgba(0,0,0,0.8)'
+              strokeColor={
+                mode === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)"
+              }
               strokeWidth='3'
               animationDuration='0.75'
               width='50'
