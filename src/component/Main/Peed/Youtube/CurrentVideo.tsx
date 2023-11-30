@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import "styles/currentVideo.scss";
 import { videoType } from "./YoutubePeed";
+import { motion } from "framer-motion";
 
 interface currentIdPropsType {
   currentVideo: videoType | null;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   allVideo: videoType[];
+  open: boolean;
 }
 
 const CurrentVideo = ({
@@ -14,6 +16,23 @@ const CurrentVideo = ({
   setOpen,
   allVideo,
 }: currentIdPropsType) => {
+  const openAnimate = {
+    initial: {
+      x: "-50%",
+      y: "100%",
+      opacity: 0,
+    },
+
+    animate: {
+      x: "-50%",
+      y: "-50%",
+      opacity: 1,
+
+      transition: {
+        duration: 1,
+      },
+    },
+  };
   const [selectVideoData, setselectVideoData] = useState<videoType | null>(
     currentVideo
   );
@@ -32,8 +51,20 @@ const CurrentVideo = ({
     setselectVideoData(video);
   };
   return (
-    <section className='CurrentVideo-container'>
-      <div className='CurrentVideo-wrap'>
+    <div className='CurrentVideo-container'>
+      <motion.div
+        className='CurrentVideo-wrap'
+        variants={openAnimate}
+        animate='animate'
+        initial='initial'
+      >
+        <button
+          type='button'
+          className='close-button'
+          onClick={(e) => closeBtn(e)}
+        >
+          <AiOutlineClose color={"#fff"} />
+        </button>
         <div className='Current-video'>
           <div className='Current-iframe'>
             <iframe
@@ -59,14 +90,6 @@ const CurrentVideo = ({
         </div>
 
         <div className='VideoList-container'>
-          <button
-            type='button'
-            className='close-button'
-            onClick={(e) => closeBtn(e)}
-          >
-            <AiOutlineClose color={"#fff"} />
-          </button>
-
           <div className='Video-ListBox'>
             {allVideo.map((video) => {
               return (
@@ -94,8 +117,8 @@ const CurrentVideo = ({
             })}
           </div>
         </div>
-      </div>
-    </section>
+      </motion.div>
+    </div>
   );
 };
 

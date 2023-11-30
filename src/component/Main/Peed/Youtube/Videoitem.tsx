@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { videoType } from "./YoutubePeed";
 
@@ -6,9 +6,10 @@ interface videoProps {
   video: videoType;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentVideo: React.Dispatch<React.SetStateAction<videoType | null>>;
+  open: boolean;
 }
 
-const Videoitem = ({ video, setOpen, setCurrentVideo }: videoProps) => {
+const Videoitem = ({ video, setOpen, setCurrentVideo, open }: videoProps) => {
   const viewVideo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -16,6 +17,19 @@ const Videoitem = ({ video, setOpen, setCurrentVideo }: videoProps) => {
 
     setCurrentVideo(video);
   };
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (open === true) {
+      if (body) {
+        body.style.overflow = "hidden";
+      }
+    } else {
+      if (body) {
+        body.style.overflow = "auto";
+      }
+    }
+  }, [open]);
 
   return (
     <>

@@ -1,8 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
-import { ThemeProvider } from "../../context/ThemeContext";
 import AuthSession from "component/AuthSession";
-import Head from "next/head";
+import { ThemeProvider } from "../../context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "WISH | SHOPPING SITE",

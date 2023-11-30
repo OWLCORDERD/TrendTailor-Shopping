@@ -209,6 +209,7 @@ const YoutubePeed = () => {
               video={video}
               setOpen={setOpen}
               setCurrentVideo={setCurrentVideo}
+              open={open}
             />
           );
         })}
@@ -219,6 +220,7 @@ const YoutubePeed = () => {
           setOpen={setOpen}
           allVideo={videoData}
           currentVideo={currentVideo}
+          open={open}
         />
       ) : null}
     </div>

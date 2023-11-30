@@ -112,6 +112,10 @@
                 }
             }
         }
+
+        .Responsive-menuBox{
+            display: none;
+        }
     }
 
     .Sub-nav{
@@ -121,10 +125,6 @@
         width: 100%;
         height: 5rem;
         padding : 0 0 0 150px;
-
-        .Responsive-button{
-            display: none;
-        }
 
         .mode-button{
             position: relative;
@@ -200,6 +200,7 @@
 
 @media screen and (max-width : 1440px){
     .Navbar-container{
+        height: 5rem;
     
         .Main-nav{
             padding : 0 2rem;
@@ -250,34 +251,38 @@
             .login-menu{
                 display: none;
             }
-        }
-    
-        .Sub-nav{
-
-            .Responsive-button{
-                width: 50px;
-                height: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.2rem;
-                cursor: pointer;
-            }
-    
-            .mode-button{
-                position: relative;
+            
+            .Responsive-menuBox{
+                width: 100px;
+                height: 100%;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                width: 8rem;
-                height: 2rem;
-                cursor: pointer;
-                margin-left : 0;
+
+                .Responsive-button{
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                }
+
+                .Search-button{
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                }
             }
+        }
     
-            .Navbar-menu{
-                display: none;
-            }
+        .Sub-nav{
+            display: none;
         }
     }
 }

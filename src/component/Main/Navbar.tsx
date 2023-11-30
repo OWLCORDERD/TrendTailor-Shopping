@@ -10,6 +10,7 @@ import Search from "component/Search/Search";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { IoIosSearch } from "react-icons/io";
 
 const Navbar = () => {
   const { data: session, status }: any = useSession();
@@ -51,6 +52,16 @@ const Navbar = () => {
               </Link>
             )}
           </div>
+
+          <div className='Responsive-menuBox'>
+            <div className='Search-button'>
+              <IoIosSearch />
+            </div>
+
+            <div className='Responsive-button'>
+              <GiHamburgerMenu />
+            </div>
+          </div>
         </div>
 
         <div className='Sub-nav'>
@@ -78,10 +89,6 @@ const Navbar = () => {
               <Link href='/notice'>Notice</Link>
             </li>
           </ul>
-
-          <div className='Responsive-button'>
-            <GiHamburgerMenu />
-          </div>
         </div>
       </nav>
     </header>
