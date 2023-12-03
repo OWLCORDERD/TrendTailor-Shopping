@@ -10,6 +10,7 @@
         width: 100%;
         height: 12.5rem;
         display: flex;
+        justify-content: space-between;
         align-items: center;
         padding: 0 6.25rem;
 
@@ -33,11 +34,10 @@
 
             .Notice-slider{
                 position: relative;
-                width: 50%;
+                width: 65%;
                 height: 5rem;
                 z-index: 100;
                 overflow: hidden;
-                margin-left : 5rem;
 
                 .list-slider{
                     position: absolute;
@@ -85,4 +85,62 @@
                 }
             }
         }
+}
+
+@media screen and (max-width : 768px){
+    .MainPage-Board{
+
+        .Notice-container{
+            height: 10rem;
+            flex-direction: column;
+            padding: 0 2rem;
+
+            .Notice-titleBox{
+                width: 100%;
+                height: 5rem;
+
+                .Notice-title{
+                    font-size: 1.2rem;
+                }
+            }
+
+            .Notice-slider{
+                position: relative;
+                width: 100%;
+                height: 5rem;
+                z-index: 100;
+                overflow: hidden;
+
+                .list-slider{
+
+                    li{
+
+                        a{
+
+                            h2{
+                                display: inline-block;
+                                font-size: 12px;
+                                font-weight: bold;
+                                line-height : 5rem;
+
+                                &:hover{
+                                    text-decoration: underline;
+                                }
+                            }
+
+                            span{
+                                position: absolute;
+                                width: max-content;
+                                display: inline-block;
+                                right: 0;
+                                font-weight: bold;
+                                font-size: 12px;
+                                line-height: 5rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

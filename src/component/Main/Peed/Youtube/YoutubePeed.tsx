@@ -1,7 +1,6 @@
 "use client";
 
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import Videoitem from "./Videoitem";
 import "styles/youtubePeed.scss";
@@ -10,152 +9,13 @@ import SlideNext from "component/slideButton/SlideNext";
 import SlideBefore from "component/slideButton/SlideBefore";
 import { AiOutlinePlus } from "react-icons/ai";
 import CurrentVideo from "./CurrentVideo";
+import { videoType } from "../Peed";
 
-export interface videoType {
-  id: {
-    kind: string;
-    videoId: string;
-  };
-  snippet: {
-    channelId: string;
-    channelTitle: string;
-    description: string;
-    thumbnails: {
-      high: {
-        url: string;
-      };
-    };
-    title: string;
-  };
+interface propsYoutubeDB {
+  videoData: videoType[];
 }
 
-const YoutubePeed = () => {
-  const [videoData, setVideoData] = useState<videoType[]>([]);
-
-  /*
-  const videoData: videoType[] = [
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-    {
-      id: {
-        kind: "ko",
-        videoId: "ho",
-      },
-      snippet: {
-        channelId: "123",
-        channelTitle: "민혁",
-        description: "임시 데이터입니다.",
-        thumbnails: {
-          high: {
-            url: "/News/Avandress.jpg",
-          },
-        },
-        title: "제목입니다.",
-      },
-    },
-  ];
-  */
-
+const YoutubePeed = ({ videoData }: propsYoutubeDB) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
@@ -171,29 +31,6 @@ const YoutubePeed = () => {
     nextArrow: <SlideNext />,
     prevArrow: <SlideBefore />,
   };
-
-  const youtubeAPI = axios.create({
-    baseURL: "https://youtube.googleapis.com/youtube/v3",
-    params: { key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY },
-  });
-
-  const youtubeFetch = async () => {
-    youtubeAPI
-      .get("search", {
-        params: {
-          part: "snippet",
-          type: "video",
-          q: "패션 트랜드",
-          maxResults: 20,
-        },
-      })
-      .then((res) => res.data.items)
-      .then((data) => setVideoData(data));
-  };
-
-  useEffect(() => {
-    youtubeFetch();
-  }, []);
 
   return (
     <div className='YoutubePeed-container'>

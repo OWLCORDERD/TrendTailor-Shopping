@@ -32,6 +32,24 @@ export interface peedFetchDBType {
   clothesDB: clothes[];
 }
 
+export interface videoType {
+  id: {
+    kind: string;
+    videoId: string;
+  };
+  snippet: {
+    channelId: string;
+    channelTitle: string;
+    description: string;
+    thumbnails: {
+      high: {
+        url: string;
+      };
+    };
+    title: string;
+  };
+}
+
 export async function getClothesDB() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`,
@@ -66,9 +84,28 @@ export async function getSeasonDB() {
   return data;
 }
 
+export async function getYoutubeDB() {
+  const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
+  const res = await fetch(
+    `${youtubeAPI}?part=snippet&maxResults=20&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("not connect youtube db");
+  }
+
+  const data = await res.json();
+
+  return data.items;
+}
+
 const Peed = async () => {
   const clothesDB: clothes[] = await getClothesDB();
   const seasonDB: seasonType[] = await getSeasonDB();
+  const youtubeDB: videoType[] = await getYoutubeDB();
 
   return (
     <section className='MainPeed-container'>
@@ -76,7 +113,7 @@ const Peed = async () => {
         <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed seasonDB={seasonDB} clothesDB={clothesDB} />
-          <YoutubePeed />
+          <YoutubePeed videoData={youtubeDB} />
           <ClothesPeed clothesDB={clothesDB} />
         </div>
       </div>

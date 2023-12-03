@@ -8,6 +8,7 @@ import "styles/notice.scss";
 import { useRouter } from "next/navigation";
 import { NoticeType } from "app/notice/page";
 import axios from "axios";
+import Image from "next/image";
 
 const CurrentNotice = ({ params }: any) => {
   const id = params.idx;
@@ -103,7 +104,12 @@ const CurrentNotice = ({ params }: any) => {
 
           <div className='upload-imageBox'>
             <div className='upload-image'>
-              <img src={currentDB[0]?.image} alt='' />
+              <Image
+                src={currentDB[0]?.image}
+                alt='공지사항 이미지'
+                width='400'
+                height='500'
+              />
             </div>
           </div>
 

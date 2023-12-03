@@ -6,6 +6,7 @@ import Pagenation from "./Pagenation";
 import { RotatingLines } from "react-loader-spinner";
 import { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
+import Image from "next/image";
 
 export interface clothes {
   type: string;
@@ -97,7 +98,12 @@ const ProductList = ({ searchData }: propsType) => {
             return (
               <div className='product-item' key={item.productId}>
                 <div className='product-image'>
-                  <img src={item.image} alt='product-image' />
+                  <Image
+                    src={item.image}
+                    alt='product-image'
+                    width='400'
+                    height='480'
+                  />
                 </div>
 
                 <div className='product-content'>

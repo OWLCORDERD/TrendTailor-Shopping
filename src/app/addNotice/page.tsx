@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 import "styles/notice.scss";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 const AddNotice = () => {
   const [noticeInfo, setNoticeInfo] = useState({
@@ -185,7 +186,12 @@ const AddNotice = () => {
               <div className='image-wrapper'>
                 <div className='preview-image'>
                   {urlThumbnail ? (
-                    <img src={urlThumbnail} alt='uploadImg' />
+                    <Image
+                      src={urlThumbnail}
+                      alt='uploadImg'
+                      width='300'
+                      height='400'
+                    />
                   ) : (
                     "이미지 미리보기"
                   )}
