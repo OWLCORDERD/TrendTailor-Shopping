@@ -59,7 +59,7 @@ export async function getClothesDB() {
   );
 
   if (!res.ok) {
-    throw new Error("not connect clothes db");
+    return new Error("not connect clothes db");
   }
 
   const { data } = await res.json();
@@ -76,7 +76,7 @@ export async function getSeasonDB() {
   );
 
   if (!res.ok) {
-    throw new Error("not connect season db");
+    return new Error("not connect season db");
   }
 
   const { data } = await res.json();
@@ -94,7 +94,7 @@ export async function getYoutubeDB() {
   );
 
   if (!res.ok) {
-    throw new Error("not connect youtube db");
+    return new Error("not connect youtube db");
   }
 
   const data = await res.json();

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { AiFillPlayCircle } from "react-icons/ai";
-import { videoType } from "./YoutubePeed";
+import { videoType } from "../Peed";
 
 interface videoProps {
   video: videoType;

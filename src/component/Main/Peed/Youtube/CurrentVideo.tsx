@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import "styles/currentVideo.scss";
-import { videoType } from "./YoutubePeed";
+import { videoType } from "../Peed";
 import { motion } from "framer-motion";
 
 interface currentIdPropsType {
