@@ -200,7 +200,7 @@
 
 @media screen and (max-width : 1440px){
     .Navbar-container{
-        
+
         .Main-nav{
             padding : 0 2rem;
         }
@@ -233,8 +233,9 @@
 }
 
 /*모바일 ~ 소형 테블릿 반응형*/
-@media screen and (min-width : 375px) and (max-width : 768px){
+@media screen and (max-width : 768px){
     .Navbar-container{
+        height : 5rem;
     
         .Main-nav{
     
