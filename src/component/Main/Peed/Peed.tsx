@@ -94,7 +94,8 @@ export async function getYoutubeDB() {
   );
 
   if (!res.ok) {
-    return new Error("not connect youtube db");
+    console.log("not connection to YoutubeDB");
+    return null;
   }
 
   const data = await res.json();
@@ -105,7 +106,7 @@ export async function getYoutubeDB() {
 const Peed = async () => {
   const clothesDB: clothes[] = await getClothesDB();
   const seasonDB: seasonType[] = await getSeasonDB();
-  const youtubeDB: videoType[] = await getYoutubeDB();
+  const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (
     <section className='MainPeed-container'>

@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 interface currentIdPropsType {
   currentVideo: videoType | null;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  allVideo: videoType[];
+  allVideo: videoType[] | null;
   open: boolean;
 }
 
@@ -91,30 +91,32 @@ const CurrentVideo = ({
 
         <div className='VideoList-container'>
           <div className='Video-ListBox'>
-            {allVideo.map((video) => {
-              return (
-                <div
-                  className='videoList-item'
-                  key={video.id.videoId}
-                  onClick={(e) => viewVideo(e, video)}
-                  role='presentation'
-                >
-                  <div className='video-imgBox'>
-                    <img
-                      src={video.snippet.thumbnails.high.url}
-                      alt='videoImg'
-                    />
-                  </div>
+            {allVideo
+              ? allVideo.map((video) => {
+                  return (
+                    <div
+                      className='videoList-item'
+                      key={video.id.videoId}
+                      onClick={(e) => viewVideo(e, video)}
+                      role='presentation'
+                    >
+                      <div className='video-imgBox'>
+                        <img
+                          src={video.snippet.thumbnails.high.url}
+                          alt='videoImg'
+                        />
+                      </div>
 
-                  <div className='video-contentBox'>
-                    <h2 className='video-title'>{video.snippet.title}</h2>
-                    <span className='video-channel'>
-                      {video.snippet.channelTitle}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                      <div className='video-contentBox'>
+                        <h2 className='video-title'>{video.snippet.title}</h2>
+                        <span className='video-channel'>
+                          {video.snippet.channelTitle}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
           </div>
         </div>
       </motion.div>

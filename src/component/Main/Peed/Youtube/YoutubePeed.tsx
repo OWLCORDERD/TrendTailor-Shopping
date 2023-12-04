@@ -12,7 +12,7 @@ import CurrentVideo from "./CurrentVideo";
 import { videoType } from "../Peed";
 
 interface propsYoutubeDB {
-  videoData: videoType[];
+  videoData: videoType[] | null;
 }
 
 const YoutubePeed = ({ videoData }: propsYoutubeDB) => {
@@ -39,17 +39,19 @@ const YoutubePeed = ({ videoData }: propsYoutubeDB) => {
         <AiOutlinePlus fontSize={30} color='#fff' />
       </div>
       <Slider {...settings}>
-        {videoData.map((video) => {
-          return (
-            <Videoitem
-              key={video.id.videoId}
-              video={video}
-              setOpen={setOpen}
-              setCurrentVideo={setCurrentVideo}
-              open={open}
-            />
-          );
-        })}
+        {videoData !== null
+          ? videoData.map((video) => {
+              return (
+                <Videoitem
+                  key={video.id.videoId}
+                  video={video}
+                  setOpen={setOpen}
+                  setCurrentVideo={setCurrentVideo}
+                  open={open}
+                />
+              );
+            })
+          : null}
       </Slider>
 
       {open === true ? (
