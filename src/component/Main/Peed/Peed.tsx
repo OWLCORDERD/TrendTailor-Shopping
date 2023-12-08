@@ -84,6 +84,7 @@ export async function getSeasonDB() {
   return data;
 }
 
+/*
 export async function getYoutubeDB() {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
   const res = await fetch(
@@ -102,11 +103,14 @@ export async function getYoutubeDB() {
 
   return data.items;
 }
+*/
 
 const Peed = async () => {
   const clothesDB: clothes[] = await getClothesDB();
   const seasonDB: seasonType[] = await getSeasonDB();
+  /*
   const youtubeDB: videoType[] | null = await getYoutubeDB();
+  */
 
   return (
     <section className='MainPeed-container'>
@@ -114,7 +118,9 @@ const Peed = async () => {
         <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed seasonDB={seasonDB} clothesDB={clothesDB} />
+          {/*
           <YoutubePeed videoData={youtubeDB} />
+          */}
           <ClothesPeed clothesDB={clothesDB} />
         </div>
       </div>

@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     const [data] = await connection.execute(query, values);
 
-    return NextResponse.json({ data: data });
+    return NextResponse.json(data);
   } catch (err) {
     return NextResponse.json({ message: "error database" });
   }

@@ -62,8 +62,6 @@ const Login = () => {
   const { status } = useSession();
   const router = useRouter();
 
-  console.log(status);
-
   if (status === "authenticated") {
     router.replace("/");
   }

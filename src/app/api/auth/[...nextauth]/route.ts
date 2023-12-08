@@ -30,18 +30,26 @@ const handler = NextAuth({
           const currentUserEmail = String(credentials?.userEmail);
           const currentPassword = String(credentials?.password);
 
-          const res = await axios.post("/api/login", {
+          const bodyData = JSON.stringify({
             userEmail: currentUserEmail,
           });
 
-          const user = res.data;
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/login`,
+            {
+              method: "POST",
+              body: bodyData,
+            }
+          );
+
+          const user = await res.json();
 
           const isValid = await bcrypt.compare(
             currentPassword,
-            user.data[0].password
+            user[0].password
           );
 
-          const username = user.data[0].username;
+          const username = user[0].username;
 
           if (user && isValid) {
             return {

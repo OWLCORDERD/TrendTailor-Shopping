@@ -102,8 +102,9 @@
             left: 50%;
             transform: translateX(-50%);
             width: 20rem;
-            height: 3rem;
+            height: 5rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
@@ -112,6 +113,8 @@
                 font-family: $Raleway-font;
                 font-weight: bold;
                 text-transform: uppercase;
+                font-size: 15px;
+                margin-bottom: 1rem;
             }
     
             &.remove{
@@ -202,25 +205,8 @@
             margin: 3rem 0 2rem 0;
 
             .viewMore-button{
-                position: relative;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 10rem;
-                height: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-        
                 span{
-                    font-family: $Raleway-font;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                    font-size: 13px;
-                }
-        
-                &.remove{
-                    display: none;
+                    font-size: 12px;
                 }
             }
         

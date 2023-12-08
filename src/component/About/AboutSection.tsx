@@ -30,7 +30,7 @@ const AboutSection = () => {
           <div className='AboutWISH-solutions'>
             <a href='#Search' className='solutions-item'>
               <div className='solution-icon'>
-                <BsSearch fontSize={60} fill='white' />
+                <BsSearch fill='white' />
               </div>
 
               <div className='solution-content'>
@@ -49,7 +49,7 @@ const AboutSection = () => {
 
             <a href='#shop' className='solutions-item'>
               <div className='solution-icon'>
-                <IoShirtSharp fontSize={60} fill='white' />
+                <IoShirtSharp fill='white' />
               </div>
 
               <div className='solution-content'>
@@ -68,7 +68,7 @@ const AboutSection = () => {
 
             <a href='#youtube' className='solutions-item'>
               <div className='solution-icon'>
-                <BsYoutube fontSize={60} fill='white' />
+                <BsYoutube fill='white' />
               </div>
 
               <div className='solution-content'>
@@ -87,7 +87,7 @@ const AboutSection = () => {
 
             <a href='#Peed' className='solutions-item'>
               <div className='solution-icon'>
-                <RiContactsFill fontSize={60} fill='white' />
+                <RiContactsFill fill='white' />
               </div>
 
               <div className='solution-content'>

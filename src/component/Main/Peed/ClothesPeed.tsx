@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { useContext } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import { IoIosArrowDown } from "react-icons/io";
 
 interface propsClothesType {
   clothesDB: clothes[];
@@ -105,6 +106,7 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
             onClick={(e) => nextPage(e)}
           >
             <span>view more</span>
+            <IoIosArrowDown />
           </div>
         )}
       </div>

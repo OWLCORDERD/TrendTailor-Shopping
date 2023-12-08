@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "styles/navbar.scss";
 import { signOut, useSession } from "next-auth/react";
 import { BsFillSunFill } from "react-icons/bs";
@@ -10,12 +10,16 @@ import Search from "component/Search/Search";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { IoIosSearch } from "react-icons/io";
+import { IoIosSearch, IoIosClose } from "react-icons/io";
+import ResponsiveMenu from "./Responsive/ResponsiveMenu";
 
 const Navbar = () => {
   const { data: session, status }: any = useSession();
 
   const { mode, toggle } = useContext(ThemeContext);
+
+  const [responsiveMenuActive, setResponsiveMenuActive] =
+    useState<boolean>(false);
 
   return (
     <header>
@@ -58,9 +62,21 @@ const Navbar = () => {
               <IoIosSearch />
             </div>
 
-            <div className='Responsive-button'>
-              <GiHamburgerMenu />
-            </div>
+            {responsiveMenuActive ? (
+              <div
+                className='Responsive-button'
+                onClick={() => setResponsiveMenuActive(false)}
+              >
+                <IoIosClose fontSize='40px' />
+              </div>
+            ) : (
+              <div
+                className='Responsive-button'
+                onClick={() => setResponsiveMenuActive(true)}
+              >
+                <GiHamburgerMenu />
+              </div>
+            )}
           </div>
         </div>
 
@@ -91,6 +107,11 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
+
+      <ResponsiveMenu
+        menuActive={responsiveMenuActive}
+        setResponsiveMenuActive={setResponsiveMenuActive}
+      />
     </header>
   );
 };

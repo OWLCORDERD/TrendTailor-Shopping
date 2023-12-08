@@ -6,7 +6,8 @@
     left: 0;
     width: 100%;
     height: 10rem;
-    z-index: 200;
+    z-index: 1100;
+    background-color: #fff;
 
     .Main-nav{
         display: flex;
@@ -198,6 +199,7 @@
     }
 }
 
+/*맥북 반응형*/
 @media screen and (max-width : 1440px){
     .Navbar-container{
 

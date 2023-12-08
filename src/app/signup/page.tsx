@@ -214,10 +214,6 @@ const Register = () => {
                 </div>
               ) : null}
             </div>
-
-            <button type='button' className='duplicate-button'>
-              중복 검사
-            </button>
           </div>
 
           <div
