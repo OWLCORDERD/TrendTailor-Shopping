@@ -8,9 +8,10 @@ export async function GET(req: NextRequest) {
     if (connection === null) {
       connection = await mysql2.createConnection({
         host: process.env.MYSQL_HOST,
-        user: "root",
+        user: "Owlcoderd",
         password: process.env.MYSQL_PASSWORD,
         database: "wish",
+        port: 3306,
       });
     }
 

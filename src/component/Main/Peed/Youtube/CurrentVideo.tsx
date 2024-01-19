@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import "styles/currentVideo.scss";
 import { videoType } from "../Peed";
@@ -16,20 +16,32 @@ const CurrentVideo = ({
   setOpen,
   allVideo,
 }: currentIdPropsType) => {
+  const currentRef = useRef<HTMLDivElement>(null);
+
   const openAnimate = {
     initial: {
-      x: "-50%",
-      y: "100%",
       opacity: 0,
     },
 
     animate: {
-      x: "-50%",
-      y: "-50%",
       opacity: 1,
 
       transition: {
         duration: 1,
+      },
+    },
+  };
+
+  const openCurrentVideo = {
+    initial: {
+      opacity: 0,
+    },
+
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+        delay: 1,
       },
     },
   };
@@ -49,9 +61,13 @@ const CurrentVideo = ({
     e.preventDefault();
 
     setselectVideoData(video);
+
+    if (currentRef.current) {
+      currentRef.current.scrollTo(0, 0);
+    }
   };
   return (
-    <div className='CurrentVideo-container'>
+    <div className='CurrentVideo-container' ref={currentRef}>
       <motion.div
         className='CurrentVideo-wrap'
         variants={openAnimate}
@@ -65,7 +81,7 @@ const CurrentVideo = ({
         >
           <AiOutlineClose color={"#fff"} />
         </button>
-        <div className='Current-video'>
+        <motion.div className='Current-video' variants={openCurrentVideo}>
           <div className='Current-iframe'>
             <iframe
               width='560'
@@ -87,9 +103,9 @@ const CurrentVideo = ({
               <span>{selectVideoData?.snippet.description}</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className='VideoList-container'>
+        <motion.div className='VideoList-container' variants={openCurrentVideo}>
           <div className='Video-ListBox'>
             {allVideo
               ? allVideo.map((video) => {
@@ -118,7 +134,7 @@ const CurrentVideo = ({
                 })
               : null}
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );

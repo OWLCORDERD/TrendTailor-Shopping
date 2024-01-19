@@ -1,0 +1,418 @@
+@import "app/globals.scss";
+
+.Trend-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 6.25rem 0;
+
+    .TrendChannel-container{
+        position: relative;
+        width: 100%;
+        height: 42rem;
+
+        .Channel-wrap{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+
+            .Channel-imgBox{
+                position: relative;
+                width: 35rem;
+                height: 100%;
+
+                img{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .Channel-infoBox{
+                width: 50rem;
+                height: 100%;
+                padding: 0 6rem;
+
+                .Category{
+                    width: 100%;
+                    height: 3rem;
+                    
+                    span{
+                        font-family: $Noto-Korean;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                    }
+                    
+                }
+
+                .Channel-name{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 25rem;
+                    height: 6rem;
+                    margin-top: 2rem;
+
+                    .icon{
+                        font-size: 3rem;
+                    }
+
+                    h1{
+                        font-size: 2rem;
+                        font-family: $Noto-Korean;
+                        line-height: 6rem;
+                    }
+                }
+
+                .Channel-subscribe{
+                    width: 20rem;
+                    height: 3rem;
+                    margin-top: 3rem;
+                    font-family: $Noto-Korean;
+
+                    .subscribe-title{
+                        display: inline-block;
+                        width: 10rem;
+
+                        h2{
+                            font-size: 15px;
+                            line-height: 3rem;
+                        }
+                    }
+
+                    .subscribe-count{
+                        display: inline-block;
+                        width: 10rem;
+
+                        span{
+                            font-size: 15px;
+                            line-height: 3rem;
+                        }
+                    }
+                }
+
+                .Channel-info{
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    width: 100%;
+                    height: 16rem;
+
+                    p{
+                        font-size: 15px;
+                        font-family: $Noto-Korean;
+                    }
+                }
+
+                .viewChannel-button{
+                    display: block;
+                    width: 100%;
+                    background-color: #000;
+                    border: none;
+                    color: #fff;
+                    font-family: $Noto-Korean;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    margin-top: 5rem;
+                    text-align: center;
+                    line-height: 4rem;
+                }
+            }
+        }
+    }
+
+    .TrendVideo-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 6.25rem 5rem;
+
+        .TrendVideo-titleBox{
+            width: 100%;
+            
+            h2{
+                line-height: 6.25rem;
+                font-size: 1.2rem;
+                font-family: $Noto-Korean;
+            }
+        }
+
+        .Trend-videoList{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap : 3.125rem;
+
+            .Trend-video{
+                position: relative;
+                width: 100%;
+                height: 100%;
+
+                .video-thumbnail{
+                    position: relative;
+                    width: 100%;
+                    height: 20rem;
+
+                    img{
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                .video-infoBox{
+                    position: relative;
+                    width: 100%;
+                    height: 10rem;
+                    padding: 1rem 0;
+
+                    .video-title{
+                        width: 100%;
+
+                        h2{
+                            line-height: 3rem;
+                            font-size: 1rem;
+                            font-family: $Noto-Korean;
+                        }
+                    }
+
+                    .video-channel{
+                        width: 100%;
+                        margin-top: 2rem;
+
+                        span{
+                            line-height: 3rem;
+                            font-size: 13px;
+                            font-family: $Noto-Korean;
+                        }
+                    }
+                }
+            }
+        }
+
+        .loadData{
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            content: '';
+
+            .Skeleton-videoList{
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap : 3.125rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width : 500px) {
+    .Trend-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    
+        .TrendChannel-container{
+            position: relative;
+            width: 100%;
+            height: 100%;
+    
+            .Channel-wrap{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+    
+                .Channel-imgBox{
+                    position: relative;
+                    width: 100%;
+                    height: 25rem;
+    
+                    img{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+    
+                .Channel-infoBox{
+                    width: 100%;
+                    height: 35rem;
+                    padding: 2rem 3rem;
+    
+                    .Category{
+                        width: 100%;
+                        height: 2rem;
+                        
+                        span{
+                            font-family: $Noto-Korean;
+                            font-size: 15px;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            line-height: 2rem;
+                        }
+                        
+                    }
+    
+                    .Channel-name{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 80%;
+                        height: 5rem;
+                        margin-top: 2rem;
+    
+                        .icon{
+                            font-size: 2rem;
+                        }
+    
+                        h1{
+                            font-size: 1.5rem;
+                            font-family: $Noto-Korean;
+                            line-height: 5rem;
+                        }
+                    }
+    
+                    .Channel-subscribe{
+                        width: 100%;
+                        height: 3rem;
+                        margin-top: 2rem;
+                        font-family: $Noto-Korean;
+    
+                        .subscribe-title{
+                            display: inline-block;
+                            width: 40%;
+    
+                            h2{
+                                font-size: 15px;
+                                line-height: 3rem;
+                            }
+                        }
+    
+                        .subscribe-count{
+                            display: inline-block;
+                            width: 60%;
+    
+                            span{
+                                font-size: 15px;
+                                line-height: 3rem;
+                            }
+                        }
+                    }
+    
+                    .Channel-info{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        width: 100%;
+                        height: 10rem;
+                        margin-top: 2rem;
+    
+                        p{
+                            font-size: 12px;
+                            font-family: $Noto-Korean;
+                        }
+                    }
+    
+                    .viewChannel-button{
+                        display: block;
+                        width: 100%;
+                        background-color: #000;
+                        border: none;
+                        color: #fff;
+                        font-family: $Noto-Korean;
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-size: 12px;
+                        margin-top: 2rem;
+                        text-align: center;
+                        line-height: 3rem;
+                    }
+                }
+            }
+        }
+    
+        .TrendVideo-container{
+            padding: 2rem 3rem;
+    
+            .TrendVideo-titleBox{
+                
+                h2{
+                    font-size: 14px;
+                }
+            }
+    
+            .Trend-videoList{
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap : 3.125rem;
+    
+                .Trend-video{
+    
+                    .video-thumbnail{
+                        height: 15rem;
+                    }
+    
+                    .video-infoBox{
+                        position: relative;
+                        width: 100%;
+                        height: 10rem;
+                        padding: 1rem 0;
+    
+                        .video-title{
+                            width: 100%;
+    
+                            h2{
+                                line-height: 1rem;
+                                font-size: 13px;
+                                font-family: $Noto-Korean;
+                            }
+                        }
+    
+                        .video-channel{
+    
+                            span{
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+    
+            .loadData{
+    
+                .Skeleton-videoList{
+                    position: relative;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(1, 1fr);
+                    gap : 3.125rem;
+                }
+            }
+        }
+    }
+}

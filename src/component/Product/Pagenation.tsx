@@ -1,12 +1,12 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 
 interface pageProps {
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPage: React.Dispatch<SetStateAction<number>>;
   postMaxLength: number;
   DBlength: number;
   currentPage: number;
   searchDBlength: number | undefined;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoading: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const Pagenation = ({

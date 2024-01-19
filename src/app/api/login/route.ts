@@ -16,9 +16,10 @@ export async function POST(request: Request) {
   if (connection === null) {
     connection = await mysql2.createConnection({
       host: process.env.MYSQL_HOST,
-      user: "root",
+      user: "Owlcoderd",
       database: "wish",
       password: process.env.MYSQL_PASSWORD,
+      port: 3306,
     });
   }
 

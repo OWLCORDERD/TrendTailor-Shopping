@@ -99,7 +99,7 @@ const Navbar = () => {
               <Link href='/shop'>shop</Link>
             </li>
             <li>
-              <a href='#'>Trend</a>
+              <Link href='/trend'>Trend</Link>
             </li>
             <li>
               <Link href='/notice'>Notice</Link>

@@ -26,7 +26,8 @@ export async function POST(req: Request) {
         host: process.env.MYSQL_HOST,
         password: process.env.MYSQL_PASSWORD,
         database: "wish",
-        user: "root",
+        user: "Owlcoderd",
+        port: 3306,
       });
     }
 

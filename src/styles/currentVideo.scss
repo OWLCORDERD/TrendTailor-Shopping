@@ -7,24 +7,28 @@
     width: 100%;
     height: 100vh;
     background-color: rgba($color: #000000, $alpha: 0.5);
-    z-index: 1000;
+    z-index: 10000;
+    overflow-y: scroll;
 
     .CurrentVideo-wrap{
         position: absolute;
-        top: 50%;
+        top: 2rem;
         left: 50%;
-        transform: translate(-50%, -50%);
-        width: 70%;
-        height: 80%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: max-content;
         background-color: #0f0f0f;
-        padding: 50px;
+        padding: 5rem 0;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
 
         .close-button{
             position: absolute;
-            top: 2rem;
+            top: 1rem;
             right: 2rem;
             width: 50px;
             height: 50px;
@@ -32,19 +36,22 @@
             border: none;
             color: #fff;
             cursor: pointer;
-            font-size: 2rem;
+            font-size: 1.5rem;
             text-align: center;
             z-index: 10;
         }
 
         .Current-video{
             position: relative;
-            width: 70%;
-            height: 100%;
+            width: 100%;
+            height: max-content;
+            padding: 0 50px;
 
             .Current-iframe{
                 width: 100%;
-                height: 60%;
+                height: 30rem;
+                overflow: hidden;
+                border-radius: 10px;
 
                 iframe{
                     width: 100%;
@@ -56,8 +63,9 @@
             .CurrentVideo-contentBox{
                 position: relative;
                 width: 100%;
-                height: 40%;
+                height: 16rem;
                 font-family: $Noto-Korean;
+                margin-top: 20px;
 
                 .Video-title{
                     width: 100%;
@@ -97,26 +105,20 @@
         }
 
         .VideoList-container{
-            width: 30%;
+            width: 100%;
             height: 100%;
 
             .Video-ListBox{
                 position: relative;
                 width: 100%;
-                height: 90%;
+                height: max-content;
                 margin-top: 50px;
-                padding-left: 1rem;
-                overflow-y: auto;
-
-                &::-webkit-scrollbar{
-                    display: none;
-                }
 
                 .videoList-item{
                     width: 100%;
                     height: max-content;
                     margin-bottom: 2rem;
-                    padding: 1rem 2rem;
+                    padding: 20px 50px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -128,7 +130,7 @@
                     }
 
                     .video-imgBox{
-                        width: 50%;
+                        width: 20%;
                         height: 8rem;
                         overflow: hidden;
 
@@ -140,7 +142,7 @@
                     }
 
                     .video-contentBox{
-                        width: 50%;
+                        width: 80%;
                         height: 8rem;
                         overflow: hidden;
                         display: flex;
@@ -340,64 +342,61 @@
 @media screen and (min-width : 360px) and (max-width : 768px){
     .CurrentVideo-container{
         position: fixed;
-        top : 0;
+        top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 100vh;
+        background-color: rgba($color: #000000, $alpha: 0.5);
         z-index: 1000;
-        padding: 2rem 0;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar{
+            display: none;
+        }
     
         .CurrentVideo-wrap{
             position: absolute;
-            top : 50%;
+            top: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             width: 100%;
-            height: 100%;
+            height: max-content;
             background-color: #0f0f0f;
-            padding: 0;
+            padding: 5rem 0;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            overflow: scroll;
-            border-top-left-radius: 1.5rem;
-            border-top-right-radius: 1.5rem;
-
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+    
             .close-button{
-                position: fixed;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 30px;
+                height: 30px;
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                top: 1rem;
-                right: 1rem;
-                width: 40px;
-                height: 40px;
-                color: #fff;
-                cursor: pointer;
-                font-size: 1.2rem;
-                text-align: center;
-                z-index: 10;
-                background-color: rgba($color: #000000, $alpha: 0.7);
-                border-radius: 50%;
+                justify-content: center;
+                background-color: rgba($color: #fff, $alpha: 0.3);
+                border-radius: 2rem;
+                font-size: 1rem;
             }
     
             .Current-video{
                 position: relative;
-                top: 0;
-                left: 0;
                 width: 100%;
                 height: max-content;
+                padding: 0;
     
                 .Current-iframe{
-                    position: relative;
                     width: 100%;
                     height: 15rem;
+                    overflow: hidden;
+                    border-radius: 0;
     
                     iframe{
-                        position: absolute;
-                        top: 0;
-                        left: 0;
                         width: 100%;
                         height: 100%;
                         object-fit: cover;
@@ -407,23 +406,24 @@
                 .CurrentVideo-contentBox{
                     position: relative;
                     width: 100%;
-                    height: 20rem;
+                    height: 16rem;
                     font-family: $Noto-Korean;
-                    padding: 1rem 2rem;
+                    margin-top: 2rem;
+                    padding: 0 20px;
     
                     .Video-title{
                         width: 100%;
                         display: flex;
                         align-items: center;
                         height: 5rem;
-                        font-size: 13px;
+                        font-size: 15px;
                         color: #fff;
                         text-transform: uppercase;
                     }
     
                     .Video-channel{
                         width: 100%;
-                        font-size: 12px;
+                        font-size: 13px;
                         color: rgb(161, 161, 161);
                         font-weight: bold;
                         line-height: 5rem;
@@ -442,14 +442,13 @@
                             color: #fff;
                             width: 90%;
                             word-break: keep-all;
-                            font-size: 10px;
+                            font-size: 12px;
                         }
                     }
                 }
             }
     
             .VideoList-container{
-                position: relative;
                 width: 100%;
                 height: 100%;
     
@@ -457,19 +456,13 @@
                     position: relative;
                     width: 100%;
                     height: max-content;
-                    margin-top: 0;
-                    padding-left: 0;
-                    overflow-y: initial;
-    
-                    &::-webkit-scrollbar{
-                        display: none;
-                    }
+                    margin-top: 50px;
     
                     .videoList-item{
                         width: 100%;
-                        height: 5rem;
+                        height: max-content;
                         margin-bottom: 2rem;
-                        padding: 1rem 2rem;
+                        padding: 20px;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -501,7 +494,7 @@
                             justify-content: space-between;
     
                             .video-title{
-                                font-size: 10px;
+                                font-size: 12px;
                                 font-family: $Noto-Korean;
                                 color: #fff;
                                 padding-left: 1rem;
