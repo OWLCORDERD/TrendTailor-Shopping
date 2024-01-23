@@ -24,6 +24,7 @@ export async function POST(req: Request, { params }: any) {
       password: process.env.MYSQL_PASSWORD,
       database: "wish",
       user: "Owlcoderd",
+      port: 3306,
     });
 
     if (count && currentIndex) {

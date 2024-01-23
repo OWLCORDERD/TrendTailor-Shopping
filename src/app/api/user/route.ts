@@ -23,6 +23,7 @@ export async function POST(request: Request) {
       user: "Owlcoderd",
       password: process.env.MYSQL_PASSWORD,
       database: "wish",
+      port: 3306,
     });
   }
 
