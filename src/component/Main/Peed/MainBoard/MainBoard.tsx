@@ -3,7 +3,9 @@ import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
 import axios from "axios";
 import Banner from "./Banner";
+import mysql2 from "mysql2/promise";
 
+/*
 export async function NoticeFetch() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`
@@ -17,32 +19,41 @@ export async function NoticeFetch() {
 
   return data;
 }
+*/
 
 export async function SlideDBFetch() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/mainSlider`,
-    {
-      cache: "no-store",
-    }
-  );
+  let connection = null;
 
-  if (!res.ok) {
-    return new Error("not connection slide DB");
+  if (connection === null) {
+    connection = await mysql2.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "Owlcoderd",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+      port: 3306,
+    });
   }
 
-  const { data } = await res.json();
+  try {
+    const query = "select * from MainSlider";
 
-  return data;
+    const [data] = await connection.execute(query);
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const MainBoard: any = async () => {
-  const noticeDB = await NoticeFetch();
   const slideDB = await SlideDBFetch();
 
   return (
     <div className='MainPage-Board'>
       <Banner slideDB={slideDB} />
-      <NoticeBoard noticeDB={noticeDB} />
+      {/*
+      <NoticeBoard />
+      */}
     </div>
   );
 };

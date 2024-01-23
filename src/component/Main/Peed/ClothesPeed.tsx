@@ -13,7 +13,7 @@ interface propsClothesType {
   clothesDB: clothes[];
 }
 
-const ClothesPeed = ({ clothesDB }: propsClothesType) => {
+const ClothesPeed = ({ clothesDB }: any) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const postMaxlength = 8;

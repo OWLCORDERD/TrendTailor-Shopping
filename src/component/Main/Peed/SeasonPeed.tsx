@@ -5,7 +5,7 @@ import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
+const SeasonPeed = ({ seasonDB, clothesDB }: any) => {
   const slideRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
@@ -20,11 +20,11 @@ const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
   const month = date.getMonth() + 1;
 
   const filterSeason: seasonType[] = seasonDB.filter(
-    (season) => season.month === month
+    (season: any) => season.month === month
   );
 
   const seasonClothes: clothes[] = clothesDB.filter(
-    (clothes) => clothes.category4 === filterSeason[0].season
+    (clothes: any) => clothes.category4 === filterSeason[0].season
   );
 
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {

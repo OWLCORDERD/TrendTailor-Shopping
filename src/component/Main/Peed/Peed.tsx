@@ -4,6 +4,7 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
+import mysql2 from "mysql2/promise";
 
 export interface clothes {
   type: string;
@@ -51,37 +52,51 @@ export interface videoType {
 }
 
 export async function getClothesDB() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`,
-    {
-      cache: "no-store",
-    }
-  );
+  let connection = null;
 
-  if (!res.ok) {
-    return new Error("not connect clothes db");
+  if (connection === null) {
+    connection = await mysql2.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "Owlcoderd",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+      port: 3306,
+    });
   }
 
-  const { data } = await res.json();
+  try {
+    const query = "select * from clothes";
 
-  return data;
+    const [data] = await connection.execute(query);
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function getSeasonDB() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/season`,
-    {
-      cache: "no-store",
-    }
-  );
+  let connection = null;
 
-  if (!res.ok) {
-    return new Error("not connect season db");
+  if (connection === null) {
+    connection = await mysql2.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "Owlcoderd",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+      port: 3306,
+    });
   }
 
-  const { data } = await res.json();
+  try {
+    const query = "select * from season";
 
-  return data;
+    const [data] = await connection.execute(query);
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function getYoutubeDB() {
@@ -104,8 +119,8 @@ export async function getYoutubeDB() {
 }
 
 const Peed = async () => {
-  const clothesDB: clothes[] = await getClothesDB();
-  const seasonDB: seasonType[] = await getSeasonDB();
+  const clothesDB = await getClothesDB();
+  const seasonDB = await getSeasonDB();
   const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (

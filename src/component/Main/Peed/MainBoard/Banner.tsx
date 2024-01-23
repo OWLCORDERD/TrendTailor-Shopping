@@ -23,7 +23,7 @@ interface fetchPropsType {
   slideDB: slideType[] | undefined;
 }
 
-const Banner = ({ slideDB }: fetchPropsType) => {
+const Banner = ({ slideDB }: any) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Banner = ({ slideDB }: fetchPropsType) => {
         autoplay={{ delay: 3500, disableOnInteraction: false }}
         modules={[Pagination, Navigation, Autoplay]}
       >
-        {slideDB?.map((slide) => {
+        {slideDB?.map((slide: any) => {
           return (
             <SwiperSlide className='slide-item' key={slide.id}>
               <div className='slide-imgBox'>
