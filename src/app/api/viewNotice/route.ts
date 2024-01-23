@@ -13,7 +13,6 @@ export async function GET(req: NextRequest) {
         user: "Owlcoderd",
         password: process.env.MYSQL_PASSWORD,
         database: "wish",
-        port: 3306,
       });
     }
 

@@ -10,7 +10,6 @@ export async function GET(req: Request) {
         host: process.env.MYSQL_HOST,
         user: "Owlcoderd",
         database: "wish",
-        port: 3306,
         password: process.env.MYSQL_PASSWORD,
       });
     }

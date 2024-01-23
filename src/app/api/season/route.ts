@@ -11,7 +11,6 @@ export async function GET(req: Request) {
         user: "Owlcoderd",
         database: "wish",
         password: process.env.MYSQL_PASSWORD,
-        port: 3306,
       });
     }
 
