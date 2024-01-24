@@ -33,7 +33,7 @@ export interface slideType {
 }
 
 const SlideDBFetch = async () => {
-  const res = await fetch(`${process.env.MYSQL_HOST}/wishMainSlider`, {
+  const res = await fetch(`${process.env.SERVER_HOST}/wishMainSlider`, {
     cache: "no-store",
   });
 
@@ -48,7 +48,7 @@ const SlideDBFetch = async () => {
 };
 
 const getClothesDB = async () => {
-  const res = await fetch(`${process.env.MYSQL_HOST}/clothes`, {
+  const res = await fetch(`${process.env.SERVER_HOST}/clothes`, {
     cache: "no-store",
   });
 
@@ -63,7 +63,7 @@ const getClothesDB = async () => {
 };
 
 const getSeasonDB = async () => {
-  const res = await fetch(`${process.env.MYSQL_HOST}/season`, {
+  const res = await fetch(`${process.env.SERVER_HOST}/season`, {
     cache: "no-store",
   });
 

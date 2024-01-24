@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { NoticeType } from "app/notice/page";
 import axios from "axios";
 import Image from "next/image";
+import { commonService } from "component/fetchDB";
 
 const CurrentNotice = ({ params }: any) => {
   const id = params.idx;
@@ -18,20 +19,7 @@ const CurrentNotice = ({ params }: any) => {
   const [currentDB, setCurrentDB] = useState<NoticeType[]>([]);
 
   const fetchNotice = async () => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
-      {
-        params: {
-          selectAll: "all",
-        },
-      }
-    );
-
-    if (res.status === 200) {
-      const { data } = res.data;
-
-      setNoticeDB(data);
-    }
+    commonService.getNotice().then((res) => setNoticeDB(res));
   };
 
   const currentNotice = useCallback(() => {

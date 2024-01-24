@@ -10,6 +10,7 @@ import "styles/notice.scss";
 import { RotatingLines } from "react-loader-spinner";
 import { useSession } from "next-auth/react";
 import { ThemeContext } from "../../../context/ThemeContext";
+import { commonService } from "component/fetchDB";
 
 export interface NoticeType {
   idx: number;
@@ -28,18 +29,12 @@ export default function Notice() {
 
   const { mode } = useContext(ThemeContext);
 
-  const fetchNotice = async () => {
-    const res = await axios.get("/api/viewNotice");
+  const fetchNotice = () => {
+    commonService.getNotice().then((res) => setNoticeDB(res));
 
-    if (res.status === 200) {
-      const { data } = res.data;
-
-      setNoticeDB(data);
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   useEffect(() => {

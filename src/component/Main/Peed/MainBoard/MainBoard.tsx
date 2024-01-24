@@ -11,7 +11,7 @@ const noticeFetch = async () => {
 
   if (connection === null) {
     connection = await mysql2.createConnection({
-      host: "iuprofile.site",
+      host: process.env.MYSQL_HOST,
       port: 3306,
       user: "Owlcoderd",
       password: process.env.MYSQL_PASSWORD,

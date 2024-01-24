@@ -13,7 +13,7 @@ const getDB = {
   },
   getNotice: () => {
     return service({
-      url: "api/viewNotice",
+      url: "/notice",
     }).then((res) => res.data);
   },
   getMainSlider: () => {
