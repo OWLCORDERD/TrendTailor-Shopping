@@ -1,9 +1,8 @@
 import React from "react";
 import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
-import axios from "axios";
 import Banner from "./Banner";
-import mysql2 from "mysql2/promise";
+import { slideType } from "app/page";
 
 /*
 export async function NoticeFetch() {
@@ -21,26 +20,11 @@ export async function NoticeFetch() {
 }
 */
 
-export async function SlideDBFetch() {
-  const res = await fetch(`${process.env.MYSQL_HOST}/wishMainSlider`, {
-    cache: "no-store",
-  });
-
-  try {
-    if (res.ok) {
-      const data = res.json();
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
-  }
+export interface slidePropsType {
+  slideDB: slideType[];
 }
 
-export const dynamic = "force-dynamic";
-
-const MainBoard: any = async () => {
-  const slideDB = await SlideDBFetch();
-
+const MainBoard: any = async ({ slideDB }: slidePropsType) => {
   return (
     <div className='MainPage-Board'>
       <Banner slideDB={slideDB} />

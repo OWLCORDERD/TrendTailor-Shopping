@@ -1,11 +1,12 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { clothes, peedFetchDBType, seasonType } from "./Peed";
+import { peedFetchDBType, seasonClothesDBType } from "./Peed";
 import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { clothes, seasonType } from "app/page";
 
-const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
+const SeasonPeed = ({ seasonDB, clothesDB }: seasonClothesDBType) => {
   const slideRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);

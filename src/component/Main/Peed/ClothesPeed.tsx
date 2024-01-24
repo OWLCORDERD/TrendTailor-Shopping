@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import "styles/clothesPeed.scss";
-import { clothes } from "./Peed";
 import { useCallback, useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { useContext } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { IoIosArrowDown } from "react-icons/io";
+import { clothes } from "app/page";
 
 interface propsClothesType {
   clothesDB: clothes[];

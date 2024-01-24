@@ -5,25 +5,14 @@ import "styles/banner.scss";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-
 import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { slideType } from "app/page";
+import { slidePropsType } from "./MainBoard";
 
-interface slideType {
-  id: number;
-  image: string;
-  title: string;
-  info: string;
-}
-
-interface fetchPropsType {
-  slideDB: slideType[];
-}
-
-const Banner = ({ slideDB }: fetchPropsType) => {
+const Banner = ({ slideDB }: slidePropsType) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

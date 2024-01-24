@@ -4,30 +4,15 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
-
-export interface clothes {
-  type: string;
-  title: string;
-  link: string;
-  image: string;
-  price: string;
-  mallName: string;
-  productId: string;
-  productType: string;
-  brand: string;
-  maker: string;
-  category1: string;
-  category2: string;
-  category3: string;
-  category4: string;
-}
-
-export interface seasonType {
-  month: number;
-  season: string;
-}
+import { clothes, seasonType, slideType } from "app/page";
 
 export interface peedFetchDBType {
+  seasonDB: seasonType[];
+  clothesDB: clothes[];
+  slideDB: slideType[];
+}
+
+export interface seasonClothesDBType {
   seasonDB: seasonType[];
   clothesDB: clothes[];
 }
@@ -50,37 +35,6 @@ export interface videoType {
   };
 }
 
-export async function getClothesDB() {
-  const res = await fetch(`${process.env.MYSQL_HOST}/clothes`, {
-    cache: "no-store",
-  });
-
-  try {
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-export async function getSeasonDB() {
-  const res = await fetch(`${process.env.MYSQL_HOST}/season`, {
-    cache: "no-store",
-  });
-
-  try {
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 export async function getYoutubeDB() {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
   const res = await fetch(
@@ -100,17 +54,13 @@ export async function getYoutubeDB() {
   return data.items;
 }
 
-export const dynamic = "force-dynamic";
-
-const Peed = async () => {
-  const clothesDB: clothes[] = await getClothesDB();
-  const seasonDB: seasonType[] = await getSeasonDB();
+const Peed = async ({ clothesDB, seasonDB, slideDB }: peedFetchDBType) => {
   const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard />
+        <MainBoard slideDB={slideDB} />
         <div className='Peed-wrapper'>
           <SeasonPeed seasonDB={seasonDB} clothesDB={clothesDB} />
           <YoutubePeed videoData={youtubeDB} />
