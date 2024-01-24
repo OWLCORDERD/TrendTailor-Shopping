@@ -1,9 +1,7 @@
 import React from "react";
 import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
-import axios from "axios";
 import Banner from "./Banner";
-import mysql2 from "mysql2/promise";
 
 /*
 export async function NoticeFetch() {
@@ -22,24 +20,15 @@ export async function NoticeFetch() {
 */
 
 export async function SlideDBFetch() {
-  let connection = null;
-
-  if (connection === null) {
-    connection = await mysql2.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: "Owlcoderd",
-      password: process.env.MYSQL_PASSWORD,
-      database: "wish",
-      port: 3306,
-    });
-  }
+  const res = await fetch(`${process.env.MYSQL_HOST}/WishMainSlider`, {
+    cache: "no-store",
+  });
 
   try {
-    const query = "select * from MainSlider";
-
-    const [data] = await connection.execute(query);
-
-    return data;
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
   } catch (err) {
     console.log(err);
   }

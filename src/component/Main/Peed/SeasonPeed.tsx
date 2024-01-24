@@ -5,7 +5,7 @@ import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const SeasonPeed = ({ seasonDB, clothesDB }: any) => {
+const SeasonPeed = ({ seasonDB, clothesDB }: peedFetchDBType) => {
   const slideRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);

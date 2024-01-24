@@ -4,7 +4,6 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
-import mysql2 from "mysql2/promise";
 
 export interface clothes {
   type: string;
@@ -52,48 +51,31 @@ export interface videoType {
 }
 
 export async function getClothesDB() {
-  let connection = null;
-
-  if (connection === null) {
-    connection = await mysql2.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: "Owlcoderd",
-      password: process.env.MYSQL_PASSWORD,
-      database: "wish",
-      port: 3306,
-    });
-  }
+  const res = await fetch(`${process.env.MYSQL_HOST}/clothes`, {
+    cache: "no-store",
+  });
 
   try {
-    const query = "select * from clothes";
-
-    const [data] = await connection.execute(query);
-
-    return data;
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
   } catch (err) {
     console.log(err);
   }
 }
 
 export async function getSeasonDB() {
-  let connection = null;
-
-  if (connection === null) {
-    connection = await mysql2.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: "Owlcoderd",
-      password: process.env.MYSQL_PASSWORD,
-      database: "wish",
-      port: 3306,
-    });
-  }
+  const res = await fetch(`${process.env.MYSQL_HOST}/season`, {
+    cache: "no-store",
+  });
 
   try {
-    const query = "select * from season";
-
-    const [data] = await connection.execute(query);
-
-    return data;
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      return data;
+    }
   } catch (err) {
     console.log(err);
   }
@@ -119,8 +101,8 @@ export async function getYoutubeDB() {
 }
 
 const Peed = async () => {
-  const clothesDB = await getClothesDB();
-  const seasonDB = await getSeasonDB();
+  const clothesDB: clothes[] = await getClothesDB();
+  const seasonDB: seasonType[] = await getSeasonDB();
   const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (
