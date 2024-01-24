@@ -4,6 +4,9 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
+import axios from "axios";
+import getService, { commonService } from "component/fetchDB";
+import getDB from "component/fetchDB/commonService";
 
 export interface clothes {
   type: string;
@@ -51,31 +54,20 @@ export interface videoType {
 }
 
 export async function getClothesDB() {
-  const res = await fetch(`${process.env.MYSQL_HOST}/clothes`, {
-    cache: "no-store",
-  });
-
   try {
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
+    const res = await commonService.getClothes();
+
+    return res;
   } catch (err) {
     console.log(err);
   }
 }
 
 export async function getSeasonDB() {
-  const res = await fetch(`${process.env.MYSQL_HOST}/season`, {
-    cache: "no-store",
-  });
-
   try {
-    if (res.ok) {
-      const data = await res.json();
-      console.log(data);
-      return data;
-    }
+    const res = await commonService.getSeason();
+
+    return res;
   } catch (err) {
     console.log(err);
   }

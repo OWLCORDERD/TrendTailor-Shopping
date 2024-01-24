@@ -3,12 +3,12 @@ import service from "./index";
 const getDB = {
   getSeason: () => {
     return service({
-      url: "api/season",
+      url: "/season",
     }).then((res) => res.data);
   },
   getClothes: () => {
     return service({
-      url: "api/clothes",
+      url: "/clothes",
     }).then((res) => res.data);
   },
   getNotice: () => {
@@ -18,7 +18,7 @@ const getDB = {
   },
   getMainSlider: () => {
     return service({
-      url: "api/mainSlider",
+      url: "/wishMainSlider",
     }).then((res) => res.data);
   },
 };
