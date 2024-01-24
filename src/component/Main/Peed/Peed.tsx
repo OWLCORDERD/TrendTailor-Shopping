@@ -6,7 +6,7 @@ import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
 import { clothes, seasonType, slideType } from "app/page";
 
-export interface peedFetchDBType {
+export interface peedPropsDBType {
   seasonDB: seasonType[];
   clothesDB: clothes[];
   slideDB: slideType[];
@@ -54,7 +54,7 @@ export async function getYoutubeDB() {
   return data.items;
 }
 
-const Peed = async ({ clothesDB, seasonDB, slideDB }: peedFetchDBType) => {
+const Peed = async ({ clothesDB, seasonDB, slideDB }: peedPropsDBType) => {
   const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (

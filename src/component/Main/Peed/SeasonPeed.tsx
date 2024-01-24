@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import { peedFetchDBType, seasonClothesDBType } from "./Peed";
+import { seasonClothesDBType } from "./Peed";
 import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";

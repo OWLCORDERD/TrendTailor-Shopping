@@ -3,8 +3,6 @@ import Peed from "component/Main/Peed/Peed";
 import "./page.module.css";
 import Footer from "component/Main/Footer";
 
-export const dynamic = "force-dynamic";
-
 export interface clothes {
   type: string;
   title: string;
@@ -34,22 +32,22 @@ export interface slideType {
   info: string;
 }
 
-export async function SlideDBFetch() {
+const SlideDBFetch = async () => {
   const res = await fetch(`${process.env.MYSQL_HOST}/wishMainSlider`, {
     cache: "no-store",
   });
 
   try {
     if (res.ok) {
-      const data = res.json();
+      const data = await res.json();
       return data;
     }
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-export async function getClothesDB() {
+const getClothesDB = async () => {
   const res = await fetch(`${process.env.MYSQL_HOST}/clothes`, {
     cache: "no-store",
   });
@@ -62,9 +60,9 @@ export async function getClothesDB() {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-export async function getSeasonDB() {
+const getSeasonDB = async () => {
   const res = await fetch(`${process.env.MYSQL_HOST}/season`, {
     cache: "no-store",
   });
@@ -72,15 +70,14 @@ export async function getSeasonDB() {
   try {
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
       return data;
     }
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-const Home = async () => {
+export default async function Home() {
   const clothesDB: clothes[] = await getClothesDB();
   const seasonDB: seasonType[] = await getSeasonDB();
   const slideDB: slideType[] = await SlideDBFetch();
@@ -94,6 +91,4 @@ const Home = async () => {
       <Footer />
     </>
   );
-};
-
-export default Home;
+}

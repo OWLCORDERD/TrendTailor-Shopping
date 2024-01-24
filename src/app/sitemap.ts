@@ -13,25 +13,25 @@ export interface NoticeType2 {
   view_cnt: number;
 }
 
-export const getNoticePosts = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`, {
-    cache: "no-store",
-  })
-    .then((res) => {
-      if (!res.ok) {
-        return Promise.reject();
-      }
-      return res.json();
-    })
-    .catch(() => {
-      return [];
-    });
+const getNoticePosts = async () => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    return Promise.reject();
+  }
+
+  const data = await res.json();
+
+  return data;
 };
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const posts: NoticeType2[] = await getNoticePosts().then((res) => res.data);
-
-  console.log(posts);
+  const posts: NoticeType2[] = await getNoticePosts();
 
   const postUrls = posts.map((post) => ({
     url: `${publicURL}/notice/${post.idx}`,

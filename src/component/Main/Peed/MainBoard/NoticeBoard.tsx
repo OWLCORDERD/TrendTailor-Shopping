@@ -6,11 +6,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 
-interface propsNotice {
-  noticeDB: NoticeType[];
-}
-
-const NoticeBoard = ({ noticeDB }: propsNotice) => {
+const NoticeBoard = ({ noticeDB }: any) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loop, setLoop] = useState<any>();
 
@@ -54,12 +50,12 @@ const NoticeBoard = ({ noticeDB }: propsNotice) => {
             transitionDuration: "1s",
           }}
         >
-          {noticeDB.map((item) => {
+          {noticeDB.map((item: any) => {
             return (
               <li key={item.idx}>
                 <Link href={`/notice/${item.idx}`}>
                   <h2>{item.title}</h2>
-                  <span>{item.date.slice(0, 10)}</span>
+                  <span>{String(item.date).slice(0, 10)}</span>
                 </Link>
               </li>
             );
