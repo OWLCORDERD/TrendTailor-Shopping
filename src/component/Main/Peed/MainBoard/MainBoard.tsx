@@ -1,8 +1,9 @@
 import React from "react";
 import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
+import axios from "axios";
 import Banner from "./Banner";
-import { commonService } from "component/fetchDB";
+import mysql2 from "mysql2/promise";
 
 /*
 export async function NoticeFetch() {
@@ -21,10 +22,15 @@ export async function NoticeFetch() {
 */
 
 export async function SlideDBFetch() {
-  try {
-    const res = await commonService.getMainSlider();
+  const res = await fetch(`${process.env.MYSQL_HOST}/wishMainSlider`, {
+    cache: "no-store",
+  });
 
-    return res;
+  try {
+    if (res.ok) {
+      const data = res.json();
+      return data;
+    }
   } catch (err) {
     console.log(err);
   }
