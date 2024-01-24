@@ -36,6 +36,8 @@ export async function SlideDBFetch() {
   }
 }
 
+export const dynamic = "force-dynamic";
+
 const MainBoard: any = async () => {
   const slideDB = await SlideDBFetch();
 

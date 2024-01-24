@@ -100,6 +100,8 @@ export async function getYoutubeDB() {
   return data.items;
 }
 
+export const dynamic = "force-dynamic";
+
 const Peed = async () => {
   const clothesDB: clothes[] = await getClothesDB();
   const seasonDB: seasonType[] = await getSeasonDB();
