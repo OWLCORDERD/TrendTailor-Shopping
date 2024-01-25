@@ -7,26 +7,15 @@ import mysql2 from "mysql2/promise";
 import { NoticeType } from "app/notice/page";
 
 const noticeFetch = async () => {
-  let connection = null;
+  const res = await fetch(`${process.env.SERVER_HOST}/limitNotice`);
 
-  if (connection === null) {
-    connection = await mysql2.createConnection({
-      host: process.env.MYSQL_HOST,
-      port: 3306,
-      user: "Owlcoderd",
-      password: process.env.MYSQL_PASSWORD,
-      database: "wish",
-    });
+  if (!res.ok) {
+    console.log(res);
   }
 
-  try {
-    const query = "select * from notice limit 5";
-    const [data] = await connection.execute(query);
+  const data = await res.json();
 
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
+  return data;
 };
 
 export interface slidePropsType {
