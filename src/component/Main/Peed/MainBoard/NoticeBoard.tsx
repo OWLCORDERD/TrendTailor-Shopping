@@ -6,7 +6,11 @@ import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 
-const NoticeBoard = ({ noticeDB }: any) => {
+export interface noticePropsType {
+  noticeDB: NoticeType[];
+}
+
+const NoticeBoard = ({ noticeDB }: noticePropsType) => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [loop, setLoop] = useState<any>();
 

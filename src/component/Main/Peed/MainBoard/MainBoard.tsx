@@ -3,7 +3,6 @@ import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
 import Banner from "./Banner";
 import { slideType } from "app/page";
-import mysql2 from "mysql2/promise";
 import { NoticeType } from "app/notice/page";
 
 const noticeFetch = async () => {
@@ -23,7 +22,7 @@ export interface slidePropsType {
 }
 
 const MainBoard: any = async ({ slideDB }: slidePropsType) => {
-  const noticeDB = await noticeFetch();
+  const noticeDB: NoticeType[] = await noticeFetch();
 
   return (
     <div className='MainPage-Board'>

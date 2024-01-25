@@ -1,26 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "styles/banner.scss";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { slideType } from "app/page";
 import { slidePropsType } from "./MainBoard";
 
 const Banner = ({ slideDB }: slidePropsType) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
-
   return (
     <div className='Banner-container'>
       <Swiper
