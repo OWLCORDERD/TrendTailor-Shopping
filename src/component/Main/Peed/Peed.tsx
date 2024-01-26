@@ -8,8 +8,8 @@ import { slideType } from "app/page";
 import { NoticeType } from "app/notice/page";
 
 export interface peedPropsDBType {
-  slideDB: slideType[];
   noticeDB: NoticeType[];
+  slideDB: slideType[];
 }
 
 export interface clothes {
@@ -77,7 +77,7 @@ const Peed = async ({ noticeDB, slideDB }: peedPropsDBType) => {
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard slideDB={slideDB} noticeDB={noticeDB} />
+        <MainBoard noticeDB={noticeDB} slideDB={slideDB} />
         <div className='Peed-wrapper'>
           <SeasonPeed />
           <YoutubePeed videoData={youtubeDB} />

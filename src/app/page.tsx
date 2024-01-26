@@ -3,6 +3,7 @@ import Peed from "component/Main/Peed/Peed";
 import Footer from "component/Main/Footer";
 import "./page.module.css";
 import { NoticeType } from "./notice/page";
+import mysql2 from "mysql2/promise";
 
 export interface slideType {
   id: number;
@@ -12,39 +13,58 @@ export interface slideType {
 }
 
 const slideDBFetch = async () => {
-  const res = await fetch(`${process.env.SERVER_HOST}/wishMainSlider`, {
-    cache: "no-store",
-  });
+  let connection = null;
+
+  if (connection === null) {
+    connection = await mysql2.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "Owlcoderd",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+      port: 3306,
+    });
+  }
 
   try {
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
+    const query = "select * from MainSlider";
+
+    const [data] = await connection.execute(query);
+
+    return data;
   } catch (err) {
     console.log(err);
   }
 };
 
 const noticeFetch = async () => {
-  const res = await fetch(`${process.env.SERVER_HOST}/limitNotice`, {
-    cache: "no-store",
-  });
+  let connection = null;
 
-  if (!res.ok) {
-    console.log(res);
+  if (connection === null) {
+    connection = await mysql2.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "Owlcoderd",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+      port: 3306,
+    });
   }
 
-  const data = await res.json();
+  try {
+    const query = "select * from notice ORDER BY date DESC LIMIT 5";
 
-  return data;
+    const [data] = await connection.execute(query);
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-export const dynamicPage = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const noticeDB: NoticeType[] = await noticeFetch();
-  const slideDB: slideType[] = await slideDBFetch();
+  const noticeDB: any = await noticeFetch();
+  const slideDB: any = await slideDBFetch();
 
   return (
     <>
