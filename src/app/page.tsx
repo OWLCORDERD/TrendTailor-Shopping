@@ -1,29 +1,8 @@
 import Navbar from "component/Main/Navbar";
 import Peed from "component/Main/Peed/Peed";
-import "./page.module.css";
 import Footer from "component/Main/Footer";
-
-export interface clothes {
-  type: string;
-  title: string;
-  link: string;
-  image: string;
-  price: string;
-  mallName: string;
-  productId: string;
-  productType: string;
-  brand: string;
-  maker: string;
-  category1: string;
-  category2: string;
-  category3: string;
-  category4: string;
-}
-
-export interface seasonType {
-  month: number;
-  season: string;
-}
+import "./page.module.css";
+import { NoticeType } from "./notice/page";
 
 export interface slideType {
   id: number;
@@ -32,7 +11,7 @@ export interface slideType {
   info: string;
 }
 
-const SlideDBFetch = async () => {
+const slideDBFetch = async () => {
   const res = await fetch(`${process.env.SERVER_HOST}/wishMainSlider`, {
     cache: "no-store",
   });
@@ -47,46 +26,31 @@ const SlideDBFetch = async () => {
   }
 };
 
-const getClothesDB = async () => {
-  const res = await fetch(`${process.env.SERVER_HOST}/clothes`, {
+const noticeFetch = async () => {
+  const res = await fetch(`${process.env.SERVER_HOST}/limitNotice`, {
     cache: "no-store",
   });
 
-  try {
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
+  if (!res.ok) {
+    console.log(res);
   }
+
+  const data = await res.json();
+
+  return data;
 };
 
-const getSeasonDB = async () => {
-  const res = await fetch(`${process.env.SERVER_HOST}/season`, {
-    cache: "no-store",
-  });
-
-  try {
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
+export const dynamicPage = "force-dynamic";
 
 export default async function Home() {
-  const clothesDB: clothes[] = await getClothesDB();
-  const seasonDB: seasonType[] = await getSeasonDB();
-  const slideDB: slideType[] = await SlideDBFetch();
+  const noticeDB: NoticeType[] = await noticeFetch();
+  const slideDB: slideType[] = await slideDBFetch();
 
   return (
     <>
       <Navbar />
       <main className='container'>
-        <Peed clothesDB={clothesDB} seasonDB={seasonDB} slideDB={slideDB} />
+        <Peed noticeDB={noticeDB} slideDB={slideDB} />
       </main>
       <Footer />
     </>

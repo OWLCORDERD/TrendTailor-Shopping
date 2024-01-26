@@ -3,18 +3,16 @@
 import Image from "next/image";
 import "styles/clothesPeed.scss";
 import { useCallback, useEffect, useState } from "react";
-import { RotatingLines } from "react-loader-spinner";
 import { useContext } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { IoIosArrowDown } from "react-icons/io";
-import { clothes } from "app/page";
+import { clothes } from "./Peed";
+import { commonService } from "component/fetchDB";
+import { Oval } from "react-loader-spinner";
 
-interface propsClothesType {
-  clothesDB: clothes[];
-}
-
-const ClothesPeed = ({ clothesDB }: propsClothesType) => {
+const ClothesPeed = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [clothesData, setClothesData] = useState<clothes[] | undefined>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const postMaxlength = 8;
   const lastIndex = currentPage * postMaxlength;
@@ -23,33 +21,67 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
   const { mode } = useContext(ThemeContext);
 
   const currentDBUpdate = useCallback(() => {
-    const currentData: clothes[] = clothesDB.slice(firstIndex, lastIndex);
+    if (clothesData !== undefined) {
+      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
-    const pushdata = [...currentDB];
+      const pushdata = [...currentDB];
 
-    pushdata.push(...currentData);
+      pushdata.push(...currentData);
 
-    setCurrentDB(pushdata);
+      setCurrentDB(pushdata);
+    }
   }, [currentPage]);
 
   const nextPage = (e: React.MouseEvent<HTMLDivElement>) => {
-    const maxPage = Math.ceil(clothesDB.length / postMaxlength);
+    if (clothesData !== undefined) {
+      const maxPage = Math.ceil(clothesData.length / postMaxlength);
 
-    if (currentPage < maxPage) {
-      setCurrentPage((prev) => {
-        return prev + 1;
-      });
+      if (currentPage < maxPage) {
+        setCurrentPage((prev) => {
+          return prev + 1;
+        });
+      }
+    }
+  };
+
+  const fetchClothesData = () => {
+    commonService.getClothes().then((res) => setClothesData(res));
+  };
+
+  const firstCurrentData = () => {
+    if (clothesData !== undefined) {
+      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+
+      const pushdata = [...currentDB];
+
+      pushdata.push(...currentData);
+
+      setCurrentDB(pushdata);
     }
   };
 
   useEffect(() => {
     setLoading(true);
+    fetchClothesData();
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
 
     setTimeout(() => {
-      setLoading(false);
       currentDBUpdate();
-    }, 1500);
+      setLoading(false);
+    }, 1000);
   }, [currentPage]);
+
+  useEffect(() => {
+    if (clothesData !== undefined) {
+      setTimeout(() => {
+        firstCurrentData();
+        setLoading(false);
+      }, 1000);
+    }
+  }, [clothesData]);
 
   return (
     <div className='ClothesPeed-container'>
@@ -61,7 +93,7 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
       </div>
 
       <div className='slider-wrap'>
-        {currentDB?.map((item) => {
+        {currentDB.map((item) => {
           return (
             <div className='product-item' key={item.productId}>
               <div className='slide-ImgBox'>
@@ -84,22 +116,25 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
       </div>
 
       <div className='viewMore-container'>
-        {loading ? (
-          <div className='loading-spinner'>
-            <RotatingLines
-              strokeColor={
-                mode === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)"
-              }
-              strokeWidth='3'
-              animationDuration='0.75'
-              width='50'
+        {!!loading ? (
+          <div className='loading'>
+            <Oval
               visible={true}
+              height='80'
+              width='80'
+              color='#000'
+              secondaryColor='rgba(0,0,0,0.5)'
+              ariaLabel='oval-loading'
+              wrapperStyle={{}}
+              wrapperClass=''
             />
           </div>
-        ) : (
+        ) : null}
+
+        {!loading && clothesData !== undefined ? (
           <div
             className={
-              currentPage === Math.ceil(clothesDB.length / postMaxlength)
+              currentPage === Math.ceil(clothesData.length / postMaxlength)
                 ? "viewMore-button remove"
                 : "viewMore-button"
             }
@@ -108,7 +143,7 @@ const ClothesPeed = ({ clothesDB }: propsClothesType) => {
             <span>view more</span>
             <IoIosArrowDown />
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

@@ -4,17 +4,34 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
-import { clothes, seasonType, slideType } from "app/page";
+import { slideType } from "app/page";
+import { NoticeType } from "app/notice/page";
 
 export interface peedPropsDBType {
-  seasonDB: seasonType[];
-  clothesDB: clothes[];
   slideDB: slideType[];
+  noticeDB: NoticeType[];
 }
 
-export interface seasonClothesDBType {
-  seasonDB: seasonType[];
-  clothesDB: clothes[];
+export interface clothes {
+  type: string;
+  title: string;
+  link: string;
+  image: string;
+  price: string;
+  mallName: string;
+  productId: string;
+  productType: string;
+  brand: string;
+  maker: string;
+  category1: string;
+  category2: string;
+  category3: string;
+  category4: string;
+}
+
+export interface seasonType {
+  month: number;
+  season: string;
 }
 
 export interface videoType {
@@ -54,17 +71,17 @@ export async function getYoutubeDB() {
   return data.items;
 }
 
-const Peed = async ({ clothesDB, seasonDB, slideDB }: peedPropsDBType) => {
+const Peed = async ({ noticeDB, slideDB }: peedPropsDBType) => {
   const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard slideDB={slideDB} />
+        <MainBoard slideDB={slideDB} noticeDB={noticeDB} />
         <div className='Peed-wrapper'>
-          <SeasonPeed seasonDB={seasonDB} clothesDB={clothesDB} />
+          <SeasonPeed />
           <YoutubePeed videoData={youtubeDB} />
-          <ClothesPeed clothesDB={clothesDB} />
+          <ClothesPeed />
         </div>
       </div>
     </section>

@@ -9,7 +9,11 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { slidePropsType } from "./MainBoard";
+import { slideType } from "app/page";
+
+interface slidePropsType {
+  slideDB: slideType[];
+}
 
 const Banner = ({ slideDB }: slidePropsType) => {
   return (

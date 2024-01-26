@@ -38,6 +38,7 @@
         left: 0;
         width: 100%;
         height: 100%;
+        padding: 2rem 0;
 
         .product-item{
             position: relative;
@@ -94,8 +95,19 @@
     .viewMore-container{
         position: relative;
         width: 100%;
-        height: 3rem;
-        margin: 5rem 0 2rem 0;
+        height: 5rem;
+        margin: 3rem 0;
+
+        .loading{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         .viewMore-button{
             position: relative;
@@ -120,17 +132,6 @@
             &.remove{
                 display: none;
             }
-        }
-
-        .loading-spinner{
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: max-content;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
     }
 }

@@ -6,7 +6,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 
-export interface noticePropsType {
+interface noticePropsType {
   noticeDB: NoticeType[];
 }
 
