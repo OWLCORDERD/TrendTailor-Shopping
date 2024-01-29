@@ -5,10 +5,7 @@ import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
 import { NoticeType } from "app/notice/page";
-
-export interface peedPropsDBType {
-  noticeDB: NoticeType[];
-}
+import mysql2 from "mysql2/promise";
 
 export interface clothes {
   type: string;
@@ -50,27 +47,32 @@ export interface videoType {
   };
 }
 
-export async function getYoutubeDB() {
-  const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
-  const res = await fetch(
-    `${youtubeAPI}?part=snippet&maxResults=20&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
-    {
-      cache: "no-store",
-    }
-  );
+const noticeFetch = async () => {
+  let connection = null;
 
-  if (!res.ok) {
-    console.log("not connection to YoutubeDB");
-    return null;
+  if (connection === null) {
+    connection = await mysql2.createConnection({
+      host: process.env.MYSQL_HOST,
+      user: "Owlcoderd",
+      password: process.env.MYSQL_PASSWORD,
+      database: "wish",
+      port: 3306,
+    });
   }
 
-  const data = await res.json();
+  try {
+    const query = "select * from notice ORDER BY date DESC LIMIT 5";
 
-  return data.items;
-}
+    const [data] = await connection.execute(query);
 
-const Peed = async ({ noticeDB }: peedPropsDBType) => {
-  const youtubeDB: videoType[] | null = await getYoutubeDB();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const Peed = async () => {
+  const noticeDB: NoticeType[] | any = await noticeFetch();
 
   return (
     <section className='MainPeed-container'>
@@ -78,7 +80,7 @@ const Peed = async ({ noticeDB }: peedPropsDBType) => {
         <MainBoard noticeDB={noticeDB} />
         <div className='Peed-wrapper'>
           <SeasonPeed />
-          <YoutubePeed videoData={youtubeDB} />
+          <YoutubePeed />
           <ClothesPeed />
         </div>
       </div>

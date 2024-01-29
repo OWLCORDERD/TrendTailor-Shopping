@@ -3,8 +3,6 @@
 import Image from "next/image";
 import "styles/clothesPeed.scss";
 import { useCallback, useEffect, useState } from "react";
-import { useContext } from "react";
-import { ThemeContext } from "../../../../context/ThemeContext";
 import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
 import { commonService } from "component/fetchDB";
@@ -18,7 +16,6 @@ const ClothesPeed = () => {
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
   const [currentDB, setCurrentDB] = useState<clothes[]>([]);
-  const { mode } = useContext(ThemeContext);
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
@@ -120,8 +117,8 @@ const ClothesPeed = () => {
           <div className='loading'>
             <Oval
               visible={true}
-              height='80'
-              width='80'
+              height='50'
+              width='50'
               color='#000'
               secondaryColor='rgba(0,0,0,0.5)'
               ariaLabel='oval-loading'
