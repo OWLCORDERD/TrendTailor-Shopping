@@ -5,7 +5,6 @@ import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
 import { NoticeType } from "app/notice/page";
-import mysql2 from "mysql2/promise";
 
 export interface clothes {
   type: string;
@@ -48,31 +47,22 @@ export interface videoType {
 }
 
 const noticeFetch = async () => {
-  let connection = null;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
+    {
+      cache: "no-store",
+    }
+  );
 
-  if (connection === null) {
-    connection = await mysql2.createConnection({
-      host: process.env.MYSQL_HOST,
-      user: "Owlcoderd",
-      password: process.env.MYSQL_PASSWORD,
-      database: "wish",
-      port: 3306,
-    });
-  }
+  if (res.ok) {
+    const data = await res.json();
 
-  try {
-    const query = "select * from notice ORDER BY date DESC LIMIT 5";
-
-    const [data] = await connection.execute(query);
-
-    return data;
-  } catch (err) {
-    console.log(err);
+    return data.data;
   }
 };
 
 const Peed = async () => {
-  const noticeDB: NoticeType[] | any = await noticeFetch();
+  const noticeDB: NoticeType[] = await noticeFetch();
 
   return (
     <section className='MainPeed-container'>

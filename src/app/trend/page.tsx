@@ -6,7 +6,7 @@ import TrendVideoList from "component/Trend/TrendVideoList";
 import React from "react";
 import "styles/trend.scss";
 
-export const getYoutubeDB = async () => {
+const getYoutubeDB = async () => {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
 
   try {
