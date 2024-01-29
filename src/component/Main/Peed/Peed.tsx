@@ -4,12 +4,10 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
-import { slideType } from "app/page";
 import { NoticeType } from "app/notice/page";
 
 export interface peedPropsDBType {
   noticeDB: NoticeType[];
-  slideDB: slideType[];
 }
 
 export interface clothes {
@@ -71,13 +69,13 @@ export async function getYoutubeDB() {
   return data.items;
 }
 
-const Peed = async ({ noticeDB, slideDB }: peedPropsDBType) => {
+const Peed = async ({ noticeDB }: peedPropsDBType) => {
   const youtubeDB: videoType[] | null = await getYoutubeDB();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard noticeDB={noticeDB} slideDB={slideDB} />
+        <MainBoard noticeDB={noticeDB} />
         <div className='Peed-wrapper'>
           <SeasonPeed />
           <YoutubePeed videoData={youtubeDB} />
