@@ -13,13 +13,18 @@ import { videoType } from "../Peed";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
 
-const YoutubePeed = () => {
+interface peedPropsType {
+  youtubeDB: videoType[];
+}
+
+const YoutubePeed = ({ youtubeDB }: peedPropsType) => {
   const [videoData, setVideoData] = useState<videoType[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
 
+  /*
   const getYoutubeDB = () => {
     const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
     axios
@@ -33,6 +38,7 @@ const YoutubePeed = () => {
   useEffect(() => {
     getYoutubeDB();
   }, []);
+  */
 
   useEffect(() => {
     if (videoData) {
@@ -61,34 +67,19 @@ const YoutubePeed = () => {
           <h1 className='YoutubePeed-title'>Fashion Trend</h1>
           <AiOutlinePlus fontSize={30} color='#fff' />
         </div>
-        {!loading ? (
-          <Slider {...settings}>
-            {videoData.map((video) => {
-              return (
-                <Videoitem
-                  key={video.id.videoId}
-                  video={video}
-                  setOpen={setOpen}
-                  setCurrentVideo={setCurrentVideo}
-                  open={open}
-                />
-              );
-            })}
-          </Slider>
-        ) : (
-          <div className='YoutubePeed-loading'>
-            <Oval
-              visible={true}
-              height='50'
-              width='50'
-              color='#000'
-              secondaryColor='#fff'
-              ariaLabel='oval-loading'
-              wrapperStyle={{}}
-              wrapperClass=''
-            />
-          </div>
-        )}
+        <Slider {...settings}>
+          {youtubeDB.map((video) => {
+            return (
+              <Videoitem
+                key={video.id.videoId}
+                video={video}
+                setOpen={setOpen}
+                setCurrentVideo={setCurrentVideo}
+                open={open}
+              />
+            );
+          })}
+        </Slider>
 
         {open === true ? (
           <CurrentVideo

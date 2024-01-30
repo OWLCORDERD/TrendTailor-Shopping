@@ -4,7 +4,6 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
-import { NoticeType } from "app/notice/page";
 
 export interface clothes {
   type: string;
@@ -46,9 +45,11 @@ export interface videoType {
   };
 }
 
-const noticeFetch = async () => {
+const youtubeFetch = async () => {
+  const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
+    `${youtubeAPI}?part=snippet&maxResults=20&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
     {
       cache: "no-store",
     }
@@ -57,20 +58,20 @@ const noticeFetch = async () => {
   if (res.ok) {
     const data = await res.json();
 
-    return data.data;
+    return data.items;
   }
 };
 
 const Peed = async () => {
-  const noticeDB: NoticeType[] = await noticeFetch();
+  const youtubeDB: videoType[] = await youtubeFetch();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard noticeDB={noticeDB} />
+        <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed />
-          <YoutubePeed />
+          <YoutubePeed youtubeDB={youtubeDB} />
           <ClothesPeed />
         </div>
       </div>

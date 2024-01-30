@@ -20,7 +20,7 @@ export async function GET(req: Request) {
         const query = "select * from notice ORDER BY date DESC LIMIT 5";
         const [data] = await connection.execute(query);
 
-        return NextResponse.json({ data: data });
+        return NextResponse.json(data);
       } catch (err) {
         return NextResponse.json({ err: err });
       }
