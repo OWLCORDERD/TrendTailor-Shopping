@@ -1,10 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import mysql2 from "mysql2/promise";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
-  if (req.method === "GET") {
+export async function GET(req: NextRequest) {
+  const params = req.nextUrl.searchParams.get("getData");
+
+  if (req.method === "GET" && params === "getData") {
     let connection = null;
 
     if (connection === null) {

@@ -7,7 +7,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import "styles/notice.scss";
 import { useRouter } from "next/navigation";
 import { NoticeType } from "app/notice/page";
-import axios from "axios";
 import Image from "next/image";
 import { commonService } from "component/fetchDB";
 

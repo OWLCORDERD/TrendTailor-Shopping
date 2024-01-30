@@ -18,7 +18,9 @@ const NoticeBoard = () => {
 
   const noticeFetch = async () => {
     try {
-      const res = await axios.get("/api/viewNotice");
+      const res = await axios.get("/api/viewNotice", {
+        params: { getData: "getData" },
+      });
 
       if (res.status === 200) {
         setNoticeDB(res.data);
