@@ -5,8 +5,8 @@ import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
-import axios from "axios";
 import { Oval } from "react-loader-spinner";
+import { commonService } from "component/fetchDB";
 
 const NoticeBoard = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
@@ -16,22 +16,8 @@ const NoticeBoard = () => {
 
   const { mode } = useContext(ThemeContext);
 
-  const noticeFetch = async () => {
-    try {
-      const res = await axios.get("/api/viewNotice", {
-        params: { getData: "getData" },
-      });
-
-      if (res.status === 200) {
-        setNoticeDB(res.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    noticeFetch();
+    commonService.limitNotice().then((res) => setNoticeDB(res));
   }, []);
 
   useEffect(() => {

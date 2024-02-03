@@ -21,6 +21,11 @@ const getDB = {
       url: "/wishMainSlider",
     }).then((res) => res.data);
   },
+  limitNotice: () => {
+    return service({
+      url: "/limitNotice",
+    }).then((res) => res.data);
+  },
 };
 
 export default getDB;

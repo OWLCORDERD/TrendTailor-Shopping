@@ -71,7 +71,9 @@ const Peed = async () => {
         <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed />
+          {/*
           <YoutubePeed youtubeDB={youtubeDB} />
+          */}
           <ClothesPeed />
         </div>
       </div>

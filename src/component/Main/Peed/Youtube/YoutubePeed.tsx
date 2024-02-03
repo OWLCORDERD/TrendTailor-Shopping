@@ -24,22 +24,6 @@ const YoutubePeed = ({ youtubeDB }: peedPropsType) => {
 
   const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
 
-  /*
-  const getYoutubeDB = () => {
-    const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
-    axios
-      .get(
-        `${youtubeAPI}?part=snippet&maxResults=20&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`
-      )
-      .then((res) => res.data)
-      .then((data) => setVideoData(data.items));
-  };
-
-  useEffect(() => {
-    getYoutubeDB();
-  }, []);
-  */
-
   useEffect(() => {
     if (videoData) {
       setTimeout(() => {

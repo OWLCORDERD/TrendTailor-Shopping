@@ -47,11 +47,9 @@ export default function Notice() {
     const count = currentCount + 1;
 
     try {
-      const res = await fetch(`/api/viewNotice/${count}`, {
-        method: "POST",
-        body: JSON.stringify({
-          currentIdx: currentIdx,
-        }),
+      const res = await axios.post("https://iuprofile.site/viewCount", {
+        idx: currentIdx,
+        count: count,
       });
 
       if (res.status === 200) {
