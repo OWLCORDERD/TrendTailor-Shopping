@@ -5,15 +5,26 @@ import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
+import { Oval } from "react-loader-spinner";
+import { commonService } from "component/fetchDB";
 
-interface fetchNoticeType {
-  noticeDB: NoticeType[];
-}
-const NoticeBoard = ({ noticeDB }: fetchNoticeType) => {
+const NoticeBoard = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [loop, setLoop] = useState<any>();
 
   const { mode } = useContext(ThemeContext);
+
+  useEffect(() => {
+    commonService.limitNotice().then((res) => setNoticeDB(res));
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, [noticeDB]);
 
   useEffect(() => {
     const swiperLoop = setTimeout(() => {
@@ -46,24 +57,39 @@ const NoticeBoard = ({ noticeDB }: fetchNoticeType) => {
       </div>
 
       <div className='Notice-slider'>
-        <ul
-          className='list-slider'
-          style={{
-            top: `-${currentSlide}00%`,
-            transitionDuration: "1s",
-          }}
-        >
-          {noticeDB.map((item) => {
-            return (
-              <li key={item.idx}>
-                <Link href={`/notice/${item.idx}`}>
-                  <h2>{item.title}</h2>
-                  <span>{String(item.date).slice(0, 10)}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        {!loading ? (
+          <ul
+            className='list-slider'
+            style={{
+              top: `-${currentSlide}00%`,
+              transitionDuration: "1s",
+            }}
+          >
+            {noticeDB.map((item) => {
+              return (
+                <li key={item.idx}>
+                  <Link href={`/notice/${item.idx}`}>
+                    <h2>{item.title}</h2>
+                    <span>{String(item.date).slice(0, 10)}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div className='Notice-loading'>
+            <Oval
+              visible={true}
+              height='50'
+              width='50'
+              color='#000'
+              secondaryColor='rgba(0,0,0,0.3)'
+              ariaLabel='oval-loading'
+              wrapperStyle={{}}
+              wrapperClass=''
+            />
+          </div>
+        )}
       </div>
     </div>
   );

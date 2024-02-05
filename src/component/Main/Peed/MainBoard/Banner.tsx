@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "styles/banner.scss";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -9,60 +9,86 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { slideType } from "../Peed";
+import { commonService } from "component/fetchDB";
 
-interface fetchSlideDB {
-  slideDB: slideType[];
+interface slideType {
+  id: number;
+  image: string;
+  title: string;
+  info: string;
 }
 
-const Banner = ({ slideDB }: fetchSlideDB) => {
+const Banner = () => {
+  const [slideDB, setSlideDB] = useState<slideType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    commonService.getMainSlider().then((res) => setSlideDB(res));
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, [slideDB]);
+
   return (
     <div className='Banner-container'>
-      <Swiper
-        className='slide-wrap'
-        slidesPerView={1}
-        navigation={{
-          nextEl: ".slide-next",
-          prevEl: ".slide-prev",
-        }}
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3500, disableOnInteraction: false }}
-        modules={[Pagination, Navigation, Autoplay]}
-      >
-        {slideDB?.map((slide) => {
-          return (
-            <SwiperSlide className='slide-item' key={slide.id}>
-              <div className='slide-imgBox'>
-                <Image
-                  src={slide.image}
-                  alt='슬라이드 이미지'
-                  width={2560}
-                  height={1440}
-                />
-              </div>
-
-              <div className='slide-infoBox' key={slide.id}>
-                <div className='slide-title'>
-                  <h1>{slide.title}</h1>
+      {!loading ? (
+        <Swiper
+          className='slide-wrap'
+          slidesPerView={1}
+          navigation={{
+            nextEl: ".slide-next",
+            prevEl: ".slide-prev",
+          }}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3500, disableOnInteraction: false }}
+          modules={[Pagination, Navigation, Autoplay]}
+        >
+          {slideDB?.map((slide) => {
+            return (
+              <SwiperSlide className='slide-item' key={slide.id}>
+                <div className='slide-imgBox'>
+                  <Image
+                    src={slide.image}
+                    alt='슬라이드 이미지'
+                    width={2560}
+                    height={1440}
+                  />
                 </div>
 
-                <div className='slide-info'>
-                  <p>{slide.info}</p>
+                <div className='slide-infoBox' key={slide.id}>
+                  <div className='slide-title'>
+                    <h1>{slide.title}</h1>
+                  </div>
+
+                  <div className='slide-info'>
+                    <p>{slide.info}</p>
+                  </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          );
-        })}
-        <div className='slide-control'>
-          <div className='slide-prev'>
-            <IoIosArrowBack color='#fff' fontSize={70} />
+              </SwiperSlide>
+            );
+          })}
+          <div className='slide-control'>
+            <div className='slide-prev'>
+              <IoIosArrowBack color='#fff' fontSize={70} />
+            </div>
+
+            <div className='slide-next'>
+              <IoIosArrowForward color='#fff' fontSize={70} />
+            </div>
           </div>
-
-          <div className='slide-next'>
-            <IoIosArrowForward color='#fff' fontSize={70} />
+        </Swiper>
+      ) : (
+        <div className='slide-skeleton'>
+          <div className='slide-imgBox'></div>
+          <div className='slide-infoBox'>
+            <div className='slide-title'></div>
+            <div className='slide-info'></div>
           </div>
         </div>
-      </Swiper>
+      )}
     </div>
   );
 };

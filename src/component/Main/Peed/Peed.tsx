@@ -53,34 +53,6 @@ export interface videoType {
   };
 }
 
-const fetchSlideDB = async () => {
-  const res = await fetch(`${process.env.SERVER_HOST}/wishMainSlider`, {
-    cache: "no-store",
-  });
-
-  if (res.ok) {
-    const data = await res.json();
-
-    return data;
-  }
-
-  return new Error("not connect to slide DB");
-};
-
-const fetchNoticeDB = async () => {
-  const res = await fetch(`${process.env.SERVER_HOST}/limitNotice`, {
-    cache: "no-store",
-  });
-
-  if (res.ok) {
-    const data = await res.json();
-
-    return data;
-  }
-
-  return new Error("not connect to limit Notice DB");
-};
-
 const youtubeFetch = async () => {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
 
@@ -100,13 +72,11 @@ const youtubeFetch = async () => {
 
 const Peed = async () => {
   const youtubeDB: videoType[] = await youtubeFetch();
-  const slideDB: slideType[] = await fetchSlideDB();
-  const noticeDB: NoticeType[] = await fetchNoticeDB();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard noticeDB={noticeDB} slideDB={slideDB} />
+        <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed />
           <YoutubePeed youtubeDB={youtubeDB} />
