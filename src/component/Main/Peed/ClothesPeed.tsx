@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import "styles/clothesPeed.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
 import { commonService } from "component/fetchDB";
 import { Oval } from "react-loader-spinner";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 const ClothesPeed = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,6 +17,7 @@ const ClothesPeed = () => {
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
   const [currentDB, setCurrentDB] = useState<clothes[]>([]);
+  const { mode } = useContext(ThemeContext);
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
@@ -119,8 +121,10 @@ const ClothesPeed = () => {
               visible={true}
               height='50'
               width='50'
-              color='#000'
-              secondaryColor='rgba(0,0,0,0.5)'
+              color={mode === "light" ? "#000" : "#fff"}
+              secondaryColor={
+                mode === "light" ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.5)"
+              }
               ariaLabel='oval-loading'
               wrapperStyle={{}}
               wrapperClass=''

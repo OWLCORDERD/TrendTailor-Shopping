@@ -164,18 +164,25 @@ const Register = () => {
       return CheckPassword.current.focus();
     }
 
-    /* 위의 유효성 검증에서 모두 통과할 시 새로운 data 객체에 필요 정보만 담아서 유저 정보 생성 */
+    /* 위의 유효성 검증을 모두 통과할 시 생성할 회원 정보 데이터를 하나의 객체로 묶어서 전송 */
     const data = {
       email: registerInfo.email,
       password: registerInfo.password,
       username: registerInfo.username,
     };
 
-    /* 유저 정보를 DB에 저장하기 위하여 post 메소드로 data 값 전달 */
-    const res = await axios.post("/api/user", data);
+    /* 사용자가 입력한 패스워드 값(plain text)을 그대로 DB에 저장할 시 취약점으로 인해 해킹 위협
+    -> api/hashPassword 라우터로 plain text 값 전송 -> bcrypt 라이브러리를 통해 hash text로 변경 후 DB에 회원 생성 */
+    const res = await fetch("/api/hashPassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
     /* user 라우터에서 DB 연동과 로직 정상적으로 작동 되었을 시 로그인 페이지로 이동 */
-    if (res.status === 200) {
+    if (res.ok) {
       router.replace("/signin");
     } else {
       console.log(res.status + "error status");

@@ -30,17 +30,15 @@ const handler = NextAuth({
           const currentUserEmail = String(credentials?.userEmail);
           const currentPassword = String(credentials?.password);
 
-          const bodyData = JSON.stringify({
-            userEmail: currentUserEmail,
+          const res = await fetch("https://iuprofile.site/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userEmail: currentUserEmail,
+            }),
           });
-
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/login`,
-            {
-              method: "POST",
-              body: bodyData,
-            }
-          );
 
           const user = await res.json();
 

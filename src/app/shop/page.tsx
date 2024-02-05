@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
 import ProductList from "component/Product/ProductList";
@@ -31,16 +32,11 @@ export default function Shop() {
   const [searchData, setSearchData] = useState<searchDataType[] | undefined>();
 
   const fetchKeyword = async () => {
-    const res = await fetch("api/search", {
-      method: "POST",
-      body: JSON.stringify({
-        keyword: searchQuery,
-      }),
+    const res = await axios.post("https://iuprofile.site/search", {
+      keyword: searchQuery,
     });
 
-    const { data } = await res.json();
-
-    setSearchData(data);
+    setSearchData(res.data);
   };
 
   useEffect(() => {

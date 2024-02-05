@@ -7,6 +7,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Image from "next/image";
+import { commonService } from "component/fetchDB";
 
 export interface clothes {
   type: string;
@@ -32,7 +33,7 @@ interface propsType {
 const ProductList = ({ searchData }: propsType) => {
   const { mode } = useContext(ThemeContext);
 
-  const [clothDB, setClothDB] = useState<clothes[]>([]);
+  const [clothData, setClothData] = useState<clothes[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const postMaxLength: number = 12;
 
@@ -44,13 +45,7 @@ const ProductList = ({ searchData }: propsType) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const getClothesDB = async () => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/clothes`
-    );
-
-    const { data } = res.data;
-
-    setClothDB(data);
+    commonService.getClothes().then((res) => setClothData(res));
   };
 
   useEffect(() => {
@@ -66,8 +61,8 @@ const ProductList = ({ searchData }: propsType) => {
       }
     };
 
-    currentPosts(clothDB);
-  }, [clothDB, currentPage, searchData]);
+    currentPosts(clothData);
+  }, [clothData, currentPage, searchData]);
 
   useEffect(() => {
     getClothesDB();
@@ -86,7 +81,7 @@ const ProductList = ({ searchData }: propsType) => {
 
         <div className='product-count'>
           <span>
-            {searchData?.length ? searchData.length : clothDB.length}
+            {searchData?.length ? searchData.length : clothData.length}
             개의 상품
           </span>
         </div>
@@ -129,7 +124,7 @@ const ProductList = ({ searchData }: propsType) => {
       <Pagenation
         setCurrentPage={setCurrentPage}
         postMaxLength={postMaxLength}
-        DBlength={clothDB.length}
+        DBlength={clothData.length}
         currentPage={currentPage}
         searchDBlength={searchData?.length}
         setLoading={setLoading}

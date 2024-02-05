@@ -4,6 +4,7 @@ import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
+import { NoticeType } from "app/notice/page";
 
 export interface clothes {
   type: string;
@@ -27,6 +28,13 @@ export interface seasonType {
   season: string;
 }
 
+export interface slideType {
+  id: number;
+  image: string;
+  title: string;
+  info: string;
+}
+
 export interface videoType {
   id: {
     kind: string;
@@ -44,6 +52,34 @@ export interface videoType {
     title: string;
   };
 }
+
+const fetchSlideDB = async () => {
+  const res = await fetch(`${process.env.SERVER_HOST}/wishMainSlider`, {
+    cache: "no-store",
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+
+    return data;
+  }
+
+  return new Error("not connect to slide DB");
+};
+
+const fetchNoticeDB = async () => {
+  const res = await fetch(`${process.env.SERVER_HOST}/limitNotice`, {
+    cache: "no-store",
+  });
+
+  if (res.ok) {
+    const data = await res.json();
+
+    return data;
+  }
+
+  return new Error("not connect to limit Notice DB");
+};
 
 const youtubeFetch = async () => {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
@@ -64,16 +100,16 @@ const youtubeFetch = async () => {
 
 const Peed = async () => {
   const youtubeDB: videoType[] = await youtubeFetch();
+  const slideDB: slideType[] = await fetchSlideDB();
+  const noticeDB: NoticeType[] = await fetchNoticeDB();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard />
+        <MainBoard noticeDB={noticeDB} slideDB={slideDB} />
         <div className='Peed-wrapper'>
           <SeasonPeed />
-          {/*
           <YoutubePeed youtubeDB={youtubeDB} />
-          */}
           <ClothesPeed />
         </div>
       </div>
