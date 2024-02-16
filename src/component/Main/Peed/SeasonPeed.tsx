@@ -3,9 +3,8 @@ import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { clothes, seasonType } from "./Peed";
-import { commonService } from "component/fetchDB";
 import { Oval } from "react-loader-spinner";
+import { clothes } from "./Peed";
 
 const SeasonPeed = () => {
   const slideRef = useRef<HTMLDivElement>(null);
@@ -17,11 +16,8 @@ const SeasonPeed = () => {
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const date = new Date();
-  const month = date.getMonth() + 1;
 
-  const [clothesDB, setClothesDB] = useState<clothes[]>([]);
-  const [seasonDB, setSeasonDB] = useState<seasonType[]>([]);
+  const [seasonClothes, setSeasonClothes] = useState<clothes[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -44,35 +40,52 @@ const SeasonPeed = () => {
     }
   };
 
-  const fetchDB = () => {
-    commonService.getClothes().then((res) => setClothesDB(res));
-    commonService.getSeason().then((res) => setSeasonDB(res));
+  const searchSeasonClothes = async () => {
+    const searchQuery: string = "겨울";
+    const viewResult: number = 20;
+    const naverApiHeaders: any = {
+      "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
+      "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
+    };
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_NAVER_OPENAPI_ROUTE}?query=${searchQuery}&display=${viewResult}`,
+      {
+        cache: "no-store",
+        headers: naverApiHeaders,
+      }
+    );
+
+    const data = await res.json();
+
+    const clothesData: clothes[] = data.items;
+
+    const replaceTitle: clothes[] = clothesData.map((cloth) => {
+      return {
+        title: cloth.title.replace(/<[^>]*>?/g, ""),
+        link: cloth.link,
+        image: cloth.image,
+        lprice: cloth.lprice,
+        hprice: cloth.hprice,
+        mallName: cloth.mallName,
+        productId: cloth.productId,
+        productType: cloth.productType,
+        brand: cloth.brand,
+        maker: cloth.maker,
+        category1: cloth.category1,
+        category2: cloth.category2,
+        category3: cloth.category3,
+        category4: cloth.category4,
+      };
+    });
+
+    setSeasonClothes(replaceTitle);
+    setLoading(false);
   };
 
   useEffect(() => {
     setLoading(true);
-    fetchDB();
+    searchSeasonClothes();
   }, []);
-
-  const filterSeason: seasonType[] | undefined =
-    seasonDB !== undefined
-      ? seasonDB.filter((season: any) => season.month === month)
-      : undefined;
-
-  const seasonClothes: clothes[] | undefined =
-    filterSeason !== undefined
-      ? clothesDB.filter(
-          (clothes: any) => clothes.category4 === filterSeason[0]?.season
-        )
-      : undefined;
-
-  useEffect(() => {
-    if (seasonClothes !== undefined) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-  }, [seasonClothes]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -153,7 +166,7 @@ const SeasonPeed = () => {
             transition: "all 0.5s ease-in",
           }}
         >
-          {!loading && seasonClothes !== undefined
+          {!loading && seasonClothes.length > 0
             ? seasonClothes.map((clothes) => {
                 return (
                   <div
@@ -180,7 +193,7 @@ const SeasonPeed = () => {
                       </div>
 
                       <div className='product-price'>
-                        <span>{clothes.price}</span>
+                        <span>{clothes.lprice}</span>
                       </div>
                     </div>
                   </div>

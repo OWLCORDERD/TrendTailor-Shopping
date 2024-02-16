@@ -68,62 +68,109 @@
                 justify-content: center;
             }
 
-            table{
-                display: table;
+            .border-table{
                 width: 100%;
-                border-collapse: collapse;
-                border-bottom: 2px solid rgb(203, 203, 203);
-                border-top: 2px solid rgb(203, 203, 203);
-        
-                thead{
-                    tr{
-                        border-bottom: 2px solid rgb(196, 196, 196);
-                    }
-                }
-                
-                th{
-                    padding: 1.5rem 0;
+                height: 100%;
+                border-radius: 10px;
+                overflow: hidden;
 
-                    &:nth-child(2){
-                        width: 50%;
-                        h1{
-                            text-align: start;
+                table{
+                    display: table;
+                    width: 100%;
+                    border-collapse: collapse;
+                    border-style: hidden;
+            
+                    thead{
+                        &.darkMode{
+                            background-color: rgba($color: #9a9a9a, $alpha: 0.2);
+
+                            tr{
+                                th{
+                                    h1{
+                                        color: #fff;
+                                    }
+                                }
+                            }
                         }
-                    }
+                        &.lightMode{
+                            background-color: rgba($color: #000000, $alpha: 0.7);
 
-                    h1{
-                        font-family: $Noto-Korean;
-                        font-size: 1rem;
-                        text-align: center;
-                    }
-                }
-
-                td{
-                    padding : 1.5rem 0;
-                    text-align: center;
-                    font-family: $Noto-Korean;
-                    font-size: 15px;
-                    border-bottom: 1px solid rgb(222, 222, 222);
-
-                    &:nth-child(2){
-                        text-align: start;
-
-                        a{
-                            font-weight: bold;
-                            font-family: $Noto-Korean;
-                            font-size: 15px;
-                            cursor: pointer;
-    
-                            &:hover{
-                                text-decoration: underline;
-                                cursor: pointer;
+                            tr{
+                                th{
+                                    h1{
+                                        color: rgba($color: #fff, $alpha: 0.9);
+                                    }
+                                }
                             }
                         }
                     }
+                    
+                    th{
+                        padding: 1.5rem 0;
+    
+                        &:first-child{
+                            width: 50%;
+                            h1{
+                                text-align: center;
+                            }
+                        }
+    
+                        h1{
+                            font-family: $Noto-Korean;
+                            font-size: 1rem;
+                            text-align: center;
+                        }
+                    }
+                    
+                    tbody{
+    
+                            tr {
+                                width: 100%;
 
-                    &:first-child{
-                        width: 15%;
-                        font-weight: bold;
+                                &.darkMode{
+                                    &:hover{
+                                        background-color: rgba($color: #bdbdbd, $alpha: 0.4);
+                                        transition: all 0.5s ease-in;
+                                        cursor: pointer;
+        
+                                        td{
+                                            span{
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &.lightMode{
+                                    &:hover{
+                                        background-color: rgba($color: #000000, $alpha: 0.4);
+                                        transition: all 0.5s ease-in;
+                                        cursor: pointer;
+        
+                                        td{
+                                            span{
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+                                }
+    
+                                td{
+                                    padding : 1.5rem 0;
+                                    text-align: center;
+                                    font-family: $Noto-Korean;
+                                    font-size: 15px;
+                
+                                    &:first-child{
+                                        text-align: center;
+                                        font-weight: bold;
+                                    }
+                
+                                    &:nth-child(2){
+                                        width: 15%;
+                                    }
+                                }
+                            }
                     }
                 }
             }
@@ -375,7 +422,7 @@
             left : 50%;
             transform: translateX(-50%);
             width: 80%;
-            height: max-content;
+            height: 66rem;
             padding : 0 0 2rem 0;
 
             .currentBoard-title{
@@ -542,101 +589,146 @@
 
             .Notice-header{
                 position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 width: 100%;
                 height: 5rem;
-                margin : 2rem 0 2rem 0;
-                padding : 0;
-
+                margin : 2rem 0 1rem 0;
+                padding : 0 1rem;
+    
                 .Notice-title{
+                    position: relative;
+                    width: 70%;
+                    height: 5rem;
         
                     h1{
-                        font-size: 1.5rem;
+                        width: 100%;
+                        line-height: 5rem;
+                        font-size: 1.2rem;
+                        font-family: $Noto-Korean;
+                        text-align: start;
                     }
                 }
-
+    
                 .AddNotice-button{
-                    display: none;
+                    position: relative;
+                    top: 0;
+                    right: 0;
+                    width: 6rem;
+                    height: 2.5rem;
+                    transform: translateY(0);
+    
+                    a{
+                        display: block;
+                        line-height: 2.5rem;
+                        width: 100%;
+                        font-size: 10px;
+                        font-family: $Noto-Korean;
+                        text-align: center;
+                        font-weight: bold;
+                    }
                 }
             }
 
             .Notice-table{
                 position: relative;
                 width: 100%;
-                padding : 0;
+                padding : 1rem 1rem;
 
-                .loader{
-                    position: absolute;
+                .border-table{
                     width: 100%;
                     height: 100%;
-                    top: 0;
-                    left: 0;
-                    background-color: transparent;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-                table{
-                    display: table;
-                    width: 100%;
-                    border-collapse: collapse;
-                    border-bottom: 2px solid rgb(203, 203, 203);
-                    border-top: 2px solid rgb(203, 203, 203);
-            
-                    thead{
-                        tr{
-                            border-bottom: 2px solid rgb(196, 196, 196);
-                        }
-                    }
-                    
-                    th{
-                        padding: 1rem 0;
-
-                        &:nth-child(1){
-                            width : max-content;
-                        }
-
-                        &:nth-child(2){
-                            width: 50%;
-
-                            h1{
-                                text-align: start;
-                            }
-                        }
-
-                        h1{
-                            font-family: $Noto-Korean;
-                            font-size: 10px;
-                            text-align: center;
-                        }
-                    }
-
-                    td{
-                        padding : 1.5rem 0;
-                        text-align: center;
-                        font-family: $Noto-Korean;
-                        font-size: 10px;
-                        border-bottom: 1px solid rgb(222, 222, 222);
-
-                        &:nth-child(2){
-                            text-align: start;
-
-                            a{
-                                font-weight: bold;
-                                font-family: $Noto-Korean;
-                                font-size: 10px;
-                                cursor: pointer;
-        
-                                &:hover{
-                                    text-decoration: underline;
-                                    cursor: pointer;
+                    border-radius: 10px;
+                    overflow: hidden;
+    
+                    table{
+                        display: table;
+                        width: 100%;
+                        border-collapse: collapse;
+                        border-style: hidden;
+                
+                        thead{
+                            &.darkMode{
+                                background-color: rgba($color: #7f7f7f, $alpha: 0.3);
+    
+                                tr{
+                                    th{
+                                        h1{
+                                            color: rgba(255,255,255,0.7);
+                                        }
+                                    }
                                 }
                             }
                         }
+                        
+                        th{
+                            padding: 1.5rem 0;
+        
+                            &:first-child{
+                                width: 55%;
+                            }
 
-                        &:first-child{
-                            width: 50px;
-                            font-weight: bold;
+                            &:nth-child(3){
+                                width: 20%;
+                            }
+        
+                            h1{
+                                font-family: $Noto-Korean;
+                                font-size: 10px;
+                                text-align: center;
+                            }
+                        }
+                        
+                        tbody{
+        
+                                tr {
+                                    width: 100%;
+    
+                                    &.darkMode{
+                                        &:hover{
+                                            background-color: rgba($color: #bdbdbd, $alpha: 0.4);
+                                            transition: all 0.5s ease-in;
+                                            cursor: pointer;
+            
+                                            td{
+                                                span{
+                                                    color: #fff;
+                                                }
+                                            }
+                                        }
+                                    }
+    
+                                    &.lightMode{
+                                        &:hover{
+                                            background-color: rgba($color: #000000, $alpha: 0.4);
+                                            transition: all 0.5s ease-in;
+                                            cursor: pointer;
+            
+                                            td{
+                                                span{
+                                                    color: #fff;
+                                                }
+                                            }
+                                        }
+                                    }
+        
+                                    td{
+                                        padding : 1.5rem 0;
+                                        text-align: center;
+                                        font-family: $Noto-Korean;
+                                        font-size: 10px;
+                    
+                                        &:first-child{
+                                            text-align: start;
+                                            font-weight: bold;
+                                        }
+                    
+                                        &:nth-child(2){
+                                            width: max-content;
+                                        }
+                                    }
+                                }
                         }
                     }
                 }
@@ -669,7 +761,7 @@
                 left : 50%;
                 transform: translateX(-50%);
                 width: 100%;
-                height: max-content;
+                height: 40rem;
                 padding : 0 0 2rem 0;
 
                 .currentBoard-title{

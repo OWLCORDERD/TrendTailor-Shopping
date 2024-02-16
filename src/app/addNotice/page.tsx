@@ -2,12 +2,20 @@
 
 import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
-import aws from "component/s3/s3";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import "styles/notice.scss";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "component/fetchDB/firebase";
+
+interface sendDataType {
+  title: string;
+  text: string;
+  writer: string;
+  img_url: string | undefined;
+}
 
 const AddNotice = () => {
   const [noticeInfo, setNoticeInfo] = useState({
@@ -16,12 +24,27 @@ const AddNotice = () => {
     text: "",
   });
 
+  const [value, setValue] = useState<string>("익명");
+
+  const writerName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    if (status === "authenticated") {
+      const writer = String(session.user?.name);
+
+      setValue(writer);
+    } else {
+      setValue("익명");
+    }
+  };
+
   const { data: session, status } = useSession();
 
   /*createObjectUrl 활용한 이미지 객체 가르키는 url 저장*/
   const [urlThumbnail, setUrlThumbnail] = useState<string>();
   /*업로드 이미지 객체 aws s3 버킷 연동 함수에 파라미터로 전송하기 위해 저장 */
-  const [uploadImage, setUploadImage] = useState<any>();
+  const [uploadImage, setUploadImage] = useState<File | undefined>();
+  const [uploadUrl, setUploadUrl] = useState<string | undefined>();
 
   /*공지사항 title, text field 유효성 검증 state */
   const [isTitle, setIsTitle] = useState<boolean>(false);
@@ -68,6 +91,8 @@ const AddNotice = () => {
 
     if (value.length > 0) {
       setIsTitle(true);
+    } else {
+      setIsText(false);
     }
 
     setNoticeInfo({
@@ -82,6 +107,8 @@ const AddNotice = () => {
 
     if (value.length > 0) {
       setIsText(true);
+    } else {
+      setIsText(false);
     }
 
     setNoticeInfo({
@@ -101,28 +128,44 @@ const AddNotice = () => {
       return textRef.current.focus();
     }
 
+    /* text input value 값으로 엔터값을 넣을 때, string value에 br태그가 들어가고 줄바꿈 안됨
+    -> replace 메소드를 사용하여 br태그를 줄바꿈 개행 문자로 변경 */
     const replaceText = () => {
       return noticeInfo.text.replaceAll("<br>", "\r\n");
     };
 
     try {
-      const res = await aws(uploadImage);
+      if (uploadImage) {
+        const storageSaveRef = ref(
+          storage,
+          `images/notice/${uploadImage.name}`
+        );
 
-      const resRoute = res;
+        await uploadBytes(storageSaveRef, uploadImage).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            setUploadUrl(url);
+          });
+        });
 
-      const final: any = {
-        title: noticeInfo.title,
-        writer: noticeInfo.writer,
-        text: replaceText(),
-        imgRoute: resRoute,
-      };
+        const sendData: sendDataType = {
+          title: noticeInfo.title,
+          text: replaceText(),
+          writer: noticeInfo.writer,
+          img_url: uploadUrl,
+        };
 
-      const data = await fetch("/api/createNotice", {
-        method: "POST",
-        body: final,
-      });
+        const res = await fetch("/api/createNotice", {
+          method: "POST",
+          body: JSON.stringify(sendData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-      console.log(data.json());
+        if (res.ok) {
+          console.log(res);
+        }
+      }
     } catch (err) {
       console.log(err);
     }
@@ -163,15 +206,14 @@ const AddNotice = () => {
                 onChange={inputInfo}
                 ref={titleRef}
               />
-              {status === "authenticated" && (
-                <input
-                  type='text'
-                  name='writer'
-                  placeholder='작성자'
-                  className='writer-input'
-                  value={`${session.user?.name}`}
-                />
-              )}
+              <input
+                type='text'
+                name='writer'
+                placeholder='작성자'
+                className='writer-input'
+                value={value}
+                onChange={writerName}
+              />
             </div>
 
             <div className='Notice-textInfo'>

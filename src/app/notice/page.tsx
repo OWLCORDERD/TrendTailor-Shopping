@@ -4,16 +4,16 @@ import axios from "axios";
 import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
 import Pagenation from "component/Notice/Pagenation";
-import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
 import "styles/notice.scss";
 import { RotatingLines } from "react-loader-spinner";
-import { useSession } from "next-auth/react";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { commonService } from "component/fetchDB";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "component/fetchDB/firebase";
+import { useRouter } from "next/navigation";
 
 export interface NoticeType {
-  idx: number;
+  id: string;
   title: string;
   writer: string;
   image: string;
@@ -29,26 +29,56 @@ export default function Notice() {
 
   const { mode } = useContext(ThemeContext);
 
-  const fetchNotice = () => {
-    commonService.getNotice().then((res) => setNoticeDB(res));
+  const router = useRouter();
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+  const noticeDBfetch = async () => {
+    const postRef = collection(db, "notice");
+
+    const querySnapShot = await getDocs(
+      query(postRef, orderBy("date", "desc"))
+    );
+
+    if (querySnapShot.empty) {
+      return null;
+    }
+
+    const postsData: NoticeType[] = [];
+
+    querySnapShot.forEach((doc) => {
+      const docsData = {
+        id: doc.id,
+        date: doc.data()["date"].toDate().toLocaleDateString("ko-KR"),
+        image: doc.data()["image"],
+        text: doc.data()["text"],
+        title: doc.data()["title"],
+        view_cnt: doc.data()["view_cnt"],
+        writer: doc.data()["writer"],
+      };
+
+      postsData.push(docsData);
+    });
+
+    setNoticeDB(postsData);
   };
 
   useEffect(() => {
-    fetchNotice();
+    noticeDBfetch();
   }, []);
 
-  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (noticeDB.length > 0) {
+      setLoading(false);
+    }
+  }, [noticeDB]);
 
-  const viewCount = async (currentCount: number, currentIdx: number) => {
+  const viewCount = async (currentCount: number, currentIdx: string) => {
+    router.push(`/viewNotice?id=${currentIdx}`);
+
     const count = currentCount + 1;
 
     try {
-      const res = await axios.post("https://iuprofile.site/viewCount", {
-        idx: currentIdx,
+      const res = await axios.post("/api/viewCount", {
+        id: currentIdx,
         count: count,
       });
 
@@ -70,11 +100,9 @@ export default function Notice() {
             <h1>공지사항</h1>
           </div>
 
-          {status === "authenticated" && (
-            <div className='AddNotice-button'>
-              <a href='/addNotice'>공지사항 작성</a>
-            </div>
-          )}
+          <div className='AddNotice-button'>
+            <a href='/addNotice'>공지사항 작성</a>
+          </div>
         </div>
         <div className='Notice-table'>
           {loading ? (
@@ -88,56 +116,53 @@ export default function Notice() {
               />
             </div>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    <h1>번호</h1>
-                  </th>
-                  <th>
-                    <h1>제목</h1>
-                  </th>
-                  <th>
-                    <h1>글쓴이</h1>
-                  </th>
-                  <th>
-                    <h1>조회수</h1>
-                  </th>
-                  <th>
-                    <h1>날짜</h1>
-                  </th>
-                </tr>
-              </thead>
+            <div className='border-table'>
+              <table>
+                <thead className={mode === "dark" ? "darkMode" : "lightMode"}>
+                  <tr>
+                    <th>
+                      <h1>제목</h1>
+                    </th>
+                    <th>
+                      <h1>글쓴이</h1>
+                    </th>
+                    <th>
+                      <h1>날짜</h1>
+                    </th>
+                    <th>
+                      <h1>조회수</h1>
+                    </th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {noticeDB.map((item) => {
-                  return (
-                    <tr key={item.idx}>
-                      <td>
-                        <span>{item.idx}</span>
-                      </td>
-                      <td>
-                        <Link
-                          href={`/notice/${item.idx}`}
-                          onClick={() => viewCount(item.view_cnt, item.idx)}
+                <tbody>
+                  {noticeDB.map((item) => {
+                    return (
+                      <>
+                        <tr
+                          key={item.id}
+                          onClick={() => viewCount(item.view_cnt, item.id)}
+                          className={mode === "dark" ? "darkMode" : "lightMode"}
                         >
-                          {item.title}
-                        </Link>
-                      </td>
-                      <td>
-                        <span>{item.writer}</span>
-                      </td>
-                      <td>
-                        <span>{item.view_cnt}</span>
-                      </td>
-                      <td>
-                        <span>{item.date.slice(0, 10)}</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                          <td>
+                            <span>{item.title}</span>
+                          </td>
+                          <td>
+                            <span>{item.writer}</span>
+                          </td>
+                          <td>
+                            <span>{String(item.date).replace(".", "")}</span>
+                          </td>
+                          <td>
+                            <span>{item.view_cnt}</span>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
 

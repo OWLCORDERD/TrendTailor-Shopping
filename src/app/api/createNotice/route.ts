@@ -1,46 +1,38 @@
-import mysql from "mysql2/promise";
+import { db } from "component/fetchDB/firebase";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { NextResponse } from "next/server";
 
-interface example {
+interface noticeBodyType {
   title: string;
   text: string;
-  imgRoute: string;
   writer: string;
-  count: number;
-  currentIndex: number;
+  img_url: string;
 }
 
 export async function POST(req: Request) {
-  let connection = null;
-
   if (req.method === "POST") {
-    const body: example = await req.json();
+    const body: noticeBodyType = await req.json();
 
     const title = body.title;
     const text = body.text;
-    const imgSrc = body.imgRoute;
     const writer = body.writer;
-
-    if (connection === null) {
-      connection = await mysql.createConnection({
-        host: process.env.MYSQL_HOST,
-        password: process.env.MYSQL_PASSWORD,
-        database: "wish",
-        user: "Owlcoderd",
-        port: 3306,
-      });
-    }
+    const img_url = body.img_url;
 
     try {
-      const SqlQuery =
-        "insert into notice(title, writer, image, text) values(?, ?, ?, ?)";
-      const value = [title, writer, imgSrc, text];
+      const date = Timestamp.fromDate(new Date());
 
-      const [data] = await connection.execute(SqlQuery, value);
+      await addDoc(collection(db, "notice"), {
+        title: title,
+        text: text,
+        writer: writer,
+        view_cnt: 0,
+        image: img_url,
+        date: date,
+      });
 
       return NextResponse.json({
-        message: `${data} : success insert notice`,
-        success: true,
+        status: 200,
+        message: "success add Document firebase",
       });
     } catch (err) {
       return NextResponse.json({ err: err });

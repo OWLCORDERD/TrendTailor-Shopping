@@ -32,16 +32,10 @@ const Navbar = () => {
           <Search />
 
           <div className='login-menu'>
-            {status === "authenticated" ? (
-              <div className='user-profile'>
-                <img src={session.user.image} alt='profile-img' />
-              </div>
-            ) : (
-              <Link href='/signin' className='login-button'>
-                <AiOutlineLogin className='icon' />
-                <span>login</span>
-              </Link>
-            )}
+            <Link href='/signin' className='login-button'>
+              <AiOutlineLogin className='icon' />
+              <span>login</span>
+            </Link>
 
             {status === "authenticated" && session.user ? (
               <div className='user-name'>

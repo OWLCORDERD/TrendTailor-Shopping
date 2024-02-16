@@ -3,16 +3,67 @@ import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
 import Banner from "./Banner";
 import { slideType } from "../Peed";
+import { NoticeType } from "app/notice/page";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "component/fetchDB/firebase";
 
-interface peedPropsType {
-  slideDB: slideType[];
-}
+const slideDBfetch = async () => {
+  const querySnapShot = await getDocs(collection(db, "slide"));
 
-const MainBoard = ({ slideDB }: peedPropsType) => {
+  if (querySnapShot.empty) {
+    return [];
+  }
+
+  const slideData: slideType[] = [];
+
+  querySnapShot.forEach((doc) => {
+    const docData = {
+      id: doc.data()["id"],
+      image: doc.data()["image"],
+      title: doc.data()["title"],
+      info: doc.data()["info"],
+    };
+
+    slideData.push(docData);
+  });
+
+  return slideData;
+};
+
+const noticeDBfetch = async () => {
+  const querySnapShot = await getDocs(collection(db, "notice"));
+
+  if (querySnapShot.empty) {
+    return [];
+  }
+
+  const noticeData: NoticeType[] = [];
+
+  querySnapShot.forEach((doc) => {
+    const docData = {
+      id: doc.id,
+      title: doc.data()["title"],
+      text: doc.data()["text"],
+      writer: doc.data()["writer"],
+      image: doc.data()["image"],
+      date: doc.data()["date"].toDate(),
+      view_cnt: doc.data()["view_cnt"],
+    };
+
+    noticeData.push(docData);
+  });
+
+  return noticeData;
+};
+
+const MainBoard = async () => {
+  const slideDB: slideType[] = await slideDBfetch();
+  const noticeDB: NoticeType[] = await noticeDBfetch();
+
   return (
     <div className='MainPage-Board'>
       <Banner slideDB={slideDB} />
-      <NoticeBoard />
+      <NoticeBoard noticeDB={noticeDB} />
     </div>
   );
 };

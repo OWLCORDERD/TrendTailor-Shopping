@@ -5,7 +5,6 @@ import "styles/clothesPeed.scss";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
-import { commonService } from "component/fetchDB";
 import { Oval } from "react-loader-spinner";
 import { ThemeContext } from "../../../../context/ThemeContext";
 
@@ -28,6 +27,8 @@ const ClothesPeed = () => {
       pushdata.push(...currentData);
 
       setCurrentDB(pushdata);
+
+      setLoading(false);
     }
   }, [currentPage]);
 
@@ -43,12 +44,55 @@ const ClothesPeed = () => {
     }
   };
 
-  const fetchClothesData = () => {
-    commonService.getClothes().then((res) => setClothesData(res));
+  const naverApiHeaders: any = {
+    "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
+    "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
   };
 
-  const firstCurrentData = () => {
-    if (clothesData !== undefined) {
+  const fetchClothesData = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_NAVER_OPENAPI_ROUTE}?query=스트릿패션&display=50`,
+      {
+        cache: "no-store",
+        headers: naverApiHeaders,
+      }
+    );
+
+    if (!res.ok) {
+      new Error("not connect to naver open api");
+    }
+
+    const data = await res.json();
+
+    /*응답 값중 items 배열에 검색결과 의류 더미데이터들이 있음 */
+    const clothesItems: clothes[] = data.items;
+
+    /* 네이버 의류 API shop.json에서 데이터를 불러올때 title string값에 태그가 포함되어있음
+    items배열에 map함수를 사용하여 각 item마다의 title값에만 replace 메소드 정규식을 통하여 태그 string 제거 */
+    const replaceTitle: clothes[] = clothesItems.map((cloth) => {
+      return {
+        title: cloth.title.replace(/<[^>]*>?/g, ""),
+        link: cloth.link,
+        image: cloth.image,
+        lprice: cloth.lprice,
+        hprice: cloth.hprice,
+        mallName: cloth.mallName,
+        productId: cloth.productId,
+        productType: cloth.productType,
+        brand: cloth.brand,
+        maker: cloth.maker,
+        category1: cloth.category1,
+        category2: cloth.category2,
+        category3: cloth.category3,
+        category4: cloth.category4,
+      };
+    });
+
+    setClothesData(replaceTitle);
+  };
+
+  const firstCurrentDB = () => {
+    if (clothesData) {
       const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
       const pushdata = [...currentDB];
@@ -56,6 +100,8 @@ const ClothesPeed = () => {
       pushdata.push(...currentData);
 
       setCurrentDB(pushdata);
+
+      setLoading(false);
     }
   };
 
@@ -65,22 +111,17 @@ const ClothesPeed = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
+    if (currentDB.length > 0) return;
 
-    setTimeout(() => {
-      currentDBUpdate();
-      setLoading(false);
-    }, 1000);
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (clothesData !== undefined) {
-      setTimeout(() => {
-        firstCurrentData();
-        setLoading(false);
-      }, 1000);
+    if (clothesData && clothesData.length > 0) {
+      firstCurrentDB();
     }
   }, [clothesData]);
+
+  useEffect(() => {
+    setLoading(true);
+    currentDBUpdate();
+  }, [currentPage]);
 
   return (
     <div className='ClothesPeed-container'>
@@ -107,7 +148,7 @@ const ClothesPeed = () => {
               <div className='product-content'>
                 <h2 className='product-title'>{item.title}</h2>
                 <p className='product-mall'>{item.mallName}</p>
-                <span className='product-price'>{item.price}</span>
+                <span className='product-price'>{item.lprice}</span>
               </div>
             </div>
           );

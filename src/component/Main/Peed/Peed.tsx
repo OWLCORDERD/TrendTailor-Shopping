@@ -6,11 +6,11 @@ import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
 
 export interface clothes {
-  type: string;
   title: string;
   link: string;
   image: string;
-  price: string;
+  lprice: string;
+  hprice: string;
   mallName: string;
   productId: string;
   productType: string;
@@ -20,11 +20,6 @@ export interface clothes {
   category2: string;
   category3: string;
   category4: string;
-}
-
-export interface seasonType {
-  month: number;
-  season: string;
 }
 
 export interface slideType {
@@ -52,19 +47,6 @@ export interface videoType {
   };
 }
 
-const slideDBfetch = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/slide`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  const resData = await res.json();
-
-  return resData.data;
-};
-
 const youtubeFetch = async () => {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
 
@@ -84,12 +66,11 @@ const youtubeFetch = async () => {
 
 const Peed = async () => {
   const youtubeDB: videoType[] = await youtubeFetch();
-  const slideDB: slideType[] = await slideDBfetch();
 
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
-        <MainBoard slideDB={slideDB} />
+        <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed />
           <YoutubePeed youtubeDB={youtubeDB} />

@@ -35,15 +35,11 @@ const Pagenation = ({
     }
   };
 
-  /* pageNumber li number 클릭 시, currentPage 값 변경 후 3초간 로딩 스피너 실행 */
+  /* pageNumber li number 클릭 시, currentPage 값 변경 후 로딩 스피너 실행 */
   const pageTransform = (num: number) => {
     setCurrentPage(num);
 
     setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
   };
 
   /*seach Query를 통해 조회된 searchDB 데이터가 존재 할 시 searchDBPage 함수 실행*/
