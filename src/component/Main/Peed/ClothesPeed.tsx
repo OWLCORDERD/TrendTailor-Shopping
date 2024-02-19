@@ -50,13 +50,10 @@ const ClothesPeed = () => {
   };
 
   const fetchClothesData = async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_NAVER_OPENAPI_ROUTE}?query=스트릿패션&display=50`,
-      {
-        cache: "no-store",
-        headers: naverApiHeaders,
-      }
-    );
+    const res = await fetch(`/api/clothes?query=스트릿패션&display=50`, {
+      cache: "no-store",
+      headers: naverApiHeaders,
+    });
 
     if (!res.ok) {
       new Error("not connect to naver open api");

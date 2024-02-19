@@ -11,6 +11,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "component/fetchDB/firebase";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export interface NoticeType {
   id: string;
@@ -30,6 +31,8 @@ export default function Notice() {
   const { mode } = useContext(ThemeContext);
 
   const router = useRouter();
+
+  const { status } = useSession();
 
   const noticeDBfetch = async () => {
     const postRef = collection(db, "notice");
@@ -100,7 +103,10 @@ export default function Notice() {
             <h1>공지사항</h1>
           </div>
 
-          <div className='AddNotice-button'>
+          <div
+            className='AddNotice-button'
+            hidden={status === "authenticated" ? false : true}
+          >
             <a href='/addNotice'>공지사항 작성</a>
           </div>
         </div>

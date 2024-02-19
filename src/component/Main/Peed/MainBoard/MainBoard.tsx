@@ -2,10 +2,16 @@ import React from "react";
 import NoticeBoard from "./NoticeBoard";
 import "styles/mainBoard.scss";
 import Banner from "./Banner";
-import { slideType } from "../Peed";
 import { NoticeType } from "app/notice/page";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "component/fetchDB/firebase";
+
+export interface slideType {
+  id: number;
+  image: string;
+  title: string;
+  info: string;
+}
 
 const slideDBfetch = async () => {
   const querySnapShot = await getDocs(collection(db, "slide"));

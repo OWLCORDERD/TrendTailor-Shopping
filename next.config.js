@@ -24,8 +24,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
-        destination: "https://openapi.naver.com/:path*",
+        source: "/api/clothes",
+        destination: "https://openapi.naver.com/v1/search/shop.json",
       },
     ];
   },

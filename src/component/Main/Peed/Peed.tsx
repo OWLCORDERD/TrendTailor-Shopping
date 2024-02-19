@@ -22,13 +22,6 @@ export interface clothes {
   category4: string;
 }
 
-export interface slideType {
-  id: number;
-  image: string;
-  title: string;
-  info: string;
-}
-
 export interface videoType {
   id: {
     kind: string;
@@ -47,6 +40,7 @@ export interface videoType {
   };
 }
 
+/*
 const youtubeFetch = async () => {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
 
@@ -63,9 +57,12 @@ const youtubeFetch = async () => {
     return data.items;
   }
 };
+*/
 
 const Peed = async () => {
+  /*
   const youtubeDB: videoType[] = await youtubeFetch();
+  */
 
   return (
     <section className='MainPeed-container'>
@@ -73,7 +70,6 @@ const Peed = async () => {
         <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed />
-          <YoutubePeed youtubeDB={youtubeDB} />
           <ClothesPeed />
         </div>
       </div>

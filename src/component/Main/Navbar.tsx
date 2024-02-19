@@ -14,7 +14,7 @@ import { IoIosSearch, IoIosClose } from "react-icons/io";
 import ResponsiveMenu from "./Responsive/ResponsiveMenu";
 
 const Navbar = () => {
-  const { data: session, status }: any = useSession();
+  const { data, status } = useSession();
 
   const { mode, toggle } = useContext(ThemeContext);
 
@@ -32,16 +32,21 @@ const Navbar = () => {
           <Search />
 
           <div className='login-menu'>
-            <Link href='/signin' className='login-button'>
-              <AiOutlineLogin className='icon' />
-              <span>login</span>
-            </Link>
+            {status === "authenticated" ? (
+              <a onClick={() => signOut()} className='login-button'>
+                <AiOutlineLogin className='icon' />
+                <span>logOut</span>
+              </a>
+            ) : (
+              <Link href='/signin' className='login-button'>
+                <AiOutlineLogin className='icon' />
+                <span>login</span>
+              </Link>
+            )}
 
-            {status === "authenticated" && session.user ? (
+            {status === "authenticated" ? (
               <div className='user-name'>
-                <a onClick={() => signOut()}>
-                  {session.user.name} 님 환영합니다.
-                </a>
+                <span>{data.user?.name} 님 환영합니다.</span>
               </div>
             ) : (
               <Link href='/signup' className='signUp-button'>

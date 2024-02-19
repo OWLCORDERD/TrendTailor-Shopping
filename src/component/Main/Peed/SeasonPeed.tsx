@@ -48,7 +48,7 @@ const SeasonPeed = () => {
       "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
     };
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_NAVER_OPENAPI_ROUTE}?query=${searchQuery}&display=${viewResult}`,
+      `/api/clothes?query=${searchQuery}&display=${viewResult}`,
       {
         cache: "no-store",
         headers: naverApiHeaders,

@@ -18,20 +18,17 @@ export default function Shop() {
   const fetchKeyword = async () => {
     if (searchQuery !== null) {
       const maxResults: number = 50;
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_NAVER_OPENAPI_ROUTE}`,
-        {
-          params: {
-            query: searchQuery,
-            display: maxResults,
-          },
-          headers: {
-            "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
-            "X-Naver-Client-Secret":
-              process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
-          },
-        }
-      );
+      const res = await axios.get(`/api/clothes`, {
+        params: {
+          query: searchQuery,
+          display: maxResults,
+        },
+        headers: {
+          "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
+          "X-Naver-Client-Secret":
+            process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
+        },
+      });
 
       if (res.status === 200) {
         const clothesData: clothes[] = res.data.items;

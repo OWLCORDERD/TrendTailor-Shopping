@@ -59,11 +59,11 @@ const Login = () => {
     }
   };
 
-  const { status } = useSession();
   const router = useRouter();
+  const { status } = useSession();
 
   if (status === "authenticated") {
-    router.replace("/");
+    router.push("/");
   }
 
   return (

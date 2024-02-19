@@ -81,7 +81,7 @@ const ResponsiveMenu = ({
     },
   ];
 
-  const { status, data } = useSession();
+  const { data, status } = useSession();
 
   const router = useRouter();
 

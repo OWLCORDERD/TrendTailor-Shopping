@@ -35,20 +35,17 @@ const ProductList = ({ searchData }: propsType) => {
     const maxResults: number = 100;
     /*Naver OpenApi 개발자 애플리케이션에 클라이언트 도메인을 등록하였기에
     /v1/search/shop.json 라우터에 파라미터값과 clientId, clientSecret값을 함께 전송하여 데이터 요청 */
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_NAVER_OPENAPI_ROUTE}`,
-      {
-        params: {
-          query: query,
-          display: maxResults,
-        },
-        headers: {
-          "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
-          "X-Naver-Client-Secret":
-            process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
-        },
-      }
-    );
+    const res = await axios.get(`/api/clothes`, {
+      params: {
+        query: query,
+        display: maxResults,
+      },
+      headers: {
+        "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
+        "X-Naver-Client-Secret":
+          process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
+      },
+    });
 
     if (res.status === 200) {
       const data: clothes[] = res.data.items;
