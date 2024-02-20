@@ -10,27 +10,15 @@ import SlideBefore from "component/slideButton/SlideBefore";
 import { AiOutlinePlus } from "react-icons/ai";
 import CurrentVideo from "./CurrentVideo";
 import { videoType } from "../Peed";
-import axios from "axios";
-import { Oval } from "react-loader-spinner";
 
 interface peedPropsType {
   youtubeDB: videoType[];
 }
 
 const YoutubePeed = ({ youtubeDB }: peedPropsType) => {
-  const [videoData, setVideoData] = useState<videoType[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
-
-  useEffect(() => {
-    if (videoData) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
-    }
-  }, [videoData]);
 
   const settings = {
     slidesToShow: 3,
@@ -68,7 +56,7 @@ const YoutubePeed = ({ youtubeDB }: peedPropsType) => {
         {open === true ? (
           <CurrentVideo
             setOpen={setOpen}
-            allVideo={videoData}
+            allVideo={youtubeDB}
             currentVideo={currentVideo}
             open={open}
           />

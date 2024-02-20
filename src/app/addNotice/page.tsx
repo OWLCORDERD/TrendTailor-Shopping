@@ -17,6 +17,12 @@ interface sendDataType {
   img_url: string | undefined;
 }
 
+interface sendTxtDataType {
+  title: string;
+  text: string;
+  writer: string;
+}
+
 const AddNotice = () => {
   const [noticeInfo, setNoticeInfo] = useState({
     title: "",
@@ -24,21 +30,7 @@ const AddNotice = () => {
     text: "",
   });
 
-  const [value, setValue] = useState<string>("익명");
-
-  const writerName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
-    if (status === "authenticated") {
-      const writer = String(session.user?.name);
-
-      setValue(writer);
-    } else {
-      setValue("익명");
-    }
-  };
-
-  const { data: session, status } = useSession();
+  const { data, status } = useSession();
 
   /*createObjectUrl 활용한 이미지 객체 가르키는 url 저장*/
   const [urlThumbnail, setUrlThumbnail] = useState<string>();
@@ -134,40 +126,59 @@ const AddNotice = () => {
       return noticeInfo.text.replaceAll("<br>", "\r\n");
     };
 
-    try {
-      if (uploadImage) {
-        const storageSaveRef = ref(
-          storage,
-          `images/notice/${uploadImage.name}`
-        );
-
-        await uploadBytes(storageSaveRef, uploadImage).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
-            setUploadUrl(url);
-          });
-        });
-
-        const sendData: sendDataType = {
-          title: noticeInfo.title,
-          text: replaceText(),
-          writer: noticeInfo.writer,
-          img_url: uploadUrl,
-        };
-
-        const res = await fetch("/api/createNotice", {
-          method: "POST",
-          body: JSON.stringify(sendData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (res.ok) {
-          console.log(res);
-        }
+    const writer = () => {
+      if (status === "authenticated" && data.user) {
+        return `${data.user.name}`;
+      } else {
+        return "익명";
       }
-    } catch (err) {
-      console.log(err);
+    };
+
+    /*업로드 이미지 파일을 state에 저장했을 시, firebase storage의
+    images/notice 경로 ref값을 uploadBytes 첫번째 인자로 넘기고
+    두번째 인자로 이미지 파일을 넣어 파일을 업로드한 후 스냅샷 파라미터 값을 then 체이닝을 통해
+    getDownloadURL 메소드로 저장 URL을 추출하여 firestore DB에 저장 */
+    if (uploadImage) {
+      const storageSaveRef = ref(storage, `images/notice/${uploadImage.name}`);
+
+      await uploadBytes(storageSaveRef, uploadImage).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          setUploadUrl(url);
+        });
+      });
+
+      const sendData: sendDataType = {
+        title: noticeInfo.title,
+        text: replaceText(),
+        writer: writer(),
+        img_url: uploadUrl,
+      };
+
+      const res = await fetch("/api/createNotice", {
+        method: "POST",
+        body: JSON.stringify(sendData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        console.log(res);
+      }
+    } else {
+      const sendData: sendTxtDataType = {
+        title: noticeInfo.title,
+        text: replaceText(),
+        writer: writer(),
+      };
+
+      await fetch("/api/createNotice", {
+        method: "POST",
+        body: JSON.stringify(sendData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     }
   };
 
@@ -206,14 +217,11 @@ const AddNotice = () => {
                 onChange={inputInfo}
                 ref={titleRef}
               />
-              <input
-                type='text'
-                name='writer'
-                placeholder='작성자'
-                className='writer-input'
-                value={value}
-                onChange={writerName}
-              />
+              <span className='writer'>
+                {status === "authenticated" && data.user
+                  ? `${data.user.name}`
+                  : "익명"}
+              </span>
             </div>
 
             <div className='Notice-textInfo'>

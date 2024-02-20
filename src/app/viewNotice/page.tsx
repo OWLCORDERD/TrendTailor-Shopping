@@ -88,12 +88,14 @@ const CurrentNotice = () => {
 
               <div className='upload-imageBox'>
                 <div className='upload-image'>
-                  <Image
-                    src={currentNotice.image}
-                    alt='공지사항 이미지'
-                    width='400'
-                    height='500'
-                  />
+                  {currentNotice.image ? (
+                    <Image
+                      src={currentNotice.image}
+                      alt='공지사항 이미지'
+                      width='400'
+                      height='500'
+                    />
+                  ) : null}
                 </div>
               </div>
 

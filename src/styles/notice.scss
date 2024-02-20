@@ -308,13 +308,15 @@
                         background-color: transparent;
                     }
 
-                    .writer-input{
+                    .writer{
                         width: 25%;
-                        height: 2.5rem;
+                        line-height: 2.5rem;
                         font-size: 1rem;
                         font-family: $Noto-Korean;
                         padding: 0 1rem;
                         background-color: transparent;
+                        text-align: start;
+                        font-weight: bold;
                     }
                 }
 
@@ -422,7 +424,7 @@
             left : 50%;
             transform: translateX(-50%);
             width: 80%;
-            height: 66rem;
+            height: 60rem;
             padding : 0 0 2rem 0;
 
             .currentBoard-title{
@@ -476,7 +478,7 @@
 
                 .upload-image{
                     width: max-content;
-                    height: 40rem;
+                    height: 30rem;
                     overflow: hidden;
 
                     img{

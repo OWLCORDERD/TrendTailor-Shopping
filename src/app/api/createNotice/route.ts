@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const writer = body.writer;
     const img_url = body.img_url;
 
-    try {
+    if (img_url) {
       const date = Timestamp.fromDate(new Date());
 
       await addDoc(collection(db, "notice"), {
@@ -34,8 +34,21 @@ export async function POST(req: Request) {
         status: 200,
         message: "success add Document firebase",
       });
-    } catch (err) {
-      return NextResponse.json({ err: err });
+    } else {
+      const date = Timestamp.fromDate(new Date());
+
+      await addDoc(collection(db, "notice"), {
+        title: title,
+        text: text,
+        writer: writer,
+        view_cnt: 0,
+        date: date,
+      });
+
+      return NextResponse.json({
+        status: 200,
+        message: "success add Document firebase",
+      });
     }
   }
 }

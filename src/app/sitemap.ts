@@ -1,40 +1,48 @@
 import axios from "axios";
 import { MetadataRoute } from "next";
+import { NoticeType } from "./notice/page";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "component/fetchDB/firebase";
+
+interface example {
+  url: string;
+  lastModified: string;
+}
 
 const publicURL = "https://wish-jade.vercel.app";
 
-export interface NoticeType2 {
-  idx: number;
-  title: string;
-  writer: string;
-  image: string;
-  date: string;
-  text: string;
-  view_cnt: number;
-}
-
 const getNoticePosts = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/viewNotice`,
-    {
-      cache: "no-store",
-    }
-  );
+  const docsRef = collection(db, "notice");
+  const querySnapShot = await getDocs(docsRef);
 
-  if (!res.ok) {
-    return Promise.reject();
+  if (querySnapShot.empty) {
+    return [];
   }
 
-  const data = await res.json();
+  const noticeData: NoticeType[] = [];
 
-  return data;
+  querySnapShot.forEach((doc) => {
+    const docData = {
+      id: doc.id,
+      title: doc.data()["title"],
+      writer: doc.data()["writer"],
+      image: doc.data()["image"],
+      date: doc.data()["date"].toDate(),
+      text: doc.data()["text"],
+      view_cnt: doc.data()["view_cnt"],
+    };
+
+    noticeData.push(docData);
+  });
+
+  return noticeData;
 };
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const posts: NoticeType2[] = await getNoticePosts();
+  const posts: NoticeType[] = await getNoticePosts();
 
-  const postUrls = posts.map((post) => ({
-    url: `${publicURL}/notice/${post.idx}`,
+  const postUrls: example[] = posts?.map((post) => ({
+    url: `${publicURL}/notice/${post.id}`,
     lastModified: post.date,
   }));
 
