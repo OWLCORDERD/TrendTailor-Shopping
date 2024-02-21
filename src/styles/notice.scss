@@ -239,13 +239,14 @@
 
                 a{
                         display: block;
-                        line-height: 2rem;
+                        line-height: 2.5rem;
                         width: 8rem;
                         font-size: 15px;
                         font-family: $Noto-Korean;
                         text-align: center;
                         font-weight: bold;
                         transition: all 0.5s ease-out;
+                        color: #fff;
                 }
             }
         }
@@ -261,6 +262,7 @@
                 align-items: center;
                 width: 100%;
                 height: 5rem;
+                margin-bottom: 2rem;
 
                 .header-title{
                     width: 20rem;
@@ -282,114 +284,103 @@
                         font-weight: bold;
                         font-size: 1rem;
                         cursor: pointer;
-                        background-color: #6b6b6b;
                         color: #fff;
                     }
                 }
             }
 
-            .form-info{
+            .form-Field{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
                 width: 100%;
-                height: 35rem;
+                height: 33rem;
 
-                .Notice-mainInfo{
+                .essential-Field{
                     display: flex;
+                    flex-direction: column;
                     justify-content: space-between;
                     align-items: center;
-                    width: 100%;
-                    height: 5rem;
+                    width: 65%;
+                    height: 100%;
 
                     .title-input{
-                        width: 70%;
-                        height: 2.5rem;
-                        font-size: 1rem;
-                        font-family: $Noto-Korean;
-                        padding: 0 1rem;
-                        background-color: transparent;
-                    }
-
-                    .writer{
-                        width: 25%;
+                        width: 100%;
                         line-height: 2.5rem;
                         font-size: 1rem;
                         font-family: $Noto-Korean;
-                        padding: 0 1rem;
+                        padding: 0.5rem 1rem;
                         background-color: transparent;
-                        text-align: start;
-                        font-weight: bold;
-                    }
-                }
+                        border-style: none;
+                        border-bottom: 1px solid #6b6b6b;
 
-                .Notice-textInfo{
-                    display: flex;
-                    justify-content: space-between;
-                    width: 100%;
-                    height: 25rem;
-                    margin-top: 3rem;
+                        &:focus{
+                            outline: none;
+                        }
+                    }
 
                     .textInfo-area{
-                        width: 70%;
-                        height: 100%;
+                        width: 100%;
+                        height: 28rem;
                         font-size: 1rem;
                         padding : 1rem;
                         font-family: $Noto-Korean;
                         resize: none;
                         background-color: transparent;
+                        border : 1px solid #6b6b6b;
+                    }
+                }
+
+                .image-wrapper{
+                    width: 30%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .preview-image{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 100%;
+                        height: 70%;
+                        background-color: transparent;
+                        font-family: $Noto-Korean;
+                        font-weight: bold;
+                        font-size: 1rem;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: scale-down;
+                        }
                     }
 
-                    .image-wrapper{
-                        width: 25%;
-                        height: 100%;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
+                    .error-Message{
+                        width: 100%;
+                        text-align: center;
+                        line-height: 2rem;
+                        color: rgb(243, 75, 75);
+                        font-family: $Raleway-font;
+                        font-weight: bold;
+                    }
 
-                        .preview-image{
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
+                    .upload-button{
+
+                        h1{
+                            display: block;
                             width: 100%;
-                            height: 70%;
-                            background-color: #D1D1D1;
-                            font-family: $Noto-Korean;
-                            font-weight: bold;
-                            font-size: 1rem;
-
-                            img{
-                                width: 100%;
-                                height: 100%;
-                                object-fit: scale-down;
-                                background-color: #fff;
-                            }
-                        }
-
-                        .error-Message{
-                            width: 100%;
+                            line-height: 3rem;
                             text-align: center;
-                            line-height: 2rem;
-                            color: rgb(243, 75, 75);
-                            font-family: $Raleway-font;
-                            font-weight: bold;
+                            font-family: $Noto-Korean;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            color: #fff;
                         }
+                    }
 
-                        .upload-button{
-
-                            h1{
-                                display: block;
-                                width: 100%;
-                                line-height: 3rem;
-                                text-align: center;
-                                font-family: $Noto-Korean;
-                                font-size: 1rem;
-                                cursor: pointer;
-                                background-color: #6b6b6b;
-                                color: #fff;
-                            }
-                        }
-
-                        input{
-                            display: none;
-                        }
+                    input{
+                        display: none;
                     }
                 }
             }
@@ -736,6 +727,146 @@
                 }
             }
         }
+
+    /*공지사항 등록 addNotice Page css*/
+    .addNotice-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding : 2rem;
+
+        .addNotice-titleBox{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: 5rem;
+            border-bottom: 2px solid #8e8e8e;
+
+            .addNotice-title{
+                font-size: 1rem;
+            }
+
+            .NoticeList-button{
+
+                a{
+                        line-height: 2rem;
+                        width: 6rem;
+                        font-size: 12px;
+                }
+            }
+        }
+
+        .addNotice-Form{
+            width: 100%;
+            height: 52rem;
+            padding-top: 2rem;
+
+            .form-header{
+
+                .header-title{
+                    width: 15rem;
+                    font-size: 1rem;
+                }
+
+                .submit-button{
+                    height: 2rem;
+
+                    button{
+                        width: 6rem;
+                        line-height: 2rem;
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            .form-Field{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                height: 42rem;
+
+                .essential-Field{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    height: 20rem;
+
+                    .title-input{
+                        width: 100%;
+                        line-height: 2rem;
+                        font-size: 12px;
+                        font-family: $Noto-Korean;
+                        padding: 0.5rem 1rem;
+                        background-color: transparent;
+                        border-style: none;
+                        border-bottom: 1px solid #6b6b6b;
+
+                        &:focus{
+                            outline: none;
+                        }
+                    }
+
+                    .textInfo-area{
+                        width: 100%;
+                        height: 15rem;
+                        font-size: 12px;
+                    }
+                }
+
+                .image-wrapper{
+                    width: 100%;
+                    height: 20rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .preview-image{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 100%;
+                        height: 70%;
+                        background-color: transparent;
+                        font-family: $Noto-Korean;
+                        font-weight: bold;
+                        font-size: 1rem;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: scale-down;
+                        }
+                    }
+
+                    .error-Message{
+                        width: 100%;
+                        text-align: center;
+                        line-height: 2rem;
+                        color: rgb(243, 75, 75);
+                        font-family: $Raleway-font;
+                        font-weight: bold;
+                    }
+
+                    .upload-button{
+
+                        h1{
+                            line-height: 2.5rem;
+                            font-size: 12px;
+                        }
+                    }
+
+                    input{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
 
         /*공지사항 view page css*/
         .currentNotice-container{

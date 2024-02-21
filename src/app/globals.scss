@@ -81,8 +81,7 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
 
             .NoticeList-button{
                 a{
-                    border : 2px solid #fff;
-                    color : #fff;
+                    background-color: rgba(154,154,154,0.2);
                 }
             }
 
@@ -96,6 +95,20 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
             .Navbar-container{
                 background-color: #000;
                 transition: all 0.5s ease-in;
+            }
+
+            .upload-button{
+                h1{
+                    background-color: rgba(154,154,154,0.2);
+                }
+            }
+
+            .form-header{
+                .submit-button{
+                    button{
+                        background-color: rgba(154,154,154,0.2);
+                    }
+                }
             }
         }
 
@@ -125,6 +138,13 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
                 }
             }
 
+            .login-Boxline{
+
+                .line-text{
+                    background-color: #fff;
+                }
+            }
+
             .AddNotice-button{
                 a{
                     background-color: #000;
@@ -134,15 +154,21 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
 
             .NoticeList-button{
                 a{
-                    border : 2px solid rgb(96, 96, 96);
-                    color : #000;
+                    background-color : rgba(0,0,0,0.7);
                 }
             }
 
-            .login-Boxline{
+            .upload-button{
+                h1{
+                    background-color: rgba(0,0,0,0.7);
+                }
+            }
 
-                .line-text{
-                    background-color: #fff;
+            .form-header{
+                .submit-button{
+                    button{
+                        background-color: rgba(0,0,0,0.7);
+                    }
                 }
             }
         }

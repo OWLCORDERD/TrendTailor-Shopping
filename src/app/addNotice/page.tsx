@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "component/fetchDB/firebase";
+import { useRouter } from "next/navigation";
 
 interface sendDataType {
   title: string;
@@ -44,6 +45,8 @@ const AddNotice = () => {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
+
+  const router = useRouter();
 
   /*file input 업로드 파일 객체 mimetype 식별 type value 배열*/
   const validFileType = ["image/jpeg", "image/jpg", "image/png"];
@@ -112,6 +115,8 @@ const AddNotice = () => {
   const sendData = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    /* 공지사항 title(제목), text(내용) input 태그에 내용을 입력하지 않거나
+    조건에 충족하지 않으면 input 필드에 focus 이벤트 부여 */
     if (!isTitle && titleRef.current) {
       alert("제목을 입력해주세요.");
       return titleRef.current.focus();
@@ -126,6 +131,8 @@ const AddNotice = () => {
       return noticeInfo.text.replaceAll("<br>", "\r\n");
     };
 
+    /* useSession status값이 인증상태이며 user객체가 존재할 시
+    user객체의 name 프로퍼티값으로 작성자 데이터 return */
     const writer = () => {
       if (status === "authenticated" && data.user) {
         return `${data.user.name}`;
@@ -163,7 +170,7 @@ const AddNotice = () => {
       });
 
       if (res.ok) {
-        console.log(res);
+        router.push("/notice");
       }
     } else {
       const sendData: sendTxtDataType = {
@@ -172,13 +179,17 @@ const AddNotice = () => {
         writer: writer(),
       };
 
-      await fetch("/api/createNotice", {
+      const res = await fetch("/api/createNotice", {
         method: "POST",
         body: JSON.stringify(sendData),
         headers: {
           "Content-Type": "application/json",
         },
       });
+
+      if (res.ok) {
+        router.push("/notice");
+      }
     }
   };
 
@@ -207,8 +218,8 @@ const AddNotice = () => {
             </div>
           </div>
 
-          <div className='form-info'>
-            <div className='Notice-mainInfo'>
+          <div className='form-Field'>
+            <div className='essential-Field'>
               <input
                 type='text'
                 name='title'
@@ -217,14 +228,7 @@ const AddNotice = () => {
                 onChange={inputInfo}
                 ref={titleRef}
               />
-              <span className='writer'>
-                {status === "authenticated" && data.user
-                  ? `${data.user.name}`
-                  : "익명"}
-              </span>
-            </div>
 
-            <div className='Notice-textInfo'>
               <textarea
                 className='textInfo-area'
                 placeholder='내용을 입력해 주세요.'
@@ -232,28 +236,28 @@ const AddNotice = () => {
                 onChange={textChangeInfo}
                 ref={textRef}
               />
+            </div>
 
-              <div className='image-wrapper'>
-                <div className='preview-image'>
-                  {urlThumbnail ? (
-                    <Image
-                      src={urlThumbnail}
-                      alt='uploadImg'
-                      width='300'
-                      height='400'
-                    />
-                  ) : (
-                    "이미지 미리보기"
-                  )}
-                </div>
-
-                {error && <div className='error-Message'>{error}</div>}
-
-                <label htmlFor='uploadImg' className='upload-button'>
-                  <h1>이미지 업로드</h1>
-                </label>
-                <input type='file' id='uploadImg' onChange={fileUpload} />
+            <div className='image-wrapper'>
+              <div className='preview-image'>
+                {urlThumbnail ? (
+                  <Image
+                    src={urlThumbnail}
+                    alt='uploadImg'
+                    width='300'
+                    height='400'
+                  />
+                ) : (
+                  "이미지를 업로드하세요."
+                )}
               </div>
+
+              {error && <div className='error-Message'>{error}</div>}
+
+              <label htmlFor='uploadImg' className='upload-button'>
+                <h1>이미지 업로드</h1>
+              </label>
+              <input type='file' id='uploadImg' onChange={fileUpload} />
             </div>
           </div>
         </form>
