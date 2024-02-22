@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "styles/navbar.scss";
 import { signOut, useSession } from "next-auth/react";
 import { BsFillSunFill } from "react-icons/bs";
@@ -20,6 +20,18 @@ const Navbar = () => {
 
   const [responsiveMenuActive, setResponsiveMenuActive] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+
+    if (body) {
+      if (!responsiveMenuActive) {
+        body.style.overflow = "auto";
+      } else {
+        body.style.overflow = "hidden";
+      }
+    }
+  }, [responsiveMenuActive]);
 
   return (
     <header>

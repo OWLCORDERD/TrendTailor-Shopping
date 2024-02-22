@@ -627,12 +627,12 @@
             .Notice-table{
                 position: relative;
                 width: 100%;
-                padding : 1rem 1rem;
+                padding : 1rem 0    ;
 
                 .border-table{
                     width: 100%;
                     height: 100%;
-                    border-radius: 10px;
+                    border-radius: 0px;
                     overflow: hidden;
     
                     table{
@@ -659,7 +659,7 @@
                             padding: 1.5rem 0;
         
                             &:first-child{
-                                width: 55%;
+                                width: 50%;
                             }
 
                             &:nth-child(3){
@@ -668,7 +668,7 @@
         
                             h1{
                                 font-family: $Noto-Korean;
-                                font-size: 10px;
+                                font-size: 9px;
                                 text-align: center;
                             }
                         }
@@ -677,42 +677,15 @@
         
                                 tr {
                                     width: 100%;
-    
-                                    &.darkMode{
-                                        &:hover{
-                                            background-color: rgba($color: #bdbdbd, $alpha: 0.4);
-                                            transition: all 0.5s ease-in;
-                                            cursor: pointer;
-            
-                                            td{
-                                                span{
-                                                    color: #fff;
-                                                }
-                                            }
-                                        }
-                                    }
-    
-                                    &.lightMode{
-                                        &:hover{
-                                            background-color: rgba($color: #000000, $alpha: 0.4);
-                                            transition: all 0.5s ease-in;
-                                            cursor: pointer;
-            
-                                            td{
-                                                span{
-                                                    color: #fff;
-                                                }
-                                            }
-                                        }
-                                    }
         
                                     td{
                                         padding : 1.5rem 0;
                                         text-align: center;
                                         font-family: $Noto-Korean;
-                                        font-size: 10px;
+                                        font-size: 9px;
                     
                                         &:first-child{
+                                            padding: 0 1rem;
                                             text-align: start;
                                             font-weight: bold;
                                         }
