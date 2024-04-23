@@ -1,6 +1,5 @@
 import React from "react";
 import NoticeBoard from "./NoticeBoard";
-import "styles/mainBoard.scss";
 import Banner from "./Banner";
 import { NoticeType } from "app/notice/page";
 import { collection, getDocs } from "firebase/firestore";

@@ -40,6 +40,7 @@ export interface videoType {
   };
 }
 
+/*
 const youtubeFetch = async () => {
   const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
 
@@ -56,17 +57,18 @@ const youtubeFetch = async () => {
     return data.items;
   }
 };
+*/
 
 const Peed = async () => {
+  /*
   const youtubeDB: videoType[] = await youtubeFetch();
-
+  */
   return (
     <section className='MainPeed-container'>
       <div className='MainPeed-wrapper'>
         <MainBoard />
         <div className='Peed-wrapper'>
           <SeasonPeed />
-          <YoutubePeed youtubeDB={youtubeDB} />
           <ClothesPeed />
         </div>
       </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ThemeContext } from "../../../../../context/ThemeContext";
+import { NoticeBoard as CSS } from "styles";
 
 interface MainBoardPropsType {
   noticeDB: NoticeType[];
@@ -34,9 +35,9 @@ const NoticeBoard = ({ noticeDB }: MainBoardPropsType) => {
   }, [currentSlide, setCurrentSlide, noticeDB]);
 
   return (
-    <div className='Notice-container'>
-      <div className='Notice-titleBox'>
-        <h1 className='Notice-title'>Notice</h1>
+    <CSS.Container>
+      <CSS.TitleBox>
+        <CSS.Title>Notice</CSS.Title>
 
         <Link href='/notice'>
           <AiOutlinePlus
@@ -44,11 +45,10 @@ const NoticeBoard = ({ noticeDB }: MainBoardPropsType) => {
             fontSize={20}
           />
         </Link>
-      </div>
+      </CSS.TitleBox>
 
-      <div className='Notice-slider'>
-        <ul
-          className='list-slider'
+      <CSS.Slider>
+        <CSS.List
           style={{
             top: `-${currentSlide}00%`,
             transitionDuration: "1s",
@@ -64,9 +64,9 @@ const NoticeBoard = ({ noticeDB }: MainBoardPropsType) => {
               </li>
             );
           })}
-        </ul>
-      </div>
-    </div>
+        </CSS.List>
+      </CSS.Slider>
+    </CSS.Container>
   );
 };
 

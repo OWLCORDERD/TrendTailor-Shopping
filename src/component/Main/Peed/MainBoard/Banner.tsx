@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import "styles/banner.scss";
+import { Banner as CSS } from "styles";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -23,9 +23,8 @@ interface MainBoardPropsType {
 
 const Banner = ({ slideDB }: MainBoardPropsType) => {
   return (
-    <div className='Banner-container'>
+    <CSS.Container>
       <Swiper
-        className='slide-wrap'
         slidesPerView={1}
         navigation={{
           nextEl: ".slide-next",
@@ -35,41 +34,45 @@ const Banner = ({ slideDB }: MainBoardPropsType) => {
         autoplay={{ delay: 3500, disableOnInteraction: false }}
         modules={[Pagination, Navigation, Autoplay]}
       >
-        {slideDB?.map((slide) => {
-          return (
-            <SwiperSlide className='slide-item' key={slide.id}>
-              <div className='slide-imgBox'>
-                <Image
-                  src={slide.image}
-                  alt='슬라이드 이미지'
-                  width={2560}
-                  height={1440}
-                />
-              </div>
+        <CSS.slideWrap>
+          {slideDB?.map((slide) => {
+            return (
+              <SwiperSlide key={slide.id}>
+                <CSS.slideItem>
+                  <CSS.slideImg>
+                    <Image
+                      src={slide.image}
+                      alt='슬라이드 이미지'
+                      width={2560}
+                      height={1440}
+                    />
+                  </CSS.slideImg>
 
-              <div className='slide-infoBox' key={slide.id}>
-                <div className='slide-title'>
-                  <h1>{slide.title}</h1>
-                </div>
+                  <CSS.slideInfo key={slide.id}>
+                    <CSS.titleBox>
+                      <CSS.infoTitle>{slide.title}</CSS.infoTitle>
+                    </CSS.titleBox>
 
-                <div className='slide-info'>
-                  <p>{slide.info}</p>
-                </div>
-              </div>
-            </SwiperSlide>
-          );
-        })}
-        <div className='slide-control'>
-          <div className='slide-prev'>
-            <IoIosArrowBack color='#fff' fontSize={70} />
-          </div>
+                    <CSS.txtBox>
+                      <CSS.infoTxt>{slide.info}</CSS.infoTxt>
+                    </CSS.txtBox>
+                  </CSS.slideInfo>
+                </CSS.slideItem>
+              </SwiperSlide>
+            );
+          })}
+        </CSS.slideWrap>
+        <CSS.slideControl>
+          <CSS.prevButton className='slide-prev'>
+            <IoIosArrowBack color='#fff' fontSize={50} />
+          </CSS.prevButton>
 
-          <div className='slide-next'>
-            <IoIosArrowForward color='#fff' fontSize={70} />
-          </div>
-        </div>
+          <CSS.nextButton className='slide-next'>
+            <IoIosArrowForward color='#fff' fontSize={50} />
+          </CSS.nextButton>
+        </CSS.slideControl>
       </Swiper>
-    </div>
+    </CSS.Container>
   );
 };
 

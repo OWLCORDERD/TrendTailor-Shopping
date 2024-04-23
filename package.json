@@ -2,7 +2,7 @@
   "name": "wish",
   "version": "0.1.0",
   "private": true,
-  "proxy" : "https://openapi.naver.com",
+  "proxy": "https://openapi.naver.com",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -35,6 +35,7 @@
     "react-slick": "^0.29.0",
     "sass": "^1.63.6",
     "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.8",
     "swiper": "^11.0.4",
     "typescript": "5.1.6"
   },

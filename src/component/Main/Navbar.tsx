@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { Navbar as CSS } from "styles";
 import React, { useContext, useEffect, useState } from "react";
-import "styles/navbar.scss";
 import { signOut, useSession } from "next-auth/react";
 import { BsFillSunFill } from "react-icons/bs";
 import { IoCloudyNightSharp } from "react-icons/io5";
@@ -26,7 +26,7 @@ const Navbar = () => {
 
     if (body) {
       if (!responsiveMenuActive) {
-        body.style.overflow = "auto";
+        body.style.removeProperty("overflow");
       } else {
         body.style.overflow = "hidden";
       }
@@ -35,74 +35,72 @@ const Navbar = () => {
 
   return (
     <header>
-      <nav className='Navbar-container'>
-        <div className='Main-nav'>
-          <div className='logo'>
+      <CSS.Container>
+        <CSS.MainNav>
+          <CSS.Logo>
             <Link href='/'>wish</Link>
-          </div>
+          </CSS.Logo>
 
           <Search />
 
-          <div className='login-menu'>
+          <CSS.LoginMenu>
             {status === "authenticated" ? (
-              <a onClick={() => signOut()} className='login-button'>
+              <a onClick={() => signOut()}>
                 <AiOutlineLogin className='icon' />
                 <span>logOut</span>
               </a>
             ) : (
-              <Link href='/signin' className='login-button'>
+              <Link href='/signin'>
                 <AiOutlineLogin className='icon' />
                 <span>login</span>
               </Link>
             )}
 
             {status === "authenticated" ? (
-              <div className='user-name'>
+              <CSS.UserName>
                 <span>{data.user?.name} 님 환영합니다.</span>
-              </div>
+              </CSS.UserName>
             ) : (
-              <Link href='/signup' className='signUp-button'>
+              <Link href='/signup'>
                 <AiOutlineUserAdd className='icon' />
                 <span>sign Up</span>
               </Link>
             )}
-          </div>
+          </CSS.LoginMenu>
 
-          <div className='Responsive-menuBox'>
-            <div className='Search-button'>
+          <CSS.ResponsiveNav>
+            <CSS.SearchButton>
               <IoIosSearch />
-            </div>
+            </CSS.SearchButton>
 
             {responsiveMenuActive ? (
-              <div
-                className='Responsive-button'
+              <CSS.ResponsiveButton
                 onClick={() => setResponsiveMenuActive(false)}
               >
                 <IoIosClose fontSize='40px' />
-              </div>
+              </CSS.ResponsiveButton>
             ) : (
-              <div
-                className='Responsive-button'
+              <CSS.ResponsiveButton
                 onClick={() => setResponsiveMenuActive(true)}
               >
                 <GiHamburgerMenu />
-              </div>
+              </CSS.ResponsiveButton>
             )}
-          </div>
-        </div>
+          </CSS.ResponsiveNav>
+        </CSS.MainNav>
 
-        <div className='Sub-nav'>
-          <div className='mode-button' onClick={toggle}>
-            <div className='light-mode' id={mode === "light" ? "active" : ""}>
+        <CSS.SubNav>
+          <CSS.modeButton onClick={toggle}>
+            <CSS.lightMode className={mode === "light" ? "active" : ""}>
               <BsFillSunFill />
-            </div>
+            </CSS.lightMode>
 
-            <div className='dark-mode' id={mode === "dark" ? "active" : ""}>
+            <CSS.DarkMode className={mode === "dark" ? "active" : ""}>
               <IoCloudyNightSharp />
-            </div>
-          </div>
+            </CSS.DarkMode>
+          </CSS.modeButton>
 
-          <ul className='Navbar-menu'>
+          <CSS.Menu>
             <li>
               <Link href='/about'>About</Link>
             </li>
@@ -115,9 +113,9 @@ const Navbar = () => {
             <li>
               <Link href='/notice'>Notice</Link>
             </li>
-          </ul>
-        </div>
-      </nav>
+          </CSS.Menu>
+        </CSS.SubNav>
+      </CSS.Container>
 
       <ResponsiveMenu
         menuActive={responsiveMenuActive}
