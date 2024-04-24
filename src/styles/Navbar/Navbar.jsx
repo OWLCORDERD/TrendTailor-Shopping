@@ -85,6 +85,10 @@ Navbar.LoginMenu = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
+
+  @media screen and (min-width: 1440px) and (max-width: 1900px) {
+    width: 12rem;
+  }
 `;
 
 Navbar.UserName = styled.div`

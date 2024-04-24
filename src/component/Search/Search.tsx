@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import "styles/search.scss";
+import { Search as CSS } from "styles";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
-const Search = () => {
+interface ResponsiveActiveProps {
+  searchActive: boolean;
+}
+
+const Search = ({ searchActive }: ResponsiveActiveProps) => {
   const router = useRouter();
 
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -24,16 +28,16 @@ const Search = () => {
 
   return (
     <>
-      <form className='search-container' onSubmit={(e) => onSearch(e)}>
-        <div className='search-input'>
-          <AiOutlineSearch className='search-button' fontSize={25} />
+      <CSS.Container $searchActive={searchActive} onSubmit={(e) => onSearch(e)}>
+        <CSS.SearchInput>
+          <AiOutlineSearch className='search-button' />
           <input
             type='text'
             placeholder='찾으시는 의류를 검색해보세요 예) 청바지'
             onChange={(e) => onChangeHandler(e)}
           />
-        </div>
-      </form>
+        </CSS.SearchInput>
+      </CSS.Container>
     </>
   );
 };

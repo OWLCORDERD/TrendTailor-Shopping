@@ -65,12 +65,10 @@ const Peed = async () => {
   */
   return (
     <section className='MainPeed-container'>
-      <div className='MainPeed-wrapper'>
-        <MainBoard />
-        <div className='Peed-wrapper'>
-          <SeasonPeed />
-          <ClothesPeed />
-        </div>
+      <MainBoard />
+      <div className='Peed-wrapper'>
+        <SeasonPeed />
+        <ClothesPeed />
       </div>
     </section>
   );

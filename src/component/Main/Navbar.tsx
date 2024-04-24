@@ -21,6 +21,9 @@ const Navbar = () => {
   const [responsiveMenuActive, setResponsiveMenuActive] =
     useState<boolean>(false);
 
+  const [ResponsiveSearchActive, setResponsiveSearchActive] =
+    useState<boolean>(false);
+
   useEffect(() => {
     const body = document.querySelector("body");
 
@@ -41,7 +44,7 @@ const Navbar = () => {
             <Link href='/'>wish</Link>
           </CSS.Logo>
 
-          <Search />
+          <Search searchActive={ResponsiveSearchActive} />
 
           <CSS.LoginMenu>
             {status === "authenticated" ? (
@@ -70,7 +73,11 @@ const Navbar = () => {
 
           <CSS.ResponsiveNav>
             <CSS.SearchButton>
-              <IoIosSearch />
+              <IoIosSearch
+                onClick={() =>
+                  setResponsiveSearchActive(!ResponsiveSearchActive)
+                }
+              />
             </CSS.SearchButton>
 
             {responsiveMenuActive ? (

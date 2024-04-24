@@ -1,10 +1,10 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
+import { SeasonPeed as CSS } from "styles";
 import Image from "next/image";
-import "styles/seasonPeed.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Oval } from "react-loader-spinner";
 import { clothes } from "./Peed";
+import Loading from "component/fetchDB/loading/Loading";
 
 const SeasonPeed = () => {
   const slideRef = useRef<HTMLDivElement>(null);
@@ -12,18 +12,18 @@ const SeasonPeed = () => {
   const itemRef = useRef<HTMLDivElement>(null);
 
   const [scrollWidth, setScrollWidth] = useState(0);
-  const [slideMaxWidth, setSlideMaxWidth] = useState(0);
+  const [scrollMaxWidth, setScrollMaxWidth] = useState(0);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
   const [seasonClothes, setSeasonClothes] = useState<clothes[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    if (itemRef.current && slideMaxWidth > 0) {
+    if (itemRef.current && scrollWidth > 0) {
       const itemWidth = itemRef.current.clientWidth;
       setScrollWidth((initialWidth) => initialWidth - itemWidth - 50);
     }
@@ -32,16 +32,18 @@ const SeasonPeed = () => {
   const nextSlide = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    if (itemRef.current) {
+    if (itemRef.current && scrollRef.current) {
       const itemWidth = itemRef.current.clientWidth + 50;
-      if (scrollWidth < slideMaxWidth - itemWidth * 3) {
+      const maxWidth = scrollMaxWidth - itemWidth * 3;
+
+      if (scrollWidth < maxWidth) {
         setScrollWidth((initialWidth) => initialWidth + itemWidth);
       }
     }
   };
 
   const searchSeasonClothes = async () => {
-    const searchQuery: string = "겨울";
+    const searchQuery: string = "봄";
     const viewResult: number = 20;
     const naverApiHeaders: any = {
       "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
@@ -79,19 +81,22 @@ const SeasonPeed = () => {
     });
 
     setSeasonClothes(replaceTitle);
+
     setLoading(false);
   };
 
   useEffect(() => {
-    setLoading(true);
     searchSeasonClothes();
   }, []);
 
   useEffect(() => {
-    if (scrollRef.current) {
-      setSlideMaxWidth(scrollRef.current.clientWidth);
+    if (loading) return;
+
+    if (!loading && scrollRef.current) {
+      const clientWidth = scrollRef.current.clientWidth;
+      setScrollMaxWidth((initial) => initial + clientWidth);
     }
-  }, [scrollRef]);
+  }, [loading]);
 
   const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsDrag(true);
@@ -119,90 +124,72 @@ const SeasonPeed = () => {
   };
 
   return (
-    <div className='SeasonPeed-container'>
-      <div className='SeasonPeed-titleBox'>
-        <div className='SeasonPeed-title'>
+    <CSS.Container>
+      <CSS.TitleBox>
+        <CSS.Title>
           <h1>Seasonal collection</h1>
-        </div>
+        </CSS.Title>
 
-        <div className='slide-control'>
-          <div className='slide-prev' onClick={(e) => prevSlide(e)}>
-            <IoIosArrowBack fontSize={30} />
-          </div>
+        <CSS.SlideControl>
+          <CSS.ControlButton onClick={(e) => prevSlide(e)}>
+            <IoIosArrowBack fontSize={20} />
+          </CSS.ControlButton>
 
-          <div className='slide-next' onClick={(e) => nextSlide(e)}>
-            <IoIosArrowForward fontSize={30} />
-          </div>
-        </div>
-      </div>
+          <CSS.ControlButton onClick={(e) => nextSlide(e)}>
+            <IoIosArrowForward fontSize={20} />
+          </CSS.ControlButton>
+        </CSS.SlideControl>
+      </CSS.TitleBox>
 
-      <div
-        className='SeasonPeed-slider'
+      <CSS.Slider
         ref={slideRef}
         onMouseDown={(e) => onDragStart(e)}
         onMouseUp={onDragEnd}
         onMouseLeave={onDragEnd}
         onMouseMove={(e) => onDragMove(e)}
       >
-        {!!loading ? (
-          <div className='loading'>
-            <Oval
-              visible={true}
-              height='50'
-              width='50'
-              color='#000'
-              secondaryColor='rgba(0,0,0,0.5)'
-              ariaLabel='oval-loading'
-              wrapperStyle={{}}
-              wrapperClass=''
-            />
-          </div>
-        ) : null}
-        <div
-          className='slide-wrap'
-          ref={scrollRef}
-          style={{
-            transform: `translateX(-${scrollWidth}px)`,
-            transition: "all 0.5s ease-in",
-          }}
-        >
-          {!loading && seasonClothes.length > 0
-            ? seasonClothes.map((clothes) => {
-                return (
-                  <div
-                    className='slide-item'
-                    key={clothes.productId}
-                    ref={itemRef}
-                  >
-                    <div className='product-imgBox'>
-                      <Image
-                        src={clothes.image}
-                        alt='시즌 추천 의류'
-                        width='600'
-                        height='600'
-                      />
-                    </div>
+        {!!loading && seasonClothes.length === 0 ? (
+          <Loading />
+        ) : (
+          <CSS.SlideWrap
+            ref={scrollRef}
+            style={{
+              transform: `translateX(-${scrollWidth}px)`,
+              transition: "all 0.5s ease-in",
+            }}
+          >
+            {seasonClothes.map((clothes) => {
+              return (
+                <CSS.SlideItem key={clothes.productId} ref={itemRef}>
+                  <CSS.ProductImg>
+                    <Image
+                      src={clothes.image}
+                      alt='시즌 추천 의류'
+                      width='600'
+                      height='600'
+                    />
+                  </CSS.ProductImg>
 
-                    <div className='product-info'>
-                      <div className='product-name'>
-                        <h2>{clothes.title}</h2>
-                      </div>
+                  <CSS.ProductInfo>
+                    <CSS.ProductName>
+                      <h2>{clothes.title}</h2>
+                    </CSS.ProductName>
 
-                      <div className='product-brand'>
-                        <p>{clothes.brand}</p>
-                      </div>
+                    <CSS.ProductBrand>
+                      <p>{clothes.brand}</p>
+                    </CSS.ProductBrand>
 
-                      <div className='product-price'>
-                        <span>{clothes.lprice}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            : null}
-        </div>
-      </div>
-    </div>
+                    <CSS.ProductPrice>
+                      <span>{clothes.lprice}</span>
+                    </CSS.ProductPrice>
+                  </CSS.ProductInfo>
+                </CSS.SlideItem>
+              );
+            })}
+          </CSS.SlideWrap>
+        )}
+      </CSS.Slider>
+    </CSS.Container>
   );
 };
 
