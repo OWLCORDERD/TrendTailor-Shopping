@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const SeasonPeed = {};
+const SeasonPeed: any = {};
 
 SeasonPeed.Container = styled.div`
   position: relative;
@@ -44,7 +44,7 @@ SeasonPeed.Title = styled.div`
 
   h1 {
     line-height: 5rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: "Raleway", sans-serif;
     text-transform: uppercase;
     font-weight: bold;
@@ -52,7 +52,7 @@ SeasonPeed.Title = styled.div`
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -191,7 +191,7 @@ SeasonPeed.ProductName = styled.div`
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     h2 {
-      font-size: 13px;
+      font-size: 12px;
     }
   }
 
@@ -214,7 +214,7 @@ SeasonPeed.ProductBrand = styled.div`
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     p {
-      font-size: 12px;
+      font-size: 10px;
     }
   }
 

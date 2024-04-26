@@ -1,13 +1,13 @@
 import { styled } from "styled-components";
 
-const Navbar = {};
+const Navbar: any = {};
 
 Navbar.Container = styled.nav`
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  height: 10rem;
+  height: 100%;
   z-index: 1100;
   transition: all 0.5s ease-out;
 
@@ -38,7 +38,7 @@ Navbar.Logo = styled.div`
   justify-content: center;
 
   a {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-family: "Raleway", sans-serif;
     text-transform: uppercase;
     line-height: 5rem;
@@ -56,38 +56,39 @@ Navbar.Logo = styled.div`
 
 Navbar.LoginMenu = styled.div`
   position: relative;
-  width: 15rem;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 12rem;
+  height: 100%;
 
   a {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     color: #000;
     width: 5rem;
-    height: 3rem;
-    font-family: $Raleway-font;
+    height: 4rem;
+    font-family: "Raleway", sans-serif;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 10px;
     text-transform: uppercase;
     cursor: pointer;
     text-align: center;
 
     .icon {
-      font-size: 1.5rem;
+      height: 2.5rem;
+      font-size: 1.2rem;
+    }
+
+    span {
+      line-height: 1.5rem;
     }
   }
 
   @media screen and (max-width: 768px) {
     display: none;
-  }
-
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    width: 12rem;
   }
 `;
 
@@ -96,7 +97,7 @@ Navbar.UserName = styled.div`
   width: 10rem;
   line-height: 2rem;
   font-size: 12px;
-  font-family: $Noto-Korean;
+  font-family: "Noto Sans KR", sans-serif;
   color: #000;
   font-weight: bold;
   text-align: center;
@@ -167,22 +168,33 @@ Navbar.DarkMode = styled.div`
 `;
 
 Navbar.Menu = styled.ul`
-  position: relative;
-  width: 40rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50rem;
 
   li {
     display: inline-flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     width: 25%;
     height: 3rem;
 
     a {
       width: max-content;
-      font-family: $Raleway-font;
-      font-size: 13px;
+      font-family: "Raleway", sans-serif;
+      font-size: 12px;
       font-weight: bold;
       text-transform: uppercase;
+    }
+  }
+
+  @media screen and (min-width: 1440px) and (max-width: 1900px) {
+    width: 40rem;
+    li {
+      a {
+        font-size: 10px;
+      }
     }
   }
 `;
@@ -205,7 +217,7 @@ Navbar.ResponsiveButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 15px;
   cursor: pointer;
 `;
 
@@ -215,7 +227,7 @@ Navbar.SearchButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 15px;
   cursor: pointer;
 `;
 

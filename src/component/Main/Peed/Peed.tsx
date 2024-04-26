@@ -1,5 +1,4 @@
 import React from "react";
-import "styles/peed.scss";
 import ClothesPeed from "./ClothesPeed";
 import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";

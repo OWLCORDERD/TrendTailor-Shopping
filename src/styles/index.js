@@ -2,6 +2,8 @@
 import { Navbar } from "styles/Navbar/Navbar";
 import { Search } from "styles/Search/Search";
 
+export { Navbar, Search };
+
 /*Main page MainBoard Components styles */
 
 /* Banner Component Style Components  */
@@ -10,7 +12,13 @@ import { Banner } from "styles/Banner/Banner";
 /* NoticeBoard Component Style Components */
 import { NoticeBoard } from "styles/NoticeBoard/NoticeBoard";
 
-/* Peed Component -> SeasonPeed Component Style Components */
-import { SeasonPeed } from "styles/Peed/SeasonPeed";
+export { Banner, NoticeBoard };
 
-export { Banner, NoticeBoard, Navbar, SeasonPeed, Search };
+/* Main Page Peed Components styles */
+
+/* SeasonPeed Component Style Components */
+import { SeasonPeed } from "styles/Peed/SeasonPeed";
+/* ClothesPeed Component Style Components */
+import { ClothesPeed } from "./Peed/ClothesPeed";
+
+export { ClothesPeed, SeasonPeed };

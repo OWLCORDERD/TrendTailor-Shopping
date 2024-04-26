@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const NoticeBoard = {};
+const NoticeBoard: any = {};
 
 NoticeBoard.Container = styled.div`
   position: relative;
@@ -41,6 +41,10 @@ NoticeBoard.Title = styled.h1`
 
   @media screen and (max-width: 768px) {
     font-size: 1rem;
+  }
+
+  @media screen and (min-width: 1440px) and (max-width: 1900px) {
+    font-size: 1.2rem;
   }
 `;
 
@@ -113,6 +117,20 @@ NoticeBoard.List = styled.ul`
 
         span {
           line-height: 3rem;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1440px) and (max-width: 1900px) {
+    li {
+      a {
+        h2 {
+          font-size: 12px;
+        }
+
+        span {
           font-size: 10px;
         }
       }

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, SetStateAction } from "react";
 import { Search as CSS } from "styles";
-import { AiOutlineSearch } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import { IoIosClose, IoIosSearch } from "react-icons/io";
 
 interface ResponsiveActiveProps {
   searchActive: boolean;
+  setSearchActive: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const Search = ({ searchActive }: ResponsiveActiveProps) => {
+const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
   const router = useRouter();
 
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -27,18 +28,29 @@ const Search = ({ searchActive }: ResponsiveActiveProps) => {
   };
 
   return (
-    <>
-      <CSS.Container $searchActive={searchActive} onSubmit={(e) => onSearch(e)}>
-        <CSS.SearchInput>
-          <AiOutlineSearch className='search-button' />
-          <input
-            type='text'
-            placeholder='찾으시는 의류를 검색해보세요 예) 청바지'
-            onChange={(e) => onChangeHandler(e)}
+    <CSS.Container
+      $responsiveActive={searchActive}
+      onSubmit={(e: any) => onSearch(e)}
+    >
+      <CSS.SearchInput>
+        {searchActive === true ? (
+          <IoIosClose
+            className='search-button'
+            onClick={() => setSearchActive(false)}
           />
-        </CSS.SearchInput>
-      </CSS.Container>
-    </>
+        ) : (
+          <IoIosSearch
+            className='search-button'
+            onClick={(e: any) => onSearch(e)}
+          />
+        )}
+        <input
+          type='text'
+          placeholder='찾으시는 의류를 검색해보세요 예) 청바지'
+          onChange={(e) => onChangeHandler(e)}
+        />
+      </CSS.SearchInput>
+    </CSS.Container>
   );
 };
 

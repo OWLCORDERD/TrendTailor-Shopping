@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Banner = {};
+const Banner: any = {};
 
 Banner.Container = styled.div`
   position: relative;

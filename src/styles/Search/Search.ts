@@ -1,11 +1,8 @@
 import styled from "styled-components";
 
-const Search = {};
+const Search: any = {};
 
-Search.Container =
-  styled.form <
-  { $searchActive: boolean } >
-  `
+Search.Container = styled.form<{ $responsiveActive: boolean }>`
   position: relative;
   width: 40rem;
   height: max-content;
@@ -15,8 +12,14 @@ Search.Container =
   }
 
   @media screen and (max-width: 768px) {
-    display: ${(props) => (props.$searchActive ? "block" : "none")};
-    width: 80%;
+    position: fixed;
+    top: 5rem;
+    left: 0;
+    opacity: ${(props) => (props.$responsiveActive ? 1 : 0)};
+    width: 100%;
+    height: ${(props) => (props.$responsiveActive ? "3rem" : 0)};
+    transition: all 0.2s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.8);
   }
 `;
 
@@ -45,15 +48,27 @@ Search.SearchInput = styled.div`
     transform: translateY(-50%);
     right: 1rem;
     cursor: pointer;
+    font-size: 20px;
   }
 
   @media screen and (max-width: 768px) {
+    padding: 0;
+    height: 100%;
     input {
-      font-size: 10px;
+      line-height: 3rem;
+      padding: 0 4rem 0 10px;
+      font-size: 12px;
+      color: #fff;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
     }
 
     .search-button {
-      font-size: 20px;
+      right: 10px;
+      font-size: 25px;
+      color: #fff;
     }
   }
 `;

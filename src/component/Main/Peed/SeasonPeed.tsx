@@ -131,11 +131,11 @@ const SeasonPeed = () => {
         </CSS.Title>
 
         <CSS.SlideControl>
-          <CSS.ControlButton onClick={(e) => prevSlide(e)}>
+          <CSS.ControlButton onClick={(e: any) => prevSlide(e)}>
             <IoIosArrowBack fontSize={20} />
           </CSS.ControlButton>
 
-          <CSS.ControlButton onClick={(e) => nextSlide(e)}>
+          <CSS.ControlButton onClick={(e: any) => nextSlide(e)}>
             <IoIosArrowForward fontSize={20} />
           </CSS.ControlButton>
         </CSS.SlideControl>
@@ -143,10 +143,10 @@ const SeasonPeed = () => {
 
       <CSS.Slider
         ref={slideRef}
-        onMouseDown={(e) => onDragStart(e)}
+        onMouseDown={(e: any) => onDragStart(e)}
         onMouseUp={onDragEnd}
         onMouseLeave={onDragEnd}
-        onMouseMove={(e) => onDragMove(e)}
+        onMouseMove={(e: any) => onDragMove(e)}
       >
         {!!loading && seasonClothes.length === 0 ? (
           <Loading />

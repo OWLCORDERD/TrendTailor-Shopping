@@ -1,34 +1,52 @@
 "use client";
 
+import { ClothesPeed as CSS } from "styles";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import "styles/clothesPeed.scss";
-import { useCallback, useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
-import { Oval } from "react-loader-spinner";
-import { ThemeContext } from "../../../../context/ThemeContext";
+import Loading from "component/fetchDB/loading/Loading";
 
 const ClothesPeed = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [clothesData, setClothesData] = useState<clothes[] | undefined>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const postMaxlength = 8;
-  const lastIndex = currentPage * postMaxlength;
-  const firstIndex = lastIndex - postMaxlength;
+  const MacPostMaxlength = 9;
   const [currentDB, setCurrentDB] = useState<clothes[]>([]);
-  const { mode } = useContext(ThemeContext);
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
-      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+      if (
+        matchMedia("screen and (min-width : 1440px) and (max-width : 1900px)")
+          .matches
+      ) {
+        const lastIndex = currentPage * MacPostMaxlength;
+        const firstIndex = lastIndex - MacPostMaxlength;
 
-      const pushdata = [...currentDB];
+        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
-      pushdata.push(...currentData);
+        const pushdata = [...currentDB];
 
-      setCurrentDB(pushdata);
+        pushdata.push(...currentData);
 
-      setLoading(false);
+        setCurrentDB(pushdata);
+
+        setLoading(false);
+      } else {
+        const lastIndex = currentPage * postMaxlength;
+        const firstIndex = lastIndex - postMaxlength;
+
+        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+
+        const pushdata = [...currentDB];
+
+        pushdata.push(...currentData);
+
+        setCurrentDB(pushdata);
+
+        setLoading(false);
+      }
     }
   }, [currentPage]);
 
@@ -66,22 +84,22 @@ const ClothesPeed = () => {
 
     /* 네이버 의류 API shop.json에서 데이터를 불러올때 title string값에 태그가 포함되어있음
     items배열에 map함수를 사용하여 각 item마다의 title값에만 replace 메소드 정규식을 통하여 태그 string 제거 */
-    const replaceTitle: clothes[] = clothesItems.map((cloth) => {
+    const replaceTitle: clothes[] = clothesItems.map((clothes) => {
       return {
-        title: cloth.title.replace(/<[^>]*>?/g, ""),
-        link: cloth.link,
-        image: cloth.image,
-        lprice: cloth.lprice,
-        hprice: cloth.hprice,
-        mallName: cloth.mallName,
-        productId: cloth.productId,
-        productType: cloth.productType,
-        brand: cloth.brand,
-        maker: cloth.maker,
-        category1: cloth.category1,
-        category2: cloth.category2,
-        category3: cloth.category3,
-        category4: cloth.category4,
+        title: clothes.title.replace(/<[^>]*>?/g, ""),
+        link: clothes.link,
+        image: clothes.image,
+        lprice: clothes.lprice,
+        hprice: clothes.hprice,
+        mallName: clothes.mallName,
+        productId: clothes.productId,
+        productType: clothes.productType,
+        brand: clothes.brand,
+        maker: clothes.maker,
+        category1: clothes.category1,
+        category2: clothes.category2,
+        category3: clothes.category3,
+        category4: clothes.category4,
       };
     });
 
@@ -90,20 +108,40 @@ const ClothesPeed = () => {
 
   const firstCurrentDB = () => {
     if (clothesData) {
-      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+      if (
+        matchMedia("screen and (min-width : 1440px) and (max-width : 1900px)")
+          .matches
+      ) {
+        const lastIndex = currentPage * MacPostMaxlength;
+        const firstIndex = lastIndex - MacPostMaxlength;
 
-      const pushdata = [...currentDB];
+        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
-      pushdata.push(...currentData);
+        const pushdata = [...currentDB];
 
-      setCurrentDB(pushdata);
+        pushdata.push(...currentData);
 
-      setLoading(false);
+        setCurrentDB(pushdata);
+
+        setLoading(false);
+      } else {
+        const lastIndex = currentPage * postMaxlength;
+        const firstIndex = lastIndex - postMaxlength;
+
+        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+
+        const pushdata = [...currentDB];
+
+        pushdata.push(...currentData);
+
+        setCurrentDB(pushdata);
+
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchClothesData();
   }, []);
 
@@ -121,70 +159,53 @@ const ClothesPeed = () => {
   }, [currentPage]);
 
   return (
-    <div className='ClothesPeed-container'>
-      <div className='ClothesPeed-titleBox'>
-        <h1 className='ClothesPeed-title'>More Wish Clothes</h1>
-        <p className='ClothesPeed-info'>
-          WISH에서 단독으로 추천하는 의류들을 소개합니다.
-        </p>
-      </div>
+    <CSS.Container>
+      <CSS.TitleBox>
+        <CSS.Title>More Wish Clothes</CSS.Title>
+        <CSS.Info>WISH에서 단독으로 추천하는 의류들을 소개합니다.</CSS.Info>
+      </CSS.TitleBox>
 
-      <div className='slider-wrap'>
+      <CSS.PeedWrap>
         {currentDB.map((item) => {
           return (
-            <div className='product-item' key={item.productId}>
-              <div className='slide-ImgBox'>
+            <CSS.ProductItem key={item.productId}>
+              <CSS.ProductImg>
                 <Image
                   src={item.image}
                   alt='ClothesImg'
                   width='500'
                   height='500'
                 />
-              </div>
+              </CSS.ProductImg>
 
-              <div className='product-content'>
-                <h2 className='product-title'>{item.title}</h2>
-                <p className='product-mall'>{item.mallName}</p>
-                <span className='product-price'>{item.lprice}</span>
-              </div>
-            </div>
+              <CSS.ProductInfo>
+                <CSS.ProductTitle>{item.title}</CSS.ProductTitle>
+                <CSS.ProductMall>{item.mallName}</CSS.ProductMall>
+                <CSS.ProductPrice>{item.lprice}</CSS.ProductPrice>
+              </CSS.ProductInfo>
+            </CSS.ProductItem>
           );
         })}
-      </div>
+      </CSS.PeedWrap>
 
-      <div className='viewMore-container'>
-        {!!loading ? (
-          <div className='loading'>
-            <Oval
-              visible={true}
-              height='50'
-              width='50'
-              color={mode === "light" ? "#000" : "#fff"}
-              secondaryColor={
-                mode === "light" ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.5)"
-              }
-              ariaLabel='oval-loading'
-              wrapperStyle={{}}
-              wrapperClass=''
-            />
-          </div>
-        ) : null}
+      <CSS.ViewMoreContainer>
+        {!!loading ? <Loading /> : null}
 
         {!loading && clothesData !== undefined ? (
-          <div
+          <CSS.ViewMoreButton
             className={
               currentPage === Math.ceil(clothesData.length / postMaxlength)
-                ? "viewMore-button remove"
-                : "viewMore-button"
+                ? "remove"
+                : ""
             }
-            onClick={(e) => nextPage(e)}
+            onClick={(e: any) => nextPage(e)}
           >
             <span>view more</span>
             <IoIosArrowDown />
-          </div>
+          </CSS.ViewMoreButton>
         ) : null}
-      </div>
-    </div>
+      </CSS.ViewMoreContainer>
+    </CSS.Container>
   );
 };
 

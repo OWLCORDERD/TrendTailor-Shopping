@@ -44,7 +44,10 @@ const Navbar = () => {
             <Link href='/'>wish</Link>
           </CSS.Logo>
 
-          <Search searchActive={ResponsiveSearchActive} />
+          <Search
+            searchActive={ResponsiveSearchActive}
+            setSearchActive={setResponsiveSearchActive}
+          />
 
           <CSS.LoginMenu>
             {status === "authenticated" ? (
@@ -73,18 +76,14 @@ const Navbar = () => {
 
           <CSS.ResponsiveNav>
             <CSS.SearchButton>
-              <IoIosSearch
-                onClick={() =>
-                  setResponsiveSearchActive(!ResponsiveSearchActive)
-                }
-              />
+              <IoIosSearch onClick={() => setResponsiveSearchActive(true)} />
             </CSS.SearchButton>
 
             {responsiveMenuActive ? (
               <CSS.ResponsiveButton
                 onClick={() => setResponsiveMenuActive(false)}
               >
-                <IoIosClose fontSize='40px' />
+                <IoIosClose fontSize='30px' />
               </CSS.ResponsiveButton>
             ) : (
               <CSS.ResponsiveButton
