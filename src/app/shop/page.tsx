@@ -64,7 +64,9 @@ export default function Shop() {
   };
 
   useEffect(() => {
-    fetchKeyword();
+    if (searchQuery !== null) {
+      fetchKeyword();
+    }
   }, [searchQuery]);
 
   return (

@@ -13,7 +13,7 @@ const Inner = styled.div`
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    height: 40rem;
+    height: 45rem;
   }
 `;
 
@@ -141,7 +141,7 @@ const Community = styled.div`
 
       a {
         color: #fff;
-        font-family: $Noto-Korean;
+        font-family: "Noto Sans KR", sans-serif;
         font-size: 14px;
         font-weight: bold;
       }
@@ -283,6 +283,7 @@ const BankingInfo = styled.ul`
       font-size: 14px;
       color: #fff;
       font-weight: bold;
+      font-family: "Noto sans KR", sans-serif;
     }
   }
 

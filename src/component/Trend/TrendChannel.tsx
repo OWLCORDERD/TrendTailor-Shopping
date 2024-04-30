@@ -8,7 +8,7 @@ const TrendChannel = () => {
       <div className='Channel-wrap'>
         <div className='Channel-imgBox'>
           <Image
-            src='/images/Channel.jpg'
+            src='/images/Youtuber.webp'
             width='650'
             height='800'
             alt='Channel-profile'

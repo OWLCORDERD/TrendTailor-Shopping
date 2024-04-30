@@ -4,6 +4,7 @@ import { videoType } from "component/Main/Peed/Peed";
 import Image from "next/image";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Skeleton from "./Skeleton/Skeleton";
+import PreviewVideo from "./PreviewVideo/PreviewVideo";
 
 interface youtubeDBProps {
   youtubeDB: videoType[];
@@ -11,7 +12,7 @@ interface youtubeDBProps {
 
 const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
   const currentPage = useRef<number>(1);
-  const postMaxLength = 6;
+  const postMaxLength = 4;
   const loadDataRef = useRef<HTMLDivElement>(null);
   const lastIndex = currentPage.current * postMaxLength;
   const firstIndex = lastIndex - postMaxLength;
@@ -19,6 +20,18 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
   const [currentDB, setCurrentDB] = useState<videoType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasNextPage, setHasNextPage] = useState<videoType[] | null>([]);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(0);
+  const [currentVideo, setCurrentVideo] = useState<string | null>(null);
+
+  const thumbnailVideoOpen = (activeIndex: number, videoId: string) => {
+    setCurrentIndex(activeIndex);
+
+    setCurrentVideo(videoId);
+  };
+
+  const thumbnailVideoClose = () => {
+    setCurrentVideo(null);
+  };
 
   const loadingData = () => {
     const sliceDB = youtubeDB.slice(firstIndex, lastIndex);
@@ -79,16 +92,28 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
 
       <div className='Trend-videoList'>
         {currentDB
-          ? currentDB.map((video) => {
+          ? currentDB.map((video, i) => {
               return (
-                <div className='Trend-video' key={video.id.videoId}>
+                <div
+                  className='Trend-video'
+                  key={video.id.videoId}
+                  onMouseMove={() => thumbnailVideoOpen(i, video.id.videoId)}
+                  onMouseOut={() => thumbnailVideoClose()}
+                >
                   <div className='video-thumbnail'>
-                    <Image
-                      src={video.snippet.thumbnails.high.url}
-                      width={480}
-                      height={360}
-                      alt='video-image'
-                    />
+                    {currentVideo === video.id.videoId ? (
+                      <PreviewVideo
+                        currentVideo={currentVideo}
+                        currentIndex={i}
+                      />
+                    ) : (
+                      <Image
+                        src={video.snippet.thumbnails.high.url}
+                        width={480}
+                        height={360}
+                        alt='video-image'
+                      />
+                    )}
                   </div>
 
                   <div className='video-infoBox'>
@@ -109,7 +134,7 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
       <div className='loadData' ref={loadDataRef}>
         {loading && hasNextPage !== null ? (
           <div className='Skeleton-videoList'>
-            {hasNextPage?.map((skeleton) => {
+            {hasNextPage.map((skeleton) => {
               return <Skeleton key={skeleton.id.videoId} />;
             })}
           </div>

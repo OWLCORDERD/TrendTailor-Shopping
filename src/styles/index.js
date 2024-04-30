@@ -22,3 +22,7 @@ import { SeasonPeed } from "styles/Peed/SeasonPeed";
 import { ClothesPeed } from "./Peed/ClothesPeed";
 
 export { ClothesPeed, SeasonPeed };
+
+import { PreviewVideo } from "./PreviewVideo/PreviewVideo";
+
+export { PreviewVideo };

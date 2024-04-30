@@ -50,7 +50,7 @@ const ProductList = ({ searchData }: propsType) => {
     if (res.status === 200) {
       const data: clothes[] = res.data.items;
 
-      /*네이버 API에서 응답값으로 전송받은 items 배열의 의류 데이터 객체 내부에서
+      /*네이버 API에서 응답값으로 전송받은 clothess 배열의 의류 데이터 객체 내부에서
         title 의류 제목에 문자열 내부에 태그가 포함되어있어 정규식으로 제거하는 작업 진행 */
       const replaceTxt: clothes[] = await new Promise((res, rej) => {
         const replaceTxtData: clothes[] = data.map((cloth) => {
@@ -79,10 +79,10 @@ const ProductList = ({ searchData }: propsType) => {
         }
       });
 
-      /* title 속성값을 변경한 값을 포함한 새로운 items data 객체 배열을 clothData state에 저장 */
+      /* title 속성값을 변경한 값을 포함한 새로운 clothess data 객체 배열을 clothData state에 저장 */
       setClothData(replaceTxt);
 
-      /*Naver Api Data Fetch -> title 필드 값 replace 변경 -> clothData state에 새로운 items 객체 배열 저장 
+      /*Naver Api Data Fetch -> title 필드 값 replace 변경 -> clothData state에 새로운 clothess 객체 배열 저장 
       이 모든 단계가 성공적으로 끝날 시 Loading 스피너 종료 */
       setLoading(false);
     } else {
@@ -133,22 +133,22 @@ const ProductList = ({ searchData }: propsType) => {
 
       <div className='product-Box'>
         {loading === false ? (
-          currentPost.map((item) => {
+          currentPost.map((clothes) => {
             return (
-              <div className='product-item' key={item.productId}>
-                <div className='product-image'>
+              <div className='product-item' key={clothes.productId}>
+                <a href='#' className='product-image'>
                   <Image
-                    src={item.image}
-                    alt='product-image'
+                    src={clothes.image}
+                    alt={`${clothes.title} 의류 이미지 사진`}
                     width='400'
                     height='480'
                   />
-                </div>
+                </a>
 
                 <div className='product-content'>
-                  <span className='product-mall'>{item.mallName}</span>
-                  <h2 className='product-title'>{item.title}</h2>
-                  <span className='product-price'>{item.lprice}</span>
+                  <span className='product-mall'>{clothes.mallName}</span>
+                  <h2 className='product-title'>{clothes.title}</h2>
+                  <span className='product-price'>{clothes.lprice}</span>
                 </div>
               </div>
             );
