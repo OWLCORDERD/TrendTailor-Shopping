@@ -2,9 +2,10 @@
 
 import { videoType } from "component/Main/Peed/Peed";
 import Image from "next/image";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "./Skeleton/Skeleton";
 import PreviewVideo from "./PreviewVideo/PreviewVideo";
+import Loading from "component/fetchDB/loading/Loading";
 
 interface youtubeDBProps {
   youtubeDB: videoType[];
@@ -12,20 +13,18 @@ interface youtubeDBProps {
 
 const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
   const currentPage = useRef<number>(1);
-  const postMaxLength = 4;
   const loadDataRef = useRef<HTMLDivElement>(null);
+  const [currentDB, setCurrentDB] = useState<videoType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [hasNextPage, setHasNextPage] = useState<videoType[] | null>([]);
+  const [currentVideo, setCurrentVideo] = useState<string | null>(null);
+  const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
+  const postMaxLength = mobileMQuery === true ? 2 : 4;
   const lastIndex = currentPage.current * postMaxLength;
   const firstIndex = lastIndex - postMaxLength;
   const maxPage = Math.ceil(youtubeDB.length / postMaxLength);
-  const [currentDB, setCurrentDB] = useState<videoType[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [hasNextPage, setHasNextPage] = useState<videoType[] | null>([]);
-  const [currentIndex, setCurrentIndex] = useState<number | null>(0);
-  const [currentVideo, setCurrentVideo] = useState<string | null>(null);
 
-  const thumbnailVideoOpen = (activeIndex: number, videoId: string) => {
-    setCurrentIndex(activeIndex);
-
+  const thumbnailVideoOpen = (videoId: string) => {
     setCurrentVideo(videoId);
   };
 
@@ -53,15 +52,29 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
   };
 
   const firstSkeletonSetting = () => {
-    setLoading(true);
-
     const firstDB = youtubeDB.slice(firstIndex, lastIndex);
 
     setHasNextPage(firstDB);
   };
 
+  const screenChange = (e: MediaQueryListEvent) => {
+    const matches = e.matches;
+
+    setMobileMQuery(matches);
+  };
+
   useEffect(() => {
+    let mql = window.matchMedia("screen and (max-width : 768px)");
+
+    if (mql.matches === true) {
+      setMobileMQuery(mql.matches);
+    }
+
+    mql.addEventListener("change", screenChange);
+
     firstSkeletonSetting();
+
+    return () => mql.removeEventListener("change", screenChange);
   }, []);
 
   useEffect(() => {
@@ -72,7 +85,7 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
         if (entries[0].isIntersecting) {
           loadingData();
         }
-      }, 2000);
+      }, 1000);
     });
 
     if (loadDataRef.current) {
@@ -91,13 +104,37 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
       </div>
 
       <div className='Trend-videoList'>
-        {currentDB
-          ? currentDB.map((video, i) => {
+        {mobileMQuery === true
+          ? currentDB.map((video, index) => {
+              return (
+                <div className='Trend-video' key={index}>
+                  <div className='video-thumbnail'>
+                    <Image
+                      src={video.snippet.thumbnails.high.url}
+                      width={480}
+                      height={360}
+                      alt='video-image'
+                    />
+                  </div>
+
+                  <div className='video-infoBox'>
+                    <div className='video-title'>
+                      <h2>{video.snippet.title}</h2>
+                    </div>
+
+                    <div className='video-channel'>
+                      <span>{video.snippet.channelTitle}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          : currentDB.map((video, i) => {
               return (
                 <div
                   className='Trend-video'
                   key={video.id.videoId}
-                  onMouseMove={() => thumbnailVideoOpen(i, video.id.videoId)}
+                  onMouseMove={() => thumbnailVideoOpen(video.id.videoId)}
                   onMouseOut={() => thumbnailVideoClose()}
                 >
                   <div className='video-thumbnail'>
@@ -127,17 +164,22 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
                   </div>
                 </div>
               );
-            })
-          : null}
+            })}
       </div>
 
       <div className='loadData' ref={loadDataRef}>
         {loading && hasNextPage !== null ? (
-          <div className='Skeleton-videoList'>
-            {hasNextPage.map((skeleton) => {
-              return <Skeleton key={skeleton.id.videoId} />;
-            })}
-          </div>
+          <>
+            {mobileMQuery === true ? (
+              <Loading />
+            ) : (
+              <div className='Skeleton-videoList'>
+                {hasNextPage.map((skeleton) => {
+                  return <Skeleton key={skeleton.id.videoId} />;
+                })}
+              </div>
+            )}
+          </>
         ) : null}
       </div>
     </div>

@@ -5,7 +5,7 @@ const Banner: any = {};
 Banner.Container = styled.div`
   position: relative;
   width: 100%;
-  height: 45rem;
+  height: 42rem;
   overflow: hidden;
 
   /* swiper slide pagination 영역 커스텀 디자인 */
@@ -65,7 +65,7 @@ Banner.slideWrap = styled.div`
 Banner.slideItem = styled.div`
   position: relative;
   width: 100%;
-  height: 45rem;
+  height: 42rem;
 
   &::before {
     position: absolute;

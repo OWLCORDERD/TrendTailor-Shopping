@@ -200,7 +200,7 @@
 
                         span{
                             line-height: 3rem;
-                            font-size: 12px;
+                            font-size: 10px;
                             font-family: $Noto-Korean;
                             color : #606060;
                         }
@@ -230,44 +230,27 @@
     }
 }
 
-@media screen and (max-width : 500px) {
+@media screen and (max-width : 768px) {
     .Trend-container{
-        position: relative;
-        width: 100%;
-        height: 100%;
         padding: 0;
     
         .TrendChannel-container{
             position: relative;
             width: 100%;
-            height: 100%;
+            height: 54rem;
     
             .Channel-wrap{
-                display: flex;
                 flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                height: 100%;
     
                 .Channel-imgBox{
                     position: relative;
                     width: 100%;
                     height: 25rem;
-    
-                    img{
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                    }
                 }
     
                 .Channel-infoBox{
                     width: 100%;
-                    height: 35rem;
+                    height: 29rem;
                     padding: 2rem 3rem;
     
                     .Category{
@@ -275,10 +258,8 @@
                         height: 2rem;
                         
                         span{
-                            font-family: $Noto-Korean;
-                            font-size: 15px;
-                            font-weight: 600;
-                            text-transform: uppercase;
+                            font-size: 12px;
+                            font-weight: bold;
                             line-height: 2rem;
                         }
                         
@@ -289,15 +270,15 @@
                         justify-content: space-between;
                         align-items: center;
                         width: 80%;
-                        height: 5rem;
+                        height: 3rem;
                         margin-top: 2rem;
     
                         .icon{
-                            font-size: 2rem;
+                            font-size: 1.8rem;
                         }
     
                         h1{
-                            font-size: 1.5rem;
+                            font-size: 1.2rem;
                             font-family: $Noto-Korean;
                             line-height: 5rem;
                         }
@@ -314,7 +295,7 @@
                             width: 40%;
     
                             h2{
-                                font-size: 15px;
+                                font-size: 12px;
                                 line-height: 3rem;
                             }
                         }
@@ -324,7 +305,7 @@
                             width: 60%;
     
                             span{
-                                font-size: 15px;
+                                font-size: 12px;
                                 line-height: 3rem;
                             }
                         }
@@ -335,11 +316,11 @@
                         align-items: center;
                         justify-content: flex-start;
                         width: 100%;
-                        height: 10rem;
-                        margin-top: 2rem;
+                        height: 7rem;
+                        margin-top: 1rem;
     
                         p{
-                            font-size: 12px;
+                            font-size: 10px;
                             font-family: $Noto-Korean;
                         }
                     }
@@ -363,9 +344,10 @@
         }
     
         .TrendVideo-container{
-            padding: 2rem 3rem;
+            padding: 2rem 0;
     
             .TrendVideo-titleBox{
+                padding: 0 1rem;
                 
                 h2{
                     font-size: 14px;
@@ -378,6 +360,7 @@
                 gap : 3.125rem;
     
                 .Trend-video{
+                    width : 100%;
     
                     .video-thumbnail{
                         height: 15rem;
@@ -387,14 +370,14 @@
                         position: relative;
                         width: 100%;
                         height: 10rem;
-                        padding: 1rem 0;
+                        padding: 1rem;
     
                         .video-title{
                             width: 100%;
+                            margin-top: 1rem;
     
                             h2{
-                                line-height: 1rem;
-                                font-size: 13px;
+                                line-height: 2rem;
                                 font-family: $Noto-Korean;
                             }
                         }
@@ -402,7 +385,7 @@
                         .video-channel{
     
                             span{
-                                font-size: 12px;
+                                font-size: 10px;
                             }
                         }
                     }
@@ -410,6 +393,7 @@
             }
     
             .loadData{
+                padding: 2rem 0;
     
                 .Skeleton-videoList{
                     position: relative;
