@@ -1,6 +1,5 @@
 import React from "react";
 import ClothesPeed from "./ClothesPeed";
-import YoutubePeed from "component/Main/Peed/Youtube/YoutubePeed";
 import MainBoard from "./MainBoard/MainBoard";
 import SeasonPeed from "./SeasonPeed";
 
@@ -39,29 +38,7 @@ export interface videoType {
   };
 }
 
-/*
-const youtubeFetch = async () => {
-  const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
-
-  const res = await fetch(
-    `${youtubeAPI}?part=snippet&maxResults=20&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
-    {
-      cache: "no-store",
-    }
-  );
-
-  if (res.ok) {
-    const data = await res.json();
-
-    return data.items;
-  }
-};
-*/
-
 const Peed = async () => {
-  /*
-  const youtubeDB: videoType[] = await youtubeFetch();
-  */
   return (
     <section className='MainPeed-container'>
       <MainBoard />

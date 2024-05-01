@@ -16,12 +16,10 @@ const SeasonPeed = () => {
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
   const [scrollLeft, setScrollLeft] = useState<number>(0);
-  let mobileMedia: boolean = window.matchMedia(
-    "screen and (max-width : 768px)"
-  ).matches;
 
   const [seasonClothes, setSeasonClothes] = useState<clothes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [mQuery, setMQuery] = useState<boolean>(false);
 
   /* slide prev 뒤로가기 버튼 클릭 이벤트*/
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -96,6 +94,11 @@ const SeasonPeed = () => {
     setLoading(false);
   };
 
+  const screenChange = (e: MediaQueryListEvent) => {
+    const matches = e.matches;
+    setMQuery(matches);
+  };
+
   /* 컴포넌트가 마운트되면 계절 의류 조회 비동기 함수 실행 */
   useEffect(() => {
     searchSeasonClothes();
@@ -112,13 +115,21 @@ const SeasonPeed = () => {
     }
   }, [loading]);
 
+  useEffect(() => {
+    let media = window.matchMedia("screen and (max-width : 768px)");
+
+    media.addEventListener("change", screenChange);
+
+    return () => media.removeEventListener("change", screenChange);
+  }, []);
+
   /* 모바일 slider 드레그 슬라이딩 이벤트 */
 
   /*(요소 안에서 마우스 왼쪽 버튼 클릭시 실행되는 MouseDown 이벤트 */
   const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsDrag(true);
 
-    if (slideRef.current && mobileMedia === true) {
+    if (slideRef.current && !!mQuery) {
       setStartX(e.pageX);
       setScrollLeft(slideRef.current.scrollLeft);
     }
@@ -135,7 +146,7 @@ const SeasonPeed = () => {
 
     e.preventDefault();
 
-    if (slideRef.current && mobileMedia === true) {
+    if (slideRef.current && !!mQuery) {
       const delta = e.pageX - startX;
 
       slideRef.current.scrollLeft = scrollLeft + delta;

@@ -13,7 +13,7 @@ const Inner = styled.div`
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    height: 45rem;
+    height: 100%;
   }
 `;
 
@@ -246,7 +246,7 @@ const Banking = styled.div`
   height: 15rem;
 
   @media screen and (max-width: 768px) {
-    height: 9rem;
+    height: 10rem;
   }
 `;
 
@@ -262,6 +262,7 @@ const BankingTitle = styled.div`
   }
 
   @media screen and (max-width: 768px) {
+    margin-bottom: 1rem;
     h2 {
       font-size: 1rem;
       line-height: 3rem;
@@ -288,13 +289,15 @@ const BankingInfo = styled.ul`
   }
 
   @media screen and (max-width: 768px) {
-    height: 6rem;
+    height: 3rem;
 
     li {
-      height: calc(6rem / 2);
+      display: inline-block;
+      width: 50%;
+      height: 3rem;
 
       p {
-        line-height: calc(6rem / 2);
+        line-height: 3rem;
         font-size: 12px;
       }
     }
