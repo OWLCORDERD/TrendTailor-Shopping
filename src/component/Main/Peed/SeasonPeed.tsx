@@ -19,7 +19,7 @@ const SeasonPeed = () => {
 
   const [seasonClothes, setSeasonClothes] = useState<clothes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [mQuery, setMQuery] = useState<boolean>(false);
+  const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
 
   /* slide prev 뒤로가기 버튼 클릭 이벤트*/
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -35,7 +35,7 @@ const SeasonPeed = () => {
   const nextSlide = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
-    if (itemRef.current && scrollRef.current) {
+    if (itemRef.current) {
       const itemWidth = itemRef.current.clientWidth + 50;
       const maxWidth = scrollMaxWidth - itemWidth * 3;
 
@@ -94,14 +94,31 @@ const SeasonPeed = () => {
     setLoading(false);
   };
 
+  /* matchMedia change 콜백 이벤트 함수 
+  -> matches 값을 mobileMQuery state에 업데이트  */
   const screenChange = (e: MediaQueryListEvent) => {
     const matches = e.matches;
-    setMQuery(matches);
+    setMobileMQuery(matches);
   };
 
-  /* 컴포넌트가 마운트되면 계절 의류 조회 비동기 함수 실행 */
+  /* 컴포넌트가 마운트되면 계절 의류 조회 비동기 함수 실행*/
   useEffect(() => {
     searchSeasonClothes();
+
+    /* 마운트 후 전역 window 객체에 matchMedia 메소드를 사용하여 현재 viewport width 값과
+    screen max-width query 값을 비교하여 mediaQueryList 객체 반환 */
+    let mql = window.matchMedia("screen and (max-width : 768px)");
+
+    /* mediaQueryList 객체 matches 속성 값이 true일 시, MobileMQuery state 값에 업데이트 */
+    if (mql.matches === true) {
+      setMobileMQuery(mql.matches);
+    }
+
+    /* 해상도가 바뀔 때마다, matchMedia에서 인식하여 change 이벤트 콜백 함수 호출 */
+    mql.addEventListener("change", screenChange);
+
+    /* 컴포넌트가 unmount 시, matchMedia의 change 이벤트 remove */
+    return () => mql.removeEventListener("change", screenChange);
   }, []);
 
   /*로딩 스피너가 업데이트되면 scrollRef 요소로 저장된 dom element의
@@ -129,7 +146,7 @@ const SeasonPeed = () => {
   const onDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsDrag(true);
 
-    if (slideRef.current && !!mQuery) {
+    if (slideRef.current && !!mobileMQuery) {
       setStartX(e.pageX);
       setScrollLeft(slideRef.current.scrollLeft);
     }
@@ -146,7 +163,7 @@ const SeasonPeed = () => {
 
     e.preventDefault();
 
-    if (slideRef.current && !!mQuery) {
+    if (slideRef.current && !!mobileMQuery) {
       const delta = e.pageX - startX;
 
       slideRef.current.scrollLeft = scrollLeft + delta;

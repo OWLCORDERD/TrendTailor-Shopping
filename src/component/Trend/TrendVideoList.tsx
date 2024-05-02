@@ -6,12 +6,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "./Skeleton/Skeleton";
 import PreviewVideo from "./PreviewVideo/PreviewVideo";
 import Loading from "component/fetchDB/loading/Loading";
+import { channelDataType } from "app/trend/page";
 
 interface youtubeDBProps {
   youtubeDB: videoType[];
+  channelData: channelDataType[];
 }
 
-const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
+const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
   const currentPage = useRef<number>(1);
   const loadDataRef = useRef<HTMLDivElement>(null);
   const [currentDB, setCurrentDB] = useState<videoType[]>([]);
@@ -118,12 +120,22 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
                   </div>
 
                   <div className='video-infoBox'>
-                    <div className='video-title'>
-                      <h2>{video.snippet.title}</h2>
+                    <div className='channel-img'>
+                      <Image
+                        src={channelData[0].snippet.thumbnails.high.url}
+                        width='100'
+                        height='100'
+                        alt={`${channelData[0].snippet.title} 채널 이미지`}
+                      />
                     </div>
+                    <div className='title-channel'>
+                      <div className='video-title'>
+                        <h2>{video.snippet.title}</h2>
+                      </div>
 
-                    <div className='video-channel'>
-                      <span>{video.snippet.channelTitle}</span>
+                      <div className='video-channel'>
+                        <span>{video.snippet.channelTitle}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -154,12 +166,22 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
                   </div>
 
                   <div className='video-infoBox'>
-                    <div className='video-title'>
-                      <h2>{video.snippet.title}</h2>
+                    <div className='channel-img'>
+                      <Image
+                        src={channelData[0].snippet.thumbnails.high.url}
+                        width='100'
+                        height='100'
+                        alt={`${channelData[0].snippet.title} 채널 이미지`}
+                      />
                     </div>
+                    <div className='title-channel'>
+                      <div className='video-title'>
+                        <h2>{video.snippet.title}</h2>
+                      </div>
 
-                    <div className='video-channel'>
-                      <span>{video.snippet.channelTitle}</span>
+                      <div className='video-channel'>
+                        <span>{video.snippet.channelTitle}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -167,8 +189,8 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
             })}
       </div>
 
-      <div className='loadData' ref={loadDataRef}>
-        {loading && hasNextPage !== null ? (
+      {loading && hasNextPage !== null ? (
+        <div className='loadData' ref={loadDataRef}>
           <>
             {mobileMQuery === true ? (
               <Loading />
@@ -180,8 +202,8 @@ const TrendVideoList = ({ youtubeDB }: youtubeDBProps) => {
               </div>
             )}
           </>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 };

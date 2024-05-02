@@ -44,8 +44,8 @@
                     
                     span{
                         font-family: $Noto-Korean;
-                        font-size: 1rem;
-                        font-weight: 600;
+                        font-size: 13px;
+                        font-weight: bold;
                         text-transform: uppercase;
                     }
                     
@@ -55,16 +55,16 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    width: 25rem;
+                    width: 20rem;
                     height: 6rem;
                     margin-top: 2rem;
 
                     .icon{
-                        font-size: 3rem;
+                        font-size: 2.5rem;
                     }
 
                     h1{
-                        font-size: 2rem;
+                        font-size: 1.5rem;
                         font-family: $Noto-Korean;
                         line-height: 6rem;
                     }
@@ -81,7 +81,7 @@
                         width: 10rem;
 
                         h2{
-                            font-size: 15px;
+                            font-size: 13px;
                             line-height: 3rem;
                         }
                     }
@@ -91,7 +91,7 @@
                         width: 10rem;
 
                         span{
-                            font-size: 15px;
+                            font-size: 13px;
                             line-height: 3rem;
                         }
                     }
@@ -101,11 +101,11 @@
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
-                    width: 100%;
+                    width: 60%;
                     height: 16rem;
 
                     p{
-                        font-size: 15px;
+                        font-size: 12px;
                         font-family: $Noto-Korean;
                     }
                 }
@@ -174,35 +174,59 @@
 
                 .video-infoBox{
                     position: relative;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
                     width: 100%;
                     height: 10rem;
                     padding: 1rem 0;
 
-                    .video-title{
-                        width: 100%;
-                        text-overflow: ellipsis;
-                        cursor: pointer;
-                        
+                    .channel-img {
+                        position: relative;
+                        width: 2.5rem;
+                        height: 2.5rem;
+                        overflow: hidden;
+                        border-radius: 50%;
 
-                        h2{
-                            white-space: nowrap;
-                            line-height: 3rem;
-                            font-size: 12px;
-                            font-family: $Noto-Korean;
-                            font-weight: 400;
+                        img {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
                         }
                     }
 
-                    .video-channel{
-                        width: 100%;
-                        margin-top: 2rem;
-                        cursor: pointer;
+                    .title-channel {
+                        position: relative;
+                        width: 80%;
+                        height: 100%;
 
-                        span{
-                            line-height: 3rem;
-                            font-size: 10px;
-                            font-family: $Noto-Korean;
-                            color : #606060;
+                        .video-title{
+                            width: 100%;
+                            height : 3rem;
+                            cursor: pointer;
+                            
+    
+                            h2{
+                                font-size: 14px;
+                                font-family: $Noto-Korean;
+                                font-weight: 400;
+                            }
+                        }
+    
+                        .video-channel{
+                            width: 100%;
+                            margin-top: 1rem;
+                            cursor: pointer;
+    
+                            span{
+                                line-height: 3rem;
+                                font-size: 10px;
+                                font-family: $Noto-Korean;
+                                color : #606060;
+                            }
                         }
                     }
                 }
@@ -350,14 +374,14 @@
                 padding: 0 1rem;
                 
                 h2{
-                    font-size: 14px;
+                    font-size: 12px;
                 }
             }
     
             .Trend-videoList{
                 display: grid;
                 grid-template-columns: repeat(1, 1fr);
-                gap : 3.125rem;
+                gap : 2rem;
     
                 .Trend-video{
                     width : 100%;
@@ -367,25 +391,28 @@
                     }
     
                     .video-infoBox{
-                        position: relative;
+                        align-items: center;
                         width: 100%;
-                        height: 10rem;
+                        height: 7rem;
                         padding: 1rem;
     
-                        .video-title{
-                            width: 100%;
-                            margin-top: 1rem;
+                        .title-channel {
     
-                            h2{
-                                line-height: 2rem;
-                                font-family: $Noto-Korean;
+                            .video-title{
+                                
+        
+                                h2{
+                                    font-size: 12px;
+                                }
                             }
-                        }
-    
-                        .video-channel{
-    
-                            span{
-                                font-size: 10px;
+        
+                            .video-channel{
+                                margin-top: 0;
+        
+                                span{
+                                    line-height: 2rem;
+                                    font-size: 10px;
+                                }
                             }
                         }
                     }
@@ -393,18 +420,8 @@
             }
     
             .loadData{
+                height: 25rem;
                 padding: 2rem 0;
-    
-                .Skeleton-videoList{
-                    position: relative;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    display: grid;
-                    grid-template-columns: repeat(1, 1fr);
-                    gap : 3.125rem;
-                }
             }
         }
     }

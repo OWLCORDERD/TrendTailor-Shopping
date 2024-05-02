@@ -1,15 +1,34 @@
+"use client";
+
+import { channelDataType } from "app/trend/page";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaYoutube } from "react-icons/fa";
 
-const TrendChannel = () => {
+interface channelDataProps {
+  channelData: channelDataType[];
+}
+
+const TrendChannel = ({ channelData }: channelDataProps) => {
+  const [replaceDescription, setReplaceDescription] = useState<string>("");
+  console.log(channelData);
+
+  useEffect(() => {
+    const tagReplaceReg = /<[^>]*>?/g;
+    const replaceTxt = channelData[0].snippet.description.replace(
+      tagReplaceReg,
+      ""
+    );
+
+    setReplaceDescription(replaceTxt);
+  }, []);
   return (
     <div className='TrendChannel-container'>
       <div className='Channel-wrap'>
         <div className='Channel-imgBox'>
           <Image
-            src='/Images/Youtuber.webp'
-            width='650'
+            src={channelData[0].snippet.thumbnails.high.url}
+            width='800'
             height='800'
             alt='Channel-profile'
           />
@@ -22,7 +41,7 @@ const TrendChannel = () => {
 
           <div className='Channel-name'>
             <FaYoutube className='icon' />
-            <h1>깡스타일리스트</h1>
+            <h1>{channelData[0].snippet.title}</h1>
           </div>
 
           <div className='Channel-subscribe'>
@@ -35,13 +54,7 @@ const TrendChannel = () => {
           </div>
 
           <div className='Channel-info'>
-            <p>
-              “안녕하세요 ~ 스타일리시트, 깡입니다!” 주 콘텐츠로 남성 패션을
-              다루고 있으며 스타일링에 관한 전반적인 내용을 다루며 다양한 패션
-              시도와 시대의 흐름을 잘 파악하여 의상 셋업을 추천하는 채널입니다.
-              올해 대한민국 패션 유튜버중 2023 패션 트렌드를 잘 알리고 주목을 끈
-              유튜버로 깡스타일리스트를 추천합니다.
-            </p>
+            <p>{replaceDescription}</p>
           </div>
 
           <a
