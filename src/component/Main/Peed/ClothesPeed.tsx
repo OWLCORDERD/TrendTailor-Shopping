@@ -1,19 +1,21 @@
 "use client";
 
 import { ClothesPeed as CSS } from "styles";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 const ClothesPeed = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [clothesData, setClothesData] = useState<clothes[] | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const postMaxlength = 8;
+  const postMaxlength = 10;
   const MacPostMaxlength = 9;
   const [currentDB, setCurrentDB] = useState<clothes[]>([]);
+  const { mode } = useContext(ThemeContext);
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
@@ -168,7 +170,7 @@ const ClothesPeed = () => {
       <CSS.PeedWrap>
         {currentDB.map((item) => {
           return (
-            <CSS.ProductItem key={item.productId}>
+            <CSS.ProductItem key={item.productId} $mode={mode}>
               <CSS.ProductImg>
                 <Image
                   src={item.image}
@@ -181,7 +183,7 @@ const ClothesPeed = () => {
               <CSS.ProductInfo>
                 <CSS.ProductTitle>{item.title}</CSS.ProductTitle>
                 <CSS.ProductMall>{item.mallName}</CSS.ProductMall>
-                <CSS.ProductPrice>{item.lprice}</CSS.ProductPrice>
+                <CSS.ProductPrice>{item.lprice}원</CSS.ProductPrice>
               </CSS.ProductInfo>
             </CSS.ProductItem>
           );

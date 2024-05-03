@@ -198,9 +198,9 @@ const ResponsiveMenu = ({
             </Link>
           </li>
           <li>
-            <a href='#'>
+            <Link href='/trend'>
               <h2>Trend</h2>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

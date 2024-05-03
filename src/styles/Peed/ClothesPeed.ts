@@ -59,12 +59,12 @@ ClothesPeed.Info = styled.p`
 ClothesPeed.PeedWrap = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   place-items: center;
-  gap: 4rem 2rem;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(20rem * 5);
   height: 100%;
   padding: 2rem 0;
 
@@ -73,15 +73,22 @@ ClothesPeed.PeedWrap = styled.div`
   }
 
   @media screen and (max-width: 768px) {
+    width: 100%;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
 `;
 
-ClothesPeed.ProductItem = styled.div`
+ClothesPeed.ProductItem = styled.div<{ $mode: string }>`
   position: relative;
-  width: 25rem;
-  height: 40rem;
+  width: 20rem;
+  height: 32rem;
+  padding: 1rem 50px;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$mode === "light" ? "#f2f2f2" : "#2C2C2C"};
+  }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     height: 35rem;
@@ -90,13 +97,18 @@ ClothesPeed.ProductItem = styled.div`
   @media screen and (max-width: 768px) {
     width: 10rem;
     height: 25rem;
+    padding: 0;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 `;
 
 ClothesPeed.ProductImg = styled.div`
   position: relative;
   width: 100%;
-  height: 30rem;
+  height: 20rem;
 
   img {
     position: absolute;
@@ -105,10 +117,6 @@ ClothesPeed.ProductImg = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    height: 25rem;
   }
 
   @media screen and (max-width: 768px) {

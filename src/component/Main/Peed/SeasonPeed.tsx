@@ -5,14 +5,20 @@ import Image from "next/image";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
+import { useContext } from "react";
+import { ThemeContext } from "../../../../context/ThemeContext";
 
 const SeasonPeed = () => {
   const slideRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
+  const { mode } = useContext(ThemeContext);
 
   const [scrollWidth, setScrollWidth] = useState<number>(0);
   const [scrollMaxWidth, setScrollMaxWidth] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  /* 모바일 터치 슬라이드 상태 값 */
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number>(0);
   const [scrollLeft, setScrollLeft] = useState<number>(0);
@@ -20,6 +26,7 @@ const SeasonPeed = () => {
   const [seasonClothes, setSeasonClothes] = useState<clothes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
+  const [maxPage, setMaxPage] = useState<number>(0);
 
   /* slide prev 뒤로가기 버튼 클릭 이벤트*/
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -27,7 +34,8 @@ const SeasonPeed = () => {
 
     if (itemRef.current && scrollWidth > 0) {
       const itemWidth = itemRef.current.clientWidth;
-      setScrollWidth((initialWidth) => initialWidth - itemWidth - 50);
+      setScrollWidth((initialWidth) => initialWidth - itemWidth);
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
@@ -36,11 +44,12 @@ const SeasonPeed = () => {
     e.preventDefault();
 
     if (itemRef.current) {
-      const itemWidth = itemRef.current.clientWidth + 50;
-      const maxWidth = scrollMaxWidth - itemWidth * 3;
+      const itemWidth = itemRef.current.clientWidth;
+      const maxWidth = scrollMaxWidth - itemWidth * 5;
 
       if (scrollWidth < maxWidth) {
         setScrollWidth((initialWidth) => initialWidth + itemWidth);
+        setCurrentPage((prev) => prev + 1);
       }
     }
   };
@@ -121,6 +130,14 @@ const SeasonPeed = () => {
     return () => mql.removeEventListener("change", screenChange);
   }, []);
 
+  useEffect(() => {
+    if (seasonClothes.length === 0) return;
+
+    const viewMaxItem = 5;
+
+    setMaxPage(seasonClothes.length - (viewMaxItem - 1));
+  }, [seasonClothes]);
+
   /*로딩 스피너가 업데이트되면 scrollRef 요소로 저장된 dom element의
   clientWidth 값 구한 뒤 scrollMaxWidth state에 저장 */
   useEffect(() => {
@@ -131,14 +148,6 @@ const SeasonPeed = () => {
       setScrollMaxWidth((initial) => initial + clientWidth);
     }
   }, [loading]);
-
-  useEffect(() => {
-    let media = window.matchMedia("screen and (max-width : 768px)");
-
-    media.addEventListener("change", screenChange);
-
-    return () => media.removeEventListener("change", screenChange);
-  }, []);
 
   /* 모바일 slider 드레그 슬라이딩 이벤트 */
 
@@ -177,15 +186,22 @@ const SeasonPeed = () => {
           <h1>Seasonal collection</h1>
         </CSS.Title>
 
-        <CSS.SlideControl>
-          <CSS.ControlButton onClick={(e: any) => prevSlide(e)}>
-            <IoIosArrowBack fontSize={20} />
-          </CSS.ControlButton>
+        <CSS.ControlBox>
+          <CSS.ControlState>
+            <span>
+              {currentPage} / {maxPage}
+            </span>
+          </CSS.ControlState>
+          <CSS.ControlButtons>
+            <CSS.ControlButton onClick={(e: any) => prevSlide(e)}>
+              <IoIosArrowBack fontSize={25} />
+            </CSS.ControlButton>
 
-          <CSS.ControlButton onClick={(e: any) => nextSlide(e)}>
-            <IoIosArrowForward fontSize={20} />
-          </CSS.ControlButton>
-        </CSS.SlideControl>
+            <CSS.ControlButton onClick={(e: any) => nextSlide(e)}>
+              <IoIosArrowForward fontSize={25} />
+            </CSS.ControlButton>
+          </CSS.ControlButtons>
+        </CSS.ControlBox>
       </CSS.TitleBox>
 
       <CSS.Slider
@@ -207,7 +223,11 @@ const SeasonPeed = () => {
           >
             {seasonClothes.map((clothes) => {
               return (
-                <CSS.SlideItem key={clothes.productId} ref={itemRef}>
+                <CSS.SlideItem
+                  key={clothes.productId}
+                  ref={itemRef}
+                  $mode={mode}
+                >
                   <CSS.ProductImg>
                     <Image
                       src={clothes.image}
@@ -227,7 +247,7 @@ const SeasonPeed = () => {
                     </CSS.ProductBrand>
 
                     <CSS.ProductPrice>
-                      <span>{clothes.lprice}</span>
+                      <span>{clothes.lprice}원</span>
                     </CSS.ProductPrice>
                   </CSS.ProductInfo>
                 </CSS.SlideItem>

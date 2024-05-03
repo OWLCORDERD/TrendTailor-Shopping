@@ -24,7 +24,7 @@ SeasonPeed.TitleBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: calc(25rem * 4 + 150px);
+  width: 100%;
   height: 5rem;
   margin-bottom: 3rem;
 
@@ -39,7 +39,7 @@ SeasonPeed.TitleBox = styled.div`
 `;
 
 SeasonPeed.Title = styled.div`
-  width: 80%;
+  width: 20rem;
   height: 5rem;
 
   h1 {
@@ -64,34 +64,57 @@ SeasonPeed.Title = styled.div`
   }
 `;
 
-SeasonPeed.SlideControl = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 12rem;
+SeasonPeed.ControlBox = styled.div`
+  position: relative;
+  width: 15rem;
   height: 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-SeasonPeed.ControlButton = styled.div`
+SeasonPeed.ControlState = styled.div`
+  width: 10rem;
+
+  span {
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+  }
+`;
+
+SeasonPeed.ControlButtons = styled.div`
+  position: relative;
+  width: 5rem;
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+SeasonPeed.ControlButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 4rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   z-index: 10;
   cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #c1c1c1;
+  color: #1b1b1b;
 `;
 
 SeasonPeed.Slider = styled.div`
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  width: calc(25rem * 4 + 150px);
-  height: 40rem;
+  width: calc(20rem * 5);
+  height: 32rem;
   overflow-x: scroll;
 
   &::-webkit-scrollbar {
@@ -118,23 +141,28 @@ SeasonPeed.SlideWrap = styled.div`
   display: inline-flex;
 `;
 
-SeasonPeed.SlideItem = styled.div`
+SeasonPeed.SlideItem = styled.div<{ $mode: string }>`
   position: relative;
-  width: 25rem;
+  width: 20rem;
   height: 100%;
-  margin-right: 50px;
+  padding: 1rem 3.125rem;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$mode === "light" ? "#f2f2f2" : "#2C2C2C"};
+  }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     width: 18rem;
-    margin-right: 30px;
   }
 
   @media screen and (max-width: 768px) {
     width: 15rem;
-    margin-right: 1rem;
+    padding: 0;
+    margin-right: 50px;
 
-    &:nth-child(1) {
-      margin-left: 1rem;
+    &:first-child {
+      margin-left: 50px;
     }
   }
 `;
@@ -142,7 +170,8 @@ SeasonPeed.SlideItem = styled.div`
 SeasonPeed.ProductImg = styled.div`
   position: relative;
   width: 100%;
-  height: 30rem;
+  height: 20rem;
+  cursor: pointer;
 
   img {
     position: absolute;
@@ -181,10 +210,11 @@ SeasonPeed.ProductName = styled.div`
   height: 4rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 
   h2 {
     width: max-content;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
     color: #878787;
   }
