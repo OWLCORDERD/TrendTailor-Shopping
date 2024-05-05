@@ -216,7 +216,8 @@ SeasonPeed.ProductName = styled.div`
     width: max-content;
     font-size: 13px;
     font-weight: 500;
-    color: #878787;
+    color: #000;
+    font-weight: bold;
   }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
@@ -263,14 +264,8 @@ SeasonPeed.ProductPrice = styled.div`
 
   span {
     line-height: 3rem;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
-  }
-
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    span {
-      font-size: 12px;
-    }
   }
 
   @media screen and (max-width: 768px) {

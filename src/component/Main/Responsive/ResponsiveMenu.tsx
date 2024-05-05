@@ -5,7 +5,6 @@ import { HiSpeakerphone } from "react-icons/hi";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 
 interface propsMenuActiveState {
@@ -106,7 +105,7 @@ const ResponsiveMenu = ({
             <div className='profile-status'>
               <div className='photo'>
                 {data.user?.image ? (
-                  <img src={data.user?.image} alt='' />
+                  <img src={data.user.image} alt='user-image' />
                 ) : (
                   svgIcon[0].icon()
                 )}
@@ -136,7 +135,7 @@ const ResponsiveMenu = ({
 
       <ul className='mainMenu-list'>
         <li>
-          <a href='#'>
+          <a>
             {svgIcon[1].icon()}
 
             <span>마이 페이지</span>
@@ -171,7 +170,7 @@ const ResponsiveMenu = ({
             </div>
             <ul className='sub-menu'>
               <li>
-                <a href='#'>
+                <a>
                   <span>고객센터</span>
                 </a>
               </li>
@@ -181,9 +180,9 @@ const ResponsiveMenu = ({
                 </Link>
               </li>
               <li>
-                <a href='#'>
+                <Link href='/trend'>
                   <span>Trend News</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </li>

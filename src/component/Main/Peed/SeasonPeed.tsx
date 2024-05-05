@@ -193,11 +193,17 @@ const SeasonPeed = () => {
             </span>
           </CSS.ControlState>
           <CSS.ControlButtons>
-            <CSS.ControlButton onClick={(e: any) => prevSlide(e)}>
+            <CSS.ControlButton
+              onClick={(e: any) => prevSlide(e)}
+              aria-label='slide 뒤로 이동 버튼'
+            >
               <IoIosArrowBack fontSize={25} />
             </CSS.ControlButton>
 
-            <CSS.ControlButton onClick={(e: any) => nextSlide(e)}>
+            <CSS.ControlButton
+              onClick={(e: any) => nextSlide(e)}
+              aria-label='slide 앞으로 이동 버튼'
+            >
               <IoIosArrowForward fontSize={25} />
             </CSS.ControlButton>
           </CSS.ControlButtons>

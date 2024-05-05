@@ -43,6 +43,7 @@ const NoticeBoard = ({ noticeDB }: MainBoardPropsType) => {
           <AiOutlinePlus
             color={mode === "dark" ? "#fff" : "#000"}
             fontSize={20}
+            aria-label='공지사항 더보기 버튼'
           />
         </Link>
       </CSS.TitleBox>
@@ -54,16 +55,25 @@ const NoticeBoard = ({ noticeDB }: MainBoardPropsType) => {
             transitionDuration: "1s",
           }}
         >
-          {noticeDB.map((item) => {
-            return (
-              <li key={item.id}>
-                <Link href={`/notice/${item.id}`}>
-                  <h2>{item.title}</h2>
-                  <span>{String(item.date).slice(0, 10)}</span>
-                </Link>
-              </li>
-            );
-          })}
+          {noticeDB ? (
+            noticeDB.map((item) => {
+              return (
+                <li key={item.id}>
+                  <Link href={`/notice/${item.id}`}>
+                    <h2>{item.title}</h2>
+                    <span>{String(item.date).slice(0, 10)}</span>
+                  </Link>
+                </li>
+              );
+            })
+          ) : (
+            <li>
+              <a>
+                <h2>공지사항 데이터 로딩 중..</h2>
+                <span></span>
+              </a>
+            </li>
+          )}
         </CSS.List>
       </CSS.Slider>
     </CSS.Container>

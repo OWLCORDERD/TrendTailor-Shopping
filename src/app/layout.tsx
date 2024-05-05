@@ -1,7 +1,7 @@
-import "./globals.scss";
 import type { Metadata } from "next";
 import AuthSession from "component/AuthSession";
 import { ThemeProvider } from "../../context/ThemeContext";
+import StyledComponentsRegistry from "./RootStyleRegistry";
 
 export const metadata: Metadata = {
   title: "WISH | SHOPPING SITE",
@@ -23,7 +23,9 @@ export default function RootLayout({
     <AuthSession>
       <html lang='ko'>
         <body>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          </ThemeProvider>
         </body>
       </html>
     </AuthSession>

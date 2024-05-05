@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
 
@@ -108,6 +109,14 @@ const MainMenu = styled.div`
         font-size: 14px;
         font-weight: bold;
       }
+
+      span {
+        color: #fff;
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+      }
     }
   }
 
@@ -144,6 +153,14 @@ const Community = styled.div`
         font-family: "Noto Sans KR", sans-serif;
         font-size: 14px;
         font-weight: bold;
+      }
+
+      span {
+        color: #fff;
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
       }
     }
   }
@@ -339,15 +356,15 @@ const Footer = () => {
           <MainMenu>
             <ul>
               <li>
-                <a href='#'>사이트 소개</a>
+                <Link href='/about'>사이트 소개</Link>
               </li>
 
               <li>
-                <a href='#'>이용안내</a>
+                <a>이용안내</a>
               </li>
 
               <li>
-                <a href='#'>개인정보처리방침</a>
+                <a>개인정보처리방침</a>
               </li>
             </ul>
           </MainMenu>
@@ -357,13 +374,13 @@ const Footer = () => {
 
             <ul>
               <li>
-                <a href='#'>고객센터</a>
+                <a>고객센터</a>
               </li>
               <li>
-                <a href='#'>공지사항</a>
+                <Link href='/notice'>공지사항</Link>
               </li>
               <li>
-                <a href='#'>Megazine</a>
+                <Link href='/trend'>패션 트렌드</Link>
               </li>
             </ul>
           </Community>

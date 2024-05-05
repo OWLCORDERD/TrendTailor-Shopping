@@ -109,6 +109,7 @@ ClothesPeed.ProductImg = styled.div`
   position: relative;
   width: 100%;
   height: 20rem;
+  cursor: pointer;
 
   img {
     position: absolute;
@@ -137,10 +138,11 @@ ClothesPeed.ProductTitle = styled.h2`
   overflow: hidden;
   white-space: nowrap;
   height: 4rem;
-  font-size: 15px;
+  font-size: 13px;
   word-break: keep-all;
-  font-weight: 400;
-  color: #878787;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     font-size: 12px;
@@ -169,7 +171,7 @@ ClothesPeed.ProductMall = styled.p`
 
 ClothesPeed.ProductPrice = styled.span`
   width: 100%;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
   line-height: 4rem;
 
