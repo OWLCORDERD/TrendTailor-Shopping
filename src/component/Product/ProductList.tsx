@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Pagenation from "./Pagenation";
 import { RotatingLines } from "react-loader-spinner";
@@ -8,15 +7,38 @@ import { useContext } from "react";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Image from "next/image";
 import { clothes } from "component/Main/Peed/Peed";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { RootState } from "store/store";
+import { getClothesAsync } from "store/asyncAction";
 
 interface propsType {
-  searchData: clothes[] | undefined;
+  searchData: clothes[];
 }
 
 const ProductList = ({ searchData }: propsType) => {
+  const clothesData = useAppSelector((state: RootState) => {
+    return state.clothes.data;
+  });
+
+  const dispatch = useAppDispatch();
+
+  const getClothesDB = async () => {
+    /*데이터 fetching 하는동안 로딩 스피너 활성화 */
+    setLoading(true);
+
+    /*Naver OpenApi 개발자 애플리케이션에 클라이언트 도메인을 등록하였기에
+    /v1/search/shop.json 라우터에 파라미터값과 clientId, clientSecret값을 함께 전송하여 데이터 요청 */
+    dispatch(getClothesAsync());
+
+    console.log(clothesData);
+
+    /*Naver Api Data Fetch -> title 필드 값 replace 변경 -> clothData state에 새로운 clothess 객체 배열 저장 
+    이 모든 단계가 성공적으로 끝날 시 Loading 스피너 종료 */
+    setLoading(false);
+  };
+
   const { mode } = useContext(ThemeContext);
 
-  const [clothData, setClothData] = useState<clothes[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const postMaxLength: number = 12;
 
@@ -27,79 +49,16 @@ const ProductList = ({ searchData }: propsType) => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const getClothesDB = async () => {
-    /*데이터 fetching 하는동안 로딩 스피너 활성화 */
-    setLoading(true);
-
-    const query: string = "스트릿패션";
-    const maxResults: number = 100;
-    /*Naver OpenApi 개발자 애플리케이션에 클라이언트 도메인을 등록하였기에
-    /v1/search/shop.json 라우터에 파라미터값과 clientId, clientSecret값을 함께 전송하여 데이터 요청 */
-    const res = await axios.get(`/api/clothes`, {
-      params: {
-        query: query,
-        display: maxResults,
-      },
-      headers: {
-        "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
-        "X-Naver-Client-Secret":
-          process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
-      },
-    });
-
-    if (res.status === 200) {
-      const data: clothes[] = res.data.items;
-
-      /*네이버 API에서 응답값으로 전송받은 clothess 배열의 의류 데이터 객체 내부에서
-        title 의류 제목에 문자열 내부에 태그가 포함되어있어 정규식으로 제거하는 작업 진행 */
-      const replaceTxt: clothes[] = await new Promise((res, rej) => {
-        const replaceTxtData: clothes[] = data.map((cloth) => {
-          return {
-            title: cloth.title.replace(/<[^>]*>?/g, ""),
-            link: cloth.link,
-            image: cloth.image,
-            lprice: cloth.lprice,
-            hprice: cloth.hprice,
-            mallName: cloth.mallName,
-            productId: cloth.productId,
-            productType: cloth.productType,
-            brand: cloth.brand,
-            maker: cloth.maker,
-            category1: cloth.category1,
-            category2: cloth.category2,
-            category3: cloth.category3,
-            category4: cloth.category4,
-          };
-        });
-
-        if (replaceTxtData) {
-          res(replaceTxtData);
-        } else {
-          rej(new Error("not doing to replace Txt"));
-        }
-      });
-
-      /* title 속성값을 변경한 값을 포함한 새로운 clothess data 객체 배열을 clothData state에 저장 */
-      setClothData(replaceTxt);
-
-      /*Naver Api Data Fetch -> title 필드 값 replace 변경 -> clothData state에 새로운 clothess 객체 배열 저장 
-      이 모든 단계가 성공적으로 끝날 시 Loading 스피너 종료 */
-      setLoading(false);
-    } else {
-      console.log(res.status);
-    }
-  };
-
   useEffect(() => {
-    const currentPosts = (clothDB: clothes[]) => {
-      if (searchData !== undefined && searchData.length > 0) {
+    const currentPosts = (clothesDB: clothes[]) => {
+      if (searchData !== null && searchData.length > 0) {
         const currentPostDB = searchData.slice(indexOfFirst, indexOfLast);
 
         setCurrentPost(currentPostDB);
 
         setLoading(false);
       } else {
-        const currentPostDB = clothDB.slice(indexOfFirst, indexOfLast);
+        const currentPostDB = clothesDB.slice(indexOfFirst, indexOfLast);
 
         setCurrentPost(currentPostDB);
 
@@ -107,8 +66,8 @@ const ProductList = ({ searchData }: propsType) => {
       }
     };
 
-    currentPosts(clothData);
-  }, [clothData, currentPage, searchData]);
+    currentPosts(clothesData);
+  }, [clothesData, currentPage, searchData]);
 
   useEffect(() => {
     getClothesDB();
@@ -125,7 +84,7 @@ const ProductList = ({ searchData }: propsType) => {
           <span>
             {searchData && searchData.length > 0
               ? searchData.length
-              : clothData.length}
+              : clothesData?.length}
             개의 상품
           </span>
         </div>
@@ -168,7 +127,7 @@ const ProductList = ({ searchData }: propsType) => {
       <Pagenation
         setCurrentPage={setCurrentPage}
         postMaxLength={postMaxLength}
-        DBlength={clothData.length}
+        DBlength={clothesData.length}
         currentPage={currentPage}
         searchDBlength={searchData?.length}
         setLoading={setLoading}

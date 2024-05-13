@@ -1,6 +1,5 @@
 import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
-import { videoType } from "component/Main/Peed/Peed";
 import TrendChannel from "component/Trend/TrendChannel";
 import TrendVideoList from "component/Trend/TrendVideoList";
 import React from "react";
@@ -34,6 +33,24 @@ export interface channelDataType {
     };
     title: string;
     publishedAt: string;
+  };
+}
+
+export interface videoType {
+  id: {
+    kind: string;
+    videoId: string;
+  };
+  snippet: {
+    channelId: string;
+    channelTitle: string;
+    description: string;
+    thumbnails: {
+      high: {
+        url: string;
+      };
+    };
+    title: string;
   };
 }
 

@@ -1,7 +1,10 @@
+"use client";
 import type { Metadata } from "next";
 import AuthSession from "component/AuthSession";
 import { ThemeProvider } from "../../context/ThemeContext";
 import StyledComponentsRegistry from "./RootStyleRegistry";
+import { store } from "store/store";
+import { Provider } from "react-redux";
 
 export const metadata: Metadata = {
   title: "WISH | SHOPPING SITE",
@@ -20,14 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthSession>
-      <html lang='ko'>
-        <body>
-          <ThemeProvider>
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          </ThemeProvider>
-        </body>
-      </html>
-    </AuthSession>
+    <Provider store={store}>
+      <AuthSession>
+        <html lang='ko'>
+          <body>
+            <ThemeProvider>
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            </ThemeProvider>
+          </body>
+        </html>
+      </AuthSession>
+    </Provider>
   );
 }

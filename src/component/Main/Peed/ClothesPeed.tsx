@@ -8,9 +8,12 @@ import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
 
-const ClothesPeed = () => {
+interface clothesDataProps {
+  clothesData: clothes[] | undefined;
+}
+
+const ClothesPeed = ({ clothesData }: clothesDataProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [clothesData, setClothesData] = useState<clothes[] | undefined>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const postMaxlength = 10;
   const MacPostMaxlength = 9;
@@ -64,50 +67,6 @@ const ClothesPeed = () => {
     }
   };
 
-  const naverApiHeaders: any = {
-    "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
-    "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
-  };
-
-  const fetchClothesData = async () => {
-    const res = await fetch(`/api/clothes?query=스트릿패션&display=50`, {
-      cache: "no-store",
-      headers: naverApiHeaders,
-    });
-
-    if (!res.ok) {
-      new Error("not connect to naver open api");
-    }
-
-    const data = await res.json();
-
-    /*응답 값중 items 배열에 검색결과 의류 더미데이터들이 있음 */
-    const clothesItems: clothes[] = data.items;
-
-    /* 네이버 의류 API shop.json에서 데이터를 불러올때 title string값에 태그가 포함되어있음
-    items배열에 map함수를 사용하여 각 item마다의 title값에만 replace 메소드 정규식을 통하여 태그 string 제거 */
-    const replaceTitle: clothes[] = clothesItems.map((clothes) => {
-      return {
-        title: clothes.title.replace(/<[^>]*>?/g, ""),
-        link: clothes.link,
-        image: clothes.image,
-        lprice: clothes.lprice,
-        hprice: clothes.hprice,
-        mallName: clothes.mallName,
-        productId: clothes.productId,
-        productType: clothes.productType,
-        brand: clothes.brand,
-        maker: clothes.maker,
-        category1: clothes.category1,
-        category2: clothes.category2,
-        category3: clothes.category3,
-        category4: clothes.category4,
-      };
-    });
-
-    setClothesData(replaceTitle);
-  };
-
   const firstCurrentDB = () => {
     if (clothesData) {
       if (
@@ -142,10 +101,6 @@ const ClothesPeed = () => {
       }
     }
   };
-
-  useEffect(() => {
-    fetchClothesData();
-  }, []);
 
   useEffect(() => {
     if (currentDB.length > 0) return;
@@ -191,7 +146,7 @@ const ClothesPeed = () => {
       </CSS.PeedWrap>
 
       <CSS.ViewMoreContainer>
-        {!!loading ? <Loading /> : null}
+        {loading ? <Loading /> : null}
 
         {!loading && clothesData !== undefined ? (
           <CSS.ViewMoreButton
