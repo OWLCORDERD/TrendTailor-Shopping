@@ -57,6 +57,7 @@ const handler = NextAuth({
             return {
               email: currentUserEmail,
               name: username,
+              image: user[0].image ? user[0].image : null,
             } as any;
           }
         } catch (e) {

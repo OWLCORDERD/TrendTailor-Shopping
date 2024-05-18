@@ -6,9 +6,7 @@ import Footer from "component/Main/Footer";
 export default function About() {
   return (
     <main className='main'>
-      <Navbar />
       <AboutSection />
-      <Footer />
     </main>
   );
 }

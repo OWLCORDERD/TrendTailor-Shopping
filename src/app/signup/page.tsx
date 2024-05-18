@@ -3,15 +3,13 @@
 import React, { useRef, useState } from "react";
 import "app/globals.scss";
 import "styles/register.scss";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import Navbar from "component/Main/Navbar";
+import axios from "axios";
 
 interface infoType {
   email: string;
   password: string;
   username: string;
-  checkPassword: string;
 }
 
 const Register = () => {
@@ -20,7 +18,6 @@ const Register = () => {
     email: "",
     password: "",
     username: "",
-    checkPassword: "",
   });
 
   /* 아이디, 비밀번호, 비밀번호 확인, 이메일 유효성 검증 결과 상태 값
@@ -28,7 +25,7 @@ const Register = () => {
   const [isName, setIsName] = useState<boolean>(true);
   const [isEmail, setIsEmail] = useState<boolean>(true);
   const [isPassword, setIsPassword] = useState<boolean>(true);
-  const [isCheck, setIsCheck] = useState<boolean>(true);
+  const [isCheckPassword, setIsCheckPassword] = useState<boolean>(true);
 
   /* 회원 정보 입력 창 Input Element useRef */
   const emailRef = useRef<HTMLInputElement>(null);
@@ -56,10 +53,9 @@ const Register = () => {
       /* 일치하면 isEmail 유효성 검증 결과 true 반환 후 registerInfo 상태 객체 email 속성 값 업데이트*/
       setIsEmail(true);
       setRegisterInfo({
-        email: e.target.value,
+        email: currentEmail,
         password: registerInfo.password,
         username: registerInfo.username,
-        checkPassword: registerInfo.checkPassword,
       });
     }
   };
@@ -67,14 +63,14 @@ const Register = () => {
   const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    const currentPassword = e.target.value;
+    const current_password = e.target.value;
 
     /*비밀번호 정규식*/
     const regPassword =
       /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
 
     /* 비밀번호 정규식에 사용자가 입력한 value 값으로 테스트*/
-    if (!regPassword.test(currentPassword)) {
+    if (!regPassword.test(current_password)) {
       /* 틀리면 isPassword 유효성 검증 결과 false 조건 반환 후 error div 태그 반환*/
       setIsPassword(false);
     } else {
@@ -83,9 +79,8 @@ const Register = () => {
 
       setRegisterInfo({
         email: registerInfo.email,
-        password: e.target.value,
+        password: current_password,
         username: registerInfo.username,
-        checkPassword: registerInfo.checkPassword,
       });
     }
   };
@@ -96,15 +91,14 @@ const Register = () => {
     /* 사용자가 비밀번호 Input 칸에서 올바르게 입력한 값과 비교 */
     if (registerInfo.password !== e.target.value) {
       /* 비밀번호와 값이 틀릴 경우 isCheck false 반환 후 error div 태그 반환*/
-      setIsCheck(false);
+      setIsCheckPassword(false);
     } else {
       /* 비밀번호와 확인 값이 같을 경우 true 반환 후 checkPassword값 업데이트 */
-      setIsCheck(true);
+      setIsCheckPassword(true);
       setRegisterInfo({
         email: registerInfo.email,
-        password: registerInfo.password,
+        password: e.target.value,
         username: registerInfo.username,
-        checkPassword: e.target.value,
       });
     }
   };
@@ -112,19 +106,32 @@ const Register = () => {
   const usernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    const currentName = e.target.value;
+    const current_id = e.target.value;
 
     /* 아이디 입력 값이 2글자 이하 8글자 이상일 시, false 반환 후 error div 태그 반환 */
-    if (e.target.value.length < 2 || currentName.length > 8) {
+    if (current_id.length < 2 || current_id.length > 8) {
       setIsName(false);
     } else {
       setIsName(true);
       setRegisterInfo({
         email: registerInfo.email,
         password: registerInfo.password,
-        username: e.target.value,
-        checkPassword: registerInfo.checkPassword,
+        username: current_id,
       });
+    }
+  };
+
+  const checkId = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (isName) {
+      axios
+        .get("api/duplicationIdCheck", {
+          params: {
+            currentId: registerInfo.username,
+          },
+        })
+        .then((res) => res.data);
     }
   };
 
@@ -141,10 +148,7 @@ const Register = () => {
     } else if (registerInfo.email.length === 0 && emailRef.current) {
       alert("이메일을 입력해주세요.");
       return emailRef.current.focus();
-    } else if (
-      CheckPassword.current &&
-      registerInfo.checkPassword.length === 0
-    ) {
+    } else if (CheckPassword.current && !isCheckPassword) {
       alert("입력하신 비밀번호를 확인해주세요.");
       return CheckPassword.current.focus();
     }
@@ -159,7 +163,7 @@ const Register = () => {
     } else if (isPassword === false && passwordRef.current) {
       alert("비밀번호를 올바르게 입력해주세요.");
       return passwordRef.current.focus();
-    } else if (isCheck === false && CheckPassword.current) {
+    } else if (isCheckPassword === false && CheckPassword.current) {
       alert("비밀번호를 다시 확인해주세요.");
       return CheckPassword.current.focus();
     }
@@ -191,7 +195,6 @@ const Register = () => {
 
   return (
     <div className='register-container'>
-      <Navbar />
       <div className='register-wrap'>
         <div className='register-titleBox'>
           <h1 className='register-title'>Join us wish</h1>
@@ -207,7 +210,7 @@ const Register = () => {
           <div className='registerForm-title'>
             <h1>가입정보</h1>
           </div>
-          <div className='input-username' id={isName === true ? "active" : ""}>
+          <div className='input-id' id={isName === true ? "active" : ""}>
             <label>아이디</label>
             <div className='username-inputBox'>
               <input
@@ -221,6 +224,13 @@ const Register = () => {
                 </div>
               ) : null}
             </div>
+            <button
+              className='idCheck-button'
+              type='button'
+              onClick={(e) => checkId(e)}
+            >
+              중복 확인
+            </button>
           </div>
 
           <div
@@ -245,7 +255,10 @@ const Register = () => {
             </div>
           </div>
 
-          <div className='input-password' id={isCheck === true ? "active" : ""}>
+          <div
+            className='input-password'
+            id={isCheckPassword === true ? "active" : ""}
+          >
             <label>비밀번호 확인</label>
             <div className='password-InputBox'>
               <input
@@ -254,7 +267,7 @@ const Register = () => {
                 ref={CheckPassword}
               />
 
-              {isCheck === false ? (
+              {isCheckPassword === false ? (
                 <div className='Valid-errorTxt'>
                   <h1>입력하신 패스워드와 일치하지 않습니다.</h1>
                 </div>

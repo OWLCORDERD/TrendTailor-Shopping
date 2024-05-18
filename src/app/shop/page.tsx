@@ -33,11 +33,9 @@ export default function Shop() {
 
   return (
     <main className='shop-container'>
-      <Navbar />
       <div className='wrap'>
         <ProductList searchData={searchData} />
       </div>
-      <Footer />
     </main>
   );
 }

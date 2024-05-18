@@ -3,6 +3,8 @@ import AuthSession from "component/AuthSession";
 import { ThemeProvider } from "../../context/ThemeContext";
 import StyledComponentsRegistry from "./RootStyleRegistry";
 import ReduxProvider from "store/provider/Provider";
+import Navbar from "component/Main/Navbar";
+import Footer from "component/Main/Footer";
 
 export const metadata: Metadata = {
   title: "WISH | SHOPPING SITE",
@@ -24,11 +26,15 @@ export default function RootLayout({
     <AuthSession>
       <html lang='ko'>
         <body>
-          <ThemeProvider>
-            <StyledComponentsRegistry>
-              <ReduxProvider>{children}</ReduxProvider>
-            </StyledComponentsRegistry>
-          </ThemeProvider>
+          <StyledComponentsRegistry>
+            <ThemeProvider>
+              <ReduxProvider>
+                <Navbar />
+                {children}
+              </ReduxProvider>
+            </ThemeProvider>
+            <Footer />
+          </StyledComponentsRegistry>
         </body>
       </html>
     </AuthSession>

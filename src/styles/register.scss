@@ -54,7 +54,7 @@
                 }
             }
 
-            .input-username{
+            .input-id{
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
@@ -73,19 +73,19 @@
 
                 .username-inputBox{
                     position: relative;
-                    width: 32rem;
-                    padding: 0 5rem 0 0;
+                    width: 30rem;
                     display: flex;
                     flex-direction: column;
-                    align-items: center;
+                    align-items: flex-start;
+                    justify-content: center;
 
                     input{
                         position: relative;
-                        width: 100%;
+                        width: 60%;
                         padding: 1rem 0;
                         font-size: 1rem;
                         border: none;
-                        border-bottom: 2px solid rgb(181, 181, 181);
+                        border-bottom: 2px solid rgb(98, 98, 98);
 
                         &:focus{
                             outline: none;
@@ -95,14 +95,35 @@
 
                     .Valid-errorTxt{
                         position: relative;
-                        width: 100%;
+                        width: 60%;
 
                         h1{
-                            font-size: 1rem;
+                            font-size: 12px;
                             font-family: $Noto-Korean;
                             color: rgb(209, 53, 53);
-                            line-height: 4rem;
+                            line-height: 3rem;
                         }
+                    }
+                }
+
+                .idCheck-button {
+                    display: block;
+                    width : 10rem;
+                    height: 4rem;
+                    padding: 1rem 0;
+                    background-color: rgb(98, 98, 98);
+                    color: #fff;
+                    border: none;
+                    border-radius: 10px;
+                    font-family: $Noto-Korean;
+                    font-size: 15px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition : all 0.3s ease-in;
+
+                    &:hover {
+                        background-color: #000;
+                        transition: all 0.3s ease-in;
                     }
                 }
 
@@ -149,7 +170,7 @@
                         padding: 1rem 0;
                         font-size: 1rem;
                         border: none;
-                        border-bottom: 2px solid rgb(181, 181, 181);
+                        border-bottom: 2px solid rgb(98, 98, 98);
     
                         &:focus{
                             outline: none;
@@ -196,7 +217,7 @@
                         padding: 1rem 0;
                         font-size: 1rem;
                         border: none;
-                        border-bottom: 2px solid rgb(181, 181, 181);
+                        border-bottom: 2px solid rgb(98, 98, 98);
 
                         &:focus{
                             outline: none;
@@ -222,7 +243,7 @@
                 display: block;
                 width: 100%;
                 padding: 1rem 0;
-                background-color: rgb(141, 141, 141);
+                background-color: rgb(98, 98, 98);
                 color: #fff;
                 font-family: $Raleway-font;
                 font-size: 1.2rem;

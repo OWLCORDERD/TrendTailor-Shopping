@@ -5,12 +5,8 @@ import "./page.module.css";
 
 export default async function Home() {
   return (
-    <>
-      <Navbar />
-      <main className='container'>
-        <Peed />
-      </main>
-      <Footer />
-    </>
+    <main className='container'>
+      <Peed />
+    </main>
   );
 }

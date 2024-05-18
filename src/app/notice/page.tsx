@@ -95,8 +95,6 @@ export default function Notice() {
 
   return (
     <div className='wrap'>
-      <Navbar />
-
       <section className='NoticePage-container'>
         <div className='Notice-header'>
           <div className='Notice-title'>
@@ -174,8 +172,6 @@ export default function Notice() {
 
         <Pagenation />
       </section>
-
-      <Footer />
     </div>
   );
 }

@@ -62,20 +62,13 @@ Navbar.LoginMenu = styled.div`
   width: 12rem;
   height: 100%;
 
-  a {
+  .login,
+  .signup {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    color: #000;
     width: 5rem;
     height: 4rem;
-    font-family: "Raleway", sans-serif;
-    font-weight: bold;
-    font-size: 10px;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-align: center;
 
     .icon {
       height: 2.5rem;
@@ -84,6 +77,13 @@ Navbar.LoginMenu = styled.div`
 
     span {
       line-height: 1.5rem;
+      font-size: 10px;
+      color: #000;
+      font-family: "Raleway", sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: center;
     }
   }
 
@@ -92,15 +92,60 @@ Navbar.LoginMenu = styled.div`
   }
 `;
 
-Navbar.UserName = styled.div`
-  display: block;
-  width: 10rem;
-  line-height: 2rem;
-  font-size: 12px;
+Navbar.LoginUser = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 10px;
   font-family: "Noto Sans KR", sans-serif;
-  color: #000;
-  font-weight: bold;
-  text-align: center;
+  padding: 0 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e5e5e5;
+  }
+
+  .user-imgBox {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .user-icon {
+    display: flex;
+    align-items: center;
+    justify-contents: center;
+    width: 3rem;
+    height: 3rem;
+
+    svg {
+      font-size: 1.5rem;
+    }
+  }
+
+  .user-name {
+    width: 5rem;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .arrow-down {
+    font-size: 15px;
+  }
 `;
 
 Navbar.SubNav = styled.div`
@@ -113,57 +158,6 @@ Navbar.SubNav = styled.div`
 
   @media screen and (max-width: 768px) {
     display: none;
-  }
-`;
-
-Navbar.modeButton = styled.div`
-  position: relative;
-  width: 10rem;
-  height: 2rem;
-  cursor: pointer;
-`;
-
-Navbar.lightMode = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 2rem;
-  transition: all 0.5s ease-out;
-
-  svg {
-    color: #000;
-  }
-
-  &.active {
-    background-color: #000;
-    transition: all 0.5s ease-in;
-
-    svg {
-      color: #fff;
-    }
-  }
-`;
-
-Navbar.DarkMode = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 5rem;
-  height: 2rem;
-  transition: all 0.5s ease-out;
-
-  svg {
-    color: #000;
-  }
-
-  &.active {
-    background-color: #fff;
-    transition: all 0.5s ease-in;
-
-    svg {
-      color: #000;
-    }
   }
 `;
 

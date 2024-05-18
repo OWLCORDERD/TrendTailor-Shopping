@@ -68,7 +68,6 @@ const Login = () => {
 
   return (
     <div className='loginPage-container'>
-      <Navbar />
       <div className='login-wrapper'>
         <div className='loginPage-titleBox'>
           <h1 className='login-title'>LOGIN</h1>

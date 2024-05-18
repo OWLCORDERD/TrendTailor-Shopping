@@ -24,7 +24,10 @@ const VideoItem = ({
   currentVideo,
   channelData,
 }: videoItemProps) => {
-  const viewVideo = (e: React.MouseEvent<SVGElement>, video?: videoType) => {
+  const viewVideo = (
+    e: React.MouseEvent<SVGElement | HTMLDivElement>,
+    video?: videoType
+  ) => {
     e.preventDefault();
 
     setVideoOpen(true);

@@ -6,6 +6,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 interface propsMenuActiveState {
   menuActive: boolean;
@@ -104,8 +105,13 @@ const ResponsiveMenu = ({
           <div className='default-profile'>
             <div className='profile-status'>
               <div className='photo'>
-                {data.user?.image ? (
-                  <img src={data.user.image} alt='user-image' />
+                {data.user && data.user.image ? (
+                  <Image
+                    src={data.user.image}
+                    alt='user-image'
+                    width='50'
+                    height='50'
+                  />
                 ) : (
                   svgIcon[0].icon()
                 )}

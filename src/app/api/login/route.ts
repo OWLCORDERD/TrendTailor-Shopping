@@ -1,12 +1,5 @@
 import { db } from "component/fetchDB/firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 interface userType {
@@ -14,6 +7,7 @@ interface userType {
   email: string;
   password: string;
   username: string;
+  image: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -40,6 +34,7 @@ export async function POST(req: NextRequest) {
           email: doc.data()["email"],
           password: doc.data()["password"],
           username: doc.data()["username"],
+          image: doc.data()["image"],
         };
 
         user.push(userDoc);

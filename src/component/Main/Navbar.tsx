@@ -2,27 +2,28 @@
 
 import Link from "next/link";
 import { Navbar as CSS } from "styles";
-import React, { useContext, useEffect, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
-import { BsFillSunFill } from "react-icons/bs";
-import { IoCloudyNightSharp } from "react-icons/io5";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import Search from "component/Search/Search";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
-import { ThemeContext } from "../../../context/ThemeContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosSearch, IoIosClose } from "react-icons/io";
 import ResponsiveMenu from "./Responsive/ResponsiveMenu";
+import UserPopup from "component/Popup/UserPopup";
+import { FaUserCircle } from "react-icons/fa";
+import Image from "next/image";
+import { IoIosArrowDown } from "react-icons/io";
 
 const Navbar = () => {
   const { data, status } = useSession();
-
-  const { mode, toggle } = useContext(ThemeContext);
 
   const [responsiveMenuActive, setResponsiveMenuActive] =
     useState<boolean>(false);
 
   const [ResponsiveSearchActive, setResponsiveSearchActive] =
     useState<boolean>(false);
+
+  const [userPopupOpen, setUserPopupOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -50,27 +51,37 @@ const Navbar = () => {
           />
 
           <CSS.LoginMenu>
-            {status === "authenticated" ? (
-              <a onClick={() => signOut()}>
-                <AiOutlineLogin className='icon' />
-                <span>logOut</span>
-              </a>
+            {status === "authenticated" && data.user ? (
+              <CSS.LoginUser onClick={() => setUserPopupOpen(!userPopupOpen)}>
+                {data.user.image ? (
+                  <div className='user-imgBox'>
+                    <Image
+                      src={data.user.image}
+                      alt='user-image'
+                      width='50'
+                      height='50'
+                    />
+                  </div>
+                ) : (
+                  <div className='user-icon'>
+                    <FaUserCircle />
+                  </div>
+                )}
+                <span className='user-name'>{data.user.name}</span>
+                <IoIosArrowDown className='arrow-down' />
+              </CSS.LoginUser>
             ) : (
-              <Link href='/signin'>
-                <AiOutlineLogin className='icon' />
-                <span>login</span>
-              </Link>
-            )}
+              <>
+                <Link href='/signin' className='login'>
+                  <AiOutlineLogin className='icon' />
+                  <span>login</span>
+                </Link>
 
-            {status === "authenticated" ? (
-              <CSS.UserName>
-                <span>{data.user?.name} 님 환영합니다.</span>
-              </CSS.UserName>
-            ) : (
-              <Link href='/signup'>
-                <AiOutlineUserAdd className='icon' />
-                <span>sign Up</span>
-              </Link>
+                <Link href='/signup' className='signup'>
+                  <AiOutlineUserAdd className='icon' />
+                  <span>sign Up</span>
+                </Link>
+              </>
             )}
           </CSS.LoginMenu>
 
@@ -96,16 +107,6 @@ const Navbar = () => {
         </CSS.MainNav>
 
         <CSS.SubNav>
-          <CSS.modeButton onClick={toggle}>
-            <CSS.lightMode className={mode === "light" ? "active" : ""}>
-              <BsFillSunFill />
-            </CSS.lightMode>
-
-            <CSS.DarkMode className={mode === "dark" ? "active" : ""}>
-              <IoCloudyNightSharp />
-            </CSS.DarkMode>
-          </CSS.modeButton>
-
           <CSS.Menu>
             <li>
               <Link href='/about'>About</Link>
@@ -127,6 +128,8 @@ const Navbar = () => {
         menuActive={responsiveMenuActive}
         setResponsiveMenuActive={setResponsiveMenuActive}
       />
+
+      {userPopupOpen ? <UserPopup setUserPopupOpen={setUserPopupOpen} /> : null}
     </header>
   );
 };
