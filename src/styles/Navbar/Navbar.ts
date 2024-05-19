@@ -194,15 +194,34 @@ Navbar.Menu = styled.ul`
 `;
 
 Navbar.ResponsiveNav = styled.div`
-  display: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+`;
 
-  @media screen and (max-width: 768px) {
-    width: 6.25rem;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+Navbar.ResponsiveLogo = styled.div`
+  width: 6.25rem;
+  text-align: center;
+
+  a {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 5rem;
+    color: #000;
+    text-transform: uppercase;
   }
+`;
+
+Navbar.ResponsiveMenu = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 6.25rem;
+  height: 100%;
 `;
 
 Navbar.ResponsiveButton = styled.div`

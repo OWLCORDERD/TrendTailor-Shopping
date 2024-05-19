@@ -5,6 +5,7 @@ import StyledComponentsRegistry from "./RootStyleRegistry";
 import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
+import "app/globals.scss";
 
 export const metadata: Metadata = {
   title: "WISH | SHOPPING SITE",

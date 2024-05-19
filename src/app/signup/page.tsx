@@ -1,16 +1,45 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "app/globals.scss";
 import "styles/register.scss";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface infoType {
   email: string;
   password: string;
   username: string;
 }
+
+export const errorToast = (str: string) => {
+  return toast.error(str, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    closeButton: false,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+
+export const successToast = (str: string) => {
+  return toast(str, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    draggable: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    closeButton: false,
+    type: "success",
+    theme: "light",
+  });
+};
 
 const Register = () => {
   /* 가입정보의 모든 value 값 저장 & 관리 하는 프로퍼티 객체 값 */
@@ -22,10 +51,12 @@ const Register = () => {
 
   /* 아이디, 비밀번호, 비밀번호 확인, 이메일 유효성 검증 결과 상태 값
   결과 true면 error X | false 일시 error div 태그 반환 */
-  const [isName, setIsName] = useState<boolean>(true);
-  const [isEmail, setIsEmail] = useState<boolean>(true);
-  const [isPassword, setIsPassword] = useState<boolean>(true);
-  const [isCheckPassword, setIsCheckPassword] = useState<boolean>(true);
+  const [isName, setIsName] = useState<boolean>(false);
+  const [isEmail, setIsEmail] = useState<boolean>(false);
+  const [isPassword, setIsPassword] = useState<boolean>(false);
+  const [isCheckPassword, setIsCheckPassword] = useState<boolean>(false);
+  const [isNameDuplicate, setIsNameDuplicate] = useState<boolean>(false);
+  const [checkButtonClick, setCheckButtonClick] = useState<boolean>(false);
 
   /* 회원 정보 입력 창 Input Element useRef */
   const emailRef = useRef<HTMLInputElement>(null);
@@ -113,6 +144,7 @@ const Register = () => {
       setIsName(false);
     } else {
       setIsName(true);
+
       setRegisterInfo({
         email: registerInfo.email,
         password: registerInfo.password,
@@ -121,50 +153,68 @@ const Register = () => {
     }
   };
 
-  const checkId = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const checkUsername = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (isName) {
       axios
         .get("api/duplicationIdCheck", {
           params: {
-            currentId: registerInfo.username,
+            userName: registerInfo.username,
           },
         })
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .then((data) => {
+          setIsNameDuplicate(data.duplicate);
+          setCheckButtonClick(!checkButtonClick);
+        });
+    } else {
+      errorToast("아이디를 정규식에 맞게 입력해주세요.");
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isName) {
+        if (isNameDuplicate) {
+          errorToast("중복된 아이디입니다");
+        } else {
+          successToast("사용 가능한 아이디입니다");
+        }
+      }
+    }, 1000);
+  }, [checkButtonClick]);
 
   const createUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     /*가입정보에 아무것도 입력하지 않았을 시 해당 입력창으로 focus 시킨 후 실행 종료 */
     if (registerInfo.username.length === 0 && idRef.current) {
-      alert("아이디를 입력해주세요.");
+      errorToast("아이디를 입력해주세요.");
       return idRef.current.focus();
     } else if (registerInfo.password.length === 0 && passwordRef.current) {
-      alert("비밀번호를 입력해주세요.");
+      errorToast("비밀번호를 입력해주세요.");
       return passwordRef.current.focus();
     } else if (registerInfo.email.length === 0 && emailRef.current) {
-      alert("이메일을 입력해주세요.");
+      errorToast("이메일을 입력해주세요.");
       return emailRef.current.focus();
     } else if (CheckPassword.current && !isCheckPassword) {
-      alert("입력하신 비밀번호를 확인해주세요.");
+      errorToast("입력하신 비밀번호를 확인해주세요.");
       return CheckPassword.current.focus();
     }
 
     /* 가입정보에 정규식 혹은 조건에 맞지 않은 값을 입력했을 시 해당 입력창에 focus 시킨 후 실행 종료*/
-    if (isName === false && idRef.current) {
-      alert("아이디를 올바르게 입력해주세요.");
+    if (isNameDuplicate && idRef.current) {
+      errorToast("아이디 중복확인을 진행해주세요.");
       return idRef.current.focus();
     } else if (isEmail === false && emailRef.current) {
-      alert("이메일을 올바르게 입력해주세요.");
+      errorToast("이메일을 올바르게 입력해주세요.");
       return emailRef.current.focus();
     } else if (isPassword === false && passwordRef.current) {
-      alert("비밀번호를 올바르게 입력해주세요.");
+      errorToast("비밀번호를 올바르게 입력해주세요.");
       return passwordRef.current.focus();
     } else if (isCheckPassword === false && CheckPassword.current) {
-      alert("비밀번호를 다시 확인해주세요.");
+      errorToast("비밀번호를 다시 확인해주세요.");
       return CheckPassword.current.focus();
     }
 
@@ -195,6 +245,7 @@ const Register = () => {
 
   return (
     <div className='register-container'>
+      <ToastContainer />
       <div className='register-wrap'>
         <div className='register-titleBox'>
           <h1 className='register-title'>Join us wish</h1>
@@ -210,7 +261,7 @@ const Register = () => {
           <div className='registerForm-title'>
             <h1>가입정보</h1>
           </div>
-          <div className='input-id' id={isName === true ? "active" : ""}>
+          <div className='input-id'>
             <label>아이디</label>
             <div className='username-inputBox'>
               <input
@@ -227,16 +278,13 @@ const Register = () => {
             <button
               className='idCheck-button'
               type='button'
-              onClick={(e) => checkId(e)}
+              onClick={(e) => checkUsername(e)}
             >
               중복 확인
             </button>
           </div>
 
-          <div
-            className='input-password'
-            id={isPassword === true ? "active" : ""}
-          >
+          <div className='input-password'>
             <label>비밀번호</label>
             <div className='password-InputBox'>
               <input
@@ -255,10 +303,7 @@ const Register = () => {
             </div>
           </div>
 
-          <div
-            className='input-password'
-            id={isCheckPassword === true ? "active" : ""}
-          >
+          <div className='input-password'>
             <label>비밀번호 확인</label>
             <div className='password-InputBox'>
               <input

@@ -25,6 +25,8 @@ const Navbar = () => {
 
   const [userPopupOpen, setUserPopupOpen] = useState<boolean>(false);
 
+  const [mobileMatches, setMobileMatches] = useState<boolean>(false);
+
   useEffect(() => {
     const body = document.querySelector("body");
 
@@ -37,55 +39,35 @@ const Navbar = () => {
     }
   }, [responsiveMenuActive]);
 
+  const handleChange = (query: string) => {
+    setMobileMatches(() => {
+      return window.matchMedia(query).matches;
+    });
+  };
+
+  useEffect(() => {
+    const query = "screen and (max-width : 768px)";
+    let mql = window.matchMedia(query);
+
+    if (mql.matches) {
+      setMobileMatches(mql.matches);
+    }
+
+    mql.addEventListener("change", () => handleChange(query));
+
+    return () => {
+      mql.removeEventListener("change", () => handleChange);
+    };
+  }, []);
+
   return (
     <header>
-      <CSS.Container>
-        <CSS.MainNav>
-          <CSS.Logo>
+      {mobileMatches ? (
+        <CSS.ResponsiveNav>
+          <CSS.ResponsiveLogo>
             <Link href='/'>wish</Link>
-          </CSS.Logo>
-
-          <Search
-            searchActive={ResponsiveSearchActive}
-            setSearchActive={setResponsiveSearchActive}
-          />
-
-          <CSS.LoginMenu>
-            {status === "authenticated" && data.user ? (
-              <CSS.LoginUser onClick={() => setUserPopupOpen(!userPopupOpen)}>
-                {data.user.image ? (
-                  <div className='user-imgBox'>
-                    <Image
-                      src={data.user.image}
-                      alt='user-image'
-                      width='50'
-                      height='50'
-                    />
-                  </div>
-                ) : (
-                  <div className='user-icon'>
-                    <FaUserCircle />
-                  </div>
-                )}
-                <span className='user-name'>{data.user.name}</span>
-                <IoIosArrowDown className='arrow-down' />
-              </CSS.LoginUser>
-            ) : (
-              <>
-                <Link href='/signin' className='login'>
-                  <AiOutlineLogin className='icon' />
-                  <span>login</span>
-                </Link>
-
-                <Link href='/signup' className='signup'>
-                  <AiOutlineUserAdd className='icon' />
-                  <span>sign Up</span>
-                </Link>
-              </>
-            )}
-          </CSS.LoginMenu>
-
-          <CSS.ResponsiveNav>
+          </CSS.ResponsiveLogo>
+          <CSS.ResponsiveMenu>
             <CSS.SearchButton>
               <IoIosSearch onClick={() => setResponsiveSearchActive(true)} />
             </CSS.SearchButton>
@@ -103,26 +85,79 @@ const Navbar = () => {
                 <GiHamburgerMenu />
               </CSS.ResponsiveButton>
             )}
-          </CSS.ResponsiveNav>
-        </CSS.MainNav>
+          </CSS.ResponsiveMenu>
 
-        <CSS.SubNav>
-          <CSS.Menu>
-            <li>
-              <Link href='/about'>About</Link>
-            </li>
-            <li>
-              <Link href='/shop'>shop</Link>
-            </li>
-            <li>
-              <Link href='/trend'>Trend</Link>
-            </li>
-            <li>
-              <Link href='/notice'>Notice</Link>
-            </li>
-          </CSS.Menu>
-        </CSS.SubNav>
-      </CSS.Container>
+          <Search
+            searchActive={ResponsiveSearchActive}
+            setSearchActive={setResponsiveSearchActive}
+          />
+        </CSS.ResponsiveNav>
+      ) : (
+        <CSS.Container>
+          <CSS.MainNav>
+            <CSS.Logo>
+              <Link href='/'>wish</Link>
+            </CSS.Logo>
+
+            <Search
+              searchActive={ResponsiveSearchActive}
+              setSearchActive={setResponsiveSearchActive}
+            />
+
+            <CSS.LoginMenu>
+              {status === "authenticated" && data.user ? (
+                <CSS.LoginUser onClick={() => setUserPopupOpen(!userPopupOpen)}>
+                  {data.user.image ? (
+                    <div className='user-imgBox'>
+                      <Image
+                        src={data.user.image}
+                        alt='user-image'
+                        width='50'
+                        height='50'
+                      />
+                    </div>
+                  ) : (
+                    <div className='user-icon'>
+                      <FaUserCircle />
+                    </div>
+                  )}
+                  <span className='user-name'>{data.user.name}</span>
+                  <IoIosArrowDown className='arrow-down' />
+                </CSS.LoginUser>
+              ) : (
+                <>
+                  <Link href='/signin' className='login'>
+                    <AiOutlineLogin className='icon' />
+                    <span>login</span>
+                  </Link>
+
+                  <Link href='/signup' className='signup'>
+                    <AiOutlineUserAdd className='icon' />
+                    <span>sign Up</span>
+                  </Link>
+                </>
+              )}
+            </CSS.LoginMenu>
+          </CSS.MainNav>
+
+          <CSS.SubNav>
+            <CSS.Menu>
+              <li>
+                <Link href='/about'>About</Link>
+              </li>
+              <li>
+                <Link href='/shop'>shop</Link>
+              </li>
+              <li>
+                <Link href='/trend'>Trend</Link>
+              </li>
+              <li>
+                <Link href='/notice'>Notice</Link>
+              </li>
+            </CSS.Menu>
+          </CSS.SubNav>
+        </CSS.Container>
+      )}
 
       <ResponsiveMenu
         menuActive={responsiveMenuActive}

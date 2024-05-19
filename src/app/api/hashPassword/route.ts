@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "component/fetchDB/firebase";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -18,19 +20,10 @@ export async function POST(req: Request) {
         username: username,
         password: hashPw,
       };
-      const res = await fetch("https://iuprofile.site/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
 
-      if (res.ok) {
-        return NextResponse.json({ status: 200 });
-      } else {
-        return NextResponse.json(res.status);
-      }
+      await addDoc(collection(db, "user"), userData);
+
+      return NextResponse.json({ status: 200 });
     }
   } catch (err) {
     return NextResponse.json({ err: err });
