@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import "styles/responsiveMenu.scss";
 import { signOut, useSession } from "next-auth/react";
 import { HiSpeakerphone } from "react-icons/hi";
@@ -7,16 +7,41 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface propsMenuActiveState {
-  menuActive: boolean;
   setResponsiveMenuActive: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const ResponsiveMenu = ({
-  menuActive,
-  setResponsiveMenuActive,
-}: propsMenuActiveState) => {
+const menuToggle = {
+  initial: {
+    width: 0,
+  },
+  animate: {
+    width: "calc(100% - 5rem)",
+    transition: {
+      staggerChildren: 0.5,
+      delayChildren: 0.5,
+      duration: 2,
+    },
+  },
+
+  exit: {
+    width: 0,
+  },
+};
+
+const menuItemToggle = {
+  initial: {
+    opacity: 0,
+  },
+
+  animate: {
+    opacity: 1,
+  },
+};
+
+const ResponsiveMenu = ({ setResponsiveMenuActive }: propsMenuActiveState) => {
   const svgIcon = [
     {
       name: "photo",
@@ -95,12 +120,18 @@ const ResponsiveMenu = ({
     setResponsiveMenuActive(false);
   };
   return (
-    <div
-      className={
-        menuActive === true ? "Responsive-Menu" : "Responsive-Menu hidden"
-      }
+    <motion.div
+      className='Responsive-Menu'
+      variants={menuToggle}
+      initial='initial'
+      animate='animate'
+      exit='exit'
     >
-      <div className='login-menu'>
+      <motion.div
+        className='login-menu'
+        variants={menuItemToggle}
+        exit={{ opacity: 0 }}
+      >
         {status === "authenticated" ? (
           <div className='default-profile'>
             <div className='profile-status'>
@@ -137,9 +168,13 @@ const ResponsiveMenu = ({
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
 
-      <ul className='mainMenu-list'>
+      <motion.ul
+        className='mainMenu-list'
+        variants={menuItemToggle}
+        exit={{ opacity: 0 }}
+      >
         <li>
           <a>
             {svgIcon[1].icon()}
@@ -163,9 +198,13 @@ const ResponsiveMenu = ({
             <span>회원가입</span>
           </Link>
         </li>
-      </ul>
+      </motion.ul>
 
-      <div className='category-menu'>
+      <motion.div
+        className='category-menu'
+        variants={menuItemToggle}
+        exit={{ opacity: 0 }}
+      >
         <ul>
           <li className={toggleSubMenu ? "on" : ""}>
             <div className='toggleMenu-title'>
@@ -208,8 +247,8 @@ const ResponsiveMenu = ({
             </Link>
           </li>
         </ul>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

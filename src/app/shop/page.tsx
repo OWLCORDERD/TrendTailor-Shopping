@@ -1,12 +1,8 @@
 "use client";
 
-import axios from "axios";
-import Footer from "component/Main/Footer";
-import Navbar from "component/Main/Navbar";
-import { clothes } from "component/Main/Peed/Peed";
 import ProductList from "component/Product/ProductList";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getSearchClothesAsync } from "store/asyncAction";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import "styles/shop.scss";

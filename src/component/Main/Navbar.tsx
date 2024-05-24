@@ -13,6 +13,8 @@ import UserPopup from "component/Popup/UserPopup";
 import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { IoIosArrowDown } from "react-icons/io";
+import { AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { data, status } = useSession();
@@ -26,18 +28,6 @@ const Navbar = () => {
   const [userPopupOpen, setUserPopupOpen] = useState<boolean>(false);
 
   const [mobileMatches, setMobileMatches] = useState<boolean>(false);
-
-  useEffect(() => {
-    const body = document.querySelector("body");
-
-    if (body) {
-      if (!responsiveMenuActive) {
-        body.style.removeProperty("overflow");
-      } else {
-        body.style.overflow = "hidden";
-      }
-    }
-  }, [responsiveMenuActive]);
 
   const handleChange = (query: string) => {
     setMobileMatches(() => {
@@ -60,38 +50,56 @@ const Navbar = () => {
     };
   }, []);
 
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname) {
+      setResponsiveMenuActive(false);
+    }
+  }, [pathname]);
+
   return (
     <header>
       {mobileMatches ? (
-        <CSS.ResponsiveNav>
-          <CSS.ResponsiveLogo>
-            <Link href='/'>wish</Link>
-          </CSS.ResponsiveLogo>
-          <CSS.ResponsiveMenu>
-            <CSS.SearchButton>
-              <IoIosSearch onClick={() => setResponsiveSearchActive(true)} />
-            </CSS.SearchButton>
+        <>
+          <CSS.ResponsiveNav>
+            <CSS.ResponsiveLogo>
+              <Link href='/'>wish</Link>
+            </CSS.ResponsiveLogo>
+            <CSS.ResponsiveMenu>
+              <CSS.SearchButton>
+                <IoIosSearch onClick={() => setResponsiveSearchActive(true)} />
+              </CSS.SearchButton>
 
+              {responsiveMenuActive ? (
+                <CSS.ResponsiveButton
+                  onClick={() => setResponsiveMenuActive(false)}
+                >
+                  <IoIosClose fontSize='30px' />
+                </CSS.ResponsiveButton>
+              ) : (
+                <CSS.ResponsiveButton
+                  onClick={() => setResponsiveMenuActive(true)}
+                >
+                  <GiHamburgerMenu />
+                </CSS.ResponsiveButton>
+              )}
+            </CSS.ResponsiveMenu>
+
+            <Search
+              searchActive={ResponsiveSearchActive}
+              setSearchActive={setResponsiveSearchActive}
+            />
+          </CSS.ResponsiveNav>
+
+          <AnimatePresence>
             {responsiveMenuActive ? (
-              <CSS.ResponsiveButton
-                onClick={() => setResponsiveMenuActive(false)}
-              >
-                <IoIosClose fontSize='30px' />
-              </CSS.ResponsiveButton>
-            ) : (
-              <CSS.ResponsiveButton
-                onClick={() => setResponsiveMenuActive(true)}
-              >
-                <GiHamburgerMenu />
-              </CSS.ResponsiveButton>
-            )}
-          </CSS.ResponsiveMenu>
-
-          <Search
-            searchActive={ResponsiveSearchActive}
-            setSearchActive={setResponsiveSearchActive}
-          />
-        </CSS.ResponsiveNav>
+              <ResponsiveMenu
+                setResponsiveMenuActive={setResponsiveMenuActive}
+              />
+            ) : null}
+          </AnimatePresence>
+        </>
       ) : (
         <CSS.Container>
           <CSS.MainNav>
@@ -158,11 +166,6 @@ const Navbar = () => {
           </CSS.SubNav>
         </CSS.Container>
       )}
-
-      <ResponsiveMenu
-        menuActive={responsiveMenuActive}
-        setResponsiveMenuActive={setResponsiveMenuActive}
-      />
 
       {userPopupOpen ? <UserPopup setUserPopupOpen={setUserPopupOpen} /> : null}
     </header>

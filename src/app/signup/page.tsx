@@ -14,34 +14,33 @@ interface infoType {
   username: string;
 }
 
-export const errorToast = (str: string) => {
-  return toast.error(str, {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    closeButton: false,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  });
-};
-
-export const successToast = (str: string) => {
-  return toast(str, {
-    position: "top-center",
-    autoClose: 3000,
-    hideProgressBar: false,
-    draggable: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    closeButton: false,
-    type: "success",
-    theme: "light",
-  });
-};
-
 const Register = () => {
+  const errorToast = (str: string) => {
+    return toast.error(str, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      closeButton: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
+  const successToast = (str: string) => {
+    return toast(str, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      draggable: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      closeButton: false,
+      type: "success",
+      theme: "light",
+    });
+  };
   /* 가입정보의 모든 value 값 저장 & 관리 하는 프로퍼티 객체 값 */
   const [registerInfo, setRegisterInfo] = useState<infoType>({
     email: "",
