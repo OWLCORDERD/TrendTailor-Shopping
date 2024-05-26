@@ -71,19 +71,11 @@ const Navbar = () => {
                 <IoIosSearch onClick={() => setResponsiveSearchActive(true)} />
               </CSS.SearchButton>
 
-              {responsiveMenuActive ? (
-                <CSS.ResponsiveButton
-                  onClick={() => setResponsiveMenuActive(false)}
-                >
-                  <IoIosClose fontSize='30px' />
-                </CSS.ResponsiveButton>
-              ) : (
-                <CSS.ResponsiveButton
-                  onClick={() => setResponsiveMenuActive(true)}
-                >
-                  <GiHamburgerMenu />
-                </CSS.ResponsiveButton>
-              )}
+              <CSS.ResponsiveButton
+                onClick={() => setResponsiveMenuActive(true)}
+              >
+                <GiHamburgerMenu />
+              </CSS.ResponsiveButton>
             </CSS.ResponsiveMenu>
 
             <Search

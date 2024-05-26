@@ -7,11 +7,22 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IoIosImages } from "react-icons/io";
+import Image from "next/image";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "component/fetchDB/firebase";
 
 interface infoType {
   email: string;
   password: string;
   username: string;
+}
+
+interface sendDataType {
+  email: string;
+  password: string;
+  username: string;
+  image: string | undefined;
 }
 
 const Register = () => {
@@ -56,6 +67,11 @@ const Register = () => {
   const [isCheckPassword, setIsCheckPassword] = useState<boolean>(false);
   const [isNameDuplicate, setIsNameDuplicate] = useState<boolean>(false);
   const [checkButtonClick, setCheckButtonClick] = useState<boolean>(false);
+
+  const [uploadImage, setUploadImage] = useState<File | undefined>();
+  const [imageThumbnail, setImageThumbnail] = useState<string>();
+  const [uploadImageUrl, setUploadImageUrl] = useState<string | undefined>();
+  const validFileType = ["image/png", "image/jpg", "image/jpeg"];
 
   /* 회원 정보 입력 창 Input Element useRef */
   const emailRef = useRef<HTMLInputElement>(null);
@@ -184,6 +200,30 @@ const Register = () => {
     }, 1000);
   }, [checkButtonClick]);
 
+  const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files }: any = e.target;
+
+    if (!files[0]) return;
+
+    const fileBlob: File = files[0];
+
+    if (!validFileType.find((type) => type === fileBlob.type)) {
+      alert("이미지 확장자가 아닌 파일을 업로드하였습니다.");
+      return;
+    }
+
+    setUploadImage(fileBlob);
+    encodeFile(fileBlob);
+  };
+
+  const encodeFile = (fileBlob: any) => {
+    if (imageThumbnail) URL.revokeObjectURL(imageThumbnail);
+
+    const url = URL.createObjectURL(fileBlob);
+
+    setImageThumbnail(url);
+  };
+
   const createUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -217,28 +257,59 @@ const Register = () => {
       return CheckPassword.current.focus();
     }
 
-    /* 위의 유효성 검증을 모두 통과할 시 생성할 회원 정보 데이터를 하나의 객체로 묶어서 전송 */
-    const data = {
-      email: registerInfo.email,
-      password: registerInfo.password,
-      username: registerInfo.username,
-    };
+    if (uploadImage) {
+      const uploadImageRef = ref(storage, `images/user/${uploadImage.name}`);
 
-    /* 사용자가 입력한 패스워드 값(plain text)을 그대로 DB에 저장할 시 취약점으로 인해 해킹 위협
-    -> api/hashPassword 라우터로 plain text 값 전송 -> bcrypt 라이브러리를 통해 hash text로 변경 후 DB에 회원 생성 */
-    const res = await fetch("/api/hashPassword", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+      await uploadBytes(uploadImageRef, uploadImage).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          setUploadImageUrl(url);
+        });
+      });
 
-    /* user 라우터에서 DB 연동과 로직 정상적으로 작동 되었을 시 로그인 페이지로 이동 */
-    if (res.ok) {
-      router.replace("/signin");
+      const data: sendDataType = {
+        email: registerInfo.email,
+        password: registerInfo.password,
+        username: registerInfo.username,
+        image: uploadImageUrl,
+      };
+
+      const res = await fetch("/api/hashPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        router.replace("/signin");
+      } else {
+        console.log(res.status + "error status");
+      }
     } else {
-      console.log(res.status + "error status");
+      /* 위의 유효성 검증을 모두 통과할 시 생성할 회원 정보 데이터를 하나의 객체로 묶어서 전송 */
+      const data = {
+        email: registerInfo.email,
+        password: registerInfo.password,
+        username: registerInfo.username,
+      };
+
+      /* 사용자가 입력한 패스워드 값(plain text)을 그대로 DB에 저장할 시 취약점으로 인해 해킹 위협
+    -> api/hashPassword 라우터로 plain text 값 전송 -> bcrypt 라이브러리를 통해 hash text로 변경 후 DB에 회원 생성 */
+      const res = await fetch("/api/hashPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      /* user 라우터에서 DB 연동과 로직 정상적으로 작동 되었을 시 로그인 페이지로 이동 */
+      if (res.ok) {
+        router.replace("/signin");
+      } else {
+        console.log(res.status + "error status");
+      }
     }
   };
 
@@ -334,6 +405,33 @@ const Register = () => {
                 </div>
               ) : null}
             </div>
+          </div>
+
+          <div className='upload-image'>
+            <div className='title'>
+              <label>이미지</label>
+            </div>
+
+            <label htmlFor='upload-img' className='upload-input'>
+              {imageThumbnail ? (
+                <Image
+                  src={imageThumbnail}
+                  width='300'
+                  height='300'
+                  alt='업로드 이미지 미리보기'
+                />
+              ) : (
+                <>
+                  <div className='image-icon'>
+                    <IoIosImages />
+                  </div>
+                  <div className='upload-text'>
+                    <span>클릭하여 이미지를 업로드하세요.</span>
+                  </div>
+                </>
+              )}
+            </label>
+            <input type='file' id='upload-img' onChange={uploadFile} />
           </div>
 
           <button type='submit' className='signup-button'>

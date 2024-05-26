@@ -3,7 +3,7 @@ import "styles/responsiveMenu.scss";
 import { signOut, useSession } from "next-auth/react";
 import { HiSpeakerphone } from "react-icons/hi";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -127,6 +127,18 @@ const ResponsiveMenu = ({ setResponsiveMenuActive }: propsMenuActiveState) => {
       animate='animate'
       exit='exit'
     >
+      <div className='ResponsiveMenu-header'>
+        <div className='logo'>
+          <h1>wish</h1>
+        </div>
+
+        <div
+          className='close-button'
+          onClick={() => setResponsiveMenuActive(false)}
+        >
+          <IoIosClose fontSize='30px' />
+        </div>
+      </div>
       <motion.div
         className='login-menu'
         variants={menuItemToggle}
