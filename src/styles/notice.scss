@@ -388,95 +388,83 @@
     }
 
     /*공지사항 view page css*/
-    .currentNotice-container{
+    .current-NoticeBoard{
         position: relative;
-        width: 100%;
+        left : 50%;
+        transform: translateX(-50%);
+        width: 80%;
         height: 100%;
-        padding : 2rem 6.25rem 5rem 6.25rem;
+        padding: 5rem 0;
 
-        .current-header{
-            position: relative;
-            width: 80%;
-            left: 50%;
-            transform: translateX(-50%);
-            height: 5rem;
+        .currentBoard-header{
+            width : 100%;
+            height: 8rem;
+            font-family: $Noto-Korean;
 
-            .currentHeader-title{
-                width: 100%;
-                line-height: 5rem;
+            .static {
                 font-size: 1rem;
-                font-family: $Noto-Korean;
-                font-weight: 500;
+                line-height: 3rem;
+                height: 3rem;
+                color: #484848;
             }
-        }
 
-        .current-NoticeBoard{
-            position: relative;
-            left : 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 60rem;
-            padding : 0 0 2rem 0;
-
-            .currentBoard-title{
-                width: 100%;
+            .title {
                 font-size: 1.3rem;
-                font-family: $Noto-Korean;
                 line-height: 5rem;
                 height: 5rem;
                 border-bottom: 1px solid #666666;
             }
+        }
 
-            .currentBoard-info{
-                width: 100%;
+        .currentBoard-info{
+            width: 100%;
+            height: 5rem;
+
+            .currentBoard-writer{
+                display: inline-block;
+                width: 10rem;
+                margin-right: 2rem;
+                font-size: 1rem;
+                font-family: $Noto-Korean;
+                line-height: 5rem;
                 height: 5rem;
-
-                .currentBoard-writer{
-                    display: inline-block;
-                    width: 10rem;
-                    margin-right: 2rem;
-                    font-size: 1rem;
-                    font-family: $Noto-Korean;
-                    line-height: 5rem;
-                    height: 5rem;
-                }
-
-                .currentBoard-date{
-                    display: inline-block;
-                    width: 10rem;
-                    font-size: 1rem;
-                    font-family: $Noto-Korean;
-                    line-height: 5rem;
-                    height: 5rem;
-                }
             }
 
-            .currentBoard-text{
-                width: 100%;
-                padding : 2rem 0 5rem 0;
-
-                p{
-                    font-size: 1rem;
-                    font-family: $Noto-Korean;
-                }
+            .currentBoard-date{
+                display: inline-block;
+                width: 10rem;
+                font-size: 1rem;
+                font-family: $Noto-Korean;
+                line-height: 5rem;
+                height: 5rem;
             }
+        }
 
-            .upload-imageBox{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
+        .currentBoard-text{
+            width: 100%;
+            padding : 2rem 0 5rem 0;
 
-                .upload-image{
-                    width: max-content;
-                    height: 30rem;
-                    overflow: hidden;
+            p{
+                font-size: 1rem;
+                font-family: $Noto-Korean;
+            }
+        }
 
-                    img{
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                    }
+        .upload-imageBox{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+
+            .upload-image{
+                width: max-content;
+                height: 30rem;
+                overflow: hidden;
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
                 }
             }
         }
@@ -504,69 +492,6 @@
                         text-align: center;
                         font-weight: bold;
                         transition: all 0.5s ease-out;
-
-                        &:hover{
-                            background-color: #959595;
-                            color: #fff;
-                            transition: all 0.5s ease-in;
-                        }
-                }
-            }
-
-            .Notice-shortCut{
-                width: max-content;
-                height: 100%;
-
-                .next-Notice{
-                    width: 100%;
-
-                    span{
-                        display: inline-block;
-                        width: 10rem;
-                        line-height: 3rem;
-                        font-size: 14px;
-                        font-family: $Noto-Korean;
-                    }
-
-                    .nextNotice-title{
-                        display: inline-block;
-                        width: max-content;
-                        line-height: 3rem;
-                        font-size: 14px;
-                        font-family: $Noto-Korean;
-                        font-weight: bold;
-
-                        &:hover{
-                            cursor: pointer;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-
-                .before-Notice{
-                    width: 100%;
-
-                    span{
-                        display: inline-block;
-                        width: 10rem;
-                        line-height: 3rem;
-                        font-size: 14px;
-                        font-family: $Noto-Korean;
-                    }
-
-                    .beforeNotice-title{
-                        display: inline-block;
-                        width: max-content;
-                        line-height: 3rem;
-                        font-size: 14px;
-                        font-family: $Noto-Korean;
-                        font-weight: bold;
-
-                        &:hover{
-                            cursor: pointer;
-                            text-decoration: underline;
-                        }
-                    }
                 }
             }
         }
@@ -677,6 +602,30 @@
         
                                 tr {
                                     width: 100%;
+
+                                    &.darkMode{
+                                        &:hover{
+                                            background-color: transparent;
+            
+                                            td{
+                                                span{
+                                                    color: #000;
+                                                }
+                                            }
+                                        }
+                                    }
+    
+                                    &.lightMode{
+                                        &:hover{
+                                            background-color: transparent;
+            
+                                            td{
+                                                span{
+                                                    color: #000;
+                                                }
+                                            }
+                                        }
+                                    }
         
                                     td{
                                         padding : 1.5rem 0;
@@ -841,164 +790,80 @@
         }
     }
 
-        /*공지사항 view page css*/
-        .currentNotice-container{
-            position: relative;
+    /*공지사항 view page css*/
+    .current-NoticeBoard{
+        position: relative;
+        left : 0;
+        transform: translateX(0);
+        width: 100%;
+        height: 100%;
+        padding: 5rem 2rem;
+
+        .currentBoard-header{
+
+            .static {
+                font-size: 12px;
+            }
+
+            .title {
+                font-size: 1rem;
+            }
+        }
+
+        .currentBoard-info{
             width: 100%;
-            height: 100%;
-            padding : 2rem;
+            height: 5rem;
 
-            .current-header{
-                position: relative;
-                width: 100%;
-                height: 5rem;
-
-                .currentHeader-title{
-                    width: 100%;
-                    line-height: 5rem;
-                    font-size: 13px;
-                    font-family: $Noto-Korean;
-                    font-weight: 500;
-                }
+            .currentBoard-writer{
+                width: 5rem;
+                font-size: 12px;
             }
 
-            .current-NoticeBoard{
-                position: relative;
-                left : 50%;
-                transform: translateX(-50%);
-                width: 100%;
-                height: 40rem;
-                padding : 0 0 2rem 0;
-
-                .currentBoard-title{
-                    width: 100%;
-                    font-size: 15px;
-                    font-family: $Noto-Korean;
-                    line-height: 2rem;
-                    height: 4rem;
-                    border-bottom: 1px solid #666666;
-                }
-
-                .currentBoard-info{
-                    width: 100%;
-                    height: 5rem;
-
-                    .currentBoard-writer{
-                        display: inline-block;
-                        width: 50%;
-                        margin-right: 0;
-                        font-size: 13px;
-                    }
-
-                    .currentBoard-date{
-                        display: inline-block;
-                        width: 50%;
-                        font-size: 13px;
-                        text-align: end;
-                    }
-                }
-
-                .currentBoard-text{
-                    width: 100%;
-                    padding : 2rem 0 5rem 0;
-
-                    p{
-                        font-size: 13px;
-                        font-family: $Noto-Korean;
-                    }
-                }
-
-                .upload-imageBox{
-                    width: 100%;
-
-                    .upload-image{
-                        width: max-content;
-                        height: 100%;
-                        overflow: hidden;
-                    }
-                }
+            .currentBoard-date{
+                width: 10rem;
+                font-size: 12px;
             }
+        }
 
-            .currentNotice-button{
-                flex-direction: column;
-                width: 100%;
-                height: 10rem;
-                margin-top: 2rem;
+        .currentBoard-text{
+            width: 100%;
+            padding : 2rem 0 5rem 0;
 
-                .NoticeList-button{
-                    width: max-content;
-                    height: 2rem;
+            p{
+                font-size: 13px;
+                font-family: $Noto-Korean;
+            }
+        }
 
-                    a{
-                            display: block;
-                            line-height: 2rem;
-                            width: 8rem;
-                            font-size: 15px;
-                            font-family: $Noto-Korean;
-                            border: 1px solid #CDCDCD;
-                            background-color: transparent;
-                            text-align: center;
-                            font-weight: bold;
-                            transition: all 0.5s ease-out;
+        .upload-imageBox{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
 
-                            &:hover{
-                                background-color: #959595;
-                                color: #fff;
-                                transition: all 0.5s ease-in;
-                            }
-                    }
-                }
+            .upload-image{
+                width: max-content;
+                height: 30rem;
+                overflow: hidden;
 
-                .Notice-shortCut{
+                img{
                     width: 100%;
-                    height: 6rem;
-
-                    .next-Notice{
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-
-                        span{
-                            display: inline-block;
-                            width: max-content;
-                            font-size: 12px;
-                        }
-
-                        .nextNotice-title{
-                            display: inline-block;
-                            width: max-content;
-                            font-size: 12px;
-
-                            &:hover{
-                                text-decoration: none;
-                            }
-                        }
-                    }
-
-                    .before-Notice{
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-
-                        span{
-                            display: inline-block;
-                            width: max-content;
-                            font-size: 12px;
-                        }
-
-                        .beforeNotice-title{
-                            font-size: 12px;
-                            font-family: $Noto-Korean;
-                            font-weight: bold;
-
-                            &:hover{
-                                cursor: pointer;
-                                text-decoration: none;
-                            }
-                        }
-                    }
+                    height: 100%;
+                    object-fit: cover;
                 }
             }
         }
+
+        .currentNotice-button{
+
+            .NoticeList-button{
+
+                a{
+                        width: 6rem;
+                        font-size: 12px;
+                }
+            }
+        }
+    }
     }
 }

@@ -18,7 +18,7 @@ export interface NoticeType {
   title: string;
   writer: string;
   image: string;
-  date: string;
+  date: any;
   text: string;
   view_cnt: number;
 }
@@ -50,7 +50,7 @@ export default function Notice() {
     querySnapShot.forEach((doc) => {
       const docsData = {
         id: doc.id,
-        date: doc.data()["date"].toDate().toLocaleDateString("ko-KR"),
+        date: doc.data()["date"].toDate(),
         image: doc.data()["image"],
         text: doc.data()["text"],
         title: doc.data()["title"],
@@ -72,22 +72,29 @@ export default function Notice() {
     if (noticeDB.length > 0) {
       setLoading(false);
     }
+
+    noticeDB.forEach((notice, i) => {
+      const date = notice.date;
+      const month = date.getMonth();
+      const day = date.getDate();
+
+      const filterMonth = month < 10 ? "0" + month : month;
+      const filterDay = day < 10 ? "0" + day : day;
+
+      notice.date = date.getFullYear() + "-" + filterMonth + "-" + filterDay;
+    });
   }, [noticeDB]);
 
   const viewCount = async (currentCount: number, currentIdx: string) => {
-    router.push(`/viewNotice?id=${currentIdx}`);
+    router.push(`/notice/${currentIdx}`);
 
     const count = currentCount + 1;
 
     try {
-      const res = await axios.post("/api/viewCount", {
+      await axios.post("/api/viewCount", {
         id: currentIdx,
         count: count,
       });
-
-      if (res.status === 200) {
-        console.log("success post");
-      }
     } catch (err) {
       console.log(err);
     }
@@ -155,7 +162,7 @@ export default function Notice() {
                             <span>{item.writer}</span>
                           </td>
                           <td>
-                            <span>{String(item.date).replace(".", "")}</span>
+                            <span>{item.date}</span>
                           </td>
                           <td>
                             <span>{item.view_cnt}</span>

@@ -30,8 +30,6 @@ const ProductList = ({ searchData }: propsType) => {
     /v1/search/shop.json 라우터에 파라미터값과 clientId, clientSecret값을 함께 전송하여 데이터 요청 */
     dispatch(getClothesAsync());
 
-    console.log(clothesData);
-
     /*Naver Api Data Fetch -> title 필드 값 replace 변경 -> clothData state에 새로운 clothess 객체 배열 저장 
     이 모든 단계가 성공적으로 끝날 시 Loading 스피너 종료 */
     setLoading(false);
@@ -107,7 +105,7 @@ const ProductList = ({ searchData }: propsType) => {
                 <div className='product-content'>
                   <span className='product-mall'>{clothes.mallName}</span>
                   <h2 className='product-title'>{clothes.title}</h2>
-                  <span className='product-price'>{clothes.lprice}</span>
+                  <span className='product-price'>{clothes.lprice}원</span>
                 </div>
               </div>
             );

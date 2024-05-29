@@ -266,25 +266,27 @@ const Register = () => {
         });
       });
 
-      const data: sendDataType = {
-        email: registerInfo.email,
-        password: registerInfo.password,
-        username: registerInfo.username,
-        image: uploadImageUrl,
-      };
+      if (uploadImageUrl) {
+        const data: sendDataType = {
+          email: registerInfo.email,
+          password: registerInfo.password,
+          username: registerInfo.username,
+          image: uploadImageUrl,
+        };
 
-      const res = await fetch("/api/hashPassword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+        const res = await fetch("/api/hashPassword", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
 
-      if (res.ok) {
-        router.replace("/signin");
-      } else {
-        console.log(res.status + "error status");
+        if (res.ok) {
+          router.replace("/signin");
+        } else {
+          console.log(res.status + "error status");
+        }
       }
     } else {
       /* 위의 유효성 검증을 모두 통과할 시 생성할 회원 정보 데이터를 하나의 객체로 묶어서 전송 */
