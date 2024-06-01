@@ -9,7 +9,9 @@ import Image from "next/image";
 import { clothes } from "component/Main/Peed/Peed";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { RootState } from "store/store";
-import { getClothesAsync } from "store/asyncAction";
+import { currentProduct, getClothesAsync } from "store/asyncAction";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface propsType {
   searchData: clothes[];
@@ -19,6 +21,8 @@ const ProductList = ({ searchData }: propsType) => {
   const clothesData = useAppSelector((state: RootState) => {
     return state.clothes.data;
   });
+
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -92,22 +96,26 @@ const ProductList = ({ searchData }: propsType) => {
         {loading === false ? (
           currentPost.map((clothes) => {
             return (
-              <div className='product-item' key={clothes.productId}>
-                <a href='#' className='product-image'>
+              <Link
+                href={`/shop/${clothes.productId}`}
+                className='product-item'
+                key={clothes.productId}
+              >
+                <div className='product-image'>
                   <Image
                     src={clothes.image}
                     alt={`${clothes.title} 의류 이미지 사진`}
                     width='400'
                     height='480'
                   />
-                </a>
+                </div>
 
                 <div className='product-content'>
                   <span className='product-mall'>{clothes.mallName}</span>
                   <h2 className='product-title'>{clothes.title}</h2>
                   <span className='product-price'>{clothes.lprice}원</span>
                 </div>
-              </div>
+              </Link>
             );
           })
         ) : (

@@ -1,4 +1,3 @@
-import { StyledComponentsConfig } from "next/dist/server/config-shared";
 import styled from "styled-components";
 
 const PreviewVideo: any = {};

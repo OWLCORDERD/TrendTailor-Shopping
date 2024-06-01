@@ -6,6 +6,7 @@ interface stateType {
   status: string;
   data: clothes[];
   searchData: clothes[];
+  currentProduct: clothes | undefined;
   err: any;
 }
 
@@ -13,6 +14,7 @@ const initialState: stateType = {
   status: "",
   data: [],
   searchData: [],
+  currentProduct: undefined,
   err: "",
 };
 
@@ -64,7 +66,14 @@ const getSearchClothesAsync = createAsyncThunk(
 export const clothesDBSlice = createSlice({
   name: "clothes",
   initialState,
-  reducers: {},
+  reducers: {
+    currentProduct(state, action) {
+      const findIndex = state.data.find(
+        (item) => item.productId === action.payload
+      );
+      state.currentProduct = findIndex;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getClothesAsync.pending, (state) => {
@@ -105,4 +114,5 @@ export const clothesDBSlice = createSlice({
 });
 
 export default clothesDBSlice.reducer;
+export const { currentProduct } = clothesDBSlice.actions;
 export { getClothesAsync, getSearchClothesAsync };

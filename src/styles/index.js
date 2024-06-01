@@ -26,3 +26,7 @@ export { ClothesPeed, SeasonPeed };
 import { PreviewVideo } from "./PreviewVideo/PreviewVideo";
 
 export { PreviewVideo };
+
+import { ProductDetail } from "./Product/ProductDetail";
+
+export { ProductDetail };
