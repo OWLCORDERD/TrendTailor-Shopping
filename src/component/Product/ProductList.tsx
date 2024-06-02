@@ -96,26 +96,23 @@ const ProductList = ({ searchData }: propsType) => {
         {loading === false ? (
           currentPost.map((clothes) => {
             return (
-              <Link
-                href={`/shop/${clothes.productId}`}
-                className='product-item'
-                key={clothes.productId}
-              >
-                <div className='product-image'>
-                  <Image
-                    src={clothes.image}
-                    alt={`${clothes.title} 의류 이미지 사진`}
-                    width='400'
-                    height='480'
-                  />
-                </div>
-
-                <div className='product-content'>
-                  <span className='product-mall'>{clothes.mallName}</span>
-                  <h2 className='product-title'>{clothes.title}</h2>
-                  <span className='product-price'>{clothes.lprice}원</span>
-                </div>
-              </Link>
+              <div className='product-item' key={clothes.productId}>
+                <Link href={`/shop/${clothes.productId}`}>
+                  <div className='product-image'>
+                    <Image
+                      src={clothes.image}
+                      alt={`${clothes.title} 의류 이미지 사진`}
+                      width='400'
+                      height='480'
+                    />
+                  </div>
+                  <div className='product-content'>
+                    <span className='product-mall'>{clothes.mallName}</span>
+                    <div className='product-title'>{clothes.title}</div>
+                    <span className='product-price'>{clothes.lprice}원</span>
+                  </div>
+                </Link>
+              </div>
             );
           })
         ) : (

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useAppSelector } from "store/hooks";
 import { ProductDetail as CSS } from "styles";
 import { FaPlus, FaMinus, FaHeart, FaCartArrowDown } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 
 interface selectSize {
   size: string;
@@ -49,6 +50,8 @@ const ProductDetail = () => {
     } else {
       alert("이미 선택한 옵션입니다.");
     }
+
+    e.target.value = "";
   };
 
   const countSetState = (
@@ -80,6 +83,23 @@ const ProductDetail = () => {
     setSelectSize(updateSizeArray);
   };
 
+  const deleteSelectSize = (
+    e: React.MouseEvent<HTMLDivElement>,
+    currentSize: string
+  ) => {
+    e.preventDefault();
+
+    selectSize.forEach((product, index) => {
+      if (product.size === currentSize) {
+        setTotalAmount((amount) => amount - product.price);
+        selectSize.splice(index, 1);
+      }
+    });
+
+    const updateSizeArray = [...selectSize];
+    setSelectSize(updateSizeArray);
+  };
+
   return (
     <CSS.Detail_container>
       {currentProductDB ? (
@@ -98,23 +118,36 @@ const ProductDetail = () => {
               <h1>{currentProductDB.title}</h1>
             </CSS.ProductName>
 
-            <CSS.ProductMall>
-              <h2>{currentProductDB.mallName}</h2>
-            </CSS.ProductMall>
+            <CSS.DetailInfo>
+              <caption>의류 정보</caption>
 
-            <CSS.ProductPrice>
-              <h3>{currentProductDB.lprice}원</h3>
-            </CSS.ProductPrice>
+              <tbody>
+                <CSS.ProductBrand>
+                  <th>브랜드</th>
+                  <td>{currentProductDB.mallName}</td>
+                </CSS.ProductBrand>
 
-            <CSS.SelectSizeBox
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                selectProductSize(e)
-              }
-            >
-              <option value=''>옵션 선택</option>
-              <option value='M'>M</option>
-              <option value='L'>L</option>
-            </CSS.SelectSizeBox>
+                <CSS.ProductPrice>
+                  <th>판매가</th>
+                  <td>{currentProductDB.lprice}</td>
+                </CSS.ProductPrice>
+
+                <CSS.ProductSize>
+                  <th>사이즈</th>
+                  <td>
+                    <CSS.SizeSelect
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                        selectProductSize(e)
+                      }
+                    >
+                      <option value=''>옵션 선택</option>
+                      <option value='M'>M</option>
+                      <option value='L'>L</option>
+                    </CSS.SizeSelect>
+                  </td>
+                </CSS.ProductSize>
+              </tbody>
+            </CSS.DetailInfo>
 
             <CSS.SelectProduct>
               {selectSize && selectSize.length > 0
@@ -123,7 +156,7 @@ const ProductDetail = () => {
                       <>
                         <CSS.SelectProductList>
                           <CSS.SelectProductName>
-                            <h4>{`${product.size}`}</h4>
+                            <h2>{`${product.size}`}</h2>
                           </CSS.SelectProductName>
 
                           <CSS.SelectCount>
@@ -156,6 +189,14 @@ const ProductDetail = () => {
                           <CSS.SelectPrice>
                             <span>{product.price}원</span>
                           </CSS.SelectPrice>
+
+                          <CSS.DeleteSize
+                            onClick={(e: React.MouseEvent<HTMLDivElement>) =>
+                              deleteSelectSize(e, product.size)
+                            }
+                          >
+                            <IoClose />
+                          </CSS.DeleteSize>
                         </CSS.SelectProductList>
                       </>
                     );
@@ -164,11 +205,16 @@ const ProductDetail = () => {
             </CSS.SelectProduct>
 
             <CSS.TotalAmountBox>
-              <h5 className='title'>총 결제금액</h5>
+              <h3 className='title'>총 결제금액</h3>
               <span className='price'>{totalAmount}원</span>
             </CSS.TotalAmountBox>
             <CSS.ButtonList>
-              <CSS.Buy_Button type='button'>구매하기</CSS.Buy_Button>
+              <CSS.Buy_Button
+                type='button'
+                onClick={() => alert("결제창은 개발중입니다.")}
+              >
+                구매하기
+              </CSS.Buy_Button>
               <CSS.Bucket_Button type='button'>
                 <FaCartArrowDown />
               </CSS.Bucket_Button>
