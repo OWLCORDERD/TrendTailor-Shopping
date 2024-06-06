@@ -32,7 +32,7 @@ Search.SearchInput = styled.div`
     width: 100%;
     line-height: 1rem;
     font-size: 14px;
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "TheJamsil", sans-serif;
     padding: 10px;
     border: none;
     background-color: transparent;

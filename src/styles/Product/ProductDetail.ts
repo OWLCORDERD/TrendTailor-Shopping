@@ -45,7 +45,7 @@ ProductDetail.Product_imgBox = styled.div`
 ProductDetail.Detail_menuBox = styled.div`
   width: 50%;
   height: 100%;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -59,6 +59,7 @@ ProductDetail.ProductName = styled.div`
 
   h1 {
     font-size: 1.1rem;
+    font-weight: 700;
   }
 
   @media screen and (max-width: 1440px) {
@@ -88,6 +89,7 @@ ProductDetail.DetailInfo = styled.table`
   border-collapse: collapse;
   border-spacing: 0;
   margin: 1rem 0;
+  font-family: "TheJamsil", sans-serif;
 
   caption {
     display: none;
@@ -97,11 +99,11 @@ ProductDetail.DetailInfo = styled.table`
 ProductDetail.ProductBrand = styled.tr`
   width: 100%;
   height: 4rem;
-  font-family: "Noto Sans KR", sans-serif;
 
   th {
     width: 10rem;
     font-size: 14px;
+    font-weight: 500;
     text-align: left;
     padding: 10px;
   }
@@ -109,6 +111,7 @@ ProductDetail.ProductBrand = styled.tr`
   td {
     font-size: 14px;
     padding: 10px 10px 10px 0;
+    font-weight: 400;
   }
 
   @media screen and (max-width: 768px) {
@@ -125,18 +128,19 @@ ProductDetail.ProductBrand = styled.tr`
 ProductDetail.ProductPrice = styled.tr`
   width: 100%;
   height: 4rem;
-  font-family: "Noto Sans KR", sans-serif;
 
   th {
     width: 10rem;
     font-size: 14px;
     text-align: left;
     padding: 10px;
+    font-weight: 500;
   }
 
   td {
     font-size: 14px;
     padding: 10px 10px 10px 0;
+    font-weight: 400;
   }
 
   @media screen and (max-width: 768px) {
@@ -153,13 +157,14 @@ ProductDetail.ProductPrice = styled.tr`
 ProductDetail.ProductSize = styled.tr`
   width: 100%;
   height: 4rem;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
 
   th {
     width: 10rem;
     font-size: 14px;
     text-align: left;
     padding: 10px;
+    font-weight: 500;
   }
 
   @media screen and (max-width: 768px) {
@@ -175,8 +180,8 @@ ProductDetail.SizeSelect = styled.select`
   padding: 0 1rem;
   border: 1px solid #b5b5b5;
   font-size: 14px;
-  font-family: "Noto Sans KR", sans-serif;
-  font-weight: bold;
+  font-family: "TheJamsil", sans-serif;
+  font-weight: 400;
 
   option {
     width: 100%;
@@ -208,7 +213,7 @@ ProductDetail.SelectProductList = styled.li`
   width: 100%;
   height: 3.125rem;
   padding: 0 3rem;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
 
   @media screen and (max-width: 1440px) {
     padding: 0 1rem;
@@ -226,6 +231,7 @@ ProductDetail.SelectProductName = styled.div`
   h2 {
     font-size: 14px;
     line-height: 3.125rem;
+    font-weight: 700;
   }
 
   @media screen and (max-width: 768px) {
@@ -293,6 +299,7 @@ ProductDetail.CountState = styled.div`
 
   span {
     line-height: 3.125rem;
+    font-weight: 500;
     font-size: 13px;
   }
 `;
@@ -305,6 +312,7 @@ ProductDetail.SelectPrice = styled.div`
   span {
     font-size: 14px;
     line-height: 3.125rem;
+    font-weight: 400;
   }
 
   @media screen and (max-width: 768px) {
@@ -328,7 +336,7 @@ ProductDetail.Buy_Button = styled.button`
   margin-right: 2rem;
   background-color: #000;
   color: #fff;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
   font-size: 1rem;
   font-weight: bold;
   border: none;
@@ -377,19 +385,19 @@ ProductDetail.TotalAmountBox = styled.div`
   width: 50rem;
   height: 3.125rem;
   margin-bottom: 2rem;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
 
   .title {
     width: 20rem;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 700;
   }
 
   .price {
     text-align: end;
     width: 20rem;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 500;
   }
 
   @media screen and (max-width: 1440px) {

@@ -1,36 +1,44 @@
-import React, { SetStateAction } from "react";
+"use client";
+
+import React, { SetStateAction, useEffect, useMemo, useState } from "react";
+import { RiArrowLeftDoubleLine, RiArrowRightDoubleLine } from "react-icons/ri";
 
 interface pageProps {
   setCurrentPage: React.Dispatch<SetStateAction<number>>;
   postMaxLength: number;
-  DBlength: number;
+  totalDBlength: number;
   currentPage: number;
-  searchDBlength: number | undefined;
+  searchDBlength: number;
   setLoading: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const Pagenation = ({
   setCurrentPage,
   postMaxLength,
-  DBlength,
+  totalDBlength,
   currentPage,
   searchDBlength,
   setLoading,
 }: pageProps) => {
-  const pageNumber: number[] = [];
-
+  const [page, setPage] = useState<number[]>([]);
+  const [currentViewPage, setCurrentViewPage] = useState<number[]>([]);
+  const [pageCount, setPageCount] = useState<number>(1);
+  const pageMaxLength = 5;
+  const lastPageIndex = pageCount * pageMaxLength;
+  const firstPageIndex = lastPageIndex - pageMaxLength;
   /* total DBlength 값만 존재할 시 DBlength 값을 활용하여 페이지 넘버링 */
-  const totalDBPage = () => {
-    for (let i = 1; i <= Math.ceil(DBlength / postMaxLength); i++) {
-      pageNumber.push(i);
-    }
-  };
+  const pageNumbering = () => {
+    let pageNumberArray = [];
 
-  /* search Query를 통해 조회된 searchDB가 존재할 시 searchDBlength 값을 활용하여 페이지 넘버링 */
-  const searchDBPage = () => {
-    if (searchDBlength !== undefined) {
+    if (searchDBlength && searchDBlength > 0) {
       for (let i = 1; i <= Math.ceil(searchDBlength / postMaxLength); i++) {
-        pageNumber.push(i);
+        pageNumberArray.push(i);
+        setPage(pageNumberArray);
+      }
+    } else if (totalDBlength && totalDBlength > 0) {
+      for (let i = 1; i <= Math.ceil(totalDBlength / postMaxLength); i++) {
+        pageNumberArray.push(i);
+        setPage(pageNumberArray);
       }
     }
   };
@@ -39,24 +47,70 @@ const Pagenation = ({
   const pageTransform = (num: number) => {
     setCurrentPage(num);
 
+    window.scrollTo(0, 0);
+
     setLoading(true);
   };
 
-  /*seach Query를 통해 조회된 searchDB 데이터가 존재 할 시 searchDBPage 함수 실행*/
-  if (searchDBlength !== undefined && searchDBlength > 0) {
-    searchDBPage();
-  } else {
-    totalDBPage();
-  }
+  useMemo(() => {
+    if (totalDBlength || searchDBlength) {
+      pageNumbering();
+    }
+  }, [totalDBlength, searchDBlength]);
+
+  useEffect(() => {
+    if (page.length <= 5) return;
+
+    if (page.length > 5) {
+      const firstPageSlice = page.slice(firstPageIndex, lastPageIndex);
+      setCurrentViewPage(firstPageSlice);
+    }
+  }, [page]);
+
+  const nextPage = (e: React.MouseEvent<SVGElement>) => {
+    if (
+      totalDBlength > 0 &&
+      Math.ceil(totalDBlength / postMaxLength / pageMaxLength) > pageCount
+    ) {
+      setPageCount((count) => count + 1);
+    } else if (
+      searchDBlength > 0 &&
+      Math.ceil(searchDBlength / postMaxLength / pageMaxLength) > pageCount
+    ) {
+      setPageCount((count) => count + 1);
+    }
+  };
+
+  const prevPage = (e: React.MouseEvent<SVGElement>) => {
+    if (pageCount > 1) {
+      setPageCount((count) => count - 1);
+    }
+  };
+
+  useEffect(() => {
+    if (pageCount > 1) {
+      const updatePageSlice = page.slice(firstPageIndex, lastPageIndex);
+
+      setCurrentViewPage(updatePageSlice);
+    } else {
+      const updatePageSlice = page.slice(firstPageIndex, lastPageIndex);
+
+      setCurrentViewPage(updatePageSlice);
+    }
+  }, [pageCount]);
 
   return (
     <div className='pagenation-container'>
+      <RiArrowLeftDoubleLine
+        onClick={(e) => prevPage(e)}
+        cursor='pointer'
+        visibility={pageCount === 1 ? "hidden" : "auto"}
+      />
       <ul className='pagenation'>
-        {pageNumber.map((number) => {
+        {currentViewPage.map((number) => {
           return (
             <li key={number}>
               <a
-                href='#'
                 onClick={() => pageTransform(number)}
                 className={currentPage === number ? "active" : ""}
               >
@@ -66,6 +120,17 @@ const Pagenation = ({
           );
         })}
       </ul>
+      <RiArrowRightDoubleLine
+        onClick={(e) => nextPage(e)}
+        cursor='pointer'
+        visibility={
+          searchDBlength > 0 &&
+          Math.ceil(searchDBlength / postMaxLength / pageMaxLength) ===
+            pageCount
+            ? "hidden"
+            : "auto"
+        }
+      />
     </div>
   );
 };

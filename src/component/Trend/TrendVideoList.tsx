@@ -105,7 +105,7 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
   return (
     <div className='TrendVideo-container'>
       <div className='TrendVideo-titleBox'>
-        <h2>깡스타일리스트가 추천하는 패션트렌드</h2>
+        <h2>{channelData[0].snippet.title}님의 최신 영상</h2>
       </div>
 
       <div className='Trend-videoList'>

@@ -6,6 +6,7 @@ interface stateType {
   status: string;
   data: clothes[];
   searchData: clothes[];
+  seasonData: clothes[];
   currentProduct: clothes | undefined;
   err: any;
 }
@@ -14,6 +15,7 @@ const initialState: stateType = {
   status: "",
   data: [],
   searchData: [],
+  seasonData: [],
   currentProduct: undefined,
   err: "",
 };
@@ -73,6 +75,21 @@ export const clothesDBSlice = createSlice({
       );
       state.currentProduct = findIndex;
     },
+    currentSearchProduct(state, action) {
+      const findIndex = state.searchData.find(
+        (item) => item.productId === action.payload
+      );
+      state.currentProduct = findIndex;
+    },
+    updateSeasonData(state, action) {
+      state.seasonData = action.payload;
+    },
+    currentSeasonProduct(state, action) {
+      const findIndex = state.seasonData.find(
+        (item) => item.productId === action.payload
+      );
+      state.currentProduct = findIndex;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,5 +131,10 @@ export const clothesDBSlice = createSlice({
 });
 
 export default clothesDBSlice.reducer;
-export const { currentProduct } = clothesDBSlice.actions;
+export const {
+  currentProduct,
+  currentSearchProduct,
+  updateSeasonData,
+  currentSeasonProduct,
+} = clothesDBSlice.actions;
 export { getClothesAsync, getSearchClothesAsync };

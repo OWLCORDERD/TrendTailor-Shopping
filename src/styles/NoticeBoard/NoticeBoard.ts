@@ -71,11 +71,11 @@ NoticeBoard.List = styled.ul`
     position: relative;
     width: 100%;
     height: 5rem;
+    font-family: "TheJamsil", sans-serif;
 
     a {
       width: 100%;
       height: 100%;
-      font-family: "Noto Sans KR", sans-serif;
       color: #000;
 
       &:hover h2 {
@@ -85,7 +85,7 @@ NoticeBoard.List = styled.ul`
       h2 {
         display: inline-block;
         font-size: 14px;
-        font-weight: bold;
+        font-weight: 700;
         line-height: 5rem;
 
         &:hover {
@@ -98,7 +98,7 @@ NoticeBoard.List = styled.ul`
         width: max-content;
         display: inline-block;
         right: 0;
-        font-weight: bold;
+        font-weight: 500;
         font-size: 13px;
         line-height: 5rem;
       }

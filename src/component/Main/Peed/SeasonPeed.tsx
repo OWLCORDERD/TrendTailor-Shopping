@@ -7,6 +7,9 @@ import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { useContext } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import Link from "next/link";
+import { useAppDispatch } from "store/hooks";
+import { updateSeasonData } from "store/asyncAction";
 
 interface seasonClothesProps {
   seasonClothes: clothes[] | undefined;
@@ -17,6 +20,11 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
   const { mode } = useContext(ThemeContext);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(updateSeasonData(seasonClothes));
+  }, []);
 
   const [scrollWidth, setScrollWidth] = useState<number>(0);
   const [scrollMaxWidth, setScrollMaxWidth] = useState<number>(0);
@@ -71,7 +79,7 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
     let mql = window.matchMedia("screen and (max-width : 768px)");
 
     /* mediaQueryList 객체 matches 속성 값이 true일 시, MobileMQuery state 값에 업데이트 */
-    if (mql.matches === true) {
+    if (mql.matches) {
       setMobileMQuery(mql.matches);
     }
 
@@ -187,28 +195,35 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
                   ref={itemRef}
                   $mode={mode}
                 >
-                  <CSS.ProductImg>
-                    <Image
-                      src={clothes.image}
-                      alt='시즌 추천 의류'
-                      width='600'
-                      height='600'
-                    />
-                  </CSS.ProductImg>
+                  <Link
+                    href={{
+                      pathname: `/shop/${clothes.productId}`,
+                      query: { seasonData: seasonClothes ? true : false },
+                    }}
+                  >
+                    <CSS.ProductImg>
+                      <Image
+                        src={clothes.image}
+                        alt='시즌 추천 의류'
+                        width='600'
+                        height='600'
+                      />
+                    </CSS.ProductImg>
 
-                  <CSS.ProductInfo>
-                    <CSS.ProductName>
-                      <h2>{clothes.title}</h2>
-                    </CSS.ProductName>
+                    <CSS.ProductInfo>
+                      <CSS.ProductName>
+                        <h2>{clothes.title}</h2>
+                      </CSS.ProductName>
 
-                    <CSS.ProductBrand>
-                      <p>{clothes.brand}</p>
-                    </CSS.ProductBrand>
+                      <CSS.ProductBrand>
+                        <p>{clothes.brand}</p>
+                      </CSS.ProductBrand>
 
-                    <CSS.ProductPrice>
-                      <span>{clothes.lprice}원</span>
-                    </CSS.ProductPrice>
-                  </CSS.ProductInfo>
+                      <CSS.ProductPrice>
+                        <span>{clothes.lprice}원</span>
+                      </CSS.ProductPrice>
+                    </CSS.ProductInfo>
+                  </Link>
                 </CSS.SlideItem>
               );
             })}

@@ -154,7 +154,7 @@ Banner.infoTitle = styled.h1`
   line-height: 6.25rem;
   font-size: 1.5rem;
   font-weight: 700;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
   color: #fff;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
@@ -182,10 +182,10 @@ Banner.infoTxt = styled.p`
   height: max-content;
   word-break: keep-all;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 400;
   color: #fff;
   text-align: center;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     font-size: 12px;

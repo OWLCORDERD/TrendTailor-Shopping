@@ -13,7 +13,7 @@ ClothesPeed.Container = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    padding: 3.125rem 1rem;
+    padding: 3.125rem 0;
   }
 `;
 
@@ -43,7 +43,7 @@ ClothesPeed.Title = styled.h1`
 ClothesPeed.Info = styled.p`
   width: 100%;
   font-size: 13px;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
   text-align: center;
   line-height: 3rem;
 
@@ -69,13 +69,12 @@ ClothesPeed.PeedWrap = styled.div`
   padding: 2rem 0;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    grid-template-columns: repeat(3, 1fr);
+    width: calc(16rem * 5);
   }
 
   @media screen and (max-width: 768px) {
     width: 100%;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
   }
 `;
 
@@ -83,15 +82,11 @@ ClothesPeed.ProductItem = styled.div<{ $mode: string }>`
   position: relative;
   width: 20rem;
   height: 32rem;
-  padding: 1rem 50px;
-
-  &:hover {
-    background-color: ${(props) =>
-      props.$mode === "light" ? "#f2f2f2" : "#2C2C2C"};
-  }
+  padding: 1rem;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    height: 35rem;
+    width: 16rem;
+    height: 30rem;
   }
 
   @media screen and (max-width: 768px) {
@@ -120,6 +115,10 @@ ClothesPeed.ProductImg = styled.div`
     object-fit: cover;
   }
 
+  @media screen and (min-width: 1440px) and (max-width: 1900px) {
+    height: 18rem;
+  }
+
   @media screen and (max-width: 768px) {
     height: 15rem;
   }
@@ -128,25 +127,21 @@ ClothesPeed.ProductImg = styled.div`
 ClothesPeed.ProductInfo = styled.div`
   width: 100%;
   height: 10rem;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
+  overflow: hidden;
 `;
 
 ClothesPeed.ProductTitle = styled.h2`
   display: flex;
   align-items: center;
   width: 100%;
-  overflow: hidden;
   white-space: nowrap;
   height: 4rem;
-  font-size: 13px;
+  font-size: 12px;
   word-break: keep-all;
-  font-weight: 700;
+  font-weight: 400;
   color: #000;
   cursor: pointer;
-
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    font-size: 12px;
-  }
 
   @media screen and (max-width: 768px) {
     font-size: 10px;
@@ -160,10 +155,6 @@ ClothesPeed.ProductMall = styled.p`
   text-transform: uppercase;
   font-weight: 400;
 
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    font-size: 10px;
-  }
-
   @media screen and (max-width: 768px) {
     font-size: 8px;
   }
@@ -171,13 +162,9 @@ ClothesPeed.ProductMall = styled.p`
 
 ClothesPeed.ProductPrice = styled.span`
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   line-height: 4rem;
-
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    font-size: 12px;
-  }
 
   @media screen and (max-width: 768px) {
     font-size: 10px;
@@ -188,7 +175,6 @@ ClothesPeed.ViewMoreContainer = styled.div`
   position: relative;
   width: 100%;
   height: 5rem;
-  margin: 3rem 0;
 `;
 
 ClothesPeed.ViewMoreButton = styled.div`

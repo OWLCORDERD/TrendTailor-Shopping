@@ -9,7 +9,7 @@ SeasonPeed.Container = styled.div`
   padding: 3.125rem 6.25rem;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    padding: 3.125rem;
+    padding: 3.125rem 6.25rem;
   }
 
   @media screen and (max-width: 768px) {
@@ -29,7 +29,7 @@ SeasonPeed.TitleBox = styled.div`
   margin-bottom: 3rem;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    width: calc(18rem * 4 + 60px);
+    width: 100%;
   }
 
   @media screen and (max-width: 768px) {
@@ -81,7 +81,7 @@ SeasonPeed.ControlState = styled.div`
   width: 10rem;
 
   span {
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "TheJamsil", sans-serif;
     font-weight: bold;
     font-size: 14px;
   }
@@ -122,7 +122,7 @@ SeasonPeed.Slider = styled.div`
   }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    width: calc(18rem * 4 + 60px);
+    width: calc(18rem * 4);
     height: 30rem;
   }
 
@@ -147,13 +147,9 @@ SeasonPeed.SlideItem = styled.div<{ $mode: string }>`
   height: 100%;
   padding: 1rem 3.125rem;
 
-  &:hover {
-    background-color: ${(props) =>
-      props.$mode === "light" ? "#f2f2f2" : "#2C2C2C"};
-  }
-
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     width: 18rem;
+    padding: 0 3.125rem;
   }
 
   @media screen and (max-width: 768px) {
@@ -183,7 +179,7 @@ SeasonPeed.ProductImg = styled.div`
   }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    height: 20rem;
+    height: 18rem;
   }
 
   @media screen and (max-width: 768px) {
@@ -194,7 +190,8 @@ SeasonPeed.ProductImg = styled.div`
 SeasonPeed.ProductInfo = styled.div`
   width: 100%;
   height: 10rem;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "TheJamsil", sans-serif;
+  overflow: hidden;
 
   @media screen and (max-width: 768px) {
     height: 7rem;
@@ -241,6 +238,7 @@ SeasonPeed.ProductBrand = styled.div`
   p {
     line-height: 3rem;
     font-size: 13px;
+    font-weight: 400;
   }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {

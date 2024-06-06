@@ -7,56 +7,38 @@ import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { getClothesAsync } from "store/asyncAction";
+import Link from "next/link";
 
-interface clothesDataProps {
-  clothesData: clothes[] | undefined;
-}
-
-const ClothesPeed = ({ clothesData }: clothesDataProps) => {
+const ClothesPeed = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const postMaxlength = 10;
-  const MacPostMaxlength = 9;
   const [currentDB, setCurrentDB] = useState<clothes[]>([]);
   const { mode } = useContext(ThemeContext);
+  const lastIndex = currentPage * postMaxlength;
+  const firstIndex = lastIndex - postMaxlength;
+
+  const clothesData = useAppSelector((state) => state.clothes.data);
+  const dispatch = useAppDispatch();
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
-      if (
-        matchMedia("screen and (min-width : 1440px) and (max-width : 1900px)")
-          .matches
-      ) {
-        const lastIndex = currentPage * MacPostMaxlength;
-        const firstIndex = lastIndex - MacPostMaxlength;
+      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
-        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+      const pushdata = [...currentDB];
 
-        const pushdata = [...currentDB];
+      pushdata.push(...currentData);
 
-        pushdata.push(...currentData);
+      setCurrentDB(pushdata);
 
-        setCurrentDB(pushdata);
-
-        setLoading(false);
-      } else {
-        const lastIndex = currentPage * postMaxlength;
-        const firstIndex = lastIndex - postMaxlength;
-
-        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
-
-        const pushdata = [...currentDB];
-
-        pushdata.push(...currentData);
-
-        setCurrentDB(pushdata);
-
-        setLoading(false);
-      }
+      setLoading(false);
     }
   }, [currentPage]);
 
   const nextPage = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (clothesData !== undefined) {
+    if (clothesData) {
       const maxPage = Math.ceil(clothesData.length / postMaxlength);
 
       if (currentPage < maxPage) {
@@ -68,39 +50,20 @@ const ClothesPeed = ({ clothesData }: clothesDataProps) => {
   };
 
   const firstCurrentDB = () => {
-    if (clothesData) {
-      if (
-        matchMedia("screen and (min-width : 1440px) and (max-width : 1900px)")
-          .matches
-      ) {
-        const lastIndex = currentPage * MacPostMaxlength;
-        const firstIndex = lastIndex - MacPostMaxlength;
+    const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
-        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+    const pushdata = [...currentDB];
 
-        const pushdata = [...currentDB];
+    pushdata.push(...currentData);
 
-        pushdata.push(...currentData);
+    setCurrentDB(pushdata);
 
-        setCurrentDB(pushdata);
-
-        setLoading(false);
-      } else {
-        const lastIndex = currentPage * postMaxlength;
-        const firstIndex = lastIndex - postMaxlength;
-
-        const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
-
-        const pushdata = [...currentDB];
-
-        pushdata.push(...currentData);
-
-        setCurrentDB(pushdata);
-
-        setLoading(false);
-      }
-    }
+    setLoading(false);
   };
+
+  useEffect(() => {
+    dispatch(getClothesAsync());
+  }, []);
 
   useEffect(() => {
     if (currentDB.length > 0) return;
@@ -123,23 +86,25 @@ const ClothesPeed = ({ clothesData }: clothesDataProps) => {
       </CSS.TitleBox>
 
       <CSS.PeedWrap>
-        {currentDB.map((item) => {
+        {currentDB.map((clothes) => {
           return (
-            <CSS.ProductItem key={item.productId} $mode={mode}>
-              <CSS.ProductImg>
-                <Image
-                  src={item.image}
-                  alt='ClothesImg'
-                  width='500'
-                  height='500'
-                />
-              </CSS.ProductImg>
+            <CSS.ProductItem key={clothes.productId} $mode={mode}>
+              <Link href={{ pathname: `/shop/${clothes.productId}` }}>
+                <CSS.ProductImg>
+                  <Image
+                    src={clothes.image}
+                    alt='ClothesImg'
+                    width='500'
+                    height='500'
+                  />
+                </CSS.ProductImg>
 
-              <CSS.ProductInfo>
-                <CSS.ProductTitle>{item.title}</CSS.ProductTitle>
-                <CSS.ProductMall>{item.mallName}</CSS.ProductMall>
-                <CSS.ProductPrice>{item.lprice}원</CSS.ProductPrice>
-              </CSS.ProductInfo>
+                <CSS.ProductInfo>
+                  <CSS.ProductTitle>{clothes.title}</CSS.ProductTitle>
+                  <CSS.ProductMall>{clothes.mallName}</CSS.ProductMall>
+                  <CSS.ProductPrice>{clothes.lprice}원</CSS.ProductPrice>
+                </CSS.ProductInfo>
+              </Link>
             </CSS.ProductItem>
           );
         })}
