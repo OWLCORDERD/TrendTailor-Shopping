@@ -9,11 +9,11 @@ import CurrentVideo from "component/Trend/CurrentVideo";
 import VideoItem from "./VideoItem";
 
 interface youtubeDBProps {
-  youtubeDB: videoType[];
   channelData: channelDataType[];
+  videoData: videoType[];
 }
 
-const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
+const TrendVideoList = ({ channelData, videoData }: youtubeDBProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   /* infinite scroll 페이징 Ref */
   const currentPage = useRef<number>(1);
@@ -21,18 +21,16 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
   const loadDataRef = useRef<HTMLDivElement>(null);
   /* firstIndex부터 lastIndex까지 currentPage의 currentDB 배열 */
   const [currentDB, setCurrentDB] = useState<videoType[]>([]);
-  /* 다음 페이지의 값이 존재 할 때, 다음 currentDB 더미 데이터를 대입 */
-  const [hasNextPage, setHasNextPage] = useState<videoType[] | null>([]);
+  /* 다음 페이지의 값이 존재 할 때, Skeleton 로딩 UI 반복문 추출을 위한 상태값 */
+  const [hasNextPage, setHasNextPage] = useState<number[] | undefined>();
   /* 클라이언트 뷰포트의 너비가 모바일일때, mediaQueryList 객체 matches 속성값에 따른 조건 변화*/
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
   /*모바일 해상도일시, 한 페이지의 데이터 갯수를 2로 변경 (default : 4) */
-  const postMaxLength = mobileMQuery === true ? 2 : 4;
-  /* currentPage 값에 페이지 최대 데이터 갯수를 곱하여 slice 마지막 인덱스 넘버 추출 */
+  const postMaxLength = mobileMQuery ? 2 : 8;
+  /* slice할 videoData length와 한 페이지에 보여질 최대 데이터 length 값을 나누어 maxPage 값 추출 */
+  const maxPage = Math.ceil(videoData.length / postMaxLength);
   const lastIndex = currentPage.current * postMaxLength;
-  /* 구한 lastIndex값에 페이지 최대 데이터 갯수를 빼면 slice 첫번째 인덱스 넘버 추출 */
   const firstIndex = lastIndex - postMaxLength;
-  /* slice할 DB 최대 길이와 한 페이지에 보여질 최대 데이터 길이를 나누어 maxPage 값 추출 */
-  const maxPage = Math.ceil(youtubeDB.length / postMaxLength);
 
   useEffect(() => {
     let mql = window.matchMedia("screen and (max-width : 768px)");
@@ -43,15 +41,19 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
 
     mql.addEventListener("change", screenChange);
 
-    firstSkeletonSetting();
-
     return () => mql.removeEventListener("change", screenChange);
   }, []);
 
-  const firstSkeletonSetting = () => {
-    const firstDB = youtubeDB.slice(firstIndex, lastIndex);
+  useEffect(() => {
+    skeletonSetting();
+  }, []);
 
-    setHasNextPage(firstDB);
+  const skeletonSetting = () => {
+    const skeletonArray = [];
+    for (let i = 0; i < postMaxLength; i++) {
+      skeletonArray.push(i);
+    }
+    setHasNextPage(skeletonArray);
   };
 
   const screenChange = (e: MediaQueryListEvent) => {
@@ -61,14 +63,14 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
   };
 
   useEffect(() => {
-    if (!loadDataRef.current || hasNextPage === null) return;
+    if (!loadDataRef.current || hasNextPage === undefined) return;
 
     const io = new IntersectionObserver((entries) => {
-      setTimeout(() => {
-        if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting) {
+        setTimeout(() => {
           loadingData();
-        }
-      }, 1000);
+        }, 1000);
+      }
     });
 
     if (loadDataRef.current) {
@@ -80,23 +82,22 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
     };
   }, [loading, hasNextPage]);
 
-  const loadingData = () => {
-    const sliceDB = youtubeDB.slice(firstIndex, lastIndex);
-
-    let pushArray = [...currentDB];
-
-    pushArray.push(...sliceDB);
-
-    setCurrentDB(pushArray);
-
+  const loadingData = async () => {
     if (currentPage.current < maxPage) {
-      currentPage.current += 1;
-      const nextDB = youtubeDB.slice(firstIndex, lastIndex);
-      setHasNextPage(nextDB);
+      skeletonSetting();
     } else {
-      setHasNextPage(null);
       setLoading(false);
     }
+
+    const currentData = videoData.slice(firstIndex, lastIndex);
+
+    let dataArray = [...currentDB];
+
+    dataArray.push(...currentData);
+
+    setCurrentDB(dataArray);
+
+    currentPage.current += 1;
   };
 
   const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
@@ -124,15 +125,15 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
         })}
       </div>
 
-      {loading && hasNextPage !== null ? (
+      {loading ? (
         <div className='loadData' ref={loadDataRef}>
           <>
             {mobileMQuery === true ? (
               <Loading />
             ) : (
               <div className='Skeleton-videoList'>
-                {hasNextPage.map((skeleton) => {
-                  return <Skeleton key={skeleton.id.videoId} />;
+                {hasNextPage?.map((skeleton) => {
+                  return <Skeleton key={skeleton} />;
                 })}
               </div>
             )}
@@ -144,7 +145,7 @@ const TrendVideoList = ({ youtubeDB, channelData }: youtubeDBProps) => {
         <CurrentVideo
           open={videoOpen}
           setOpen={setVideoOpen}
-          allVideo={youtubeDB}
+          allVideo={videoData}
           currentVideo={currentVideo}
         />
       ) : null}

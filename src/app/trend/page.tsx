@@ -59,7 +59,7 @@ const getYoutubeDB = async () => {
 
   try {
     const res = await fetch(
-      `${youtubeAPI}?part=snippet&maxResults=20&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
+      `${youtubeAPI}?part=snippet&maxResults=50&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
       {
         cache: "no-store",
       }
@@ -93,14 +93,13 @@ const getChannelData = async () => {
 };
 
 const page = async () => {
-  const youtubeDB: videoType[] = await getYoutubeDB();
+  const videoData: videoType[] = await getYoutubeDB();
   const channelData: channelDataType[] = await getChannelData();
-
   return (
     <main>
       <section className='Trend-container'>
         <TrendChannel channelData={channelData} />
-        <TrendVideoList youtubeDB={youtubeDB} channelData={channelData} />
+        <TrendVideoList channelData={channelData} videoData={videoData} />
       </section>
     </main>
   );
