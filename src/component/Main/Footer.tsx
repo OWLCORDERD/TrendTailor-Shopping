@@ -19,7 +19,7 @@ const Inner = styled.div`
 `;
 
 const MainCont = styled.div`
-  width: 40%;
+  width: 30%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -73,10 +73,9 @@ const LogoInfo = styled.div`
   width: 100%;
 
   p {
-    font-size: 14px;
+    font-size: 12px;
     font-family: "Raleway", sans-serif;
     text-transform: uppercase;
-    line-height: 3rem;
     color: #fff;
   }
 
@@ -105,17 +104,9 @@ const MainMenu = styled.div`
 
       a {
         color: #fff;
-        font-family: "Noto Sans KR", sans-serif;
         font-size: 14px;
         font-weight: bold;
-      }
-
-      span {
-        color: #fff;
-        font-family: "Noto Sans KR", sans-serif;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
+        font-family: "TheJamsil", sans-serif;
       }
     }
   }
@@ -150,17 +141,9 @@ const Community = styled.div`
 
       a {
         color: #fff;
-        font-family: "Noto Sans KR", sans-serif;
         font-size: 14px;
         font-weight: bold;
-      }
-
-      span {
-        color: #fff;
-        font-family: "Noto Sans KR", sans-serif;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
+        font-family: "TheJamsil", sans-serif;
       }
     }
   }
@@ -194,7 +177,7 @@ const CustomerTitle = styled.div`
   h2 {
     width: 100%;
     line-height: 5rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family: "Raleway", sans-serif;
     text-transform: uppercase;
     color: #fff;
@@ -214,7 +197,7 @@ const CustomerNumber = styled.div`
   span {
     line-height: 5rem;
     font-size: 2rem;
-    font-family: "Raleway", sans-serif;
+    font-family: "TheJamsil", sans-serif;
     text-transform: uppercase;
     color: #fff;
     font-weight: bold;
@@ -252,7 +235,8 @@ const OperationList = styled.ul`
     span {
       color: #fff;
       font-size: 12px;
-      font-family: "Noto Sans KR", sans-serif;
+      font-family: "TheJamsil", sans-serif;
+      font-weight: 400;
     }
   }
 `;
@@ -272,7 +256,8 @@ const BankingTitle = styled.div`
 
   h2 {
     line-height: 5rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
     font-family: $Raleway-font;
     text-transform: uppercase;
     color: #fff;
@@ -300,8 +285,8 @@ const BankingInfo = styled.ul`
       line-height: calc(10rem / 2);
       font-size: 14px;
       color: #fff;
-      font-weight: bold;
-      font-family: "Noto sans KR", sans-serif;
+      font-weight: 400;
+      font-family: "TheJamsil", sans-serif;
     }
   }
 

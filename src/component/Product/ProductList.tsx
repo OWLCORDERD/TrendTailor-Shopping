@@ -21,7 +21,8 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
   const searchData = useAppSelector((state) => state.clothes.searchData);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const postMaxLength: number = 12;
+  const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
+  const postMaxLength: number = mobileMQuery ? 8 : 15;
 
   const indexOfLast = currentPage * postMaxLength;
   const indexOfFirst = indexOfLast - postMaxLength;
@@ -46,6 +47,14 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
     }
   }, [clothesData, currentPage, searchData]);
 
+  useEffect(() => {
+    const mql = window.matchMedia("screen and (max-width : 768px)");
+
+    if (mql.matches) {
+      setMobileMQuery(mql.matches);
+    }
+  }, []);
+
   return (
     <section className='productList-container'>
       <div className='List-tabMenu'>
@@ -68,38 +77,41 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
       </div>
 
       <div className='product-Box'>
-        {!loading ? (
-          currentPost.map((clothes) => {
-            return (
-              <div className='product-item' key={clothes.productId}>
-                <Link
-                  href={{
-                    pathname: `/shop/${clothes.productId}`,
-                    query: {
-                      searchData: searchData.length > 0 ? "Search" : "Default",
-                    },
-                  }}
-                >
-                  <div className='product-image'>
-                    <Image
-                      src={clothes.image}
-                      alt={`${clothes.title} 의류 이미지 사진`}
-                      width='400'
-                      height='480'
-                    />
-                  </div>
-                  <div className='product-content'>
-                    <span className='product-mall'>{clothes.mallName}</span>
-                    <div className='product-title'>{clothes.title}</div>
-                    <span className='product-price'>{clothes.lprice}원</span>
-                  </div>
-                </Link>
-              </div>
-            );
-          })
-        ) : (
-          <Loading />
-        )}
+        <ul className='all-product'>
+          {!loading ? (
+            currentPost.map((clothes) => {
+              return (
+                <li className='product-item' key={clothes.productId}>
+                  <Link
+                    href={{
+                      pathname: `/shop/${clothes.productId}`,
+                      query: {
+                        searchData:
+                          searchData.length > 0 ? "Search" : "Default",
+                      },
+                    }}
+                  >
+                    <div className='product-image'>
+                      <Image
+                        src={clothes.image}
+                        alt={`${clothes.title} 의류 이미지 사진`}
+                        width='400'
+                        height='480'
+                      />
+                    </div>
+                    <div className='product-content'>
+                      <span className='product-mall'>{clothes.mallName}</span>
+                      <div className='product-title'>{clothes.title}</div>
+                      <span className='product-price'>{clothes.lprice}원</span>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })
+          ) : (
+            <Loading />
+          )}
+        </ul>
       </div>
       {clothesData.length > 0 || searchData.length > 0 ? (
         <Pagenation
