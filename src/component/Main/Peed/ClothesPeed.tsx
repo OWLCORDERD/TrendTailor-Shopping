@@ -8,10 +8,15 @@ import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import { getClothesAsync } from "store/asyncAction";
 import Link from "next/link";
+import { allClothesData } from "store/staticClothes";
+import { canselSearch } from "store/searchClothes";
 
-const ClothesPeed = () => {
+interface allClothesProps {
+  allClothes: clothes[];
+}
+
+const ClothesPeed = ({ allClothes }: allClothesProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const postMaxlength = 10;
@@ -20,7 +25,7 @@ const ClothesPeed = () => {
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
 
-  const clothesData = useAppSelector((state) => state.clothes.data);
+  const clothesData = useAppSelector((state) => state.staticDB.allData);
   const dispatch = useAppDispatch();
 
   const currentDBUpdate = useCallback(() => {
@@ -62,7 +67,8 @@ const ClothesPeed = () => {
   };
 
   useEffect(() => {
-    dispatch(getClothesAsync());
+    dispatch(allClothesData(allClothes));
+    dispatch(canselSearch());
   }, []);
 
   useEffect(() => {

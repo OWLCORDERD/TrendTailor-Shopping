@@ -4,21 +4,40 @@ import React, { useState, useEffect } from "react";
 import Pagenation from "./Pagenation";
 import Image from "next/image";
 import { clothes } from "component/Main/Peed/Peed";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { RootState } from "store/store";
 import Link from "next/link";
 import Loading from "component/fetchDB/loading/Loading";
+import { useSearchParams } from "next/navigation";
+import { canselSearch, getSearchClothesAsync } from "store/searchClothes";
 
-interface searchQueryType {
-  searchQuery: string | null;
-}
+const ProductList = () => {
+  const search = useSearchParams();
+  const searchQuery = search ? search?.get("q") : null;
 
-const ProductList = ({ searchQuery }: searchQueryType) => {
   const clothesData = useAppSelector((state: RootState) => {
-    return state.clothes.data;
+    return searchQuery === null
+      ? state.staticDB.allData
+      : state.searchDB.searchData;
   });
 
-  const searchData = useAppSelector((state) => state.clothes.searchData);
+  const dispatch = useAppDispatch();
+
+  const fetchKeyword = async () => {
+    if (searchQuery !== null) {
+      dispatch(getSearchClothesAsync(searchQuery));
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery !== null) {
+      fetchKeyword();
+    } else {
+      dispatch(canselSearch());
+    }
+  }, [searchQuery]);
+
+  const searchKeyword = useAppSelector((state) => state.searchDB.keyword);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
@@ -32,20 +51,12 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (searchData && searchData.length > 0) {
-      const currentPostDB = searchData.slice(indexOfFirst, indexOfLast);
+    const currentPostDB = clothesData.slice(indexOfFirst, indexOfLast);
 
-      setCurrentPost(currentPostDB);
+    setCurrentPost(currentPostDB);
 
-      setLoading(false);
-    } else {
-      const currentPostDB = clothesData.slice(indexOfFirst, indexOfLast);
-
-      setCurrentPost(currentPostDB);
-
-      setLoading(false);
-    }
-  }, [clothesData, currentPage, searchData]);
+    setLoading(false);
+  }, [currentPage, clothesData]);
 
   useEffect(() => {
     const mql = window.matchMedia("screen and (max-width : 768px)");
@@ -59,8 +70,8 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
     <section className='productList-container'>
       <div className='List-tabMenu'>
         <div className='tabMenu-title'>
-          {searchQuery !== null ? (
-            <h1 className='search-title'>{`'${searchQuery}' 통합 검색 결과`}</h1>
+          {searchQuery ? (
+            <h1 className='search-title'>{`'${searchKeyword}' 통합 검색 결과`}</h1>
           ) : (
             <h1 className='default-title'>all wish clothes</h1>
           )}
@@ -68,9 +79,7 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
 
         <div className='product-count'>
           <span>
-            {searchData && searchData.length > 0
-              ? searchData.length
-              : clothesData?.length}
+            {clothesData.length}
             개의 상품
           </span>
         </div>
@@ -85,10 +94,6 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
                   <Link
                     href={{
                       pathname: `/shop/${clothes.productId}`,
-                      query: {
-                        searchData:
-                          searchData.length > 0 ? "Search" : "Default",
-                      },
                     }}
                   >
                     <div className='product-image'>
@@ -113,13 +118,12 @@ const ProductList = ({ searchQuery }: searchQueryType) => {
           )}
         </ul>
       </div>
-      {clothesData.length > 0 || searchData.length > 0 ? (
+      {clothesData.length > 0 ? (
         <Pagenation
           setCurrentPage={setCurrentPage}
           postMaxLength={postMaxLength}
           totalDBlength={clothesData.length}
           currentPage={currentPage}
-          searchDBlength={searchData.length}
           setLoading={setLoading}
         />
       ) : null}

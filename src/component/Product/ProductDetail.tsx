@@ -1,10 +1,12 @@
 import Loading from "component/fetchDB/loading/Loading";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { ProductDetail as CSS } from "styles";
 import { FaPlus, FaMinus, FaHeart, FaCartArrowDown } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { useSession } from "next-auth/react";
+import { addCart } from "store/cartReducer";
 
 interface selectSize {
   size: string;
@@ -13,9 +15,19 @@ interface selectSize {
 }
 
 const ProductDetail = () => {
-  const currentProductDB = useAppSelector((state) => {
-    return state.clothes.currentProduct;
+  const searchStatus = useAppSelector((state) => {
+    return state.searchDB.status;
   });
+
+  const currentProductDB = useAppSelector((state) => {
+    return searchStatus
+      ? state.searchDB.currentProduct
+      : state.staticDB.currentProduct;
+  });
+
+  const dispatch = useAppDispatch();
+
+  const { data, status } = useSession();
 
   const [selectSize, setSelectSize] = useState<selectSize[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -98,6 +110,23 @@ const ProductDetail = () => {
 
     const updateSizeArray = [...selectSize];
     setSelectSize(updateSizeArray);
+  };
+
+  const cartUpdate = async () => {
+    if (status !== "authenticated") {
+      alert("로그인 시, 이용 가능합니다.");
+      return;
+    }
+
+    if (data.user) {
+      const user = data.user.name;
+      const sendData = {
+        username: user,
+        product: currentProductDB,
+      };
+
+      dispatch(addCart(sendData));
+    }
   };
 
   return (
@@ -215,7 +244,7 @@ const ProductDetail = () => {
               >
                 구매하기
               </CSS.Buy_Button>
-              <CSS.Bucket_Button type='button'>
+              <CSS.Bucket_Button type='button' onClick={cartUpdate}>
                 <FaCartArrowDown />
               </CSS.Bucket_Button>
               <CSS.Like_Button type='button'>

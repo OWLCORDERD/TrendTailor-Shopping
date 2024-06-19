@@ -27,15 +27,18 @@ Search.SearchInput = styled.div`
   position: relative;
   width: 100%;
   padding: 0 4rem 0 1rem;
+  border: 2px solid #000;
+  border-radius: 2rem;
 
   input {
     width: 100%;
     line-height: 1rem;
-    font-size: 14px;
+    font-size: 12px;
     font-family: "TheJamsil", sans-serif;
     padding: 10px;
     border: none;
     background-color: transparent;
+    font-weight: 400;
 
     &:focus {
       outline: none;
@@ -54,6 +57,7 @@ Search.SearchInput = styled.div`
   @media screen and (max-width: 768px) {
     padding: 0;
     height: 100%;
+    border: none;
     input {
       line-height: 3rem;
       padding: 0 4rem 0 10px;

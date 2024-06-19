@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import Link from "next/link";
 import { useAppDispatch } from "store/hooks";
-import { updateSeasonData } from "store/asyncAction";
+import { seasonClothesData } from "store/staticClothes";
 
 interface seasonClothesProps {
   seasonClothes: clothes[] | undefined;
@@ -23,7 +23,7 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(updateSeasonData(seasonClothes));
+    dispatch(seasonClothesData(seasonClothes));
   }, []);
 
   const [scrollWidth, setScrollWidth] = useState<number>(0);
@@ -198,7 +198,6 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
                   <Link
                     href={{
                       pathname: `/shop/${clothes.productId}`,
-                      query: { seasonData: seasonClothes ? true : false },
                     }}
                   >
                     <CSS.ProductImg>

@@ -8,7 +8,6 @@ interface pageProps {
   postMaxLength: number;
   totalDBlength: number;
   currentPage: number;
-  searchDBlength: number;
   setLoading: React.Dispatch<SetStateAction<boolean>>;
 }
 
@@ -17,7 +16,6 @@ const Pagenation = ({
   postMaxLength,
   totalDBlength,
   currentPage,
-  searchDBlength,
   setLoading,
 }: pageProps) => {
   const [page, setPage] = useState<number[]>([]);
@@ -30,12 +28,7 @@ const Pagenation = ({
   const pageNumbering = () => {
     let pageNumberArray = [];
 
-    if (searchDBlength && searchDBlength > 0) {
-      for (let i = 1; i <= Math.ceil(searchDBlength / postMaxLength); i++) {
-        pageNumberArray.push(i);
-        setPage(pageNumberArray);
-      }
-    } else if (totalDBlength && totalDBlength > 0) {
+    if (totalDBlength && totalDBlength > 0) {
       for (let i = 1; i <= Math.ceil(totalDBlength / postMaxLength); i++) {
         pageNumberArray.push(i);
         setPage(pageNumberArray);
@@ -53,10 +46,10 @@ const Pagenation = ({
   };
 
   useMemo(() => {
-    if (totalDBlength || searchDBlength) {
+    if (totalDBlength) {
       pageNumbering();
     }
-  }, [totalDBlength, searchDBlength]);
+  }, [totalDBlength]);
 
   useEffect(() => {
     if (page.length <= 5) return;
@@ -71,11 +64,6 @@ const Pagenation = ({
     if (
       totalDBlength > 0 &&
       Math.ceil(totalDBlength / postMaxLength / pageMaxLength) > pageCount
-    ) {
-      setPageCount((count) => count + 1);
-    } else if (
-      searchDBlength > 0 &&
-      Math.ceil(searchDBlength / postMaxLength / pageMaxLength) > pageCount
     ) {
       setPageCount((count) => count + 1);
     }
@@ -124,9 +112,8 @@ const Pagenation = ({
         onClick={(e) => nextPage(e)}
         cursor='pointer'
         visibility={
-          searchDBlength > 0 &&
-          Math.ceil(searchDBlength / postMaxLength / pageMaxLength) ===
-            pageCount
+          totalDBlength > 0 &&
+          Math.ceil(totalDBlength / postMaxLength / pageMaxLength) === pageCount
             ? "hidden"
             : "auto"
         }

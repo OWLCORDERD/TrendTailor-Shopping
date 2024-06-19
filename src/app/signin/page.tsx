@@ -20,6 +20,9 @@ const Login = () => {
     password: "",
   });
 
+  const router = useRouter();
+  const { status } = useSession();
+
   const TypeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -52,19 +55,22 @@ const Login = () => {
     });
 
     if (!result?.error) {
-      router.replace("/");
+      router.push("/");
     } else {
-      console.log(result);
       alert("없는 정보이거나 비밀번호가 올바르지 않습니다.");
+      return;
     }
   };
 
-  const router = useRouter();
-  const { status } = useSession();
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, []);
 
-  if (status === "authenticated") {
-    router.push("/");
-  }
+  useEffect(() => {
+    router.prefetch("/");
+  }, [router]);
 
   return (
     <div className='loginPage-container'>

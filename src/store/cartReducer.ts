@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { clothes } from "component/Main/Peed/Peed";
+import { PURGE } from "redux-persist";
 
 interface cart {
-  loginSuccess: boolean;
+  user: string;
   item: clothes[];
 }
 
 const initialState: cart = {
-  loginSuccess: false,
+  user: "",
   item: [],
 };
 
@@ -16,11 +17,20 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addCart(state, action) {
-      if (state.loginSuccess === true) {
-        state.item.push(action.payload);
+      const filter: clothes | undefined = state.item.find(
+        (clothes) => clothes.title === action.payload.product.title
+      );
+
+      if (filter === undefined) {
+        state.item.push(action.payload.product);
+        state.user = action.payload.username;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 
 export const cartReducers = cartSlice.reducer;
+export const { addCart } = cartSlice.actions;

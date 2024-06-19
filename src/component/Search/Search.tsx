@@ -1,4 +1,4 @@
-import React, { useState, SetStateAction } from "react";
+import React, { useState, SetStateAction, useRef } from "react";
 import { Search as CSS } from "styles";
 import { useRouter } from "next/navigation";
 import { IoIosClose, IoIosSearch } from "react-icons/io";
@@ -13,6 +13,8 @@ const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
 
   const [searchKeyword, setSearchKeyword] = useState<string>("");
 
+  const searchRef = useRef<HTMLInputElement>(null);
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
@@ -20,11 +22,20 @@ const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
   };
 
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    if (searchRef.current && searchRef.current.value === "") {
+      alert("키워드를 입력해주세요.");
+    }
+    if (searchKeyword !== "") {
+      e.preventDefault();
 
-    const encodedSearchKeyword = encodeURI(searchKeyword);
+      const encodedSearchKeyword = encodeURI(searchKeyword);
 
-    router.push(`/shop?q=${encodedSearchKeyword}`);
+      router.push(`/shop?q=${encodedSearchKeyword}`);
+
+      if (searchRef.current) {
+        searchRef.current.value = "";
+      }
+    }
   };
 
   return (
@@ -48,6 +59,7 @@ const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
           type='text'
           placeholder='찾으시는 의류를 검색해보세요 예) 청바지'
           onChange={(e) => onChangeHandler(e)}
+          ref={searchRef}
         />
       </CSS.SearchInput>
     </CSS.Container>

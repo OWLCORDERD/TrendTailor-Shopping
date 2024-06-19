@@ -64,7 +64,9 @@ const Navbar = () => {
         <>
           <CSS.ResponsiveNav>
             <CSS.ResponsiveLogo>
-              <Link href='/'>wish</Link>
+              <Link href='/' prefetch={true}>
+                wish
+              </Link>
             </CSS.ResponsiveLogo>
             <CSS.ResponsiveMenu>
               <CSS.SearchButton>
@@ -143,16 +145,24 @@ const Navbar = () => {
           <CSS.SubNav>
             <CSS.Menu>
               <li>
-                <Link href='/about'>About</Link>
+                <Link href='/about' prefetch={true}>
+                  About
+                </Link>
               </li>
               <li>
-                <Link href='/shop'>shop</Link>
+                <Link href='/shop' prefetch={false}>
+                  shop
+                </Link>
               </li>
               <li>
-                <Link href='/trend'>Trend</Link>
+                <Link href='/trend' prefetch={false}>
+                  Trend
+                </Link>
               </li>
               <li>
-                <Link href='/notice'>Notice</Link>
+                <Link href='/notice' prefetch={false}>
+                  Notice
+                </Link>
               </li>
             </CSS.Menu>
           </CSS.SubNav>

@@ -1,11 +1,30 @@
-import { configureStore } from "@reduxjs/toolkit";
-import clothesReducer from "./asyncAction";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import searchClothesReducer from "./searchClothes";
+import staticClothesReducer from "./staticClothes";
+import { cartReducers } from "./cartReducer";
+
+const rootReducers = combineReducers({
+  cart: cartReducers,
+  searchDB: searchClothesReducer,
+  staticDB: staticClothesReducer,
+});
+
+const persistConfig = {
+  key: "root",
+  storage: storage,
+  whitelist: ["cart", "staticDB"],
+  blacklist: ["searchDB"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducers);
 
 export const store = configureStore({
-  reducer: {
-    clothes: clothesReducer,
-  },
+  reducer: persistedReducer,
 });
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
