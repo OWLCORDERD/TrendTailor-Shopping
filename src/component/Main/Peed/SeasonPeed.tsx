@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import Link from "next/link";
 import { useAppDispatch } from "store/hooks";
-import { seasonClothesData } from "store/staticClothes";
+import { seasonClothesUpdate } from "store/staticClothes";
 
 interface seasonClothesProps {
   seasonClothes: clothes[] | undefined;
@@ -20,11 +20,6 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
   const { mode } = useContext(ThemeContext);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(seasonClothesData(seasonClothes));
-  }, []);
 
   const [scrollWidth, setScrollWidth] = useState<number>(0);
   const [scrollMaxWidth, setScrollMaxWidth] = useState<number>(0);
@@ -38,6 +33,8 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
   const [maxPage, setMaxPage] = useState<number>(0);
+
+  const dispatch = useAppDispatch();
 
   /* slide prev 뒤로가기 버튼 클릭 이벤트*/
   const prevSlide = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -88,6 +85,10 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
 
     /* 컴포넌트가 unmount 시, matchMedia의 change 이벤트 remove */
     return () => mql.removeEventListener("change", screenChange);
+  }, []);
+
+  useEffect(() => {
+    dispatch(seasonClothesUpdate(seasonClothes));
   }, []);
 
   useEffect(() => {

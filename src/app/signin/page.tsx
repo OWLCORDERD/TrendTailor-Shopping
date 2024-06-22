@@ -1,13 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "styles/signIn.scss";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navbar from "component/Main/Navbar";
 
 interface queryType {
   userEmail: string;
@@ -115,7 +114,7 @@ const Login = () => {
           <button
             type='button'
             className='kakaoLogin-button'
-            onClick={() => signIn("kakao")}
+            onClick={() => signIn("kakao", { callbackUrl: "/" })}
           >
             <RiKakaoTalkFill className='kakao' />
             <span>카카오 로그인</span>

@@ -2,6 +2,7 @@
 
 import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { RiArrowLeftDoubleLine, RiArrowRightDoubleLine } from "react-icons/ri";
+import { useAppSelector } from "store/hooks";
 
 interface pageProps {
   setCurrentPage: React.Dispatch<SetStateAction<number>>;
@@ -24,12 +25,20 @@ const Pagenation = ({
   const pageMaxLength = 5;
   const lastPageIndex = pageCount * pageMaxLength;
   const firstPageIndex = lastPageIndex - pageMaxLength;
-  /* total DBlength 값만 존재할 시 DBlength 값을 활용하여 페이지 넘버링 */
-  const pageNumbering = () => {
-    let pageNumberArray = [];
 
-    if (totalDBlength && totalDBlength > 0) {
-      for (let i = 1; i <= Math.ceil(totalDBlength / postMaxLength); i++) {
+  useEffect(() => {
+    setCurrentPage((prev) => prev - (page.length - 1));
+  }, []);
+
+  const searchStatus = useAppSelector((state) => {
+    return state.searchDB.status;
+  });
+
+  /* total DBlength 값만 존재할 시 DBlength 값을 활용하여 페이지 넘버링 */
+  const pageNumbering = (DBlength: number) => {
+    let pageNumberArray = [];
+    if (DBlength && DBlength > 0) {
+      for (let i = 1; i <= Math.ceil(DBlength / postMaxLength); i++) {
         pageNumberArray.push(i);
         setPage(pageNumberArray);
       }
@@ -46,17 +55,17 @@ const Pagenation = ({
   };
 
   useMemo(() => {
-    if (totalDBlength) {
-      pageNumbering();
-    }
-  }, [totalDBlength]);
+    pageNumbering(totalDBlength);
+  }, [totalDBlength, searchStatus]);
 
   useEffect(() => {
-    if (page.length <= 5) return;
-
-    if (page.length > 5) {
+    if (page.length > pageMaxLength) {
       const firstPageSlice = page.slice(firstPageIndex, lastPageIndex);
       setCurrentViewPage(firstPageSlice);
+    } else if (page.length < pageMaxLength) {
+      const lastPageIndex = page.length * pageCount;
+      const pageSlice = page.slice(firstPageIndex, lastPageIndex);
+      setCurrentViewPage(pageSlice);
     }
   }, [page]);
 

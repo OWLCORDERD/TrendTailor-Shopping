@@ -7,16 +7,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
-import { useAppDispatch, useAppSelector } from "store/hooks";
 import Link from "next/link";
-import { allClothesData } from "store/staticClothes";
-import { canselSearch } from "store/searchClothes";
+import { trendClothesDataUpdate } from "store/staticClothes";
 
 interface allClothesProps {
-  allClothes: clothes[];
+  clothesData: clothes[];
 }
 
-const ClothesPeed = ({ allClothes }: allClothesProps) => {
+const ClothesPeed = ({ clothesData }: allClothesProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const postMaxlength = 10;
@@ -24,9 +22,6 @@ const ClothesPeed = ({ allClothes }: allClothesProps) => {
   const { mode } = useContext(ThemeContext);
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
-
-  const clothesData = useAppSelector((state) => state.staticDB.allData);
-  const dispatch = useAppDispatch();
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
@@ -67,11 +62,6 @@ const ClothesPeed = ({ allClothes }: allClothesProps) => {
   };
 
   useEffect(() => {
-    dispatch(allClothesData(allClothes));
-    dispatch(canselSearch());
-  }, []);
-
-  useEffect(() => {
     if (currentDB.length > 0) return;
 
     if (clothesData && clothesData.length > 0) {
@@ -83,6 +73,10 @@ const ClothesPeed = ({ allClothes }: allClothesProps) => {
     setLoading(true);
     currentDBUpdate();
   }, [currentPage]);
+
+  useEffect(() => {
+    trendClothesDataUpdate(clothesData);
+  }, []);
 
   return (
     <CSS.Container>

@@ -69,14 +69,14 @@ const getSeasonClothesDB = async () => {
   }
 };
 
-const getAllClothes = async () => {
+const getTrendClothes = async () => {
   const naverApiHeaders: any = {
     "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
     "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
   };
 
   const apiEndPoint = "https://openapi.naver.com/v1/search/shop.json";
-  const searchQuery = "스트릿패션";
+  const searchQuery = "미니멀 패션";
 
   const res = await fetch(`${apiEndPoint}?query=${searchQuery}&display=100`, {
     headers: naverApiHeaders,
@@ -91,14 +91,14 @@ const getAllClothes = async () => {
 
 const Peed = async () => {
   const seasonClothesDB: clothes[] | undefined = await getSeasonClothesDB();
-  const allClothesDB: clothes[] = await getAllClothes();
+  const allClothesDB: clothes[] = await getTrendClothes();
 
   return (
     <section className='MainPeed-container'>
       <MainBoard />
       <div className='Peed-wrapper'>
         <SeasonPeed seasonClothes={seasonClothesDB} />
-        <ClothesPeed allClothes={allClothesDB} />
+        <ClothesPeed clothesData={allClothesDB} />
       </div>
     </section>
   );

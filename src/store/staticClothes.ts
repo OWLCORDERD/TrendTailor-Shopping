@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { clothes } from "component/Main/Peed/Peed";
 
 interface initialTypes {
-  allData: clothes[];
+  trendData: clothes[];
   seasonData: clothes[];
   currentProduct: clothes | undefined;
 }
 
 const initialState: initialTypes = {
-  allData: [],
+  trendData: [],
   seasonData: [],
   currentProduct: undefined,
 };
@@ -18,28 +18,28 @@ const staticClothesDB = createSlice({
   initialState,
   reducers: {
     currentProduct(state, action) {
-      const findAllClothes = state.allData.find(
+      const findClothes = state.trendData.find(
         (clothes) => clothes.productId === action.payload
       );
 
-      if (findAllClothes === undefined) {
+      if (findClothes === undefined) {
         const findSeasonClothes = state.seasonData.find(
           (clothes) => clothes.productId === action.payload
         );
         state.currentProduct = findSeasonClothes;
-      } else {
-        state.currentProduct = findAllClothes;
       }
+
+      state.currentProduct = findClothes;
     },
-    allClothesData(state, action) {
-      state.allData = action.payload;
+    trendClothesDataUpdate(state, action) {
+      state.trendData = action.payload;
     },
-    seasonClothesData(state, action) {
+    seasonClothesUpdate(state, action) {
       state.seasonData = action.payload;
     },
   },
 });
 
 export default staticClothesDB.reducer;
-export const { currentProduct, allClothesData, seasonClothesData } =
+export const { currentProduct, trendClothesDataUpdate, seasonClothesUpdate } =
   staticClothesDB.actions;

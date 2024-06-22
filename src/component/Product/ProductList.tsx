@@ -10,15 +10,20 @@ import Link from "next/link";
 import Loading from "component/fetchDB/loading/Loading";
 import { useSearchParams } from "next/navigation";
 import { canselSearch, getSearchClothesAsync } from "store/searchClothes";
+import { trendClothesDataUpdate } from "store/staticClothes";
 
-const ProductList = () => {
+interface allClothesType {
+  trendClothes: clothes[];
+}
+
+const ProductList = ({ trendClothes }: allClothesType) => {
   const search = useSearchParams();
   const searchQuery = search ? search?.get("q") : null;
 
-  const clothesData = useAppSelector((state: RootState) => {
-    return searchQuery === null
-      ? state.staticDB.allData
-      : state.searchDB.searchData;
+  const searchKeyword = useAppSelector((state) => state.searchDB.keyword);
+  const searchStatus = useAppSelector((state) => state.searchDB.status);
+  const searchClothesData: clothes[] = useAppSelector((state: RootState) => {
+    return state.searchDB.searchData;
   });
 
   const dispatch = useAppDispatch();
@@ -37,8 +42,6 @@ const ProductList = () => {
     }
   }, [searchQuery]);
 
-  const searchKeyword = useAppSelector((state) => state.searchDB.keyword);
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
   const postMaxLength: number = mobileMQuery ? 8 : 15;
@@ -51,12 +54,17 @@ const ProductList = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const currentPostDB = clothesData.slice(indexOfFirst, indexOfLast);
+    if (searchStatus) {
+      const currentPostDB = searchClothesData.slice(indexOfFirst, indexOfLast);
 
-    setCurrentPost(currentPostDB);
+      setCurrentPost(currentPostDB);
+    } else {
+      const currentPostDB = trendClothes.slice(indexOfFirst, indexOfLast);
 
+      setCurrentPost(currentPostDB);
+    }
     setLoading(false);
-  }, [currentPage, clothesData]);
+  }, [currentPage, searchClothesData, trendClothes, searchStatus]);
 
   useEffect(() => {
     const mql = window.matchMedia("screen and (max-width : 768px)");
@@ -64,6 +72,8 @@ const ProductList = () => {
     if (mql.matches) {
       setMobileMQuery(mql.matches);
     }
+
+    dispatch(trendClothesDataUpdate(trendClothes));
   }, []);
 
   return (
@@ -79,7 +89,7 @@ const ProductList = () => {
 
         <div className='product-count'>
           <span>
-            {clothesData.length}
+            {searchStatus ? searchClothesData.length : trendClothes.length}
             개의 상품
           </span>
         </div>
@@ -118,11 +128,13 @@ const ProductList = () => {
           )}
         </ul>
       </div>
-      {clothesData.length > 0 ? (
+      {searchClothesData.length > 0 || trendClothes.length > 0 ? (
         <Pagenation
           setCurrentPage={setCurrentPage}
           postMaxLength={postMaxLength}
-          totalDBlength={clothesData.length}
+          totalDBlength={
+            searchStatus ? searchClothesData.length : trendClothes.length
+          }
           currentPage={currentPage}
           setLoading={setLoading}
         />

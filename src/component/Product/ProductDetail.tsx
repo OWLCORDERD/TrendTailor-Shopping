@@ -22,7 +22,7 @@ const ProductDetail = () => {
   const currentProductDB = useAppSelector((state) => {
     return searchStatus
       ? state.searchDB.currentProduct
-      : state.staticDB.currentProduct;
+      : state.clothesDB.currentProduct;
   });
 
   const dispatch = useAppDispatch();

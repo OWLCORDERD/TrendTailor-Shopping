@@ -8,13 +8,13 @@ import { cartReducers } from "./cartReducer";
 const rootReducers = combineReducers({
   cart: cartReducers,
   searchDB: searchClothesReducer,
-  staticDB: staticClothesReducer,
+  clothesDB: staticClothesReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["cart", "staticDB"],
+  whitelist: ["cart", "clothesDB"],
   blacklist: ["searchDB"],
 };
 
