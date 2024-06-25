@@ -4,12 +4,9 @@ import React, { useState, useEffect } from "react";
 import Pagenation from "./Pagenation";
 import Image from "next/image";
 import { clothes } from "component/Main/Peed/Peed";
-import { useAppDispatch, useAppSelector } from "store/hooks";
-import { RootState } from "store/store";
+import { useAppDispatch } from "store/hooks";
 import Link from "next/link";
 import Loading from "component/fetchDB/loading/Loading";
-import { useSearchParams } from "next/navigation";
-import { canselSearch, getSearchClothesAsync } from "store/searchClothes";
 import { trendClothesDataUpdate } from "store/staticClothes";
 
 interface allClothesType {
@@ -17,54 +14,32 @@ interface allClothesType {
 }
 
 const ProductList = ({ trendClothes }: allClothesType) => {
-  const search = useSearchParams();
-  const searchQuery = search ? search?.get("q") : null;
-
-  const searchKeyword = useAppSelector((state) => state.searchDB.keyword);
-  const searchStatus = useAppSelector((state) => state.searchDB.status);
-  const searchClothesData: clothes[] = useAppSelector((state: RootState) => {
-    return state.searchDB.searchData;
-  });
-
-  const dispatch = useAppDispatch();
-
-  const fetchKeyword = async () => {
-    if (searchQuery !== null) {
-      dispatch(getSearchClothesAsync(searchQuery));
-    }
-  };
-
-  useEffect(() => {
-    if (searchQuery !== null) {
-      fetchKeyword();
-    } else {
-      dispatch(canselSearch());
-    }
-  }, [searchQuery]);
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
+  const [currentPost, setCurrentPost] = useState<clothes[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const postMaxLength: number = mobileMQuery ? 8 : 15;
 
   const indexOfLast = currentPage * postMaxLength;
   const indexOfFirst = indexOfLast - postMaxLength;
 
-  const [currentPost, setCurrentPost] = useState<clothes[]>([]);
+  const dispatch = useAppDispatch();
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const currentPostData = () => {
+    const currentPostDB = trendClothes.slice(indexOfFirst, indexOfLast);
+
+    setCurrentPost(currentPostDB);
+
+    setLoading(false);
+  };
 
   useEffect(() => {
-    if (searchStatus) {
-      const currentPostDB = searchClothesData.slice(indexOfFirst, indexOfLast);
+    currentPostData();
+  }, [currentPage]);
 
-      setCurrentPost(currentPostDB);
-    } else {
-      const currentPostDB = trendClothes.slice(indexOfFirst, indexOfLast);
-
-      setCurrentPost(currentPostDB);
-    }
-    setLoading(false);
-  }, [currentPage, searchClothesData, trendClothes, searchStatus]);
+  const screenChange = (e: MediaQueryListEvent) => {
+    setMobileMQuery(e.matches);
+  };
 
   useEffect(() => {
     const mql = window.matchMedia("screen and (max-width : 768px)");
@@ -73,23 +48,29 @@ const ProductList = ({ trendClothes }: allClothesType) => {
       setMobileMQuery(mql.matches);
     }
 
+    mql.addEventListener("change", screenChange);
+
     dispatch(trendClothesDataUpdate(trendClothes));
+
+    return () => {
+      mql.removeEventListener("change", screenChange);
+    };
   }, []);
+
+  useEffect(() => {
+    currentPostData();
+  }, [mobileMQuery]);
 
   return (
     <section className='productList-container'>
       <div className='List-tabMenu'>
         <div className='tabMenu-title'>
-          {searchQuery ? (
-            <h1 className='search-title'>{`'${searchKeyword}' 통합 검색 결과`}</h1>
-          ) : (
-            <h1 className='default-title'>all wish clothes</h1>
-          )}
+          <h1 className='default-title'>금주 추천 트렌드 의류</h1>
         </div>
 
         <div className='product-count'>
           <span>
-            {searchStatus ? searchClothesData.length : trendClothes.length}
+            {trendClothes.length}
             개의 상품
           </span>
         </div>
@@ -128,13 +109,11 @@ const ProductList = ({ trendClothes }: allClothesType) => {
           )}
         </ul>
       </div>
-      {searchClothesData.length > 0 || trendClothes.length > 0 ? (
+      {trendClothes.length > 0 ? (
         <Pagenation
           setCurrentPage={setCurrentPage}
           postMaxLength={postMaxLength}
-          totalDBlength={
-            searchStatus ? searchClothesData.length : trendClothes.length
-          }
+          totalDBlength={trendClothes.length}
           currentPage={currentPage}
           setLoading={setLoading}
         />

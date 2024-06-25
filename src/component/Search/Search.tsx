@@ -30,7 +30,7 @@ const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
 
       const encodedSearchKeyword = encodeURI(searchKeyword);
 
-      router.push(`/shop?q=${encodedSearchKeyword}`);
+      router.push(`/shop/search?q=${encodedSearchKeyword}`);
 
       if (searchRef.current) {
         searchRef.current.value = "";

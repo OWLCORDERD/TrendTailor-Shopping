@@ -21,18 +21,9 @@
                     width: 100%;
 
                     .default-title{
-                        font-family: $Raleway-font;
-                        font-size: 1.5rem;
-                        line-height: 5rem;
-                        text-transform: uppercase;
-                        text-align: center;
-                        font-weight : bold;
-                    }
-
-                    .search-title {
                         font-family: $Jamsil-font;
                         font-size: 1.5rem;
-                        line-height : 5rem;
+                        line-height: 5rem;
                         text-transform: uppercase;
                         text-align: center;
                         font-weight : bold;
@@ -186,6 +177,23 @@
             max-width : 100%;
     
             .productList-container{
+
+                .List-tabMenu{
+    
+                    .tabMenu-title{
+    
+                        .default-title{
+                            font-size: 1.2rem;
+                        }
+                    }
+    
+                    .product-count{
+    
+                        span{
+                            font-size: 14px;
+                        }
+                    }
+                }
     
                 .product-Box{
     

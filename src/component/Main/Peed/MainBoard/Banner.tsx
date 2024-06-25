@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import "swiper/css";
+import "styles/swiper/swiper.css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
@@ -24,17 +24,20 @@ interface MainBoardPropsType {
 const Banner = ({ slideDB }: MainBoardPropsType) => {
   return (
     <CSS.Container>
-      <Swiper
-        slidesPerView={1}
-        navigation={{
-          nextEl: ".slide-next",
-          prevEl: ".slide-prev",
-        }}
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 3500, disableOnInteraction: false }}
-        modules={[Pagination, Navigation, Autoplay]}
-      >
-        <CSS.slideWrap>
+      <CSS.slideWrap>
+        <Swiper
+          slidesPerView={"auto"}
+          navigation={{
+            nextEl: ".slide-next",
+            prevEl: ".slide-prev",
+          }}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3500, disableOnInteraction: false }}
+          modules={[Pagination, Navigation, Autoplay]}
+          spaceBetween={50}
+          centeredSlides={true}
+          loop={true}
+        >
           {slideDB?.map((slide) => {
             return (
               <SwiperSlide key={slide.id}>
@@ -61,17 +64,17 @@ const Banner = ({ slideDB }: MainBoardPropsType) => {
               </SwiperSlide>
             );
           })}
-        </CSS.slideWrap>
-        <CSS.slideControl>
-          <CSS.prevButton className='slide-prev'>
-            <IoIosArrowBack color='#fff' fontSize={50} />
-          </CSS.prevButton>
+          <CSS.slideControl>
+            <CSS.prevButton className='slide-prev'>
+              <IoIosArrowBack color='#fff' fontSize={50} />
+            </CSS.prevButton>
 
-          <CSS.nextButton className='slide-next'>
-            <IoIosArrowForward color='#fff' fontSize={50} />
-          </CSS.nextButton>
-        </CSS.slideControl>
-      </Swiper>
+            <CSS.nextButton className='slide-next'>
+              <IoIosArrowForward color='#fff' fontSize={50} />
+            </CSS.nextButton>
+          </CSS.slideControl>
+        </Swiper>
+      </CSS.slideWrap>
     </CSS.Container>
   );
 };

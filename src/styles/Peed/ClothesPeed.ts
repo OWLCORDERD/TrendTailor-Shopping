@@ -58,41 +58,25 @@ ClothesPeed.Info = styled.p`
 
 ClothesPeed.PeedWrap = styled.div`
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  place-items: center;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(20rem * 5);
-  height: 100%;
+  display: block;
   padding: 2rem 0;
-
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    width: calc(16rem * 5);
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    grid-template-columns: repeat(2, 1fr);
-  }
 `;
 
 ClothesPeed.ProductItem = styled.div<{ $mode: string }>`
   position: relative;
-  width: 20rem;
+  display: inline-block;
+  width: calc(100% / 5 - 30px);
   height: 32rem;
-  padding: 1rem;
+  margin: 0 15px;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    width: 16rem;
     height: 30rem;
   }
 
   @media screen and (max-width: 768px) {
-    width: 10rem;
+    width: calc(100% / 2 - 20px);
     height: 25rem;
-    padding: 0;
+    margin: 0 10px;
 
     &:hover {
       background-color: transparent;

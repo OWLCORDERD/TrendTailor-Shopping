@@ -26,10 +26,6 @@ const Pagenation = ({
   const lastPageIndex = pageCount * pageMaxLength;
   const firstPageIndex = lastPageIndex - pageMaxLength;
 
-  useEffect(() => {
-    setCurrentPage((prev) => prev - (page.length - 1));
-  }, []);
-
   const searchStatus = useAppSelector((state) => {
     return state.searchDB.status;
   });

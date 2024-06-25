@@ -39,7 +39,7 @@ Banner.Container = styled.div`
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     position: relative;
     width: 100%;
-    height: 40rem;
+    height: 35rem;
     overflow: hidden;
   }
 
@@ -57,9 +57,12 @@ Banner.Container = styled.div`
 
 Banner.slideWrap = styled.div`
   position: relative;
-  display: inline-flex;
   width: 100%;
-  height: 100%;
+  padding: 0 15%;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 Banner.slideItem = styled.div`
@@ -84,7 +87,7 @@ Banner.slideItem = styled.div`
   }
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    height: 40rem;
+    height: 35rem;
   }
 
   @media screen and (max-width: 768px) {

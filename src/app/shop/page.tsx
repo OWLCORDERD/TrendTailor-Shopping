@@ -3,7 +3,7 @@ import ProductList from "component/Product/ProductList";
 import React from "react";
 import "styles/shop.scss";
 
-export const fetchClothes = async () => {
+const fetchClothes = async () => {
   const endPoint = "https://openapi.naver.com/v1/search/shop.json";
   const headerParams: any = {
     "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
