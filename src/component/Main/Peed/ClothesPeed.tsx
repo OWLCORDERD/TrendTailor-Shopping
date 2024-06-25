@@ -81,7 +81,7 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
   return (
     <CSS.Container>
       <CSS.TitleBox>
-        <CSS.Title>More Wish Clothes</CSS.Title>
+        <CSS.Title>금주 트렌드 의류</CSS.Title>
         <CSS.Info>WISH에서 단독으로 추천하는 의류들을 소개합니다.</CSS.Info>
       </CSS.TitleBox>
 

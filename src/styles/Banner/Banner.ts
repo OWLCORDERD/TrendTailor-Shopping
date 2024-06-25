@@ -58,7 +58,7 @@ Banner.Container = styled.div`
 Banner.slideWrap = styled.div`
   position: relative;
   width: 100%;
-  padding: 0 15%;
+  padding: 0 10%;
 
   @media screen and (max-width: 768px) {
     padding: 0;

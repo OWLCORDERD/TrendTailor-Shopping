@@ -7,6 +7,7 @@ SeasonPeed.Container = styled.div`
   width: 100%;
   height: max-content;
   padding: 3.125rem 6.25rem;
+  background-color: #f1f1f1;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     padding: 3.125rem 6.25rem;
@@ -18,14 +19,8 @@ SeasonPeed.Container = styled.div`
 `;
 
 SeasonPeed.TitleBox = styled.div`
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
-  height: 5rem;
+  height: 10rem;
   margin-bottom: 3rem;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
@@ -39,14 +34,14 @@ SeasonPeed.TitleBox = styled.div`
 `;
 
 SeasonPeed.Title = styled.div`
-  width: 20rem;
+  width: 100%;
   height: 5rem;
+  margin-bottom: 2rem;
 
   h1 {
     line-height: 5rem;
-    font-size: 1.5rem;
-    font-family: "Raleway", sans-serif;
-    text-transform: uppercase;
+    font-size: 1.8rem;
+    font-family: "TheJamsil", sans-serif;
     font-weight: bold;
   }
 
@@ -64,10 +59,25 @@ SeasonPeed.Title = styled.div`
   }
 `;
 
+SeasonPeed.Info = styled.div`
+  width: 100%;
+  height: 3rem;
+
+  p {
+    line-height: 3rem;
+    font-size: 15px;
+    font-family: "TheJamsil", sans-serif;
+    font-weight: 400;
+  }
+`;
+
 SeasonPeed.ControlBox = styled.div`
-  position: relative;
-  width: 15rem;
+  position: absolute;
+  width: 100%;
   height: 5rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,45 +87,24 @@ SeasonPeed.ControlBox = styled.div`
   }
 `;
 
-SeasonPeed.ControlState = styled.div`
-  width: 10rem;
-
-  span {
-    font-family: "TheJamsil", sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-  }
-`;
-
-SeasonPeed.ControlButtons = styled.div`
-  position: relative;
-  width: 5rem;
-  height: 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 SeasonPeed.ControlButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 6.25rem;
+  width: 6.25rem;
   z-index: 10;
   cursor: pointer;
   background-color: transparent;
-  border: 1px solid #c1c1c1;
+  border: none;
   color: #1b1b1b;
 `;
 
 SeasonPeed.Slider = styled.div`
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(20rem * 5);
+  width: 100%;
   height: 32rem;
-  overflow-x: scroll;
+  overflow: hidden;
 
   &::-webkit-scrollbar {
     display: none;
@@ -133,19 +122,20 @@ SeasonPeed.Slider = styled.div`
 `;
 
 SeasonPeed.SlideWrap = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: max-content;
+  width: 100%;
   height: 100%;
-  display: inline-flex;
+
+  .swiper-slide {
+    width: calc(100% / 5) !important;
+    transform: scale(1);
+  }
 `;
 
 SeasonPeed.SlideItem = styled.div<{ $mode: string }>`
   position: relative;
-  width: 20rem;
+  width: 100%;
   height: 100%;
-  padding: 1rem 3.125rem;
+  padding: 0 20px;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     width: 18rem;

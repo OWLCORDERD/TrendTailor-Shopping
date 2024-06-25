@@ -25,9 +25,9 @@ ClothesPeed.TitleBox = styled.div`
 
 ClothesPeed.Title = styled.h1`
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   text-transform: uppercase;
-  font-family: "Raleway", sans-serif;
+  font-family: "TheJamsil", sans-serif;
   line-height: 5rem;
   text-align: center;
 
@@ -42,7 +42,7 @@ ClothesPeed.Title = styled.h1`
 
 ClothesPeed.Info = styled.p`
   width: 100%;
-  font-size: 13px;
+  font-size: 15px;
   font-family: "TheJamsil", sans-serif;
   text-align: center;
   line-height: 3rem;
