@@ -6,6 +6,7 @@ import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
 import "app/globals.scss";
+import { ScrollToTop } from "component/fetchDB/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "WISH",
@@ -38,8 +39,8 @@ export default function RootLayout({
                 <Navbar />
                 {children}
               </ReduxProvider>
+              <Footer />
             </ThemeProvider>
-            <Footer />
           </StyledComponentsRegistry>
         </body>
       </html>

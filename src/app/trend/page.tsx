@@ -2,6 +2,7 @@ import Footer from "component/Main/Footer";
 import Navbar from "component/Main/Navbar";
 import TrendChannel from "component/Trend/TrendChannel";
 import TrendVideoList from "component/Trend/TrendVideoList";
+import { ScrollToTop } from "component/fetchDB/ScrollToTop";
 import React from "react";
 import "styles/trend.scss";
 
@@ -96,12 +97,15 @@ const page = async () => {
   const videoData: videoType[] = await getYoutubeDB();
   const channelData: channelDataType[] = await getChannelData();
   return (
-    <main>
-      <section className='Trend-container'>
-        <TrendChannel channelData={channelData} />
-        <TrendVideoList channelData={channelData} videoData={videoData} />
-      </section>
-    </main>
+    <>
+      <ScrollToTop />
+      <main>
+        <section className='Trend-container'>
+          <TrendChannel channelData={channelData} />
+          <TrendVideoList channelData={channelData} videoData={videoData} />
+        </section>
+      </main>
+    </>
   );
 };
 

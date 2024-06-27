@@ -1,8 +1,6 @@
 "use client";
 
 import axios from "axios";
-import Footer from "component/Main/Footer";
-import Navbar from "component/Main/Navbar";
 import Pagenation from "component/Notice/Pagenation";
 import React, { useEffect, useState, useContext } from "react";
 import "styles/notice.scss";
@@ -12,6 +10,7 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "component/fetchDB/firebase";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { ScrollToTop } from "component/fetchDB/ScrollToTop";
 
 export interface NoticeType {
   id: string;
@@ -101,84 +100,89 @@ export default function Notice() {
   };
 
   return (
-    <div className='wrap'>
-      <section className='NoticePage-container'>
-        <div className='Notice-header'>
-          <div className='Notice-title'>
-            <h1>공지사항</h1>
+    <>
+      <ScrollToTop />
+      <div className='wrap'>
+        <section className='NoticePage-container'>
+          <div className='Notice-header'>
+            <div className='Notice-title'>
+              <h1>공지사항</h1>
+            </div>
+
+            <div
+              className='AddNotice-button'
+              hidden={status === "authenticated" ? false : true}
+            >
+              <a href='/addNotice'>공지사항 작성</a>
+            </div>
+          </div>
+          <div className='Notice-table'>
+            {loading ? (
+              <div className='loader'>
+                <RotatingLines
+                  strokeColor={mode === "dark" ? "white" : "black"}
+                  strokeWidth='3'
+                  animationDuration='0.75'
+                  width='50'
+                  visible={true}
+                />
+              </div>
+            ) : (
+              <div className='border-table'>
+                <table>
+                  <thead className={mode === "dark" ? "darkMode" : "lightMode"}>
+                    <tr>
+                      <th>
+                        <h1>제목</h1>
+                      </th>
+                      <th>
+                        <h1>글쓴이</h1>
+                      </th>
+                      <th>
+                        <h1>날짜</h1>
+                      </th>
+                      <th>
+                        <h1>조회수</h1>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {noticeDB.map((item) => {
+                      return (
+                        <>
+                          <tr
+                            key={item.id}
+                            onClick={() => viewCount(item.view_cnt, item.id)}
+                            className={
+                              mode === "dark" ? "darkMode" : "lightMode"
+                            }
+                          >
+                            <td>
+                              <span>{item.title}</span>
+                            </td>
+                            <td>
+                              <span>{item.writer}</span>
+                            </td>
+                            <td>
+                              <span>{item.date}</span>
+                            </td>
+                            <td>
+                              <span>{item.view_cnt}</span>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
 
-          <div
-            className='AddNotice-button'
-            hidden={status === "authenticated" ? false : true}
-          >
-            <a href='/addNotice'>공지사항 작성</a>
-          </div>
-        </div>
-        <div className='Notice-table'>
-          {loading ? (
-            <div className='loader'>
-              <RotatingLines
-                strokeColor={mode === "dark" ? "white" : "black"}
-                strokeWidth='3'
-                animationDuration='0.75'
-                width='50'
-                visible={true}
-              />
-            </div>
-          ) : (
-            <div className='border-table'>
-              <table>
-                <thead className={mode === "dark" ? "darkMode" : "lightMode"}>
-                  <tr>
-                    <th>
-                      <h1>제목</h1>
-                    </th>
-                    <th>
-                      <h1>글쓴이</h1>
-                    </th>
-                    <th>
-                      <h1>날짜</h1>
-                    </th>
-                    <th>
-                      <h1>조회수</h1>
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {noticeDB.map((item) => {
-                    return (
-                      <>
-                        <tr
-                          key={item.id}
-                          onClick={() => viewCount(item.view_cnt, item.id)}
-                          className={mode === "dark" ? "darkMode" : "lightMode"}
-                        >
-                          <td>
-                            <span>{item.title}</span>
-                          </td>
-                          <td>
-                            <span>{item.writer}</span>
-                          </td>
-                          <td>
-                            <span>{item.date}</span>
-                          </td>
-                          <td>
-                            <span>{item.view_cnt}</span>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-
-        <Pagenation />
-      </section>
-    </div>
+          <Pagenation />
+        </section>
+      </div>
+    </>
   );
 }
