@@ -1,18 +1,18 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SeasonPeed as CSS } from "styles";
 import Image from "next/image";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import Link from "next/link";
 import { useAppDispatch } from "store/hooks";
 import { seasonClothesUpdate } from "store/staticClothes";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Scrollbar } from "swiper/modules";
 import "styles/swiper/swiper.css";
-import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/scrollbar";
+import { canselSearch } from "store/searchClothes";
 
 interface seasonClothesProps {
   seasonClothes: clothes[] | undefined;
@@ -30,10 +30,7 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
-          <path
-            d='M35 40L62.5285 10H65L37.5 40L65 70H62.5285L35 40Z'
-            fill='black'
-          />
+          <path d='M35 40L62.5285 10H65L37.5 40L65 70H62.5285L35 40Z' />
         </svg>
       ),
     },
@@ -47,17 +44,13 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >
-          <path
-            d='M65 40L37.2599 10H35L62.4138 40L35 70H37.2599L65 40Z'
-            fill='black'
-          />
+          <path d='M65 40L37.2599 10H35L62.4138 40L35 70H37.2599L65 40Z' />
         </svg>
       ),
     },
   ];
-  const itemRef = useRef<HTMLDivElement>(null);
+
   const [loading, setLoading] = useState<boolean>(true);
-  const [maxPage, setMaxPage] = useState<number>(0);
 
   const dispatch = useAppDispatch();
 
@@ -66,14 +59,8 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
   }, []);
 
   useEffect(() => {
-    if (seasonClothes && seasonClothes.length === 0) return;
-
-    if (seasonClothes !== undefined) {
-      const viewMaxItem = 5;
-
-      setMaxPage(seasonClothes.length - (viewMaxItem - 1));
-      setLoading(false);
-    }
+    dispatch(canselSearch());
+    setLoading(false);
   }, [seasonClothes]);
 
   return (
@@ -91,19 +78,28 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
         {!loading && seasonClothes && seasonClothes.length > 0 ? (
           <CSS.SlideWrap>
             <Swiper
-              slidesPerView={5}
+              slidesPerView={1}
               loop={true}
-              pagination={false}
+              loopAdditionalSlides={4}
+              scrollbar={{ hide: false }}
               navigation={{
                 nextEl: ".next",
                 prevEl: ".prev",
               }}
-              modules={[Navigation]}
+              modules={[Navigation, Scrollbar]}
+              speed={1000}
+              spaceBetween={20}
+              breakpoints={{
+                1024: {
+                  slidesPerView: 5,
+                  spaceBetween: 0,
+                },
+              }}
             >
               {seasonClothes.map((clothes) => {
                 return (
-                  <SwiperSlide>
-                    <CSS.SlideItem key={clothes.productId} ref={itemRef}>
+                  <SwiperSlide key={clothes.productId}>
+                    <CSS.SlideItem>
                       <Link
                         href={{
                           pathname: `/shop/${clothes.productId}`,

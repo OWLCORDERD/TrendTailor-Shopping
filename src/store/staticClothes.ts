@@ -22,14 +22,14 @@ const staticClothesDB = createSlice({
         (clothes) => clothes.productId === action.payload
       );
 
-      if (findClothes === undefined) {
+      if (findClothes !== undefined) {
+        state.currentProduct = findClothes;
+      } else {
         const findSeasonClothes = state.seasonData.find(
           (clothes) => clothes.productId === action.payload
         );
         state.currentProduct = findSeasonClothes;
       }
-
-      state.currentProduct = findClothes;
     },
     trendClothesDataUpdate(state, action) {
       state.trendData = action.payload;

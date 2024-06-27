@@ -31,6 +31,13 @@ const ProductDetail = () => {
 
   const [selectSize, setSelectSize] = useState<selectSize[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   const selectProductSize = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const currentSize = e.target.value;
@@ -131,7 +138,7 @@ const ProductDetail = () => {
 
   return (
     <CSS.Detail_container>
-      {currentProductDB ? (
+      {currentProductDB && !loading ? (
         <CSS.Detail_inner>
           <CSS.Product_imgBox>
             <Image

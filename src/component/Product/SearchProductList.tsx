@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import Pagenation from "./Pagenation";
 import { useSearchParams } from "next/navigation";
-import { getSearchClothesAsync } from "store/searchClothes";
+import { canselSearch, getSearchClothesAsync } from "store/searchClothes";
 
 const SearchProductList = () => {
   const [loading, setLoading] = useState<boolean>(true);

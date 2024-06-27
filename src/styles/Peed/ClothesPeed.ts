@@ -20,7 +20,12 @@ ClothesPeed.Container = styled.div`
 ClothesPeed.TitleBox = styled.div`
   position: relative;
   width: 100%;
+  height: 10rem;
   margin-bottom: 3rem;
+
+  @media screen and (max-width: 768px) {
+    height: 7rem;
+  }
 `;
 
 ClothesPeed.Title = styled.h1`
@@ -29,13 +34,16 @@ ClothesPeed.Title = styled.h1`
   text-transform: uppercase;
   font-family: "TheJamsil", sans-serif;
   line-height: 5rem;
+  margin-bottom: 2rem;
   text-align: center;
+  font-weight: 500;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     font-size: 1.2rem;
   }
 
   @media screen and (max-width: 768px) {
+    line-height: 3rem;
     font-size: 1rem;
   }
 `;
@@ -52,6 +60,7 @@ ClothesPeed.Info = styled.p`
   }
 
   @media screen and (max-width: 768px) {
+    line-height: 2rem;
     font-size: 10px;
   }
 `;

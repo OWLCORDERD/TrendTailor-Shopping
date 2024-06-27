@@ -15,6 +15,7 @@ NoticeBoard.Container = styled.div`
     height: 10rem;
     flex-direction: column;
     padding: 0 2rem;
+    margin: 2rem 0;
   }
 `;
 

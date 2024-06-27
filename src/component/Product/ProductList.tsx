@@ -8,6 +8,7 @@ import { useAppDispatch } from "store/hooks";
 import Link from "next/link";
 import Loading from "component/fetchDB/loading/Loading";
 import { trendClothesDataUpdate } from "store/staticClothes";
+import { canselSearch } from "store/searchClothes";
 
 interface allClothesType {
   trendClothes: clothes[];
@@ -51,6 +52,8 @@ const ProductList = ({ trendClothes }: allClothesType) => {
     mql.addEventListener("change", screenChange);
 
     dispatch(trendClothesDataUpdate(trendClothes));
+
+    dispatch(canselSearch());
 
     return () => {
       mql.removeEventListener("change", screenChange);

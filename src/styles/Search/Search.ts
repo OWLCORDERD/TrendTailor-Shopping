@@ -12,14 +12,7 @@ Search.Container = styled.form<{ $responsiveActive: boolean }>`
   }
 
   @media screen and (max-width: 768px) {
-    position: fixed;
-    top: 5rem;
-    left: 0;
-    opacity: ${(props) => (props.$responsiveActive ? 1 : 0)};
-    width: 100%;
-    height: ${(props) => (props.$responsiveActive ? "3rem" : 0)};
-    transition: all 0.2s ease-in-out;
-    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
   }
 `;
 
@@ -27,8 +20,7 @@ Search.SearchInput = styled.div`
   position: relative;
   width: 100%;
   padding: 0 4rem 0 1rem;
-  border: 2px solid #000;
-  border-radius: 2rem;
+  border: 2px solid #5d5d5d;
 
   input {
     width: 100%;

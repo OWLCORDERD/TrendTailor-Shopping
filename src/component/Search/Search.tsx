@@ -39,22 +39,12 @@ const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
   };
 
   return (
-    <CSS.Container
-      $responsiveActive={searchActive}
-      onSubmit={(e: any) => onSearch(e)}
-    >
+    <CSS.Container onSubmit={(e: any) => onSearch(e)}>
       <CSS.SearchInput>
-        {searchActive === true ? (
-          <IoIosClose
-            className='search-button'
-            onClick={() => setSearchActive(false)}
-          />
-        ) : (
-          <IoIosSearch
-            className='search-button'
-            onClick={(e: any) => onSearch(e)}
-          />
-        )}
+        <IoIosSearch
+          className='search-button'
+          onClick={(e: any) => onSearch(e)}
+        />
         <input
           type='text'
           placeholder='찾으시는 의류를 검색해보세요 예) 청바지'

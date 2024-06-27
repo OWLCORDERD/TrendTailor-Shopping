@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { currentSearchProduct } from "store/searchClothes";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { styled } from "styled-components";
-import { useSearchParams } from "next/navigation";
 import { currentProduct } from "store/staticClothes";
 
 interface productIdType {
@@ -24,6 +23,7 @@ const ProductPage = ({ params }: any) => {
   const searchStatus = useAppSelector((state) => {
     return state.searchDB.status;
   });
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
