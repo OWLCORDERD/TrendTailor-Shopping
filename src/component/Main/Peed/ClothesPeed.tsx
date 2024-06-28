@@ -93,7 +93,7 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
                 <CSS.ProductImg>
                   <Image
                     src={clothes.image}
-                    alt='ClothesImg'
+                    alt={`${clothes.title} 이미지`}
                     width='500'
                     height='500'
                   />

@@ -45,7 +45,7 @@ const Banner = ({ slideDB }: MainBoardPropsType) => {
                   <CSS.slideImg>
                     <Image
                       src={slide.image}
-                      alt='슬라이드 이미지'
+                      alt={`${slide.id}번째 이벤트 ${slide.title} 이미지`}
                       width={2560}
                       height={1440}
                     />

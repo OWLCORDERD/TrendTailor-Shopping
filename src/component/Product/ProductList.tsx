@@ -93,7 +93,7 @@ const ProductList = ({ trendClothes }: allClothesType) => {
                     <div className='product-image'>
                       <Image
                         src={clothes.image}
-                        alt={`${clothes.title} 의류 이미지 사진`}
+                        alt={`${clothes.title} 이미지`}
                         width='400'
                         height='480'
                       />

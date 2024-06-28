@@ -143,7 +143,7 @@ const ProductDetail = () => {
           <CSS.Product_imgBox>
             <Image
               src={currentProductDB.image}
-              alt='상품 이미지'
+              alt={`${currentProductDB.title} 상품 이미지`}
               width='600'
               height='700'
             />

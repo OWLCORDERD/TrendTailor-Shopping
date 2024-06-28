@@ -54,7 +54,7 @@ const VideoItem = ({
               src={video.snippet.thumbnails.high.url}
               width={480}
               height={360}
-              alt='video-image'
+              alt={`${video.snippet.title} 썸네일 이미지`}
             />
 
             <div className='play-video'>
@@ -100,7 +100,7 @@ const VideoItem = ({
                 src={video.snippet.thumbnails.high.url}
                 width={480}
                 height={360}
-                alt='video-image'
+                alt={`${video.snippet.title} 썸네일 이미지`}
               />
             )}
           </div>

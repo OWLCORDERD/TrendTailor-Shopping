@@ -30,7 +30,7 @@ const TrendChannel = ({ channelData }: channelDataProps) => {
             src={channelData[0].snippet.thumbnails.high.url}
             width='800'
             height='800'
-            alt='Channel-profile'
+            alt={`${channelData[0].snippet.title} 채널 이미지`}
           />
         </div>
 

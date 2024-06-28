@@ -108,7 +108,7 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
                         <CSS.ProductImg>
                           <Image
                             src={clothes.image}
-                            alt='시즌 추천 의류'
+                            alt={`${clothes.title} 이미지`}
                             width='600'
                             height='600'
                           />

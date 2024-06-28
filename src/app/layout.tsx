@@ -6,19 +6,16 @@ import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
 import "app/globals.scss";
-import { ScrollToTop } from "component/fetchDB/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "WISH",
   openGraph: {
     title: "WISH",
     description:
-      "Wearing Interface Shopping Homepage, 트렌드 의류 정보를 공유하고 추천하는 포트폴리오 의류 사이트입니다.",
+      "네이버 API를 활용하여 트렌드 의류를 공유하고 유튜브 API로 패션 영상들을 추천하는 포트폴리오 의류 사이트입니다.",
   },
   description:
-    "Wearing Interface Shopping Homepage, 트렌드 의류 정보를 공유하고 추천하는 포트폴리오 의류 사이트입니다.",
-  keywords:
-    "Next.js, 프로젝트, 포트폴리오, 옷, 의류, 트렌드, 쇼핑, 유튜브, 스타일, 유행",
+    "네이버 API를 활용하여 트렌드 의류를 공유하고 유튜브 API로 패션 영상들을 추천하는 포트폴리오 의류 사이트입니다.",
   verification: {
     google: "Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0",
   },
