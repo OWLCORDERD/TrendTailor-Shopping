@@ -16,11 +16,12 @@ Search.Container = styled.form<{ $responsiveActive: boolean }>`
   }
 `;
 
-Search.SearchInput = styled.div`
+Search.SearchInput = styled.div<{ $mode: string }>`
   position: relative;
   width: 100%;
   padding: 0 4rem 0 1rem;
-  border: 2px solid #5d5d5d;
+  border: ${(props) =>
+    props.$mode === "light" ? "2px solid #5d5d5d" : "2px solid #fff"};
 
   input {
     width: 100%;

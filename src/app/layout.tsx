@@ -36,8 +36,8 @@ export default function RootLayout({
                 <Navbar />
                 {children}
               </ReduxProvider>
-              <Footer />
             </ThemeProvider>
+            <Footer />
           </StyledComponentsRegistry>
         </body>
       </html>

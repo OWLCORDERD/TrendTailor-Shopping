@@ -1,7 +1,8 @@
-import React, { useState, SetStateAction, useRef } from "react";
+import React, { useState, SetStateAction, useRef, useContext } from "react";
 import { Search as CSS } from "styles";
 import { useRouter } from "next/navigation";
 import { IoIosClose, IoIosSearch } from "react-icons/io";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 interface ResponsiveActiveProps {
   searchActive: boolean;
@@ -38,9 +39,11 @@ const Search = ({ searchActive, setSearchActive }: ResponsiveActiveProps) => {
     }
   };
 
+  const { mode } = useContext(ThemeContext);
+
   return (
     <CSS.Container onSubmit={(e: any) => onSearch(e)}>
-      <CSS.SearchInput>
+      <CSS.SearchInput $mode={mode}>
         <IoIosSearch
           className='search-button'
           onClick={(e: any) => onSearch(e)}

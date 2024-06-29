@@ -26,6 +26,9 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
 }
 
 $Jamsil-font : 'TheJamsil', sans-serif;
+$darkMode-button : rgba(154,154,154,0.2);
+$darkFont-Color: #fff;
+$lightFont-Color: #000;
 
 
 *{
@@ -67,20 +70,23 @@ $Jamsil-font : 'TheJamsil', sans-serif;
 
         .dark{
             background-color: #000;
-            color: #fff;
             
-            a, p, h1, h2, span, svg{
-                color: #fff;
+            a, p, h1, h2, h3, span, svg{
+                color: $darkFont-Color;
             }
 
             input, textarea{
-                color: #fff;
+                color: $darkFont-Color;
+
+                &::placeholder {
+                    color: $darkFont-Color;
+                }
             }
 
             .Preview-container{
                 background-color: #000;
-                color: #fff;
-
+                color: $darkFont-Color;
+                
                 &::-webkit-scrollbar-thumb{
                     background-color: #000;
                 }
@@ -92,14 +98,14 @@ $Jamsil-font : 'TheJamsil', sans-serif;
 
             .AddNotice-button{
                 a{
-                    background-color: #fff;
-                    color : #000;
+                    background-color: $darkMode-button;
+                    color: $darkFont-Color;
                 }
             }
 
             .NoticeList-button{
                 a{
-                    background-color: rgba(154,154,154,0.2);
+                    background-color: $darkMode-button;
                 }
             }
 
@@ -117,20 +123,20 @@ $Jamsil-font : 'TheJamsil', sans-serif;
 
             .upload-button{
                 h1{
-                    background-color: rgba(154,154,154,0.2);
+                    background-color: $darkMode-button;
                 }
             }
 
             .form-header{
                 .submit-button{
                     button{
-                        background-color: rgba(154,154,154,0.2);
+                        background-color: $darkMode-button;
                     }
                 }
             }
 
             .viewChannel-button{
-                background-color: rgba(255, 255, 255, 0.2);
+                background-color: $darkMode-button;
             }
 
             .Skeleton-thumbnail{
@@ -184,8 +190,8 @@ $Jamsil-font : 'TheJamsil', sans-serif;
         .light{
             background-color: #fff;
 
-            a{
-                color: #000;
+            a, p, h1, h2, h3, span, svg{
+                color: $lightFont-Color;
             }
 
             .Preview-container{
@@ -210,7 +216,6 @@ $Jamsil-font : 'TheJamsil', sans-serif;
             .AddNotice-button{
                 a{
                     background-color: #000;
-                    color : #fff;
                 }
             }
 

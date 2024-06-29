@@ -78,7 +78,6 @@ Navbar.LoginMenu = styled.div`
     span {
       line-height: 1.5rem;
       font-size: 10px;
-      color: #000;
       font-family: "Raleway", sans-serif;
       font-weight: bold;
       text-transform: uppercase;
@@ -101,10 +100,6 @@ Navbar.LoginUser = styled.div`
   font-family: "Noto Sans KR", sans-serif;
   padding: 0 1rem;
   cursor: pointer;
-
-  &:hover {
-    background-color: #e5e5e5;
-  }
 
   .user-imgBox {
     position: relative;
@@ -211,7 +206,6 @@ Navbar.ResponsiveLogo = styled.div`
     font-size: 1.2rem;
     font-weight: bold;
     line-height: 5rem;
-    color: #000;
     text-transform: uppercase;
   }
 `;

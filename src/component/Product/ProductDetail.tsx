@@ -1,12 +1,13 @@
 import Loading from "component/fetchDB/loading/Loading";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { ProductDetail as CSS } from "styles";
 import { FaPlus, FaMinus, FaHeart, FaCartArrowDown } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { useSession } from "next-auth/react";
 import { addCart } from "store/cartReducer";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 interface selectSize {
   size: string;
@@ -28,6 +29,7 @@ const ProductDetail = () => {
   const dispatch = useAppDispatch();
 
   const { data, status } = useSession();
+  const { mode } = useContext(ThemeContext);
 
   const [selectSize, setSelectSize] = useState<selectSize[]>([]);
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -248,6 +250,7 @@ const ProductDetail = () => {
               <CSS.Buy_Button
                 type='button'
                 onClick={() => alert("결제창은 개발중입니다.")}
+                $mode={mode}
               >
                 구매하기
               </CSS.Buy_Button>

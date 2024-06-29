@@ -330,11 +330,12 @@ ProductDetail.ButtonList = styled.div`
   }
 `;
 
-ProductDetail.Buy_Button = styled.button`
+ProductDetail.Buy_Button = styled.button<{ $mode: string }>`
   width: 15rem;
   height: 3.5rem;
   margin-right: 2rem;
-  background-color: #000;
+  background-color: ${(props) =>
+    props.$mode === "light" ? "#000" : "rgba(154,154,154,0.2)"};
   color: #fff;
   font-family: "TheJamsil", sans-serif;
   font-size: 1rem;

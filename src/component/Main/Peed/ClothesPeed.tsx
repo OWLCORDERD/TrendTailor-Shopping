@@ -9,6 +9,7 @@ import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import Link from "next/link";
 import { trendClothesDataUpdate } from "store/staticClothes";
+import { useAppDispatch } from "store/hooks";
 
 interface allClothesProps {
   clothesData: clothes[];
@@ -22,6 +23,7 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
   const { mode } = useContext(ThemeContext);
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
+  const dispatch = useAppDispatch();
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
@@ -75,7 +77,7 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
   }, [currentPage]);
 
   useEffect(() => {
-    trendClothesDataUpdate(clothesData);
+    dispatch(trendClothesDataUpdate(clothesData));
   }, []);
 
   return (

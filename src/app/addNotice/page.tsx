@@ -195,7 +195,6 @@ const AddNotice = () => {
 
   return (
     <div className='wrap'>
-      <Navbar />
       <section className='addNotice-container'>
         <div className='addNotice-titleBox'>
           <h1 className='addNotice-title'>공지사항</h1>

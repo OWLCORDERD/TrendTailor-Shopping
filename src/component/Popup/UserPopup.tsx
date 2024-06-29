@@ -63,24 +63,26 @@ const DefaultProfile = styled.div`
 
   svg {
     font-size: 2rem;
+    color: #fff !important;
   }
 `;
 
 const UserInfo = styled.div`
   width: 10rem;
   height: 4rem;
-  color: #fff;
   font-family: "Noto sans KR", sans-serif;
 
   h1 {
     font-size: 1.2rem;
     line-height: 2.5rem;
+    color: #fff !important;
   }
 
   span {
     font-size: 12px;
     font-weight: bold;
     line-height: 1.5rem;
+    color: #fff !important;
   }
 `;
 
@@ -104,7 +106,7 @@ const MenuItem = styled.li`
 
   svg {
     font-size: 1.2rem;
-    color: #fff;
+    color: #fff !important;
   }
 
   span {
@@ -112,10 +114,10 @@ const MenuItem = styled.li`
     font-family: "Noto sans KR", sans-serif;
     font-size: 12px;
     line-height: 3rem;
-    color: #fff;
     text-align: center;
     text-transform: uppercase;
     cursor: pointer;
+    color: #fff !important;
   }
 `;
 
@@ -134,7 +136,7 @@ const LogoutMenu = styled.div`
 
   svg {
     font-size: 1.2rem;
-    color: #fff;
+    color: #fff !important;
   }
 
   span {
@@ -142,10 +144,10 @@ const LogoutMenu = styled.div`
     line-height: 3rem;
     font-family: "Noto sans KR", sans-serif;
     font-size: 12px;
-    color: #fff;
     text-align: center;
     text-transform: uppercase;
     cursor: pointer;
+    color: #fff !important;
   }
 `;
 

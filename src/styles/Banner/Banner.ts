@@ -158,7 +158,7 @@ Banner.infoTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
   font-family: "TheJamsil", sans-serif;
-  color: #fff;
+  color: #fff !important;
 
   @media screen and (min-width: 1440px) and (max-width: 1900px) {
     font-size: 1.2rem;
@@ -175,8 +175,7 @@ Banner.txtBox = styled.div`
   justify-content: center;
   width: 100%;
   height: 5rem;
-  color: #fff;
-
+  color: #fff !important;
   margin: 0 auto;
 `;
 
@@ -186,7 +185,7 @@ Banner.infoTxt = styled.p`
   word-break: keep-all;
   font-size: 15px;
   font-weight: 400;
-  color: #fff;
+  color: #fff !important;
   text-align: center;
   font-family: "TheJamsil", sans-serif;
 
