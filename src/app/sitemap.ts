@@ -1,4 +1,3 @@
-import axios from "axios";
 import { MetadataRoute } from "next";
 import { NoticeType } from "./notice/page";
 import { collection, getDocs } from "firebase/firestore";
@@ -9,7 +8,7 @@ interface example {
   lastModified: string;
 }
 
-const publicURL = "https://wish-jade.vercel.app";
+const publicURL: string = "https://wishstore.vercel.app";
 
 const getNoticePosts = async () => {
   const docsRef = collection(db, "notice");
@@ -61,6 +60,10 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
     },
     {
       url: `${publicURL}/about`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${publicURL}/trend`,
       lastModified: new Date(),
     },
     ...postUrls,

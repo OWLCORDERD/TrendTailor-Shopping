@@ -113,7 +113,7 @@ const SearchProductList = () => {
                 <li className='product-item' key={clothes.productId}>
                   <Link
                     href={{
-                      pathname: `/shop/${clothes.productId}`,
+                      pathname: `/shop/search/${clothes.productId}`,
                     }}
                   >
                     <div className='product-image'>

@@ -5,14 +5,11 @@ import Image from "next/image";
 import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import Link from "next/link";
-import { useAppDispatch } from "store/hooks";
-import { seasonClothesUpdate } from "store/staticClothes";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Scrollbar } from "swiper/modules";
 import "styles/swiper/swiper.css";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
-import { canselSearch } from "store/searchClothes";
 
 interface seasonClothesProps {
   seasonClothes: clothes[] | undefined;
@@ -52,14 +49,7 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const dispatch = useAppDispatch();
-
   useEffect(() => {
-    dispatch(seasonClothesUpdate(seasonClothes));
-  }, []);
-
-  useEffect(() => {
-    dispatch(canselSearch());
     setLoading(false);
   }, [seasonClothes]);
 

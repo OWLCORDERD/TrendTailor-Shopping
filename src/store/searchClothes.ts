@@ -3,7 +3,6 @@ import axios from "axios";
 import { clothes } from "component/Main/Peed/Peed";
 
 interface stateType {
-  status: boolean;
   keyword: string;
   searchData: clothes[];
   currentProduct: clothes | undefined;
@@ -15,7 +14,6 @@ interface resultType {
 }
 
 const initialState: stateType = {
-  status: false,
   keyword: "",
   searchData: [],
   currentProduct: undefined,
@@ -55,9 +53,6 @@ export const searchClothesDB = createSlice({
       );
       state.currentProduct = findIndex;
     },
-    canselSearch(state) {
-      state.status = false;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getSearchClothesAsync.fulfilled, (state, action) => {
@@ -84,11 +79,10 @@ export const searchClothesDB = createSlice({
 
       state.searchData = replaceTxt;
       state.keyword = action.payload.searchQuery;
-      state.status = true;
     });
   },
 });
 
 export default searchClothesDB.reducer;
-export const { currentSearchProduct, canselSearch } = searchClothesDB.actions;
+export const { currentSearchProduct } = searchClothesDB.actions;
 export { getSearchClothesAsync };

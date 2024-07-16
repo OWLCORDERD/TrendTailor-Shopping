@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   openGraph: {
     title: "WISH",
     description:
-      "네이버 API를 활용하여 트렌드 의류를 공유하고 유튜브 API로 패션 영상들을 추천하는 포트폴리오 의류 사이트입니다.",
+      "WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.",
   },
   description:
-    "네이버 API를 활용하여 트렌드 의류를 공유하고 유튜브 API로 패션 영상들을 추천하는 포트폴리오 의류 사이트입니다.",
+    "WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.",
   verification: {
     google: "Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0",
   },

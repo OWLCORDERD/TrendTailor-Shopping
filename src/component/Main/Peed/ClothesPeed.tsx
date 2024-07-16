@@ -8,11 +8,9 @@ import { clothes } from "./Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../context/ThemeContext";
 import Link from "next/link";
-import { trendClothesDataUpdate } from "store/staticClothes";
-import { useAppDispatch } from "store/hooks";
 
 interface allClothesProps {
-  clothesData: clothes[];
+  clothesData: clothes[] | undefined;
 }
 
 const ClothesPeed = ({ clothesData }: allClothesProps) => {
@@ -23,7 +21,6 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
   const { mode } = useContext(ThemeContext);
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
-  const dispatch = useAppDispatch();
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
@@ -52,15 +49,17 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
   };
 
   const firstCurrentDB = () => {
-    const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+    if (clothesData) {
+      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
 
-    const pushdata = [...currentDB];
+      const pushdata = [...currentDB];
 
-    pushdata.push(...currentData);
+      pushdata.push(...currentData);
 
-    setCurrentDB(pushdata);
+      setCurrentDB(pushdata);
 
-    setLoading(false);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -75,10 +74,6 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
     setLoading(true);
     currentDBUpdate();
   }, [currentPage]);
-
-  useEffect(() => {
-    dispatch(trendClothesDataUpdate(clothesData));
-  }, []);
 
   return (
     <CSS.Container>

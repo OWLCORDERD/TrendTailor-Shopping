@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://wish-jade.vercel.app/sitemap.xml",
+    sitemap: "https://wishstore.vercel.app/sitemap.xml",
+    host: "https://wishstore.vercel.app",
   };
 }

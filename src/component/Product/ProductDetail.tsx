@@ -1,13 +1,15 @@
+"use client";
+
 import Loading from "component/fetchDB/loading/Loading";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppSelector } from "store/hooks";
 import { ProductDetail as CSS } from "styles";
 import { FaPlus, FaMinus, FaHeart, FaCartArrowDown } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { useSession } from "next-auth/react";
-import { addCart } from "store/cartReducer";
 import { ThemeContext } from "../../../context/ThemeContext";
+import { clothes } from "component/Main/Peed/Peed";
 
 interface selectSize {
   size: string;
@@ -15,18 +17,17 @@ interface selectSize {
   price: number;
 }
 
-const ProductDetail = () => {
-  const searchStatus = useAppSelector((state) => {
-    return state.searchDB.status;
+interface staticProductType {
+  staticProduct: clothes | undefined;
+}
+
+const ProductDetail = ({ staticProduct }: staticProductType) => {
+  const searchProduct = useAppSelector((state) => {
+    return state.searchDB.currentProduct;
   });
 
-  const currentProductDB = useAppSelector((state) => {
-    return searchStatus
-      ? state.searchDB.currentProduct
-      : state.clothesDB.currentProduct;
-  });
-
-  const dispatch = useAppDispatch();
+  const currentProductDB =
+    staticProduct === undefined ? searchProduct : staticProduct;
 
   const { data, status } = useSession();
   const { mode } = useContext(ThemeContext);
@@ -122,19 +123,25 @@ const ProductDetail = () => {
   };
 
   const cartUpdate = async () => {
-    if (status !== "authenticated") {
-      alert("로그인 시, 이용 가능합니다.");
-      return;
-    }
-
-    if (data.user) {
-      const user = data.user.name;
+    if (data && data.user) {
+      const username = data.user.name;
       const sendData = {
-        username: user,
+        username: username,
         product: currentProductDB,
       };
 
-      dispatch(addCart(sendData));
+      const res = await fetch("/api/insertCart", {
+        method: "POST",
+        body: JSON.stringify(sendData),
+      });
+
+      const resData = await res.json();
+
+      if (resData.duplicate) {
+        alert("이미 장바구니에 담은 상품입니다.");
+      } else {
+        alert("장바구니에 추가되었습니다.");
+      }
     }
   };
 

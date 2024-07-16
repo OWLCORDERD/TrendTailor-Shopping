@@ -12,7 +12,6 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { useRouter } from "next/navigation";
 import { BsFillSunFill } from "react-icons/bs";
 import { IoCloudyNightSharp } from "react-icons/io5";
-import { persistor } from "store/store";
 
 interface propsSvgType {
   setUserPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -160,8 +159,6 @@ const UserPopup = ({ setUserPopupOpen }: propsSvgType) => {
     signOut();
 
     setUserPopupOpen(false);
-
-    persistor.purge();
 
     router.push("/");
   };
