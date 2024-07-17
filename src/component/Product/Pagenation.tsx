@@ -2,7 +2,6 @@
 
 import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { RiArrowLeftDoubleLine, RiArrowRightDoubleLine } from "react-icons/ri";
-import { useAppSelector } from "store/hooks";
 
 interface pageProps {
   setCurrentPage: React.Dispatch<SetStateAction<number>>;
@@ -26,10 +25,6 @@ const Pagenation = ({
   const lastPageIndex = pageCount * pageMaxLength;
   const firstPageIndex = lastPageIndex - pageMaxLength;
 
-  const searchStatus = useAppSelector((state) => {
-    return state.searchDB.status;
-  });
-
   /* total DBlength 값만 존재할 시 DBlength 값을 활용하여 페이지 넘버링 */
   const pageNumbering = (DBlength: number) => {
     let pageNumberArray = [];
@@ -52,7 +47,7 @@ const Pagenation = ({
 
   useMemo(() => {
     pageNumbering(totalDBlength);
-  }, [totalDBlength, searchStatus]);
+  }, [totalDBlength]);
 
   useEffect(() => {
     if (page.length > pageMaxLength) {

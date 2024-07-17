@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { currentSearchProduct } from "store/searchClothes";
 import { useAppDispatch } from "store/hooks";
 
-const ProductPage = async ({ params }: any) => {
+const page = ({ params }: any) => {
   const productId: string = params ? params.productId : undefined;
 
   const dispatch = useAppDispatch();
@@ -21,4 +21,4 @@ const ProductPage = async ({ params }: any) => {
   );
 };
 
-export default ProductPage;
+export default page;

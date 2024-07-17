@@ -97,15 +97,12 @@ const page = async () => {
   const videoData: videoType[] = await getYoutubeDB();
   const channelData: channelDataType[] = await getChannelData();
   return (
-    <>
-      <ScrollToTop />
-      <main>
-        <section className='Trend-container'>
-          <TrendChannel channelData={channelData} />
-          <TrendVideoList channelData={channelData} videoData={videoData} />
-        </section>
-      </main>
-    </>
+    <main>
+      <section className='Trend-container'>
+        <TrendChannel channelData={channelData} />
+        <TrendVideoList channelData={channelData} videoData={videoData} />
+      </section>
+    </main>
   );
 };
 

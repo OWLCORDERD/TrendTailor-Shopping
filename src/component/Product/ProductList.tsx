@@ -4,11 +4,8 @@ import React, { useState, useEffect } from "react";
 import Pagenation from "./Pagenation";
 import Image from "next/image";
 import { clothes } from "component/Main/Peed/Peed";
-import { useAppDispatch } from "store/hooks";
 import Link from "next/link";
 import Loading from "component/fetchDB/loading/Loading";
-import { trendClothesDataUpdate } from "store/staticClothes";
-import { canselSearch } from "store/searchClothes";
 
 interface allClothesType {
   trendClothes: clothes[];
@@ -23,8 +20,6 @@ const ProductList = ({ trendClothes }: allClothesType) => {
 
   const indexOfLast = currentPage * postMaxLength;
   const indexOfFirst = indexOfLast - postMaxLength;
-
-  const dispatch = useAppDispatch();
 
   const currentPostData = () => {
     const currentPostDB = trendClothes.slice(indexOfFirst, indexOfLast);
@@ -50,10 +45,6 @@ const ProductList = ({ trendClothes }: allClothesType) => {
     }
 
     mql.addEventListener("change", screenChange);
-
-    dispatch(trendClothesDataUpdate(trendClothes));
-
-    dispatch(canselSearch());
 
     return () => {
       mql.removeEventListener("change", screenChange);
