@@ -1,0 +1,122 @@
+@import "../app/globals.scss";
+
+/*공지사항 view page css*/
+.current-NoticeBoard{
+    position: relative;
+    left : 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 100%;
+    padding: 5rem 0;
+
+    .currentBoard-header{
+        width : 100%;
+        height: 8rem;
+        font-family: $Jamsil-font;
+
+        .static {
+            font-size: 1rem;
+            line-height: 3rem;
+            height: 3rem;
+        }
+
+        .title {
+            font-size: 1.3rem;
+            line-height: 5rem;
+            height: 5rem;
+            border-bottom: 1px solid #666666;
+        }
+    }
+
+    .currentBoard-info{
+        width: 100%;
+        height: 5rem;
+        font-family: $Jamsil-font;
+
+        .view-count{
+            display: inline-block;
+            width: 10rem;
+            margin-right: 2rem;
+            height: 5rem;
+
+            p {
+                display: inline-block;
+                width: 6rem;
+                line-height: 5rem;
+                font-weight: bold;
+            }
+
+            span {
+                display: inline-block;
+                width: 4rem;
+                line-height: 5rem;
+                font-weight: 400;
+            }
+        }
+
+        .upload-date{
+            display: inline-block;
+            vertical-align: top;
+            width: 10rem;
+            font-size: 1rem;
+            line-height: 5rem;
+            height: 5rem;
+        }
+    }
+
+    .currentBoard-text{
+        width: 100%;
+        padding : 2rem 0 5rem 0;
+
+        p{
+            font-size: 1rem;
+            font-family: $Jamsil-font;
+        }
+    }
+
+    .upload-imageBox{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        .upload-image{
+            width: max-content;
+            height: 30rem;
+            overflow: hidden;
+
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .currentNotice-button{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 6rem;
+        margin-top: 2rem;
+
+        .NoticeList-button{
+            width: max-content;
+            height: 2rem;
+
+            a{
+                    display: block;
+                    line-height: 2rem;
+                    width: 8rem;
+                    font-size: 15px;
+                    font-family: $Jamsil-font;
+                    border: 1px solid #CDCDCD;
+                    background-color: transparent;
+                    text-align: center;
+                    font-weight: bold;
+                    transition: all 0.5s ease-out;
+            }
+        }
+    }
+}

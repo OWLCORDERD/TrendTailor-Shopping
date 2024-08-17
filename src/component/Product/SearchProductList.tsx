@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
-import Pagenation from "./Pagenation";
+import Pagenation from "../Pagenation/Pagenation";
 import { useSearchParams } from "next/navigation";
 import { getSearchClothesAsync } from "store/searchClothes";
 

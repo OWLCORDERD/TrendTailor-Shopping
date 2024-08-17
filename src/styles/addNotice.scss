@@ -1,0 +1,245 @@
+@import "../app/globals.scss";
+
+.wrap {
+    position: relative;
+    max-width: 1450px;
+    height: 100%;
+    margin: 0 auto;
+    
+    /*공지사항 등록 addNotice Page css*/
+    .addNotice-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 5rem 0;
+
+        .addNotice-Form{
+            width: 100%;
+            height: 40rem;
+
+            .form-header{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                height: 5rem;
+                margin-bottom: 2rem;
+
+                .header-title{
+                    width: 20rem;
+                    height: 5rem;
+                    line-height: 5rem;
+                    font-family: $Jamsil-font;
+                    font-size: 1.5rem;
+                }
+
+                .form-buttons{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 20rem;
+                    height: 5rem;
+
+                    button{
+                        border: 2px solid #000;
+                        background-color: transparent;
+                        width: 8rem;
+                        line-height: 2.5rem;
+                        font-family: $Jamsil-font;
+                        font-weight: bold;
+                        font-size: 1rem;
+                        cursor: pointer;
+                        color: #000;
+                        transition: all 0.3s ease-in-out;
+
+                        &:hover {
+                            background-color: #000;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+
+            .form-Field{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                height: 33rem;
+
+                .essential-Field{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 65%;
+                    height: 100%;
+
+                    .title-input{
+                        width: 100%;
+                        line-height: 2.5rem;
+                        font-size: 1rem;
+                        font-family: $Jamsil-font;
+                        padding: 0.5rem 1rem;
+                        background-color: transparent;
+                        border: 2px solid #777;
+                    }
+
+                    .textInfo-area{
+                        width: 100%;
+                        height: 28rem;
+                        font-size: 1rem;
+                        padding : 1rem;
+                        font-family: $Jamsil-font;
+                        resize: none;
+                        background-color: transparent;
+                        border: 2px solid #777;
+                    }
+                }
+
+                .uploadImg-wrapper{
+                    width: 30%;
+                    height: 100%;
+
+                    .preview-Box{
+                        position: relative;
+                        width: 100%;
+                        height: 28rem;
+                        font-family: $Jamsil-font;
+                        font-weight: bold;
+                        font-size: 1rem;
+
+                        .preview-imgBox {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 100%;
+                            height: 100%;
+
+                            img {
+                                position: relative;
+                                width: 100%;
+                                height: 70%;
+                                object-fit: contain;
+                            }
+
+                            .delete-preview {
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                width: 2rem;
+                                height: 2rem;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: transparent;
+                                border: none;
+                                cursor : pointer;
+
+                                svg {
+                                    width: 100%;
+                                    height: 100%;
+                                    color: #777;
+
+                                    &:hover {
+                                        color: #000;
+                                    }
+                                }
+                            }
+                        }
+
+                        .dnd-Box {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            border: 2px dashed #777;
+    
+                            svg {
+                                width: 3rem;
+                                height: 3rem;
+                                color: #777;
+                                transition: all 0.3s ease-in-out;
+                            }
+
+                            span {
+                                color: #777;
+                                font-size: 14px;
+                                font-family: $Jamsil-font;
+                                font-weight: bold;
+                                line-height: 3rem;
+                                margin-top: 2rem;
+                            }
+
+                            &.dragOn {
+                                svg {
+                                    color: #000;
+                                    animation: rotateIcon 2s linear infinite;
+                                }
+
+                                span {
+                                    color: #000;
+                                }
+                            }
+
+    
+                            @keyframes rotateIcon {
+                                0% {
+                                    transform: rotate(0);
+                                }
+
+                                50% {
+                                    transform: rotate(20deg);
+                                }
+
+                                75% {
+                                    transform: rotate(-20deg);
+                                }
+
+                                100% {
+                                    transform: rotate(0);
+                                }
+                            }
+                        }
+                    }
+
+                    .upload-button{
+        
+                        span{
+                            display: block;
+                            width: 100%;
+                            line-height: calc(3rem - 4px);
+                            margin-top: 2rem;
+                            text-align: center;
+                            font-family: $Jamsil-font;
+                            font-size: 1rem;
+                            font-weight: bold;
+                            cursor: pointer;
+                            background-color: transparent;
+                            color: #000;
+                            border: 2px solid #000;
+                            transition: all 0.3s ease-in-out;
+
+                            &:hover {
+                                color: #fff;
+                                background-color: #000;
+                            }
+                        }
+                    }
+
+                    input{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,21 +1,20 @@
 "use client";
 
 import axios from "axios";
-import Pagenation from "component/Notice/Pagenation";
-import React, { useEffect, useState, useContext } from "react";
+import Pagenation from "component/Pagenation/Pagenation";
+import React, { useContext, useEffect, useState } from "react";
 import "styles/notice.scss";
-import { RotatingLines } from "react-loader-spinner";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "component/fetchDB/firebase";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { ScrollToTop } from "component/fetchDB/ScrollToTop";
+import useSWR from "swr";
+import Loading from "component/fetchDB/loading/Loading";
 
 export interface NoticeType {
   id: string;
   title: string;
-  writer: string;
   image: string;
   date: any;
   text: string;
@@ -23,10 +22,6 @@ export interface NoticeType {
 }
 
 export default function Notice() {
-  const [noticeDB, setNoticeDB] = useState<NoticeType[]>([]);
-
-  const [loading, setLoading] = useState(true);
-
   const { mode } = useContext(ThemeContext);
 
   const router = useRouter();
@@ -54,40 +49,61 @@ export default function Notice() {
         text: doc.data()["text"],
         title: doc.data()["title"],
         view_cnt: doc.data()["view_cnt"],
-        writer: doc.data()["writer"],
       };
+
+      // 파이어베이스에 저장된 공지사항 date 필드 값
+      const date = docsData.date;
+      // date 필드 값 월(month) 데이터 추출
+      const month = date.getMonth();
+      // date 필드 값 일(date) 데이터 추출
+      const day = date.getDate();
+
+      // 월, 일 데이터가 10보다 작으면 0 붙인 숫자값으로 return
+      const filterMonth = month < 10 ? "0" + month : month;
+      const filterDay = day < 10 ? "0" + day : day;
+
+      // 0000-00-00 형식으로 포맷 후 기존 date 문자열 데이터 값 업데이트
+      docsData.date = date.getFullYear() + "-" + filterMonth + "-" + filterDay;
 
       postsData.push(docsData);
     });
 
-    setNoticeDB(postsData);
+    return postsData;
+  };
+
+  const { data, isLoading } = useSWR("api/notice", noticeDBfetch);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPageDB, setCurrentPageDB] = useState<NoticeType[] | undefined>(
+    []
+  );
+  const postMaxLength = 6;
+  const indexOfLast = currentPage * postMaxLength;
+  const indexOfFirst = indexOfLast - postMaxLength;
+
+  const updatePageData = () => {
+    const pageData = data?.slice(indexOfFirst, indexOfLast);
+
+    setCurrentPageDB(pageData);
+
+    setLoading(false);
   };
 
   useEffect(() => {
-    noticeDBfetch();
-  }, []);
+    updatePageData();
+  }, [currentPage]);
 
   useEffect(() => {
-    if (noticeDB.length > 0) {
-      setLoading(false);
+    if (data) {
+      updatePageData();
     }
+  }, [data]);
 
-    noticeDB.forEach((notice, i) => {
-      const date = notice.date;
-      const month = date.getMonth();
-      const day = date.getDate();
-
-      const filterMonth = month < 10 ? "0" + month : month;
-      const filterDay = day < 10 ? "0" + day : day;
-
-      notice.date = date.getFullYear() + "-" + filterMonth + "-" + filterDay;
-    });
-  }, [noticeDB]);
-
-  const viewCount = async (currentCount: number, currentIdx: string) => {
+  const viewNotice = async (viewCount: number, currentIdx: string) => {
     router.push(`/notice/${currentIdx}`);
 
-    const count = currentCount + 1;
+    const count = viewCount + 1;
 
     try {
       await axios.post("/api/viewCount", {
@@ -115,16 +131,8 @@ export default function Notice() {
           </div>
         </div>
         <div className='Notice-table'>
-          {loading ? (
-            <div className='loader'>
-              <RotatingLines
-                strokeColor={mode === "dark" ? "white" : "black"}
-                strokeWidth='3'
-                animationDuration='0.75'
-                width='50'
-                visible={true}
-              />
-            </div>
+          {isLoading || loading ? (
+            <Loading />
           ) : (
             <div className='border-table'>
               <table>
@@ -132,9 +140,6 @@ export default function Notice() {
                   <tr>
                     <th>
                       <h1>제목</h1>
-                    </th>
-                    <th>
-                      <h1>글쓴이</h1>
                     </th>
                     <th>
                       <h1>날짜</h1>
@@ -146,37 +151,46 @@ export default function Notice() {
                 </thead>
 
                 <tbody>
-                  {noticeDB.map((item) => {
-                    return (
-                      <>
-                        <tr
-                          key={item.id}
-                          onClick={() => viewCount(item.view_cnt, item.id)}
-                          className={mode === "dark" ? "darkMode" : "lightMode"}
-                        >
-                          <td>
-                            <span>{item.title}</span>
-                          </td>
-                          <td>
-                            <span>{item.writer}</span>
-                          </td>
-                          <td>
-                            <span>{item.date}</span>
-                          </td>
-                          <td>
-                            <span>{item.view_cnt}</span>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
+                  {currentPageDB &&
+                    currentPageDB.map((item) => {
+                      return (
+                        <>
+                          <tr
+                            key={item.id}
+                            className={
+                              mode === "dark" ? "darkMode" : "lightMode"
+                            }
+                          >
+                            <td
+                              onClick={() => viewNotice(item.view_cnt, item.id)}
+                            >
+                              <span>{item.title}</span>
+                            </td>
+                            <td>
+                              <span>{item.date}</span>
+                            </td>
+                            <td>
+                              <span>{item.view_cnt}</span>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
           )}
         </div>
 
-        <Pagenation />
+        {data ? (
+          <Pagenation
+            setCurrentPage={setCurrentPage}
+            postMaxLength={postMaxLength}
+            totalDBlength={data.length}
+            currentPage={currentPage}
+            setLoading={setLoading}
+          />
+        ) : null}
       </section>
     </div>
   );

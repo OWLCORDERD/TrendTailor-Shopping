@@ -1,54 +1,47 @@
 "use client";
 
-import Footer from "component/Main/Footer";
-import Navbar from "component/Main/Navbar";
-import Link from "next/link";
 import React, { useRef, useState } from "react";
-import "styles/notice.scss";
+import "styles/addNotice.scss";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "component/fetchDB/firebase";
 import { useRouter } from "next/navigation";
+import { FaImage } from "react-icons/fa6";
+import ErrorPopup from "component/ErrorPopup/ErrorPopup";
+import { IoCloseCircle } from "react-icons/io5";
+import { AnimatePresence } from "framer-motion";
 
 interface sendDataType {
   title: string;
   text: string;
-  writer: string;
-  img_url: string | undefined;
-}
-
-interface sendTxtDataType {
-  title: string;
-  text: string;
-  writer: string;
+  img_url?: string | undefined;
 }
 
 const AddNotice = () => {
+  const router = useRouter();
+
   const [noticeInfo, setNoticeInfo] = useState({
     title: "",
-    writer: "",
     text: "",
   });
 
-  const { data, status } = useSession();
-
-  /*createObjectUrl 활용한 이미지 객체 가르키는 url 저장*/
+  // createObjectUrl 활용한 이미지 객체 미리보기 url 저장 상태값
   const [urlThumbnail, setUrlThumbnail] = useState<string>();
-  /*업로드 이미지 객체 aws s3 버킷 연동 함수에 파라미터로 전송하기 위해 저장 */
+  // 업로드 이미지 파일 객체 저장 상태값
   const [uploadImage, setUploadImage] = useState<File | undefined>();
-  const [uploadUrl, setUploadUrl] = useState<string | undefined>();
+  // 드래그 박스 영역에 파일을 드래그 & 드롭 할때 업데이트되는 상태 값
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  /*공지사항 title, text field 유효성 검증 state */
+  // 공지사항 title, text 유효성 검증 상태값
   const [isTitle, setIsTitle] = useState<boolean>(false);
   const [isText, setIsText] = useState<boolean>(false);
 
+  // 사용자 입력 폼 ref
   const titleRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
 
-  const router = useRouter();
-
-  /*file input 업로드 파일 객체 mimetype 식별 type value 배열*/
+  /*file input 업로드 파일 객체 mimetype 식별 type 배열*/
   const validFileType = ["image/jpeg", "image/jpg", "image/png"];
   const [error, setError] = useState<string>("");
 
@@ -60,7 +53,7 @@ const AddNotice = () => {
     const fileBlob = files[0];
 
     if (!validFileType.find((type) => type === fileBlob.type)) {
-      setError("File must be in JPG/ PNG Format");
+      setError("JPEG & JPG & PNG 확장자 이미지만 업로드 가능합니다.");
       return;
     }
 
@@ -70,7 +63,7 @@ const AddNotice = () => {
     encodeFile(fileBlob);
   };
 
-  /*blob 파일 객체를 가르키는 url로 변환하는 createObjectUrl 로직 */
+  /*blob 파일 객체 미리보기 url 생성하는 createObjectUrl 로직 */
   const encodeFile = (fileBlob: any) => {
     /*url 생성 후 state에 저장되면 메모리 낭비 방지를 위하여 revoke */
     if (urlThumbnail) URL.revokeObjectURL(urlThumbnail);
@@ -78,6 +71,43 @@ const AddNotice = () => {
     const url = URL.createObjectURL(fileBlob);
 
     setUrlThumbnail(url);
+  };
+
+  // dnd-Box 요소 영역에 드래그한 파일이 최초로 들어올때 발생하는 이벤트
+  const dragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    // 기존의 브라우저에 기본적으로 등록된 이벤트를 비활성화 (이미지를 드래그 & 드롭하면 새 페이지로 이미지가 열림)
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsDragging(true);
+  };
+
+  // 드래그한 파일을 dnd-Box 요소 영역에서 머무를때 발생하는 이벤트
+  const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer.files) {
+      setIsDragging(true);
+    }
+  };
+
+  // 드래그한 파일을 dnd-Box 요소 영역에서 벗어날때 발생하는 이벤트
+  const dragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsDragging(false);
+  };
+
+  // dbd-Box 요소 영역에 드래그한 파일을 놓았을때 발생하는 이벤트
+  const dropFile = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setUploadImage(e.dataTransfer.files[0]);
+    encodeFile(e.dataTransfer.files[0]);
+    setIsDragging(false);
   };
 
   const inputInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,16 +161,6 @@ const AddNotice = () => {
       return noticeInfo.text.replaceAll("<br>", "\r\n");
     };
 
-    /* useSession status값이 인증상태이며 user객체가 존재할 시
-    user객체의 name 프로퍼티값으로 작성자 데이터 return */
-    const writer = () => {
-      if (status === "authenticated" && data.user) {
-        return `${data.user.name}`;
-      } else {
-        return "익명";
-      }
-    };
-
     /*업로드 이미지 파일을 state에 저장했을 시, firebase storage의
     images/notice 경로 ref값을 uploadBytes 첫번째 인자로 넘기고
     두번째 인자로 이미지 파일을 넣어 파일을 업로드한 후 스냅샷 파라미터 값을 then 체이닝을 통해
@@ -148,62 +168,52 @@ const AddNotice = () => {
     if (uploadImage) {
       const storageSaveRef = ref(storage, `images/notice/${uploadImage.name}`);
 
+      /* 이미지를 스토리지에 업로드한 뒤 저장된 경로를 다운로드하여
+      경로값 프로퍼티를 포함한 sendData 전송 */
       await uploadBytes(storageSaveRef, uploadImage).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
-          setUploadUrl(url);
+          const sendData: sendDataType = {
+            title: noticeInfo.title,
+            text: replaceText(),
+            img_url: url,
+          };
+
+          fetch("/api/createNotice", {
+            method: "POST",
+            body: JSON.stringify(sendData),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
         });
       });
-
+    } else {
+      // 업로드한 이미지가 없을 시, 텍스트와 제목 프로퍼티 값만 sendData 전송
       const sendData: sendDataType = {
         title: noticeInfo.title,
         text: replaceText(),
-        writer: writer(),
-        img_url: uploadUrl,
       };
 
-      const res = await fetch("/api/createNotice", {
+      await fetch("/api/createNotice", {
         method: "POST",
         body: JSON.stringify(sendData),
         headers: {
           "Content-Type": "application/json",
         },
       });
-
-      if (res.ok) {
-        router.push("/notice");
-      }
-    } else {
-      const sendData: sendTxtDataType = {
-        title: noticeInfo.title,
-        text: replaceText(),
-        writer: writer(),
-      };
-
-      const res = await fetch("/api/createNotice", {
-        method: "POST",
-        body: JSON.stringify(sendData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (res.ok) {
-        router.push("/notice");
-      }
     }
+
+    router.push("/notice");
   };
 
   return (
     <div className='wrap'>
+      {error !== "" && (
+        <AnimatePresence>
+          <ErrorPopup errorMessage={error} setError={setError} />
+        </AnimatePresence>
+      )}
       <section className='addNotice-container'>
-        <div className='addNotice-titleBox'>
-          <h1 className='addNotice-title'>공지사항</h1>
-
-          <div className='NoticeList-button'>
-            <Link href='/notice'>목록으로</Link>
-          </div>
-        </div>
-
         <form
           className='addNotice-Form'
           onSubmit={sendData}
@@ -212,7 +222,10 @@ const AddNotice = () => {
           <div className='form-header'>
             <h2 className='header-title'>공지사항 작성</h2>
 
-            <div className='submit-button'>
+            <div className='form-buttons'>
+              <button type='button' onClick={() => router.push("/notice")}>
+                목록으로
+              </button>
               <button type='submit'>등록</button>
             </div>
           </div>
@@ -237,32 +250,50 @@ const AddNotice = () => {
               />
             </div>
 
-            <div className='image-wrapper'>
-              <div className='preview-image'>
+            <div className='uploadImg-wrapper'>
+              <div className='preview-Box'>
                 {urlThumbnail ? (
-                  <Image
-                    src={urlThumbnail}
-                    alt='uploadImg'
-                    width='300'
-                    height='400'
-                  />
+                  <div className='preview-imgBox'>
+                    <Image
+                      src={urlThumbnail}
+                      alt='uploadImg'
+                      width='300'
+                      height='400'
+                    />
+                    <button
+                      type='button'
+                      className='delete-preview'
+                      onClick={() => setUrlThumbnail("")}
+                    >
+                      <IoCloseCircle />
+                    </button>
+                  </div>
                 ) : (
-                  "이미지를 업로드하세요."
+                  <div
+                    className={isDragging ? "dnd-Box dragOn" : "dnd-Box"}
+                    onDragEnter={(e) => dragEnter(e)}
+                    onDragLeave={(e) => dragLeave(e)}
+                    onDragOver={(e) => dragOver(e)}
+                    onDrop={(e) => dropFile(e)}
+                  >
+                    <FaImage />
+                    <span>
+                      {isDragging
+                        ? "이미지를 놓아주세요."
+                        : "이미지를 드래그하여 업로드 하실 수 있습니다."}
+                    </span>
+                  </div>
                 )}
               </div>
 
-              {error && <div className='error-Message'>{error}</div>}
-
-              <label htmlFor='uploadImg' className='upload-button'>
-                <h1>이미지 업로드</h1>
+              <label htmlFor='uploadFile' className='upload-button'>
+                <span>이미지 업로드</span>
               </label>
-              <input type='file' id='uploadImg' onChange={fileUpload} />
+              <input type='file' id='uploadFile' onChange={fileUpload} />
             </div>
           </div>
         </form>
       </section>
-
-      <Footer />
     </div>
   );
 };

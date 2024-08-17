@@ -5,8 +5,7 @@ import { NextResponse } from "next/server";
 interface noticeBodyType {
   title: string;
   text: string;
-  writer: string;
-  img_url: string;
+  img_url?: string;
 }
 
 export async function POST(req: Request) {
@@ -15,8 +14,7 @@ export async function POST(req: Request) {
 
     const title = body.title;
     const text = body.text;
-    const writer = body.writer;
-    const img_url = body.img_url;
+    const img_url = body?.img_url;
 
     if (img_url) {
       const date = Timestamp.fromDate(new Date());
@@ -24,7 +22,6 @@ export async function POST(req: Request) {
       await addDoc(collection(db, "notice"), {
         title: title,
         text: text,
-        writer: writer,
         view_cnt: 0,
         image: img_url,
         date: date,
@@ -40,7 +37,6 @@ export async function POST(req: Request) {
       await addDoc(collection(db, "notice"), {
         title: title,
         text: text,
-        writer: writer,
         view_cnt: 0,
         date: date,
       });

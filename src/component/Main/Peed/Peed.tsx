@@ -1,7 +1,7 @@
 import React from "react";
-import ClothesPeed from "./ClothesPeed";
+import ClothesPeed from "./Contents/ClothesPeed";
 import MainBoard from "./MainBoard/MainBoard";
-import SeasonPeed from "./SeasonPeed";
+import SeasonPeed from "./Contents/SeasonPeed";
 
 export interface clothes {
   title: string;

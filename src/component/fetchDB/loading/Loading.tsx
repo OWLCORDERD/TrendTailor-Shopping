@@ -11,7 +11,7 @@ const Loading = () => {
   return (
     <div className='loading-container'>
       <RotatingLines
-        strokeColor={mode === "dark" ? "white" : "black"}
+        strokeColor={mode === "dark" ? "#fff" : "#000"}
         strokeWidth='3'
         animationDuration='0.75'
         width='50'

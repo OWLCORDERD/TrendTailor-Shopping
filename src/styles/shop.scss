@@ -107,37 +107,6 @@
                     }
                 }
             }
-
-            .pagenation-container{
-                position: relative;
-                width: 100%;
-                height: 5rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                .pagenation{
-                    width: max-content;
-                    margin : 0 2rem;
-
-                    li{
-                        display: inline-block;
-                        width: 3rem;
-                        text-align: center;
-                        line-height: 2rem;
-
-                        a{
-                            font-family: $Jamsil-font;
-                            font-weight: 400;
-                            cursor : pointer;
-
-                            &.active{
-                                font-weight: bold;
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -252,37 +221,6 @@
                                     line-height: 4rem;
                                     font-weight: 700;
                                     font-size: 15px;
-                                }
-                            }
-                        }
-                    }
-                }
-    
-                .pagenation-container{
-                    position: relative;
-                    width: 100%;
-                    height: 5rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-    
-                    .pagenation{
-                        width: max-content;
-                        margin : 0 2rem;
-    
-                        li{
-                            display: inline-block;
-                            width: 3rem;
-                            text-align: center;
-                            line-height: 2rem;
-    
-                            a{
-                                font-family: $Jamsil-font;
-                                font-weight: 400;
-                                cursor : pointer;
-    
-                                &.active{
-                                    font-weight: bold;
                                 }
                             }
                         }

@@ -1,5 +1,5 @@
 import { db } from "component/fetchDB/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 interface userType {

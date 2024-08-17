@@ -2,8 +2,9 @@
 
 .wrap{
     position: relative;
-    width: 100%;
+    max-width: 1450px;
     height: 100%;
+    margin: 0 auto;
 
     /*Notice Board Main Page Css*/
     .NoticePage-container{
@@ -14,8 +15,7 @@
             position: relative;
             width: 100%;
             height: 5rem;
-            margin : 5rem 0 2rem 0;
-            padding : 0 10rem;
+            margin : 2rem 0;
 
             .Notice-title{
                 position: relative;
@@ -34,7 +34,7 @@
             .AddNotice-button{
                 position: absolute;
                 top : 50%;
-                right : 10rem;
+                right : 0;
                 width: max-content;
                 height: 3rem;
                 transform: translateY(-50%);
@@ -54,7 +54,6 @@
         .Notice-table{
             position: relative;
             width: 100%;
-            padding : 3rem 10rem;
             font-family: $Jamsil-font;
 
             .loader{
@@ -72,28 +71,20 @@
             .border-table{
                 width: 100%;
                 height: 100%;
-                border-radius: 10px;
-                overflow: hidden;
 
                 table{
                     display: table;
                     width: 100%;
                     border-collapse: collapse;
-                    border-style: hidden;
             
                     thead{
                         &.darkMode{
-                            background-color: rgba($color: #9a9a9a, $alpha: 0.2);
+                            border-bottom: 1px solid #fff;
+                            border-top: 3px solid #fff;
                         }
                         &.lightMode{
-                            background-color: rgba($color: #000000, $alpha: 0.7);
-                            tr {
-                                th {
-                                    h1{
-                                        color: #fff !important;
-                                    }
-                                }
-                            }
+                            border-bottom: 1px solid #777;
+                            border-top: 3px solid #000;
                         }
                     }
                     
@@ -101,7 +92,7 @@
                         padding: 1.5rem 0;
     
                         &:first-child{
-                            width: 50%;
+                            width: 60%;
                             h1{
                                 text-align: center;
                             }
@@ -114,701 +105,36 @@
                     }
                     
                     tbody{
-    
-                            tr {
-                                width: 100%;
 
-                                &.darkMode{
-                                    &:hover{
-                                        background-color: rgba($color: #bdbdbd, $alpha: 0.4);
-                                        transition: all 0.5s ease-in;
-                                        cursor: pointer;
-                                    }
-                                }
-
-                                &.lightMode{
-                                    &:hover{
-                                        background-color: rgba($color: #777777, $alpha: 0.4);
-                                        transition: all 0.5s ease-in;
-                                        cursor: pointer;
-                                    }
-                                }
-    
-                                td{
-                                    padding : 1.5rem 0;
-                                    text-align: center;
-                                    font-size: 15px;
-                
-                                    &:first-child{
-                                        text-align: center;
-                                        font-weight: bold;
-                                    }
-                
-                                    &:nth-child(2){
-                                        width: 15%;
-                                    }
-                                }
-                            }
-                    }
-                }
-            }
-        }
-    }
-
-    /*Main page Notice Board pagenation Css*/
-    .pagenation-container{
-        position: relative;
-        width: 100%;
-        height: 5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin : 2rem 0;
-
-        .pagenation{
-            width: max-content;
-
-            li{
-                display: inline-block;
-                width: 3rem;
-                text-align: center;
-                line-height: 2rem;
-
-                a{
-                    font-family: $Jamsil-font;
-                    font-weight: 400;
-                    font-size: 1rem;
-
-                    &.active{
-                        font-weight: bold;
-                    }
-                }
-            }
-        }
-    }
-
-    /*공지사항 등록 addNotice Page css*/
-    .addNotice-container{
-        position: relative;
-        width: 100%;
-        height: 100%;
-        padding : 2rem 6.25rem 5rem 6.25rem;
-
-        .addNotice-titleBox{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            height: 5rem;
-            border-bottom: 2px solid #8e8e8e;
-
-            .addNotice-title{
-                width: 10rem;
-                height: 5rem;
-                line-height: 5rem;
-                font-size: 1.5rem;
-                font-family: $Jamsil-font;
-            }
-
-            .NoticeList-button{
-                position: relative;
-                width: max-content;
-                height: 2rem;
-
-                a{
-                        display: block;
-                        line-height: 2.5rem;
-                        width: 8rem;
-                        font-size: 15px;
-                        font-family: $Jamsil-font;
-                        text-align: center;
-                        font-weight: bold;
-                        transition: all 0.5s ease-out;
-                }
-            }
-        }
-
-        .addNotice-Form{
-            width: 100%;
-            height: 40rem;
-            padding-top: 2rem;
-
-            .form-header{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                height: 5rem;
-                margin-bottom: 2rem;
-
-                .header-title{
-                    width: 20rem;
-                    height: 5rem;
-                    line-height: 5rem;
-                    font-family: $Jamsil-font;
-                    font-size: 1.5rem;
-                }
-
-                .submit-button{
-                    width: max-content;
-                    height: 3rem;
-
-                    button{
-                        border: none;
-                        width: 8rem;
-                        line-height: 3rem;
-                        font-family: $Jamsil-font;
-                        font-weight: bold;
-                        font-size: 1rem;
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .form-Field{
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-                height: 33rem;
-
-                .essential-Field{
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 65%;
-                    height: 100%;
-
-                    .title-input{
-                        width: 100%;
-                        line-height: 2.5rem;
-                        font-size: 1rem;
-                        font-family: $Jamsil-font;
-                        padding: 0.5rem 1rem;
-                        background-color: transparent;
-                        border-style: none;
-                        border-bottom: 1px solid #6b6b6b;
-
-                        &:focus{
-                            outline: none;
-                        }
-                    }
-
-                    .textInfo-area{
-                        width: 100%;
-                        height: 28rem;
-                        font-size: 1rem;
-                        padding : 1rem;
-                        font-family: $Jamsil-font;
-                        resize: none;
-                        background-color: transparent;
-                        border : 1px solid #6b6b6b;
-                    }
-                }
-
-                .image-wrapper{
-                    width: 30%;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-
-                    .preview-image{
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        width: 100%;
-                        height: 70%;
-                        background-color: transparent;
-                        font-family: $Jamsil-font;
-                        font-weight: bold;
-                        font-size: 1rem;
-
-                        img{
+                        tr {
                             width: 100%;
-                            height: 100%;
-                            object-fit: scale-down;
-                        }
-                    }
 
-                    .error-Message{
-                        width: 100%;
-                        text-align: center;
-                        line-height: 2rem;
-                        color: rgb(255, 125, 125);
-                        font-family: $Jamsil-font;
-                        font-weight: bold;
-                    }
-
-                    .upload-button{
-
-                        h1{
-                            display: block;
-                            width: 100%;
-                            line-height: 3rem;
-                            text-align: center;
-                            font-family: $Jamsil-font;
-                            font-size: 1rem;
-                            cursor: pointer;
-                        }
-                    }
-
-                    input{
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-
-    /*공지사항 view page css*/
-    .current-NoticeBoard{
-        position: relative;
-        left : 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        height: 100%;
-        padding: 5rem 0;
-
-        .currentBoard-header{
-            width : 100%;
-            height: 8rem;
-            font-family: $Jamsil-font;
-
-            .static {
-                font-size: 1rem;
-                line-height: 3rem;
-                height: 3rem;
-            }
-
-            .title {
-                font-size: 1.3rem;
-                line-height: 5rem;
-                height: 5rem;
-                border-bottom: 1px solid #666666;
-            }
-        }
-
-        .currentBoard-info{
-            width: 100%;
-            height: 5rem;
-            font-family: $Jamsil-font;
-
-            .currentBoard-writer{
-                display: inline-block;
-                width: 10rem;
-                margin-right: 2rem;
-                font-size: 1rem;
-                line-height: 5rem;
-                height: 5rem;
-            }
-
-            .currentBoard-date{
-                display: inline-block;
-                width: 10rem;
-                font-size: 1rem;
-                line-height: 5rem;
-                height: 5rem;
-            }
-        }
-
-        .currentBoard-text{
-            width: 100%;
-            padding : 2rem 0 5rem 0;
-
-            p{
-                font-size: 1rem;
-                font-family: $Jamsil-font;
-            }
-        }
-
-        .upload-imageBox{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-
-            .upload-image{
-                width: max-content;
-                height: 30rem;
-                overflow: hidden;
-
-                img{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-        }
-
-        .currentNotice-button{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            height: 6rem;
-            margin-top: 2rem;
-
-            .NoticeList-button{
-                width: max-content;
-                height: 2rem;
-
-                a{
-                        display: block;
-                        line-height: 2rem;
-                        width: 8rem;
-                        font-size: 15px;
-                        font-family: $Jamsil-font;
-                        border: 1px solid #CDCDCD;
-                        background-color: transparent;
-                        text-align: center;
-                        font-weight: bold;
-                        transition: all 0.5s ease-out;
-                }
-            }
-        }
-    }
-}
-
-@media screen and (max-width : 768px){
-    .wrap{
-        /*Notice Board Main Page Css*/
-        .NoticePage-container{
-            width: 100%;
-            height: max-content;
-
-            .Notice-header{
-                position: relative;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                height: 5rem;
-                margin : 2rem 0 1rem 0;
-                padding : 0 1rem;
-    
-                .Notice-title{
-                    position: relative;
-                    width: 70%;
-                    height: 5rem;
-        
-                    h1{
-                        width: 100%;
-                        line-height: 5rem;
-                        font-size: 1.2rem;
-                        text-align: start;
-                    }
-                }
-    
-                .AddNotice-button{
-                    position: relative;
-                    top: 0;
-                    right: 0;
-                    width: 6rem;
-                    height: 2.5rem;
-                    transform: translateY(0);
-    
-                    a{
-                        display: block;
-                        line-height: 2.5rem;
-                        width: 100%;
-                        font-size: 10px;
-                        text-align: center;
-                        font-weight: bold;
-                    }
-                }
-            }
-
-            .Notice-table{
-                position: relative;
-                width: 100%;
-                padding : 1rem 0    ;
-
-                .border-table{
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 0px;
-                    overflow: hidden;
-    
-                    table{
-                        display: table;
-                        width: 100%;
-                        border-collapse: collapse;
-                        border-style: hidden;
-                
-                        thead{
-                            &.darkMode{
-                                background-color: rgba($color: #7f7f7f, $alpha: 0.3);
-                            }
-                        }
-                        
-                        th{
-                            padding: 1.5rem 0;
-        
-                            &:first-child{
-                                width: 50%;
-                            }
-
-                            &:nth-child(3){
-                                width: 20%;
-                            }
-        
-                            h1{
-                                font-size: 9px;
+                            td{
+                                padding : 1.5rem 0;
                                 text-align: center;
-                            }
-                        }
-                        
-                        tbody{
-        
-                                tr {
-                                    width: 100%;
+                                font-size: 15px;
+            
+                                &:first-child{
+                                    text-align: center;
+                                    font-weight: bold;
+                                    cursor: pointer;
 
-                                    &.darkMode{
-                                        &:hover{
-                                            background-color: transparent;
-                                        }
-                                    }
-    
-                                    &.lightMode{
-                                        &:hover{
-                                            background-color: transparent;
-                                        }
-                                    }
-        
-                                    td{
-                                        padding : 1.5rem 0;
-                                        text-align: center;
-                                        font-size: 9px;
-                    
-                                        &:first-child{
-                                            padding: 0 1rem;
-                                            text-align: start;
-                                            font-weight: bold;
-                                        }
-                    
-                                        &:nth-child(2){
-                                            width: max-content;
+                                    &:hover{
+                                        span{
+                                            color: #ff6565;
+                                            transition: all 0.1s ease-in;
                                         }
                                     }
                                 }
+            
+                                &:nth-child(2){
+                                    width: 15%;
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-
-    /*공지사항 등록 addNotice Page css*/
-    .addNotice-container{
-        position: relative;
-        width: 100%;
-        height: 100%;
-        padding : 2rem;
-
-        .addNotice-titleBox{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            height: 5rem;
-            border-bottom: 2px solid #8e8e8e;
-
-            .addNotice-title{
-                font-size: 1rem;
-            }
-
-            .NoticeList-button{
-
-                a{
-                        line-height: 2rem;
-                        width: 6rem;
-                        font-size: 12px;
-                }
-            }
-        }
-
-        .addNotice-Form{
-            width: 100%;
-            height: 52rem;
-            padding-top: 2rem;
-
-            .form-header{
-
-                .header-title{
-                    width: 15rem;
-                    font-size: 1rem;
-                }
-
-                .submit-button{
-                    height: 2rem;
-
-                    button{
-                        width: 6rem;
-                        line-height: 2rem;
-                        font-size: 12px;
-                    }
-                }
-            }
-
-            .form-Field{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-                height: 42rem;
-
-                .essential-Field{
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    align-items: center;
-                    width: 100%;
-                    height: 20rem;
-
-                    .title-input{
-                        width: 100%;
-                        line-height: 2rem;
-                        font-size: 12px;
-                        padding: 0.5rem 1rem;
-                        background-color: transparent;
-                        border-style: none;
-                        border-bottom: 1px solid #6b6b6b;
-
-                        &:focus{
-                            outline: none;
-                        }
-                    }
-
-                    .textInfo-area{
-                        width: 100%;
-                        height: 15rem;
-                        font-size: 12px;
-                    }
-                }
-
-                .image-wrapper{
-                    width: 100%;
-                    height: 20rem;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-
-                    .preview-image{
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        width: 100%;
-                        height: 70%;
-                        background-color: transparent;
-                        font-weight: bold;
-                        font-size: 1rem;
-
-                        img{
-                            width: 100%;
-                            height: 100%;
-                            object-fit: scale-down;
-                        }
-                    }
-
-                    .error-Message{
-                        width: 100%;
-                        text-align: center;
-                        line-height: 2rem;
-                        color: rgb(255, 108, 108);
-                        font-weight: bold;
-                    }
-
-                    .upload-button{
-
-                        h1{
-                            line-height: 2.5rem;
-                            font-size: 12px;
-                        }
-                    }
-
-                    input{
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-
-    /*공지사항 view page css*/
-    .current-NoticeBoard{
-        position: relative;
-        left : 0;
-        transform: translateX(0);
-        width: 100%;
-        height: 100%;
-        padding: 5rem 2rem;
-
-        .currentBoard-header{
-
-            .static {
-                font-size: 12px;
-            }
-
-            .title {
-                font-size: 1rem;
-            }
-        }
-
-        .currentBoard-info{
-            width: 100%;
-            height: 5rem;
-
-            .currentBoard-writer{
-                width: 5rem;
-                font-size: 12px;
-            }
-
-            .currentBoard-date{
-                width: 10rem;
-                font-size: 12px;
-            }
-        }
-
-        .currentBoard-text{
-            width: 100%;
-            padding : 2rem 0 5rem 0;
-
-            p{
-                font-size: 13px;
-            }
-        }
-
-        .upload-imageBox{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-
-            .upload-image{
-                width: max-content;
-                height: 30rem;
-                overflow: hidden;
-
-                img{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-        }
-
-        .currentNotice-button{
-
-            .NoticeList-button{
-
-                a{
-                        width: 6rem;
-                        font-size: 12px;
-                }
-            }
-        }
-    }
     }
 }

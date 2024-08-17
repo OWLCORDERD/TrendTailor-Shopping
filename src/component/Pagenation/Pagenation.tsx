@@ -2,6 +2,7 @@
 
 import React, { SetStateAction, useEffect, useMemo, useState } from "react";
 import { RiArrowLeftDoubleLine, RiArrowRightDoubleLine } from "react-icons/ri";
+import styled from "styled-components";
 
 interface pageProps {
   setCurrentPage: React.Dispatch<SetStateAction<number>>;
@@ -10,6 +11,40 @@ interface pageProps {
   currentPage: number;
   setLoading: React.Dispatch<SetStateAction<boolean>>;
 }
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+`;
+
+const PageList = styled.ul`
+  width: max-content;
+  margin: 0 2rem;
+
+  li {
+    display: inline-block;
+    width: 3rem;
+    text-align: center;
+    line-height: 2rem;
+
+    a {
+      font-family: "TheJamsil", sans-serif;
+      font-weight: 400;
+      cursor: pointer;
+      color: #777;
+
+      &.active {
+        font-weight: bold;
+        color: #000;
+      }
+    }
+  }
+`;
 
 const Pagenation = ({
   setCurrentPage,
@@ -88,13 +123,13 @@ const Pagenation = ({
   }, [pageCount]);
 
   return (
-    <div className='pagenation-container'>
+    <Container>
       <RiArrowLeftDoubleLine
         onClick={(e) => prevPage(e)}
         cursor='pointer'
         visibility={pageCount === 1 ? "hidden" : "auto"}
       />
-      <ul className='pagenation'>
+      <PageList>
         {currentViewPage.map((number) => {
           return (
             <li key={number}>
@@ -107,7 +142,7 @@ const Pagenation = ({
             </li>
           );
         })}
-      </ul>
+      </PageList>
       <RiArrowRightDoubleLine
         onClick={(e) => nextPage(e)}
         cursor='pointer'
@@ -118,7 +153,7 @@ const Pagenation = ({
             : "auto"
         }
       />
-    </div>
+    </Container>
   );
 };
 

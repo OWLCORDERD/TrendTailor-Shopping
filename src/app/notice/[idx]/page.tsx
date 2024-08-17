@@ -6,7 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import "styles/notice.scss";
+import "styles/currentNotice.scss";
 import { NoticeType } from "../page";
 
 const CurrentNotice = ({ params }: any) => {
@@ -33,23 +33,7 @@ const CurrentNotice = ({ params }: any) => {
         view_cnt: docSnapshot.data()["view_cnt"],
       };
 
-      setCurrentNoticeData(docData);
-    } else {
-      return null;
-    }
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (notice_id) {
-      findNotice();
-    }
-  }, [notice_id]);
-
-  useEffect(() => {
-    if (currentNoticeData && currentNoticeData.date) {
-      const date = currentNoticeData.date;
+      const date = docData.date;
 
       let month = date.getMonth() + 1;
       let day = date.getDate();
@@ -59,8 +43,20 @@ const CurrentNotice = ({ params }: any) => {
         date.getFullYear() + "-" + filterMonth + "-" + filterDay;
 
       setUploadDate(formatDate);
+
+      setCurrentNoticeData(docData);
+    } else {
+      return null;
     }
-  }, [currentNoticeData]);
+  };
+
+  useEffect(() => {
+    findNotice();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [notice_id]);
 
   return (
     <div className='wrap'>
@@ -73,10 +69,13 @@ const CurrentNotice = ({ params }: any) => {
             </div>
 
             <div className='currentBoard-info'>
-              <h2 className='currentBoard-writer'>
-                {currentNoticeData.writer}
-              </h2>
-              <span className='currentBoard-date'>{uploadDate}</span>
+              <div className='view-count'>
+                <p>조회수</p>
+                <span>{currentNoticeData.view_cnt}</span>
+              </div>
+              <div className='upload-date'>
+                <span>{uploadDate}</span>
+              </div>
             </div>
 
             <div className='currentBoard-text'>
