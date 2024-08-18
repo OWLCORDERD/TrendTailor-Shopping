@@ -9,6 +9,34 @@ export const GlobalStyles = createGlobalStyle`
 $Raleway-font : 'Raleway', sans-serif;
 $Noto-Korean : 'Noto Sans KR', sans-serif;
 
+@font-face {
+    font-family: 'TheJamsil';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TheJamsil';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil4Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TheJamsil';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+// variables
+$Jamsil-font : 'TheJamsil', sans-serif;
+$darkMode-button : rgba(154,154,154,0.2);
+$darkFont-Color: #fff;
+$lightFont-Color: #000;
+
 
 *{
     margin : 0;
@@ -17,6 +45,7 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
     list-style: none;
     text-decoration: none;
 
+    // 스크롤바 디자인
     &::-webkit-scrollbar{
         width: 10px;
     }
@@ -47,22 +76,26 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
             transition : all 0.5s ease-out;
         }
 
+        // 검정 테마 디자인 요소
         .dark{
             background-color: #000;
-            color: #fff;
             
-            a, p, h1, h2, span, svg{
-                color: #fff;
+            a, p, h1, h2, h3, span, svg{
+                color: $darkFont-Color;
             }
 
             input, textarea{
-                color: #fff;
+                color: $darkFont-Color;
+
+                &::placeholder {
+                    color: $darkFont-Color;
+                }
             }
 
             .Preview-container{
                 background-color: #000;
-                color: #fff;
-
+                color: $darkFont-Color;
+                
                 &::-webkit-scrollbar-thumb{
                     background-color: #000;
                 }
@@ -74,14 +107,14 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
 
             .AddNotice-button{
                 a{
-                    background-color: #fff;
-                    color : #000;
+                    background-color: $darkMode-button;
+                    color: $darkFont-Color;
                 }
             }
 
             .NoticeList-button{
                 a{
-                    background-color: rgba(154,154,154,0.2);
+                    background-color: $darkMode-button;
                 }
             }
 
@@ -99,20 +132,20 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
 
             .upload-button{
                 h1{
-                    background-color: rgba(154,154,154,0.2);
+                    background-color: $darkMode-button;
                 }
             }
 
             .form-header{
                 .submit-button{
                     button{
-                        background-color: rgba(154,154,154,0.2);
+                        background-color: $darkMode-button;
                     }
                 }
             }
 
             .viewChannel-button{
-                background-color: rgba(255, 255, 255, 0.2);
+                background-color: $darkMode-button;
             }
 
             .Skeleton-thumbnail{
@@ -163,11 +196,12 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
             }
         }
 
+        // 밝은 테마 디자인 요소
         .light{
             background-color: #fff;
 
-            a{
-                color: #000;
+            a, p, h1, h2, h3, span, svg{
+                color: $lightFont-Color;
             }
 
             .Preview-container{
@@ -191,28 +225,20 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
 
             .AddNotice-button{
                 a{
-                    background-color: #000;
+                    border : none;
+                    background-color : #000;
                     color : #fff;
                 }
             }
 
             .NoticeList-button{
-                a{
-                    background-color : rgba(0,0,0,0.7);
-                }
-            }
+                border : 2px solid #fff;
+                color: #fff;
+                transition: all 0.3s ease-in-out;
 
-            .upload-button{
-                h1{
-                    background-color: rgba(0,0,0,0.7);
-                }
-            }
-
-            .form-header{
-                .submit-button{
-                    button{
-                        background-color: rgba(0,0,0,0.7);
-                    }
+                &:hover {
+                    background-color: #fff;
+                    color: #000;
                 }
             }
 
@@ -230,40 +256,56 @@ $Noto-Korean : 'Noto Sans KR', sans-serif;
                     }
 
                     100% {
-                        background-color: #5f5f5f;
+                        background-color: #777777;
                     }
                 }
             }
 
             .Skeleton-infoBox{
+
+                .Skeleton-channelImg {
+                    background-color: #b5b5b5;
+
+                    animation : lightMode_title 1s linear infinite;
+
+                    @keyframes lightMode_channelImg {
+                        0%{
+                            background-color: #b5b5b5;
+                        }
+
+                        100% {
+                            background-color: #777777;
+                        }
+                    }
+                }
                 .Skeleton-title{
-                    background-color: #cbcbcb;
+                    background-color: #b5b5b5;
 
                     animation : lightMode_title 1s linear infinite;
 
                     @keyframes lightMode_title {
                         0%{
-                            background-color: #cbcbcb;
+                            background-color: #b5b5b5;
                         }
 
                         100% {
-                            background-color: #5f5f5f;
+                            background-color: #777777;
                         }
                     }
                 }
 
                 .Skeleton-channel{
-                    background-color: #cbcbcb;
+                    background-color: #b5b5b5;
 
                     animation : lightMode_channel 1s linear infinite;
 
                     @keyframes lightMode_channel {
                         0%{
-                            background-color: #cbcbcb;
+                            background-color: #b5b5b5;
                         }
 
                         100% {
-                            background-color: #5f5f5f;
+                            background-color: #777777;
                         }
                     }
                 }
@@ -285,7 +327,7 @@ header {
     z-index: 1100;
 
     @media screen and (max-width : 768px) {
-        position: sticky;
+        position: fixed;
         height : 5rem;
         background-color: #fff;
     }

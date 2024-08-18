@@ -5,7 +5,6 @@ import StyledComponentsRegistry from "./RootStyleRegistry";
 import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
-import "app/globals.scss";
 
 export const metadata: Metadata = {
   title: "WISH",
@@ -29,17 +28,17 @@ export default function RootLayout({
   return (
     <AuthSession>
       <ReduxProvider>
-        <html lang='ko'>
-          <body>
-            <StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <html lang='ko'>
+            <body>
               <ThemeProvider>
                 <Navbar />
                 {children}
               </ThemeProvider>
               <Footer />
-            </StyledComponentsRegistry>
-          </body>
-        </html>
+            </body>
+          </html>
+        </StyledComponentsRegistry>
       </ReduxProvider>
     </AuthSession>
   );

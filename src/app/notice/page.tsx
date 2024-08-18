@@ -101,15 +101,17 @@ export default function Notice() {
   }, [data]);
 
   const viewNotice = async (viewCount: number, currentIdx: string) => {
-    router.push(`/notice/${currentIdx}`);
-
     const count = viewCount + 1;
 
     try {
-      await axios.post("/api/viewCount", {
+      const res = await axios.post("/api/viewCount", {
         id: currentIdx,
         count: count,
       });
+
+      if (res.status === 200) {
+        router.push(`/notice/${currentIdx}`);
+      }
     } catch (err) {
       console.log(err);
     }

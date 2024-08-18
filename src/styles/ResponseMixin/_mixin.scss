@@ -1,0 +1,16 @@
+// 모바일 디바이스 반응형
+@mixin mobile {
+    @media screen and (max-width : 768px) {
+        @content;
+    }
+}
+
+// 맥북 반응형
+@mixin macbook {
+    @media screen and (min-width : 769px) and (max-width : 1480px) {
+        @content;
+    }
+}
+
+
+

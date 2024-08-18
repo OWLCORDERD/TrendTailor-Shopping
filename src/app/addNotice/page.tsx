@@ -48,12 +48,17 @@ const AddNotice = () => {
   const fileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files }: any = e.target;
 
-    if (!files[0]) return;
-
     const fileBlob = files[0];
 
-    if (!validFileType.find((type) => type === fileBlob.type)) {
-      setError("JPEG & JPG & PNG 확장자 이미지만 업로드 가능합니다.");
+    const limitSize = 1024 ** 2 * 3; // 3mb 사이즈값
+
+    const uploadSize = fileBlob.size;
+
+    if (uploadSize > limitSize) {
+      setError("3MB 이하 용량의 이미지 파일을 업로드해주세요.");
+      return;
+    } else if (!validFileType.find((type) => type === fileBlob.type)) {
+      setError("JPEG, JPG, PNG 확장자의 이미지만 업로드 가능합니다.");
       return;
     }
 
@@ -73,9 +78,16 @@ const AddNotice = () => {
     setUrlThumbnail(url);
   };
 
+  // 업로드 이미지 삭제 함수
+  const deletePreviewFile = () => {
+    setUrlThumbnail(""); // 미리보기 삭제
+    setUploadImage(undefined); // 업로드 이미지 파일 객체 삭제
+  };
+
   // dnd-Box 요소 영역에 드래그한 파일이 최초로 들어올때 발생하는 이벤트
   const dragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-    // 기존의 브라우저에 기본적으로 등록된 이벤트를 비활성화 (이미지를 드래그 & 드롭하면 새 페이지로 이미지가 열림)
+    // 기존의 브라우저에 기본적으로 등록된 이벤트를 비활성화
+    // (이미지를 드래그 & 드롭하면 새 페이지로 이미지가 열림)
     e.preventDefault();
     e.stopPropagation();
 
@@ -104,6 +116,22 @@ const AddNotice = () => {
   const dropFile = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
+    const dropFile = e.dataTransfer.files[0];
+
+    const limitSize = 1024 ** 2 * 3; // 3mb 사이즈값
+
+    const uploadSize = dropFile.size;
+
+    if (uploadSize > limitSize) {
+      setError("3MB 이하 용량의 이미지 파일을 업로드해주세요.");
+      setIsDragging(false);
+      return;
+    } else if (!validFileType.find((type) => type === dropFile.type)) {
+      setError("JPEG, JPG, PNG 확장자의 이미지만 업로드 가능합니다.");
+      setIsDragging(false);
+      return;
+    }
 
     setUploadImage(e.dataTransfer.files[0]);
     encodeFile(e.dataTransfer.files[0]);
@@ -263,7 +291,7 @@ const AddNotice = () => {
                     <button
                       type='button'
                       className='delete-preview'
-                      onClick={() => setUrlThumbnail("")}
+                      onClick={deletePreviewFile}
                     >
                       <IoCloseCircle />
                     </button>

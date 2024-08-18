@@ -12,12 +12,9 @@ import { NoticeType } from "../page";
 const CurrentNotice = ({ params }: any) => {
   const notice_id = params.idx;
   const [loading, setLoading] = useState<boolean>(true);
-  const [uploadDate, setUploadDate] = useState<string | undefined>();
-  const [currentNoticeData, setCurrentNoticeData] = useState<
-    NoticeType | undefined
-  >();
+  const [currentPost, setCurrentPost] = useState<NoticeType | undefined>();
 
-  const findNotice = async () => {
+  const findPost = async () => {
     const ref = doc(db, "notice", notice_id);
 
     const docSnapshot = await getDoc(ref);
@@ -39,49 +36,42 @@ const CurrentNotice = ({ params }: any) => {
       let day = date.getDate();
       const filterMonth = month < 10 ? "0" + month : month;
       const filterDay = day < 10 ? "0" + day : day;
-      const formatDate =
-        date.getFullYear() + "-" + filterMonth + "-" + filterDay;
+      docData.date = date.getFullYear() + "-" + filterMonth + "-" + filterDay;
 
-      setUploadDate(formatDate);
+      setCurrentPost(docData);
 
-      setCurrentNoticeData(docData);
-    } else {
-      return null;
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    findNotice();
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    findPost();
   }, [notice_id]);
 
   return (
     <div className='wrap'>
       <section className='current-NoticeBoard'>
-        {!loading && currentNoticeData ? (
+        {!loading && currentPost ? (
           <>
             <div className='currentBoard-header'>
               <span className='static'>공지사항</span>
-              <h1 className='title'>{currentNoticeData.title}</h1>
+              <h1 className='title'>{currentPost.title}</h1>
             </div>
 
             <div className='currentBoard-info'>
               <div className='view-count'>
                 <p>조회수</p>
-                <span>{currentNoticeData.view_cnt}</span>
+                <span>{currentPost.view_cnt}</span>
               </div>
               <div className='upload-date'>
-                <span>{uploadDate}</span>
+                <span>{currentPost.date}</span>
               </div>
             </div>
 
             <div className='currentBoard-text'>
-              {currentNoticeData.text.split("\n").map((keyword) => {
+              {currentPost.text.split("\n").map((keyword) => {
                 return (
-                  <p key={currentNoticeData.id}>
+                  <p key={currentPost.id}>
                     {keyword}
                     <br />
                   </p>
@@ -89,11 +79,11 @@ const CurrentNotice = ({ params }: any) => {
               })}
             </div>
 
-            {currentNoticeData.image ? (
+            {currentPost.image ? (
               <div className='upload-imageBox'>
                 <div className='upload-image'>
                   <Image
-                    src={currentNoticeData.image}
+                    src={currentPost.image}
                     alt='공지사항 이미지'
                     width='400'
                     height='500'
