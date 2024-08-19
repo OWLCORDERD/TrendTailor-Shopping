@@ -137,13 +137,17 @@
         padding: 5rem 2rem 2rem 2rem;
 
         .currentBoard-header{
+            height: 9rem;
 
             .static {
-                font-size: 14px;
+                font-size: 12px;
             }
 
             .title {
-                font-size: 1.2rem;
+                font-size: 16px;
+                line-height: normal;
+                height: 5rem;
+                margin-top: 1rem;
             }
         }
 
@@ -163,6 +167,7 @@
                     width: 70%;
                     line-height: 5rem;
                     font-weight: bold;
+                    font-size: 14px;
                 }
 
                 span {
@@ -170,6 +175,7 @@
                     width: 30%;
                     line-height: 5rem;
                     font-weight: 400;
+                    font-size: 12px;
                 }
             }
 

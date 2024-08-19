@@ -327,7 +327,7 @@ header {
     z-index: 1100;
 
     @media screen and (max-width : 768px) {
-        position: fixed;
+        position: sticky;
         height : 5rem;
         background-color: #fff;
     }
