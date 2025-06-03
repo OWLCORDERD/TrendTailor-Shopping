@@ -7,6 +7,7 @@ Banner.Container = styled.div`
   width: 100%;
   height: 42rem;
   overflow: hidden;
+  margin: 2rem 0 0 0;
 
   /* swiper slide pagination 영역 커스텀 디자인 */
   .swiper-pagination-horizontal {

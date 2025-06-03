@@ -8,7 +8,6 @@ const Inner = styled.div`
   position: relative;
   width: 100%;
   height: 26rem;
-  background-color: #000;
   display: flex;
   justify-content: space-between;
 
@@ -73,8 +72,8 @@ const LogoInfo = styled.div`
   width: 100%;
 
   p {
-    font-size: 12px;
-    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    font-family: "TheJamsil", sans-serif;
     text-transform: uppercase;
     color: #fff;
   }
@@ -330,11 +329,11 @@ const Footer = () => {
         <MainCont>
           <Logo>
             <MainLogo>
-              <h1>Wish</h1>
+              <h1>TrendTailor</h1>
             </MainLogo>
 
             <LogoInfo>
-              <p>Wearing Information Shopping&Shared Homepage</p>
+              <p>트렌드를 재단하다. 당신의 트렌드를 찾아드립니다.</p>
             </LogoInfo>
           </Logo>
 

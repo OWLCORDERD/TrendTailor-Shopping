@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import "styles/currentVideo.scss";
-import { videoType } from "app/trend/page";
+import { videoType } from "app/trendly/page";
 import { motion } from "framer-motion";
 import Image from "next/image";
 

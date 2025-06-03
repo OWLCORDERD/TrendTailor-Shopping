@@ -15,6 +15,7 @@ import Image from "next/image";
 import { IoIosArrowDown } from "react-icons/io";
 import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import Logo from "assets/images/logo.png";
 
 const Navbar = () => {
   const { data, status } = useSession();
@@ -64,8 +65,9 @@ const Navbar = () => {
         <>
           <CSS.ResponsiveNav>
             <CSS.ResponsiveLogo>
-              <Link href='/' prefetch={true}>
-                wish
+              <Link href='/' prefetch={true} className='logo'>
+                <Image src={Logo} alt='TrendTailor 로고 이미지' />
+                <h1 className='logo-title'>TrendTailor</h1>
               </Link>
             </CSS.ResponsiveLogo>
             <CSS.ResponsiveMenu>
@@ -96,76 +98,47 @@ const Navbar = () => {
         </>
       ) : (
         <CSS.Container>
-          <CSS.MainNav>
-            <CSS.Logo>
-              <Link href='/'>wish</Link>
-            </CSS.Logo>
+          <CSS.Logo>
+            <Link href='/' prefetch={true} className='logo'>
+              <Image src={Logo} alt='TrendTailor 로고 이미지' />
+              <h1 className='logo-title'>TrendTailor</h1>
+            </Link>
+          </CSS.Logo>
 
-            <Search
-              searchActive={ResponsiveSearchActive}
-              setSearchActive={setResponsiveSearchActive}
-            />
+          <CSS.LoginMenu>
+            {status === "authenticated" && data.user ? (
+              <CSS.LoginUser onClick={() => setUserPopupOpen(!userPopupOpen)}>
+                {data.user.image ? (
+                  <div className='user-imgBox'>
+                    <Image
+                      src={data.user.image}
+                      alt='user-image'
+                      width='50'
+                      height='50'
+                    />
+                  </div>
+                ) : (
+                  <div className='user-icon'>
+                    <FaUserCircle />
+                  </div>
+                )}
+                <span className='user-name'>{data.user.name}</span>
+                <IoIosArrowDown className='arrow-down' />
+              </CSS.LoginUser>
+            ) : (
+              <>
+                <Link href='/signin' className='login'>
+                  <AiOutlineLogin className='icon' />
+                  <span>login</span>
+                </Link>
 
-            <CSS.LoginMenu>
-              {status === "authenticated" && data.user ? (
-                <CSS.LoginUser onClick={() => setUserPopupOpen(!userPopupOpen)}>
-                  {data.user.image ? (
-                    <div className='user-imgBox'>
-                      <Image
-                        src={data.user.image}
-                        alt='user-image'
-                        width='50'
-                        height='50'
-                      />
-                    </div>
-                  ) : (
-                    <div className='user-icon'>
-                      <FaUserCircle />
-                    </div>
-                  )}
-                  <span className='user-name'>{data.user.name}</span>
-                  <IoIosArrowDown className='arrow-down' />
-                </CSS.LoginUser>
-              ) : (
-                <>
-                  <Link href='/signin' className='login'>
-                    <AiOutlineLogin className='icon' />
-                    <span>login</span>
-                  </Link>
-
-                  <Link href='/signup' className='signup'>
-                    <AiOutlineUserAdd className='icon' />
-                    <span>sign Up</span>
-                  </Link>
-                </>
-              )}
-            </CSS.LoginMenu>
-          </CSS.MainNav>
-
-          <CSS.SubNav>
-            <CSS.Menu>
-              <li>
-                <Link href='/about' prefetch={true}>
-                  About
+                <Link href='/signup' className='signup'>
+                  <AiOutlineUserAdd className='icon' />
+                  <span>sign Up</span>
                 </Link>
-              </li>
-              <li>
-                <Link href='/shop' prefetch={false}>
-                  shop
-                </Link>
-              </li>
-              <li>
-                <Link href='/trend' prefetch={false}>
-                  Trend
-                </Link>
-              </li>
-              <li>
-                <Link href='/notice' prefetch={false}>
-                  Notice
-                </Link>
-              </li>
-            </CSS.Menu>
-          </CSS.SubNav>
+              </>
+            )}
+          </CSS.LoginMenu>
         </CSS.Container>
       )}
 

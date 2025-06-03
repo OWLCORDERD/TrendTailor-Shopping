@@ -1,32 +1,23 @@
-/*Navbar Component styles */
-import { Navbar } from "styles/Navbar/Navbar";
-import { Search } from "styles/Search/Search";
-
-export { Navbar, Search };
-
-/*Main page MainBoard Components styles */
-
-/* Banner Component Style Components  */
-import { Banner } from "styles/Banner/Banner";
-
-/* NoticeBoard Component Style Components */
-import { NoticeBoard } from "styles/NoticeBoard/NoticeBoard";
-
-export { Banner, NoticeBoard };
-
-/* Main Page Peed Components styles */
-
-/* SeasonPeed Component Style Components */
+import { Navbar } from "styles/Navbar";
+import { Search } from "styles/Search";
+import { Banner } from "styles/Banner";
+import { NoticeBoard } from "styles/NoticeBoard";
 import { SeasonPeed } from "styles/Peed/SeasonPeed";
-/* ClothesPeed Component Style Components */
 import { ClothesPeed } from "./Peed/ClothesPeed";
+import { PreviewVideo } from "./PreviewVideo";
+import { ProductDetail } from "./ProductDetail";
+import { Trendly } from "./Trendly/index";
+import { QuickMenu } from "./QuickMenu";
 
-export { ClothesPeed, SeasonPeed };
-
-import { PreviewVideo } from "./PreviewVideo/PreviewVideo";
-
-export { PreviewVideo };
-
-import { ProductDetail } from "./Product/ProductDetail";
-
-export { ProductDetail };
+export {
+  Navbar,
+  Banner,
+  Search,
+  NoticeBoard,
+  SeasonPeed,
+  ClothesPeed,
+  PreviewVideo,
+  ProductDetail,
+  Trendly,
+  QuickMenu,
+};

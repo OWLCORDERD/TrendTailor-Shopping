@@ -5,11 +5,12 @@ import StyledComponentsRegistry from "./RootStyleRegistry";
 import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
+import QuickMenu from "component/Main/QuickMenu";
 
 export const metadata: Metadata = {
-  title: "WISH",
+  title: "TrendTailor",
   openGraph: {
-    title: "WISH",
+    title: "TrendTailor, 트렌드를 재단해보세요.",
     description:
       "WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.",
   },
@@ -17,6 +18,9 @@ export const metadata: Metadata = {
     "WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.",
   verification: {
     google: "Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0",
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
 
@@ -31,6 +35,7 @@ export default function RootLayout({
         <StyledComponentsRegistry>
           <html lang='ko'>
             <body>
+              <QuickMenu />
               <ThemeProvider>
                 <Navbar />
                 {children}

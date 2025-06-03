@@ -5,7 +5,9 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Unbounded:wght@200..900&display=swap');
 
+$Pacifico-font : 'Pacifico', cursive;
 $Raleway-font : 'Raleway', sans-serif;
 $Noto-Korean : 'Noto Sans KR', sans-serif;
 
@@ -319,25 +321,21 @@ nav{
 }
 
 header {
-    position: relative;
+    position: sticky;
+    background-color: #fff;
     top: 0;
     left: 0;
     width: 100%;
-    height: 10rem;
+    height: 5rem;
+    border-bottom: 1px solid #e9ecef;
     z-index: 1100;
-
-    @media screen and (max-width : 768px) {
-        position: sticky;
-        height : 5rem;
-        background-color: #fff;
-    }
 }
 
 footer{
     position: relative;
     width: 100%;
     height: 30rem;
-    background-color: #000;
+    background-color: var(--colorMain);
     padding : 2rem 6.25rem;
     display: flex;
     justify-content: space-between;
@@ -358,5 +356,10 @@ section{
     display: inline-block;
     width : 100%;
     height : max-content;
+}
+
+:root {
+    --colorMain: #2D3A8C;
+    --chatColor: #f5f5f5;
 }
 `;

@@ -1,10 +1,10 @@
 "use client";
 
-import { videoType } from "app/trend/page";
+import { videoType } from "app/trendly/page";
 import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "./Skeleton/Skeleton";
 import Loading from "component/fetchDB/loading/Loading";
-import { channelDataType } from "app/trend/page";
+import { channelDataType } from "app/trendly/page";
 import CurrentVideo from "component/Trend/CurrentVideo";
 import VideoItem from "./VideoItem";
 

@@ -19,6 +19,166 @@ Used API
 <br/>
 <br/>
 
+### 폴더 구조
+
+```
+📦src
+ ┣ 📂app
+ ┃ ┣ 📂about
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂addNotice
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂api
+ ┃ ┃ ┣ 📂auth
+ ┃ ┃ ┃ ┗ 📂[...nextauth]
+ ┃ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┣ 📂createNotice
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┣ 📂duplicationIdCheck
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┣ 📂hashPassword
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┣ 📂insertCart
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┣ 📂login
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┣ 📂recommendOpenAI
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┃ ┗ 📂viewCount
+ ┃ ┃ ┃ ┗ 📜route.ts
+ ┃ ┣ 📂member
+ ┃ ┃ ┗ 📂cart
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂notice
+ ┃ ┃ ┣ 📂[idx]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂shop
+ ┃ ┃ ┣ 📂search
+ ┃ ┃ ┃ ┣ 📂[productId]
+ ┃ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂[productId]
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂signin
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂signup
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📂trendly
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┣ 📜globals.scss
+ ┃ ┣ 📜globalStyle.ts
+ ┃ ┣ 📜layout.tsx
+ ┃ ┣ 📜page.module.css
+ ┃ ┣ 📜page.tsx
+ ┃ ┣ 📜robots.ts
+ ┃ ┣ 📜RootStyleRegistry.tsx
+ ┃ ┗ 📜sitemap.ts
+ ┣ 📂assets
+ ┃ ┗ 📂images
+ ┃ ┃ ┣ 📜chatbot.png
+ ┃ ┃ ┗ 📜logo.png
+ ┣ 📂component
+ ┃ ┣ 📂About
+ ┃ ┃ ┗ 📜AboutSection.tsx
+ ┃ ┣ 📂ErrorPopup
+ ┃ ┃ ┗ 📜ErrorPopup.tsx
+ ┃ ┣ 📂fetchDB
+ ┃ ┃ ┣ 📂loading
+ ┃ ┃ ┃ ┗ 📜Loading.tsx
+ ┃ ┃ ┗ 📜firebase.ts
+ ┃ ┣ 📂Main
+ ┃ ┃ ┣ 📂Peed
+ ┃ ┃ ┃ ┣ 📂Contents
+ ┃ ┃ ┃ ┃ ┣ 📜ClothesPeed.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜SeasonPeed.tsx
+ ┃ ┃ ┃ ┣ 📂MainBoard
+ ┃ ┃ ┃ ┃ ┣ 📜Banner.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜MainBoard.tsx
+ ┃ ┃ ┃ ┃ ┗ 📜NoticeBoard.tsx
+ ┃ ┃ ┃ ┗ 📜Peed.tsx
+ ┃ ┃ ┣ 📂Responsive
+ ┃ ┃ ┃ ┗ 📜ResponsiveMenu.tsx
+ ┃ ┃ ┣ 📜Footer.tsx
+ ┃ ┃ ┣ 📜Navbar.tsx
+ ┃ ┃ ┗ 📜QuickMenu.tsx
+ ┃ ┣ 📂Pagenation
+ ┃ ┃ ┗ 📜Pagenation.tsx
+ ┃ ┣ 📂Popup
+ ┃ ┃ ┗ 📜UserPopup.tsx
+ ┃ ┣ 📂Product
+ ┃ ┃ ┣ 📜ProductDetail.tsx
+ ┃ ┃ ┣ 📜ProductList.tsx
+ ┃ ┃ ┗ 📜SearchProductList.tsx
+ ┃ ┣ 📂Search
+ ┃ ┃ ┗ 📜Search.tsx
+ ┃ ┣ 📂slideButton
+ ┃ ┃ ┣ 📜SlideBefore.tsx
+ ┃ ┃ ┗ 📜SlideNext.tsx
+ ┃ ┣ 📂Trend
+ ┃ ┃ ┣ 📂PreviewVideo
+ ┃ ┃ ┃ ┗ 📜PreviewVideo.tsx
+ ┃ ┃ ┣ 📂Skeleton
+ ┃ ┃ ┃ ┗ 📜Skeleton.tsx
+ ┃ ┃ ┣ 📜ChatContainer.tsx
+ ┃ ┃ ┣ 📜CurrentVideo.tsx
+ ┃ ┃ ┣ 📜TrendVideoList.tsx
+ ┃ ┃ ┗ 📜VideoItem.tsx
+ ┃ ┣ 📜AuthSession.tsx
+ ┃ ┗ 📜svgData.js
+ ┣ 📂store
+ ┃ ┣ 📂provider
+ ┃ ┃ ┗ 📜Provider.tsx
+ ┃ ┣ 📜hooks.ts
+ ┃ ┣ 📜searchClothes.ts
+ ┃ ┗ 📜store.ts
+ ┣ 📂styles
+ ┃ ┣ 📂Banner
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂Navbar
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂NoticeBoard
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂Peed
+ ┃ ┃ ┣ 📜ClothesPeed.ts
+ ┃ ┃ ┗ 📜SeasonPeed.ts
+ ┃ ┣ 📂PreviewVideo
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂ProductDetail
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂QuickMenu
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂ResponseMixin
+ ┃ ┃ ┗ 📜_mixin.scss
+ ┃ ┣ 📂Search
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂swiper
+ ┃ ┃ ┗ 📜swiper.css
+ ┃ ┣ 📂Trendly
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📜about.scss
+ ┃ ┣ 📜addNotice.scss
+ ┃ ┣ 📜currentNotice.scss
+ ┃ ┣ 📜currentVideo.scss
+ ┃ ┣ 📜errorPopup.scss
+ ┃ ┣ 📜index.js
+ ┃ ┣ 📜loading.scss
+ ┃ ┣ 📜notice.scss
+ ┃ ┣ 📜preview.scss
+ ┃ ┣ 📜register.scss
+ ┃ ┣ 📜responsiveMenu.scss
+ ┃ ┣ 📜shop.scss
+ ┃ ┣ 📜signIn.scss
+ ┃ ┗ 📜skeleton.scss
+ ┣ 📂types
+ ┃ ┗ 📜global.d.ts
+ ┗ 📂utils
+ ┃ ┗ 📂hooks
+ ┃ ┃ ┣ 📜ScrollToTop.tsx
+ ┃ ┃ ┗ 📜useWindowSize.tsx
+```
+
 ### 🔎 Previews
 
 #### Introduce

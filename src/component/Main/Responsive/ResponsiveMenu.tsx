@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "styles/responsiveMenu.scss";
 import { signOut, useSession } from "next-auth/react";
 import { HiSpeakerphone } from "react-icons/hi";
@@ -8,26 +8,23 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-
-interface propsMenuActiveState {
-  setResponsiveMenuActive: React.Dispatch<SetStateAction<boolean>>;
-}
+import Logo from "assets/images/logo.png";
 
 const menuToggle = {
   initial: {
-    width: 0,
+    opacity: 0,
   },
   animate: {
-    width: "calc(100% - 5rem)",
+    opacity: 1,
     transition: {
       staggerChildren: 0.5,
       delayChildren: 0.5,
-      duration: 2,
+      duration: 1,
     },
   },
 
   exit: {
-    width: 0,
+    opacity: 0,
   },
 };
 
@@ -41,7 +38,9 @@ const menuItemToggle = {
   },
 };
 
-const ResponsiveMenu = ({ setResponsiveMenuActive }: propsMenuActiveState) => {
+const ResponsiveMenu = ({
+  setResponsiveMenuActive,
+}: responseMenuActiveType) => {
   const svgIcon = [
     {
       name: "photo",
@@ -129,7 +128,10 @@ const ResponsiveMenu = ({ setResponsiveMenuActive }: propsMenuActiveState) => {
     >
       <div className='ResponsiveMenu-header'>
         <div className='logo'>
-          <h1>wish</h1>
+          <Link href='/' prefetch={true} className='logo'>
+            <Image src={Logo} alt='TrendTailor 로고 이미지' />
+            <h1 className='logo-title'>TrendTailor</h1>
+          </Link>
         </div>
 
         <div

@@ -2,28 +2,19 @@ import { styled } from "styled-components";
 
 const Navbar: any = {};
 
+// pc 해상도 헤더 네비게이션 영역
 Navbar.Container = styled.nav`
   position: relative;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1100;
-  transition: all 0.5s ease-out;
-
-  @media screen and (max-width: 768px) {
-    height: 5rem;
-  }
-`;
-
-Navbar.MainNav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 5rem;
-  padding: 0 6.25rem;
-  transition: all 0.5s ease-in;
+  padding: 0 5rem;
+  z-index: 1100;
+  transition: all 0.5s ease-out;
 
   @media screen and (max-width: 768px) {
     padding: 0 2rem;
@@ -38,11 +29,24 @@ Navbar.Logo = styled.div`
   justify-content: center;
 
   a {
-    font-size: 1.5rem;
-    font-family: "Raleway", sans-serif;
-    text-transform: uppercase;
-    line-height: 5rem;
-    font-weight: bold;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 200px;
+    height: 100%;
+
+    & > img {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    & > h1 {
+      font-weight: 400;
+      font-size: 1.5rem;
+      font-family: "Pacifico", cursive;
+      color: var(--colorMain);
+      text-align: center;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -86,6 +90,7 @@ Navbar.LoginMenu = styled.div`
     }
   }
 
+  // 모바일 버전 로그인 메뉴 숨김
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -143,19 +148,6 @@ Navbar.LoginUser = styled.div`
   }
 `;
 
-Navbar.SubNav = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 5rem;
-  padding: 0 6.25rem;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
 Navbar.Menu = styled.ul`
   position: absolute;
   left: 50%;
@@ -188,6 +180,7 @@ Navbar.Menu = styled.ul`
   }
 `;
 
+// 모바일 반응형 헤더 네비게이션 영역
 Navbar.ResponsiveNav = styled.div`
   width: 100%;
   height: 100%;
@@ -199,14 +192,27 @@ Navbar.ResponsiveNav = styled.div`
 
 Navbar.ResponsiveLogo = styled.div`
   width: 6.25rem;
-  text-align: center;
+  height: 5rem;
 
   a {
-    font-family: "Raleway", sans-serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-    line-height: 5rem;
-    text-transform: uppercase;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 200px;
+    height: 100%;
+
+    & > img {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    & > h1 {
+      font-weight: 500;
+      font-size: 21px;
+      font-family: "Pacifico", cursive;
+      color: var(--colorMain);
+      text-align: center;
+    }
   }
 `;
 
