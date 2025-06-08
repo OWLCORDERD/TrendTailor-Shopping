@@ -1,5 +1,3 @@
-import { channelDataType } from "app/trendly/page";
-import { videoType } from "app/trendly/page";
 import Image from "next/image";
 import React, { useState } from "react";
 import PreviewVideo from "./PreviewVideo/PreviewVideo";
