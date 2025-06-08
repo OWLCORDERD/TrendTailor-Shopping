@@ -9,7 +9,6 @@ import { FaPlus, FaMinus, FaHeart, FaCartArrowDown } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { useSession } from "next-auth/react";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { clothes } from "component/Main/Peed/Peed";
 
 interface selectSize {
   size: string;

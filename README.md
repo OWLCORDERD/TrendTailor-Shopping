@@ -19,7 +19,7 @@ Used API
 <br/>
 <br/>
 
-### 폴더 구조
+### 프로젝트 폴더 구조
 
 ```
 📦src
@@ -70,6 +70,7 @@ Used API
  ┃ ┣ 📜globals.scss
  ┃ ┣ 📜globalStyle.ts
  ┃ ┣ 📜layout.tsx
+ ┃ ┣ 📜loading.tsx
  ┃ ┣ 📜page.module.css
  ┃ ┣ 📜page.tsx
  ┃ ┣ 📜robots.ts
@@ -93,11 +94,10 @@ Used API
  ┃ ┃ ┃ ┣ 📂Contents
  ┃ ┃ ┃ ┃ ┣ 📜ClothesPeed.tsx
  ┃ ┃ ┃ ┃ ┗ 📜SeasonPeed.tsx
- ┃ ┃ ┃ ┣ 📂MainBoard
+ ┃ ┃ ┃ ┗ 📂MainBoard
  ┃ ┃ ┃ ┃ ┣ 📜Banner.tsx
- ┃ ┃ ┃ ┃ ┣ 📜MainBoard.tsx
+ ┃ ┃ ┃ ┃ ┣ 📜index.tsx
  ┃ ┃ ┃ ┃ ┗ 📜NoticeBoard.tsx
- ┃ ┃ ┃ ┗ 📜Peed.tsx
  ┃ ┃ ┣ 📂Responsive
  ┃ ┃ ┃ ┗ 📜ResponsiveMenu.tsx
  ┃ ┃ ┣ 📜Footer.tsx
@@ -121,8 +121,8 @@ Used API
  ┃ ┃ ┃ ┗ 📜PreviewVideo.tsx
  ┃ ┃ ┣ 📂Skeleton
  ┃ ┃ ┃ ┗ 📜Skeleton.tsx
- ┃ ┃ ┣ 📜ChatContainer.tsx
  ┃ ┃ ┣ 📜CurrentVideo.tsx
+ ┃ ┃ ┣ 📜Intro.tsx
  ┃ ┃ ┣ 📜TrendVideoList.tsx
  ┃ ┃ ┗ 📜VideoItem.tsx
  ┃ ┣ 📜AuthSession.tsx
@@ -136,6 +136,8 @@ Used API
  ┣ 📂styles
  ┃ ┣ 📂Banner
  ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂Loading
+ ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📂Navbar
  ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📂NoticeBoard
@@ -148,6 +150,8 @@ Used API
  ┃ ┣ 📂ProductDetail
  ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📂QuickMenu
+ ┃ ┃ ┗ 📜index.ts
+ ┃ ┣ 📂ResponseMenu
  ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📂ResponseMixin
  ┃ ┃ ┗ 📜_mixin.scss
@@ -163,11 +167,9 @@ Used API
  ┃ ┣ 📜currentVideo.scss
  ┃ ┣ 📜errorPopup.scss
  ┃ ┣ 📜index.js
- ┃ ┣ 📜loading.scss
  ┃ ┣ 📜notice.scss
  ┃ ┣ 📜preview.scss
  ┃ ┣ 📜register.scss
- ┃ ┣ 📜responsiveMenu.scss
  ┃ ┣ 📜shop.scss
  ┃ ┣ 📜signIn.scss
  ┃ ┗ 📜skeleton.scss

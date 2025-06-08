@@ -1,6 +1,5 @@
 "use client";
 
-import { clothes } from "component/Main/Peed/Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import Image from "next/image";
 import Link from "next/link";

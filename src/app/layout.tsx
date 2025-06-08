@@ -7,6 +7,7 @@ import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
 import QuickMenu from "component/Main/QuickMenu";
 import { ScrollToTop } from "utils/hooks/ScrollToTop";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: "TrendTailor",

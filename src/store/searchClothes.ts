@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { clothes } from "component/Main/Peed/Peed";
 
 interface stateType {
   keyword: string;

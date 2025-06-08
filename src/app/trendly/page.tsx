@@ -1,4 +1,4 @@
-import ChatContainer from "component/Trend/ChatContainer";
+import ChatIntro from "@/component/Trend/Intro";
 import React from "react";
 
 /*
@@ -45,8 +45,9 @@ const getChannelData = async () => {
 
 const page = async () => {
   return (
-    <section className='wishchat-container'>
-      <ChatContainer />
+    <section className='trendly-container'>
+      {/* 인트로 화면 */}
+      <ChatIntro />
       {/* <TrendVideoList channelData={channelData} videoData={videoData} /> */}
     </section>
   );

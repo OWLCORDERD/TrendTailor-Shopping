@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Pagenation from "../Pagenation/Pagenation";
 import Image from "next/image";
-import { clothes } from "component/Main/Peed/Peed";
 import Link from "next/link";
 import Loading from "component/fetchDB/loading/Loading";
 

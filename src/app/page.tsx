@@ -2,7 +2,6 @@ import React from "react";
 import ClothesPeed from "@/component/Main/Peed/Contents/ClothesPeed";
 import MainBoard from "@/component/Main/Peed/MainBoard";
 import SeasonPeed from "@/component/Main/Peed/Contents/SeasonPeed";
-import "./globals.scss";
 
 const getSeasonClothesDB = async () => {
   const seasonQuery = "봄 의류";
