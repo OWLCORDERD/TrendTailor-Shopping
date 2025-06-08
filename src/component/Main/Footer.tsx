@@ -26,11 +26,11 @@ const MainCont = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 5rem;
     display: flex;
-    flex-direction: row
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -40,10 +40,10 @@ const Logo = styled.div`
 
   @media screen and (max-width: 768px) {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-    height: 5rem;
   }
 `;
 

@@ -33,7 +33,7 @@ const QuickMenu = () => {
           <CSS.Menu>
             {menu.map((item, index) => (
               <li className='menu-item' key={index}>
-                <Link href={item.link}>
+                <Link href={item.link} prefetch={true}>
                   {item.iconType === "image" ? (
                     <div className='menu-icon'>
                       <Image src={ChatbotIcon} alt='trendly 챗봇 아이콘' />

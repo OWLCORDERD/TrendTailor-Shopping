@@ -59,6 +59,24 @@ declare global {
       title: string;
     };
   }
+
+  // 네이버 쇼핑 API 의류 데이터 타입
+  interface clothes {
+    title: string;
+    link: string;
+    image: string;
+    lprice: string;
+    hprice: string;
+    mallName: string;
+    productId: string;
+    productType: string;
+    brand: string;
+    maker: string;
+    category1: string;
+    category2: string;
+    category3: string;
+    category4: string;
+  }
 }
 
 export {};

@@ -1,4 +1,3 @@
-import { clothes } from "component/Main/Peed/Peed";
 import ProductList from "component/Product/ProductList";
 import React from "react";
 import "styles/shop.scss";
@@ -27,10 +26,8 @@ const fetchClothes = async () => {
 export default async function Shop() {
   const allClothesData: clothes[] = await fetchClothes();
   return (
-    <main className='shop-container'>
-      <div className='wrap'>
-        <ProductList trendClothes={allClothesData} />
-      </div>
-    </main>
+    <div className='wrap'>
+      <ProductList trendClothes={allClothesData} />
+    </div>
   );
 }

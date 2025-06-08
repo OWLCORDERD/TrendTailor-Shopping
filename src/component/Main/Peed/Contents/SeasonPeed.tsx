@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { SeasonPeed as CSS } from "styles";
 import Image from "next/image";
-import { clothes } from "../Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";

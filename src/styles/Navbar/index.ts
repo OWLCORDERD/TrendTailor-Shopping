@@ -40,7 +40,7 @@ Navbar.Logo = styled.div`
       height: 3rem;
     }
 
-    & > h1 {
+    .logo-title {
       font-weight: 400;
       font-size: 1.5rem;
       font-family: "Pacifico", cursive;
@@ -52,7 +52,7 @@ Navbar.Logo = styled.div`
   @media screen and (max-width: 768px) {
     width: 8rem;
 
-    a {
+    .logo-title {
       font-size: 1.2rem;
     }
   }
@@ -208,7 +208,7 @@ Navbar.ResponsiveLogo = styled.div`
 
     & > h1 {
       font-weight: 500;
-      font-size: 21px;
+      font-size: 1.2rem;
       font-family: "Pacifico", cursive;
       color: var(--colorMain);
       text-align: center;

@@ -27,6 +27,16 @@ const nextConfig = {
         hostname: "yt3.ggpht.com",
       },
     ],
+
+    domains: [
+      "localhost",
+      "shopping-phinf.pstatic.net",
+      "i.ytimg.com",
+      "firebasestorage.googleapis.com",
+      "yt3.ggpht.com",
+    ],
+
+    formats: ["image/webp"],
   },
   webpack: (config) => {
     config.module.rules.push({

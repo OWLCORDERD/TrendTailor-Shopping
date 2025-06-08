@@ -1,9 +1,5 @@
 @import "app/globals.scss";
 
-.shop-container{
-    position: relative;
-    width: 100%;
-    height: 100%;
 
     .wrap{
         margin : 0 auto;
@@ -109,11 +105,8 @@
             }
         }
     }
-}
 
 @media screen and (min-width : 1440px) and (max-width : 1900px) {
-    .shop-container{
-    
         .wrap{
             margin : 0 auto;
             max-width : 1350px;
@@ -135,12 +128,9 @@
             }
         }
     }
-}
 
 /*모바일 ~ 소형 테블릿 반응형*/
 @media screen and (max-width : 768px){
-    .shop-container{
-    
         .wrap{
             margin : 0 auto;
             max-width : 100%;
@@ -229,4 +219,3 @@
             }
         }
     }
-}

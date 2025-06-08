@@ -4,7 +4,6 @@ import { ClothesPeed as CSS } from "styles";
 import { useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { IoIosArrowDown } from "react-icons/io";
-import { clothes } from "../Peed";
 import Loading from "component/fetchDB/loading/Loading";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 import Link from "next/link";

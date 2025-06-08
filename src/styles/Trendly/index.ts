@@ -5,9 +5,9 @@ const Trendly: any = {};
 Trendly.ChatContainer = styled.div`
   position: relative;
   max-width: 1440px;
-  height: 780px;
+  height: 100%;
   margin: 0 auto;
-  padding: 50px 0;
+  padding-top: 100px;
 `;
 
 Trendly.Intro = styled.div`

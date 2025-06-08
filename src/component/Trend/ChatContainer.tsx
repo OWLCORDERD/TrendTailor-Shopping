@@ -36,11 +36,9 @@ const ChatContainer = () => {
   // 챗봇 인트로 말풍선
   const bubbleAnimated = {
     initial: {
-      y: 20,
       opacity: 0,
     },
     animate: {
-      y: 0,
       opacity: 1,
       transition: {
         duration: 0.5, // 애니메이션 지속 시간
@@ -57,9 +55,9 @@ const ChatContainer = () => {
     animate: {
       display: "block",
       transition: {
-        duration: 1.5,
+        duration: 2,
         delayChildren: 1,
-        staggerChildren: 0.5,
+        staggerChildren: 1,
       },
     },
   };

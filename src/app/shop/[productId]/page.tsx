@@ -1,6 +1,5 @@
 import ProductDetail from "component/Product/ProductDetail";
 import React from "react";
-import { clothes } from "component/Main/Peed/Peed";
 
 const getSeasonData = async () => {
   const seasonQuery = "봄 의류";

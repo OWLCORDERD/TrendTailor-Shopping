@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "styles/responsiveMenu.scss";
 import { signOut, useSession } from "next-auth/react";
 import { HiSpeakerphone } from "react-icons/hi";
 import { AiOutlineUserAdd } from "react-icons/ai";
@@ -7,36 +6,8 @@ import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import Logo from "assets/images/logo.png";
-
-const menuToggle = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.5,
-      delayChildren: 0.5,
-      duration: 1,
-    },
-  },
-
-  exit: {
-    opacity: 0,
-  },
-};
-
-const menuItemToggle = {
-  initial: {
-    opacity: 0,
-  },
-
-  animate: {
-    opacity: 1,
-  },
-};
+import { ResponseMenu as CSS } from "styles";
 
 const ResponsiveMenu = ({
   setResponsiveMenuActive,
@@ -111,7 +82,7 @@ const ResponsiveMenu = ({
 
   const [toggleSubMenu, setToggleSubMenu] = useState<boolean>(false);
 
-  const login = (e: React.MouseEvent<HTMLDivElement>) => {
+  const login = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     router.push("/signin");
@@ -119,14 +90,8 @@ const ResponsiveMenu = ({
     setResponsiveMenuActive(false);
   };
   return (
-    <motion.div
-      className='Responsive-Menu'
-      variants={menuToggle}
-      initial='initial'
-      animate='animate'
-      exit='exit'
-    >
-      <div className='ResponsiveMenu-header'>
+    <CSS.Container>
+      <CSS.Header>
         <div className='logo'>
           <Link href='/' prefetch={true} className='logo'>
             <Image src={Logo} alt='TrendTailor 로고 이미지' />
@@ -140,12 +105,9 @@ const ResponsiveMenu = ({
         >
           <IoIosClose fontSize='30px' />
         </div>
-      </div>
-      <motion.div
-        className='login-menu'
-        variants={menuItemToggle}
-        exit={{ opacity: 0 }}
-      >
+      </CSS.Header>
+
+      <CSS.LoginMenu>
         {status === "authenticated" ? (
           <div className='default-profile'>
             <div className='profile-status'>
@@ -177,18 +139,18 @@ const ResponsiveMenu = ({
                 <h1>로그인이 필요합니다.</h1>
               </div>
             </div>
-            <div className='login-button' onClick={(e) => login(e)}>
+            <button
+              type='button'
+              className='login-button'
+              onClick={(e) => login(e)}
+            >
               <span>로그인</span>
-            </div>
+            </button>
           </div>
         )}
-      </motion.div>
+      </CSS.LoginMenu>
 
-      <motion.ul
-        className='mainMenu-list'
-        variants={menuItemToggle}
-        exit={{ opacity: 0 }}
-      >
+      <CSS.MenuList>
         <li>
           <a>
             {svgIcon[1].icon()}
@@ -212,13 +174,9 @@ const ResponsiveMenu = ({
             <span>회원가입</span>
           </Link>
         </li>
-      </motion.ul>
+      </CSS.MenuList>
 
-      <motion.div
-        className='category-menu'
-        variants={menuItemToggle}
-        exit={{ opacity: 0 }}
-      >
+      <CSS.CategoryMenu>
         <ul>
           <li className={toggleSubMenu ? "on" : ""}>
             <div className='toggleMenu-title'>
@@ -261,8 +219,8 @@ const ResponsiveMenu = ({
             </Link>
           </li>
         </ul>
-      </motion.div>
-    </motion.div>
+      </CSS.CategoryMenu>
+    </CSS.Container>
   );
 };
 

@@ -45,12 +45,10 @@ const getChannelData = async () => {
 
 const page = async () => {
   return (
-    <main>
-      <section className='wishchat-container'>
-        <ChatContainer />
-        {/* <TrendVideoList channelData={channelData} videoData={videoData} /> */}
-      </section>
-    </main>
+    <section className='wishchat-container'>
+      <ChatContainer />
+      {/* <TrendVideoList channelData={channelData} videoData={videoData} /> */}
+    </section>
   );
 };
 

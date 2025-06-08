@@ -343,7 +343,7 @@ footer{
     @media screen and (max-width : 768px) {
         position: relative;
         width: 100%;
-        height: 40rem;
+        height: 42rem;
         padding : 2rem;
         display: flex;
         flex-direction: column;

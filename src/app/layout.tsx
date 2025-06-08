@@ -6,6 +6,7 @@ import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
 import QuickMenu from "component/Main/QuickMenu";
+import { ScrollToTop } from "utils/hooks/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "TrendTailor",
@@ -30,21 +31,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthSession>
-      <ReduxProvider>
-        <StyledComponentsRegistry>
-          <html lang='ko'>
-            <body>
-              <QuickMenu />
-              <ThemeProvider>
-                <Navbar />
-                {children}
-              </ThemeProvider>
-              <Footer />
-            </body>
-          </html>
-        </StyledComponentsRegistry>
-      </ReduxProvider>
-    </AuthSession>
+    <>
+      {/* 로그인 인증 전역 nextAuth Provider */}
+      <AuthSession>
+        {/* 전역 상태관리 redux Provider */}
+        <ReduxProvider>
+          {/* 스타일 컴포넌트 SSR Preload 레지스트리 */}
+          <StyledComponentsRegistry>
+            {/* 스크롤 상단 이동 */}
+            <ScrollToTop />
+            <html lang='ko'>
+              <body>
+                <QuickMenu />
+                <ThemeProvider>
+                  <Navbar />
+                  <main style={{ minHeight: "100vh" }}>{children}</main>
+                </ThemeProvider>
+                <Footer />
+              </body>
+            </html>
+          </StyledComponentsRegistry>
+        </ReduxProvider>
+      </AuthSession>
+    </>
   );
 }

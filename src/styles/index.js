@@ -8,6 +8,8 @@ import { PreviewVideo } from "./PreviewVideo";
 import { ProductDetail } from "./ProductDetail";
 import { Trendly } from "./Trendly/index";
 import { QuickMenu } from "./QuickMenu";
+import { Loading } from "./Loading";
+import { ResponseMenu } from "./ResponseMenu";
 
 export {
   Navbar,
@@ -20,4 +22,6 @@ export {
   ProductDetail,
   Trendly,
   QuickMenu,
+  Loading,
+  ResponseMenu,
 };
