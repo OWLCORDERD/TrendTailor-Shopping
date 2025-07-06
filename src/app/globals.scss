@@ -8,22 +8,22 @@ $Pacifico-font : 'Pacifico', cursive;
 
 @font-face {
     font-family: 'TheJamsil';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
-    font-weight: 700;
+    src: url('/fonts/TheJamsil-Regular.ttf') format('woff2');
+    font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'TheJamsil';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil4Medium.woff2') format('woff2');
+    src: url('/fonts/TheJamsil-Medium.ttf') format('woff2');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'TheJamsil';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2') format('woff2');
-    font-weight: 400;
+    src: url('/fonts/TheJamsil-Bold.ttf') format('woff2');
+    font-weight: 700;
     font-style: normal;
 }
 
@@ -56,6 +56,7 @@ $lightFont-Color: #000;
     body{
         background-color: #fff;
         height: 100%;
+        font-family: $Jamsil-font;
 
         main{
             position: relative;

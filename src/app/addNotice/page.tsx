@@ -8,7 +8,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "component/fetchDB/firebase";
 import { useRouter } from "next/navigation";
 import { FaImage } from "react-icons/fa6";
-import ErrorPopup from "component/ErrorPopup/ErrorPopup";
+import ErrorModal from "@/component/common/modal/ErrorModal";
 import { IoCloseCircle } from "react-icons/io5";
 import { AnimatePresence } from "framer-motion";
 
@@ -238,7 +238,7 @@ const AddNotice = () => {
     <div className='wrap'>
       {error !== "" && (
         <AnimatePresence>
-          <ErrorPopup errorMessage={error} setError={setError} />
+          <ErrorModal errorMessage={error} setError={setError} />
         </AnimatePresence>
       )}
       <section className='addNotice-container'>

@@ -46,7 +46,7 @@ const VideoItem = ({
   return (
     <>
       {mobileMQuery === true ? (
-        <div className='Trend-video' key={key}>
+        <div className='trend-video' key={key}>
           <div className='video-thumbnail'>
             <Image
               src={video.snippet.thumbnails.high.url}
@@ -82,25 +82,23 @@ const VideoItem = ({
         </div>
       ) : (
         <div
-          className='Trend-video'
+          className='trend-video'
           key={video.id.videoId}
           onMouseMove={() => thumbnailVideoOpen(video)}
           onMouseOut={() => thumbnailVideoClose()}
         >
-          <div className='video-thumbnail' onClick={(e) => viewVideo(e)}>
-            {currentVideo && currentVideo.id.videoId === video.id.videoId ? (
+          <div className='video-thumbnail' onClick={(e) => viewVideo(e, video)}>
+            {/* {currentVideo && currentVideo.id.videoId === video.id.videoId ? (
               <PreviewVideo
                 currentVideo={currentVideo.id.videoId}
                 currentIndex={key}
-              />
-            ) : (
-              <Image
-                src={video.snippet.thumbnails.high.url}
-                width={480}
-                height={360}
-                alt={`${video.snippet.title} 썸네일 이미지`}
-              />
-            )}
+              /> */}
+            <Image
+              src={video.snippet.thumbnails.high.url}
+              width={480}
+              height={360}
+              alt={`${video.snippet.title} 썸네일 이미지`}
+            />
           </div>
 
           <div className='video-infoBox'>
@@ -114,7 +112,7 @@ const VideoItem = ({
             </div>
             <div className='title-channel'>
               <div className='video-title'>
-                <h2>{video.snippet.title}</h2>
+                <span>{video.snippet.title}</span>
               </div>
 
               <div className='video-channel'>

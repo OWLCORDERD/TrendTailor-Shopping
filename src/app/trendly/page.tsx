@@ -1,56 +1,29 @@
-import ChatIntro from "@/component/Trend/Intro";
-import React from "react";
+"use client";
 
-/*
-const getYoutubeDB = async () => {
-  const youtubeAPI = "https://www.googleapis.com/youtube/v3/search";
+import Intro from "@/component/trendlyAI/mode/Intro";
+import Consultant from "@/component/trendlyAI/mode/Consultant";
+import React, { useState } from "react";
+import { useAppSelector } from "@/store/hooks";
 
-  try {
-    const res = await fetch(
-      `${youtubeAPI}?part=snippet&maxResults=50&channelId=UC8a6z7i9qypp9PqJ_0HhBrw&type=video&videoDuration=medium&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
-      {
-        cache: "no-store",
-      }
-    );
+const Page = () => {
+  const chatMode = useAppSelector((state) => state.chatBubble.mode);
 
-    const data = await res.json();
+  const dynamicImport = () => {
+    switch (chatMode) {
+      case "consultant":
+        return <Consultant />;
+      default:
+        return <Intro />;
+    }
+  };
 
-    return data.items;
-  } catch (err) {
-    console.log(err);
-  }
-};
-*/
-
-/*
-const getChannelData = async () => {
-  const youtubeAPI = "https://www.googleapis.com/youtube/v3/channels";
-
-  try {
-    const res = await fetch(
-      `${youtubeAPI}?part=snippet&id=UC8a6z7i9qypp9PqJ_0HhBrw&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
-      {
-        cache: "no-store",
-      }
-    );
-
-    const data = await res.json();
-
-    return data.items;
-  } catch (err) {
-    console.log(err);
-  }
-};
-*/
-
-const page = async () => {
   return (
     <section className='trendly-container'>
       {/* 인트로 화면 */}
-      <ChatIntro />
-      {/* <TrendVideoList channelData={channelData} videoData={videoData} /> */}
+      {/* 컨설팅 관련 채팅 화면 */}
+      {dynamicImport()}
     </section>
   );
 };
 
-export default page;
+export default Page;

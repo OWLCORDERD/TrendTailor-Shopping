@@ -1,7 +1,7 @@
 @import "../app/globals.scss";
 @import "styles/ResponseMixin/_mixin";
 
-.errorMessage-container {
+.error-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     backdrop-filter: blur(10px);
     z-index: 1200;
 
-    .message-inner {
+    .modal-inner {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -36,7 +36,7 @@
             }
         }
 
-        .message-wrapper {
+        .modal-cont {
             width: 22rem;
             height: 12rem;
             font-family: $Jamsil-font;
@@ -82,7 +82,7 @@
 }
 
 @include mobile {
-    .errorMessage-container {
+    .error-modal {
         position: fixed;
         top: 0;
         left: 0;
@@ -92,7 +92,7 @@
         backdrop-filter: blur(10px);
         z-index: 1200;
     
-        .message-inner {
+        .modal-inner {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -111,7 +111,7 @@
                 height: 3rem;
             }
     
-            .message-wrapper {
+            .modal-cont {
                 width: 12rem;
                 height: 10rem;
                 font-family: $Jamsil-font;

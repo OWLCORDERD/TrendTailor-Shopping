@@ -10,6 +10,7 @@ import { Trendly } from "./Trendly/index";
 import { QuickMenu } from "./QuickMenu";
 import { Loading } from "./Loading";
 import { ResponseMenu } from "./ResponseMenu";
+import { TrendConsultant } from "./Peed/TrendConsultant";
 
 export {
   Navbar,
@@ -24,4 +25,5 @@ export {
   QuickMenu,
   Loading,
   ResponseMenu,
+  TrendConsultant,
 };

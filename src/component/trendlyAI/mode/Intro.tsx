@@ -10,10 +10,14 @@ import Chatbot from "assets/images/chatbot.png";
 import { motion } from "framer-motion";
 import { IoIosChatboxes } from "react-icons/io";
 import { HiDocumentCheck } from "react-icons/hi2";
+import { useAppDispatch } from "@/store/hooks";
+import { changeMode } from "@/store/chatBubbleSlice";
 
 const ChatContainer = () => {
   const { data, status } = useSession();
   const [openAIQuestion, setOpenAIQuestion] = useState<string>("");
+
+  const dispatch = useAppDispatch();
 
   // 챗봇 인트로 애니메이션
   const chatbotAnimated = {
@@ -152,7 +156,11 @@ const ChatContainer = () => {
 
           <motion.div className='intro-menu' variants={menuItemAnimated}>
             <span>무엇을 도와드릴까요?</span>
-            <button type='button' className='menu-btn'>
+            <button
+              type='button'
+              className='menu-btn'
+              onClick={() => dispatch(changeMode("consultant"))}
+            >
               <HiDocumentCheck fontSize={30} />
               컨설턴트 추천
             </button>

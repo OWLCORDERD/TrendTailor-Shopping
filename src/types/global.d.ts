@@ -77,6 +77,36 @@ declare global {
     category3: string;
     category4: string;
   }
+
+  // 대화 세션 메시지 타입 정의
+  interface messageType {
+    role: string; // 사용자 & 챗봇 답변 메시지 분류
+    content: assistantAnswerType; // 답변 메시지 json
+  }
+
+  // 추천 의류 아이템 타입
+  interface recommendItem {
+    itemType: string;
+    productName: string;
+    brand: string;
+    price: number;
+    imageUrl: string;
+    purchaseUrl: string;
+  }
+
+  // 챗봇 답변 타입
+  interface assistantAnswerType {
+    stylePurpose: string; // 스타일 목적
+    styleTone: string[]; // 스타일 톤은 여러개 선택 가능
+    season: string; // 계절
+    // 예시: "봄", "여름", "가을", "겨울", "간절기"
+    gender: string; // 성별
+    bodyType: string; // 체형
+    budget: string; // 가격대
+    preferredBrands: string[]; // 선호 브랜드는 여러개 선택 가능
+    recommendations: recommendItem[]; // 추천 아이템 목록
+    aiComment: string; // 챗봇 멘트
+  }
 }
 
 export {};

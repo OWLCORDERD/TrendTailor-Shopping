@@ -110,15 +110,17 @@ const TrendVideoList = ({ channelData, videoData }: youtubeDBProps) => {
       <div className='Trend-videoList'>
         {currentDB.map((video, index) => {
           return (
-            <VideoItem
-              key={index}
-              video={video}
-              mobileMQuery={mobileMQuery}
-              setVideoOpen={setVideoOpen}
-              channelData={channelData}
-              currentVideo={currentVideo}
-              setCurrentVideo={setCurrentVideo}
-            />
+            <>
+              <VideoItem
+                key={index}
+                video={video}
+                mobileMQuery={mobileMQuery}
+                setVideoOpen={setVideoOpen}
+                channelData={channelData}
+                currentVideo={currentVideo}
+                setCurrentVideo={setCurrentVideo}
+              />
+            </>
           );
         })}
       </div>

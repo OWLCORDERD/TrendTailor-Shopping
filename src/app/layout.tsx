@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AuthSession from "component/AuthSession";
+import AuthSession from "@/component/common/AuthSession";
 import { ThemeProvider } from "../../context/ThemeContext";
 import StyledComponentsRegistry from "./RootStyleRegistry";
 import ReduxProvider from "store/provider/Provider";
