@@ -11,7 +11,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import next from "next";
 
 interface consultantDataType {
-  trendYoutuber: channelDataType[];
+  trendYoutuber: channelDataType[] | undefined;
   trendYoutubeVideo: videoType[] | undefined;
 }
 
