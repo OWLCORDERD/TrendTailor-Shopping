@@ -8,7 +8,7 @@ interface videoItemProps {
   key: number;
   mobileMQuery: boolean;
   setVideoOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  channelData: channelDataType[];
+  channelData: channelDataType[] | undefined;
   currentVideo: videoType | null;
   setCurrentVideo: React.Dispatch<React.SetStateAction<videoType | null>>;
 }
@@ -63,10 +63,10 @@ const VideoItem = ({
           <div className='video-infoBox'>
             <div className='channel-img'>
               <Image
-                src={channelData[0].snippet.thumbnails.high.url}
+                src={channelData? channelData[0].snippet.thumbnails.high.url : ''}
                 width='100'
                 height='100'
-                alt={`${channelData[0].snippet.title} 채널 이미지`}
+                alt={`${channelData ? channelData[0].snippet.title : ''} 채널 이미지`}
               />
             </div>
             <div className='title-channel'>
@@ -104,10 +104,10 @@ const VideoItem = ({
           <div className='video-infoBox'>
             <div className='channel-img'>
               <Image
-                src={channelData[0].snippet.thumbnails.high.url}
+                src={channelData? channelData[0].snippet.thumbnails.high.url: ''}
                 width='100'
                 height='100'
-                alt={`${channelData[0].snippet.title} 채널 이미지`}
+                alt={`${channelData? channelData[0].snippet.title: ''} 채널 이미지`}
               />
             </div>
             <div className='title-channel'>
