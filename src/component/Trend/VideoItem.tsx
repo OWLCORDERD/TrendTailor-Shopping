@@ -8,7 +8,7 @@ interface videoItemProps {
   key: number;
   mobileMQuery: boolean;
   setVideoOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  channelData: channelDataType[];
+  channelData: channelDataType[] | undefined;
   currentVideo: videoType | null;
   setCurrentVideo: React.Dispatch<React.SetStateAction<videoType | null>>;
 }
