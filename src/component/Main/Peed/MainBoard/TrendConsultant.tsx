@@ -8,7 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import Link from "next/link";
 import VideoItem from "@/component/Trend/VideoItem";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import next from "next";
+import { useWindowSize } from "@/utils/hooks/useWindowSize";
 
 interface consultantDataType {
   trendYoutuber: channelDataType[];
@@ -39,6 +39,8 @@ const TrendConsultant = ({
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
 
+  const { width } = useWindowSize();
+
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,7 +64,6 @@ const TrendConsultant = ({
   const [currentPage, setCurrentPage] = useState<number>(0);
 
   const paginationUpdate = (swiper: any) => {
-    console.log(swiper);
     setCurrentPage(swiper.activeIndex);
   };
 
@@ -70,8 +71,6 @@ const TrendConsultant = ({
     // 페이지네이션 활성화 인덱스 업데이트
     setCurrentPage(swiper.activeIndex);
   };
-
-  const slideNext = () => {};
 
   const [currentVideo, setCurrentVideo] = useState<videoType | null>(null);
   const [videoOpen, setVideoOpen] = useState<boolean>(false);
@@ -82,14 +81,7 @@ const TrendConsultant = ({
 
       {trendYoutuber ? (
         <CSS.ProfileBox>
-          <div className='profile-user'>
-            <span className='profile-user-index'>금주 인기 컨설턴트</span>
-            <span className='profile-user-name'>
-              {trendYoutuber[0].snippet.title}
-            </span>
-          </div>
-
-          <div className='profile-img'>
+          <div className='channel-img'>
             <Image
               src={trendYoutuber[0].snippet.thumbnails.high.url}
               width={650}
@@ -98,9 +90,16 @@ const TrendConsultant = ({
             />
           </div>
 
-          <div className='profile-info'>
-            <span className='profile-info-title'>{youtuberIntro?.title}</span>
-            <span className='profile-info-desc'>{youtuberIntro?.desc}</span>
+          <div className='channel-info'>
+            <div className='channel-info-name'>
+              <span className='index'>금주 인기 컨설턴트</span>
+              <span className='name'>{trendYoutuber[0].snippet.title}</span>
+            </div>
+
+            <div className='channel-info-desc'>
+              <span className='title'>{youtuberIntro?.title}</span>
+              <span className='desc'>{youtuberIntro?.desc}</span>
+            </div>
           </div>
         </CSS.ProfileBox>
       ) : null}
@@ -126,6 +125,7 @@ const TrendConsultant = ({
               spaceBetween={30}
               slidesPerView={"auto"}
               centeredSlides={true}
+              modules={[Navigation, Pagination]}
               loop={true}
               speed={300}
               onSlideChange={(swiper) => paginationUpdate(swiper)}

@@ -141,11 +141,19 @@ Trendly.Intro = styled.div`
   }
 `;
 
+// 컨설팅 모드 컨테이너
+Trendly.ConsultantMode = styled.div`
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 50px 20px;
+`;
+
 Trendly.SearchForm = styled.div`
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 30px;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
   padding: 25px 50px;
   max-width: 1200px;
   height: 150px;
@@ -242,6 +250,41 @@ Trendly.SearchTool = styled.div`
       font-weight: bold;
       color: #fff;
     }
+  }
+`;
+
+// 채팅 말풍선
+
+// AI 챗봇 말풍선
+Trendly.ChatBotBubble = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 60%;
+`;
+
+Trendly.ChatBotMessage = styled.div`
+  width: calc(100% - 100px);
+  padding: 20px 40px;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  background-color: #fff;
+  word-break: keep-all;
+`;
+
+Trendly.ChatBotIcon = styled.div`
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  background-color: #fff;
+  padding: 10px;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 

@@ -7,6 +7,10 @@ TrendConsultant.Container = styled.div`
   width: 100%;
   padding: 5rem 6.25rem;
   background: #000;
+
+  @media screen and (max-width: 768px) {
+    padding: 5rem 2rem;
+  }
 `;
 
 TrendConsultant.Title = styled.p`
@@ -20,41 +24,24 @@ TrendConsultant.Title = styled.p`
   text-align: center;
   text-transform: uppercase;
   margin-bottom: 5rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
 `;
 
 TrendConsultant.ProfileBox = styled.div`
   position: relative;
   width: 100%;
-  max-height: 750px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  // 금주 컨설턴트 프로필 이름
-  .profile-user {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2rem;
-    width: 30rem;
-    margin-top: 5rem;
-
-    &-index {
-      font-size: 20px;
-      font-weight: 300;
-      color: #fff;
-    }
-
-    &-name {
-      font-size: 32px;
-      font-weight: 500;
-      color: #fff;
-    }
-  }
+  height: 750px;
 
   // 금주 컨설턴트 프로필 이미지
-  .profile-img {
-    position: relative;
+  .channel-img {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: block;
     width: 650px;
     height: 750px;
@@ -77,24 +64,93 @@ TrendConsultant.ProfileBox = styled.div`
     }
   }
 
-  .profile-info {
-    width: 30rem;
+  .channel-info {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2rem;
-    margin-top: 5rem;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    // 금주 컨설턴트 프로필 이름
+    &-name {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      width: 30rem;
+      margin-top: 5rem;
 
-    &-title {
-      font-weight: bold;
-      color: #fff;
-      font-size: 23px;
+      .index {
+        font-size: 20px;
+        font-weight: 300;
+        color: #fff;
+      }
+
+      .name {
+        font-size: 32px;
+        font-weight: 500;
+        color: #fff;
+      }
     }
 
     &-desc {
-      color: #fff;
-      font-size: 18px;
-      font-weight: 300;
+      width: 30rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      margin-top: 5rem;
+
+      .title {
+        font-weight: bold;
+        color: #fff;
+        font-size: 23px;
+      }
+
+      .desc {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    height: max-content;
+
+    .channel-img {
+      position: relative;
+      width: 100%;
+      height: 350px;
+    }
+
+    .channel-info {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      margin: 2rem 0;
+
+      &-name {
+        width: 50%;
+        margin-top: 0;
+
+        .index {
+          font-size: 14px;
+        }
+        .name {
+          font-size: 20px;
+        }
+      }
+
+      &-desc {
+        width: 100%;
+        margin-top: 0;
+
+        .title {
+          font-size: 16px;
+        }
+        .desc {
+          font-size: 14px;
+        }
+      }
     }
   }
 `;
@@ -254,6 +310,83 @@ TrendConsultant.VideoBox = styled.div`
               font-size: 14px;
               font-weight: 300;
               line-height: 40px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    position: relative;
+    align-items: flex-end;
+
+    .slide-control {
+      width: max-content;
+      padding-left: 0;
+      margin: 25px 0;
+    }
+
+    .slide-container {
+      width: 100%;
+      .swiper {
+        .swiper-wrapper {
+          .swiper-slide {
+            max-width: 250px;
+          }
+          .swiper-slide-active {
+            width: 100%;
+          }
+        }
+      }
+
+      .trend-video {
+        max-width: 250px;
+
+        .video-thumbnail {
+          width: 100%;
+          height: 150px;
+        }
+
+        .video-infoBox {
+          align-items: flex-start;
+          width: 100%;
+          height: 130px;
+          padding-top: 20px;
+
+          .channel-img {
+            width: 25px;
+            height: 25px;
+          }
+
+          .title-channel {
+            width: calc(100% - 25px);
+            height: 100%;
+            padding-left: 20px;
+
+            .video-title {
+              display: block;
+              width: 100%;
+              height: 70px;
+
+              & > span {
+                display: block;
+                word-break: keep-all;
+                width: 80%;
+                color: #fff;
+                font-family: "TheJamsil", sans-serif;
+                font-size: 14px;
+                font-weight: bold;
+              }
+            }
+
+            .video-channel {
+              & > span {
+                color: #fff;
+                font-size: 12px;
+                font-weight: 300;
+                line-height: 40px;
+              }
             }
           }
         }
