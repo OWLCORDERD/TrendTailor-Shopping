@@ -68,10 +68,10 @@ const VideoItem = ({
         <div className='video-infoBox'>
           <div className='channel-img'>
             <Image
-              src={channelData[0].snippet.thumbnails.high.url}
+              src={channelData ? channelData[0].snippet.thumbnails.high.url : ''}
               width='100'
               height='100'
-              alt={`${channelData[0].snippet.title} 채널 이미지`}
+              alt={channelData ? `${channelData[0].snippet.title} 채널 이미지` : '기본 이미지'}
             />
           </div>
           <div className='title-channel'>
