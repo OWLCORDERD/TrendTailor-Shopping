@@ -344,6 +344,59 @@ footer{
     }
 }
 
+// 페이지 하단 고정 퀵 메뉴
+.quick-menu {
+    display: block;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    max-width: 200px;
+    z-index: 1001;
+    transition: all 0.5s ease-in-out;
+    opacity: 1;
+
+    @media screen and (max-width: 768px) {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    
+}
+
+// 모달 css (공통)
+.modal {
+    position: fixed;
+    z-index: 1001;
+
+    // trendly 챗봇 모달
+    &.trendly {
+        right: 200px;
+        bottom: 50px;
+        width: 500px;
+        height: 650px;
+        background-color: #fff;
+        border-radius: 20px;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+
+        .modal-header {
+            width: 100%;
+            height: 70px;
+            padding: 20px 30px;
+
+            .close-btn {
+                display: block;
+                line-height: 30px;
+                text-align: center;
+                font-size: 28px;
+                background-color: transparent;
+                color: #000;
+                border: none;
+            }
+        }
+    }
+}
+
+
 section{
     position: relative;
     display: inline-block;

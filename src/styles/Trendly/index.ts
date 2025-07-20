@@ -2,47 +2,42 @@ import styled from "styled-components";
 
 const Trendly: any = {};
 
-Trendly.ChatContainer = styled.div`
-  position: relative;
-  max-width: 1440px;
-  height: 100%;
-  margin: 0 auto;
-  padding-top: 100px;
-`;
-
 Trendly.Intro = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
   font-family: "TheJamsil", sans-serif;
+  padding: 50px 30px;
 
   .character {
     position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
-    height: 15rem;
 
     &-logo {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 310px;
-      height: 250px;
+      width: 160px;
+      height: 100px;
 
       img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 
     &-bubble {
       display: flex;
-      justify-content: space-between;
-      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      width: calc(100% - 200px);
 
       .bubble {
-        width: 450px;
-        padding: 20px;
+        width: 100%;
+        padding: 10px 20px;
         box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 20px;
         border: 1px solid rgb(188, 188, 188);
@@ -51,7 +46,7 @@ Trendly.Intro = styled.div`
         & > span {
           display: block;
           width: 100%;
-          font-size: 16px;
+          font-size: 13px;
           font-weight: bold;
           color: var(--subTxtColor);
           text-align: center;
@@ -61,6 +56,8 @@ Trendly.Intro = styled.div`
   }
 
   .comment-menu {
+    width: 100%;
+
     .intro-comment {
       width: 100%;
       padding: 20px 0 60px 0;
@@ -69,25 +66,25 @@ Trendly.Intro = styled.div`
         display: block;
         margin-bottom: 2rem;
         text-align: center;
-        font-size: 2rem;
+        font-size: 20px;
         font-weight: 400;
       }
 
       .desc {
         font-weight: 400;
-        font-size: 1.2rem;
+        font-size: 20px;
         text-align: center;
       }
     }
 
     .intro-menu {
-      margin: 0 auto;
+      width: 100%;
 
       & > span {
         display: block;
         width: 100%;
         margin-bottom: 2rem;
-        font-size: 1.2rem;
+        font-size: 16px;
         text-align: center;
       }
 
@@ -96,8 +93,8 @@ Trendly.Intro = styled.div`
         align-items: center;
         gap: 30px;
         padding: 10px 20px;
-        width: 30rem;
-        font-size: 1.2rem;
+        width: 100%;
+        font-size: 18px;
         font-weight: 600;
         background-color: transparent;
         cursor: pointer;
@@ -143,10 +140,15 @@ Trendly.Intro = styled.div`
 
 // 컨설팅 모드 컨테이너
 Trendly.ConsultantMode = styled.div`
-  max-width: 1440px;
-  height: 100%;
+  width: 100%;
+  height: calc(100% - 70px);
   margin: 0 auto;
-  padding: 50px 20px;
+`;
+
+Trendly.ChatArea = styled.div`
+  height: calc(100% - 150px);
+  overflow-y: auto;
+  padding: 30px 20px;
 `;
 
 Trendly.SearchForm = styled.div`
@@ -154,9 +156,8 @@ Trendly.SearchForm = styled.div`
   flex-direction: column;
   gap: 30px;
   margin: 2rem auto 0 auto;
-  padding: 25px 50px;
-  max-width: 1200px;
-  height: 150px;
+  padding: 20px 30px;
+  width: calc(100% - 40px);
   border: 1px solid #d5d5d5;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
@@ -175,7 +176,7 @@ Trendly.SearchInput = styled.div`
     background: transparent;
     border: none;
     font-family: "TheJamsil", sans-serif;
-    font-size: 18px;
+    font-size: 16px;
 
     &:focus {
       outline: none;
@@ -195,76 +196,77 @@ Trendly.SearchInput = styled.div`
   }
 `;
 
-Trendly.SearchTool = styled.div`
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 30px;
+// 파일 첨부 기능 비활성화 (보류)
+// Trendly.SearchTool = styled.div`
+//   position: relative;
+//   display: flex;
+//   flex-wrap: wrap;
+//   width: 100%;
+//   height: 30px;
 
-  .attach-file {
-    position: relative;
-    width: 30px;
-    height: 30px;
-    border: none;
-    background: transparent;
-    color: #000;
-    cursor: pointer;
+//   .attach-file {
+//     position: relative;
+//     width: 30px;
+//     height: 30px;
+//     border: none;
+//     background: transparent;
+//     color: #000;
+//     cursor: pointer;
 
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
+//     svg {
+//       width: 100%;
+//       height: 100%;
+//     }
+//   }
 
-  .tooltip {
-    position: absolute;
-    left: 50%;
-    top: -60px;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 80px;
-    height: 40px;
-    background: #000;
-    border-radius: 10px;
+//   .tooltip {
+//     position: absolute;
+//     left: 50%;
+//     top: -60px;
+//     transform: translateX(-50%);
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 80px;
+//     height: 40px;
+//     background: #000;
+//     border-radius: 10px;
 
-    &::before {
-      position: absolute;
-      left: 50%;
-      bottom: -20px;
-      content: "";
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-top: 12px solid #000;
-    }
+//     &::before {
+//       position: absolute;
+//       left: 50%;
+//       bottom: -20px;
+//       content: "";
+//       transform: translateX(-50%);
+//       width: 0;
+//       height: 0;
+//       border-left: 10px solid transparent;
+//       border-right: 10px solid transparent;
+//       border-bottom: 10px solid transparent;
+//       border-top: 12px solid #000;
+//     }
 
-    span {
-      font-family: "TheJamsil", sans-serif;
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-    }
-  }
-`;
+//     span {
+//       font-family: "TheJamsil", sans-serif;
+//       font-size: 14px;
+//       font-weight: bold;
+//       color: #fff;
+//     }
+//   }
+// `;
 
 // 채팅 말풍선
 
 // AI 챗봇 말풍선
 Trendly.ChatBotBubble = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  max-width: 60%;
+  max-width: 80%;
 `;
 
 Trendly.ChatBotMessage = styled.div`
-  width: calc(100% - 100px);
+  width: calc(100% - 80px);
   padding: 20px 40px;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   border-radius: 20px;

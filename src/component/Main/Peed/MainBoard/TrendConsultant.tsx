@@ -8,7 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import Link from "next/link";
 import VideoItem from "@/component/Trend/VideoItem";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useWindowSize } from "@/utils/hooks/useWindowSize";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
 interface consultantDataType {
   trendYoutuber: channelDataType[] | undefined;

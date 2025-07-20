@@ -82,73 +82,71 @@ const ChatContainer = () => {
   };
 
   return (
-    <CSS.ChatContainer>
-      <CSS.Intro>
-        <motion.div
-          className='character'
+    <CSS.Intro>
+      <motion.div
+        className='character'
+        variants={chatbotAnimated}
+        initial='initial'
+        animate='animate'
+        exit='exit'
+      >
+        <div className='character-logo'>
+          <Image src={Chatbot} width={310} height={250} alt='챗봇 아이콘' />
+        </div>
+
+        <motion.ul
+          className='character-bubble'
           variants={chatbotAnimated}
           initial='initial'
           animate='animate'
           exit='exit'
         >
-          <div className='character-logo'>
-            <Image src={Chatbot} width={310} height={250} alt='챗봇 아이콘' />
-          </div>
+          <motion.li variants={bubbleAnimated} className='bubble'>
+            <span>요즘 유행하는 룩이 궁금하신가요?</span>
+          </motion.li>
 
-          <motion.ul
-            className='character-bubble'
-            variants={chatbotAnimated}
-            initial='initial'
-            animate='animate'
-            exit='exit'
+          <motion.li variants={bubbleAnimated} className='bubble'>
+            <span>당신에게 어울릴 의상을 컨설팅 해드릴게요.</span>
+          </motion.li>
+        </motion.ul>
+      </motion.div>
+
+      <motion.div
+        className='comment-menu'
+        variants={menuAnimated}
+        initial='initial'
+        animate='animate'
+      >
+        <motion.div className='intro-comment' variants={menuItemAnimated}>
+          {status === "authenticated" ? (
+            <h1 className='title'>
+              안녕하세요 <strong>{data?.user?.name}님,</strong>
+            </h1>
+          ) : (
+            <h1 className='title'>
+              안녕하세요 <strong>익명의 회원님,</strong>
+            </h1>
+          )}
+          <p className='desc'>오늘 당신의 패션 컨설턴트입니다.</p>
+        </motion.div>
+
+        <motion.div className='intro-menu' variants={menuItemAnimated}>
+          <span>무엇을 도와드릴까요?</span>
+          <button
+            type='button'
+            className='menu-btn'
+            onClick={() => dispatch(changeMode("consultant"))}
           >
-            <motion.li variants={bubbleAnimated} className='bubble'>
-              <span>요즘 유행하는 룩이 궁금하신가요?</span>
-            </motion.li>
-
-            <motion.li variants={bubbleAnimated} className='bubble'>
-              <span>당신에게 어울릴 의상을 컨설팅 해드릴게요.</span>
-            </motion.li>
-          </motion.ul>
+            <HiDocumentCheck fontSize={30} />
+            컨설턴트 추천
+          </button>
+          <button type='button' className='menu-btn'>
+            <IoIosChatboxes fontSize={30} />
+            채팅 시작
+          </button>
         </motion.div>
-
-        <motion.div
-          className='comment-menu'
-          variants={menuAnimated}
-          initial='initial'
-          animate='animate'
-        >
-          <motion.div className='intro-comment' variants={menuItemAnimated}>
-            {status === "authenticated" ? (
-              <h1 className='title'>
-                안녕하세요 <strong>{data?.user?.name}님,</strong>
-              </h1>
-            ) : (
-              <h1 className='title'>
-                안녕하세요 <strong>익명의 회원님,</strong>
-              </h1>
-            )}
-            <p className='desc'>오늘 당신의 패션 컨설턴트입니다.</p>
-          </motion.div>
-
-          <motion.div className='intro-menu' variants={menuItemAnimated}>
-            <span>무엇을 도와드릴까요?</span>
-            <button
-              type='button'
-              className='menu-btn'
-              onClick={() => dispatch(changeMode("consultant"))}
-            >
-              <HiDocumentCheck fontSize={30} />
-              컨설턴트 추천
-            </button>
-            <button type='button' className='menu-btn'>
-              <IoIosChatboxes fontSize={30} />
-              채팅 시작
-            </button>
-          </motion.div>
-        </motion.div>
-      </CSS.Intro>
-    </CSS.ChatContainer>
+      </motion.div>
+    </CSS.Intro>
   );
 };
 

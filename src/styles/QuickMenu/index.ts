@@ -2,28 +2,6 @@ import { styled } from "styled-components";
 
 const QuickMenu: any = {};
 
-QuickMenu.Container = styled.div`
-  position: fixed;
-  top: 50%;
-  right: 2rem;
-  transform: translateY(-50%);
-  z-index: 1001;
-`;
-
-QuickMenu.Title = styled.p`
-  padding: 10px 10px;
-  display: block;
-  text-align: center;
-  margin-bottom: 1rem;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  font-family: "Pacifico", cursive;
-  font-size: 1.3rem;
-  background-color: var(--colorMain);
-  color: #fff;
-  font-weight: 500;
-`;
-
 QuickMenu.Menu = styled.ul`
   display: flex;
   flex-direction: column;
@@ -71,6 +49,41 @@ QuickMenu.Menu = styled.ul`
         }
       }
     }
+  }
+`;
+
+QuickMenu.AdditionalMenu = styled.div`
+  margin: 20px auto 0 auto;
+  width: 80px;
+`;
+
+QuickMenu.ScrollTop = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #333;
+  background-color: #fff;
+  margin: 0 auto 20px auto;
+`;
+
+QuickMenu.Chatbot = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+
+  & > img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
   }
 `;
 

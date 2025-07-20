@@ -33,8 +33,10 @@ const Consultant = () => {
   };
   return (
     <CSS.ConsultantMode>
-      <TrendlyBubble message={aiMessage} />
-      {/* 챗봇 채팅창 영역 */}
+      <CSS.ChatArea>
+        <TrendlyBubble message={aiMessage} />
+        {/* 챗봇 채팅창 영역 */}
+      </CSS.ChatArea>
       <CSS.SearchForm>
         <CSS.SearchInput>
           <input
@@ -49,13 +51,13 @@ const Consultant = () => {
           </button>
         </CSS.SearchInput>
 
-        <CSS.SearchTool>
-          <button type='button' className='attach-file'>
-            {/* onMouseEnter={() => setTooltipActive(true)}
-                        onMouseLeave={() => setTooltipActive(false)} */}
+        {/* <CSS.SearchTool>
+          <button type='button' className='attach-file'
+                      onMouseEnter={() => setTooltipActive(true)}
+                      onMouseLeave={() => setTooltipActive(false)}>
             <IoIosAttach fontSize={18} />
 
-            {/* {tooltipActive ? (
+            {tooltipActive ? (
               <motion.div
                 className='tooltip'
                 variants={tooltipAnimated}
@@ -64,9 +66,9 @@ const Consultant = () => {
               >
                 <span>파일첨부</span>
               </motion.div>
-            ) : null} */}
+            ) : null}
           </button>
-        </CSS.SearchTool>
+        </CSS.SearchTool> */}
       </CSS.SearchForm>
     </CSS.ConsultantMode>
   );

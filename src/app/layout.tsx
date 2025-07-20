@@ -6,7 +6,7 @@ import ReduxProvider from "store/provider/Provider";
 import Navbar from "component/Main/Navbar";
 import Footer from "component/Main/Footer";
 import QuickMenu from "component/Main/QuickMenu";
-import { ScrollToTop } from "utils/hooks/ScrollToTop";
+import { ScrollToTop } from "@/hooks/ScrollToTop";
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -40,13 +40,15 @@ export default function RootLayout({
           {/* 스타일 컴포넌트 SSR Preload 레지스트리 */}
           <StyledComponentsRegistry>
             {/* 스크롤 상단 이동 */}
-            <ScrollToTop />
+            <ScrollToTop type='routeMove' />
             <html lang='ko'>
               <body>
-                <QuickMenu />
                 <ThemeProvider>
                   <Navbar />
-                  <main style={{ minHeight: "100vh" }}>{children}</main>
+                  <main>
+                    <QuickMenu />
+                    {children}
+                  </main>
                 </ThemeProvider>
                 <Footer />
               </body>
