@@ -79,9 +79,14 @@ declare global {
   }
 
   // 대화 세션 메시지 타입 정의
-  interface messageType {
+  interface messagesType {
     role: string; // 사용자 & 챗봇 답변 메시지 분류
-    content: assistantAnswerType; // 답변 메시지 json
+    message: messageType; // 답변 메시지 json
+  }
+
+  interface messageType {
+    type: string;
+    content: string;
   }
 
   // 추천 의류 아이템 타입
@@ -94,7 +99,7 @@ declare global {
     purchaseUrl: string;
   }
 
-  // 챗봇 답변 타입
+  // 결과 답변 타입
   interface assistantAnswerType {
     stylePurpose: string; // 스타일 목적
     styleTone: string[]; // 스타일 톤은 여러개 선택 가능

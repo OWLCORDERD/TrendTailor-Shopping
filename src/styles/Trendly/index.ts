@@ -143,6 +143,7 @@ Trendly.ConsultantMode = styled.div`
   width: 100%;
   height: calc(100% - 70px);
   margin: 0 auto;
+  padding: 0 20px;
 `;
 
 Trendly.ChatArea = styled.div`
@@ -262,16 +263,18 @@ Trendly.ChatBotBubble = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  max-width: 80%;
+  max-width: 100%;
+  margin-bottom: 20px;
 `;
 
 Trendly.ChatBotMessage = styled.div`
   width: calc(100% - 80px);
-  padding: 20px 40px;
+  padding: 20px 30px;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   background-color: #fff;
   word-break: keep-all;
+  font-size: 14px;
 `;
 
 Trendly.ChatBotIcon = styled.div`
@@ -279,7 +282,6 @@ Trendly.ChatBotIcon = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   background-color: #fff;
   padding: 10px;
 
@@ -287,6 +289,41 @@ Trendly.ChatBotIcon = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+`;
+
+// AI 챗봇 말풍선
+Trendly.UserBubble = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  margin-bottom: 20px;
+`;
+
+Trendly.UserMessage = styled.div`
+  width: calc(100% - 80px);
+  padding: 20px 40px;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  background-color: var(--colorMain);
+  word-break: keep-all;
+  font-size: 14px;
+  color: #fff;
+`;
+
+Trendly.UserProfile = styled.div`
+  display: block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  padding: 10px;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: initial;
   }
 `;
 

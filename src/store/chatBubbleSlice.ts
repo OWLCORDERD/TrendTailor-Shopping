@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface ChatBubbleState {
   chatOpen: boolean;
   mode: string;
-  messages: messageType[];
+  messages: messagesType[];
 }
 
 const initialState: ChatBubbleState = {
@@ -25,8 +25,26 @@ const chatBubbleSlice = createSlice({
       state.messages = []; // 메시지 배열 초기화
     },
     // 챗봇 모드 변경
-    changeMode: (state, action) => {
-      state.mode = action.payload;
+    changeMode: (state, action: any) => {
+      state.mode = action.payload.mode; // 클라이언트에서 요청한 모드로 변경
+      if (action.payload.mode === "consultant") {
+        state.messages = [
+          {
+            role: "user",
+            message: {
+              type: "chat",
+              content: "스타일 컨설턴트를 추천받고싶어",
+            },
+          },
+          {
+            role: "chatbot",
+            message: {
+              type: "chat",
+              content: `안녕하세요, ${action.payload.user}님! 지금부터 회원님에게 어울리는 의류 컨설팅을 위해 간단한 설문조사를 시작할게요.`,
+            },
+          },
+        ];
+      }
     },
     // 현재 대화 메시지 배열에 실시간 채팅 메시지 추가
     pushMessage: (state, action) => {

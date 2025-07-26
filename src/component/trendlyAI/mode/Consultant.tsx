@@ -3,12 +3,16 @@ import { Trendly as CSS } from "@/styles";
 import TrendlyBubble from "@/component/trendlyAI/bubble/Trendly";
 import { IoIosAttach } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
+import { useAppSelector } from "@/store/hooks";
+import UserBubble from "@/component/trendlyAI/bubble/User";
 
 const Consultant = () => {
   const aiMessage =
     "안녕하세요, 민혁님! 지금부터 민혁님에게 어울리는 의류 컨설팅을 위해 간단한 설문조사를 시작할게요.";
 
   const [openAIQuestion, setOpenAIQuestion] = useState<string>("");
+
+  const messages = useAppSelector((state) => state.chatBubble.messages);
   // 2025.02.02: openAI API 질문 요청
   const requestOpenAI = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     // 입력칸에서 enter 키 눌렀을때만 실행
@@ -34,10 +38,16 @@ const Consultant = () => {
   return (
     <CSS.ConsultantMode>
       <CSS.ChatArea>
-        <TrendlyBubble message={aiMessage} />
+        {messages.map((message, index) => {
+          return message.role === "user" ? (
+            <UserBubble message={message.message} />
+          ) : (
+            <TrendlyBubble message={message.message} />
+          );
+        })}
         {/* 챗봇 채팅창 영역 */}
       </CSS.ChatArea>
-      <CSS.SearchForm>
+      {/* <CSS.SearchForm>
         <CSS.SearchInput>
           <input
             type='text'
@@ -51,7 +61,7 @@ const Consultant = () => {
           </button>
         </CSS.SearchInput>
 
-        {/* <CSS.SearchTool>
+        <CSS.SearchTool>
           <button type='button' className='attach-file'
                       onMouseEnter={() => setTooltipActive(true)}
                       onMouseLeave={() => setTooltipActive(false)}>
@@ -68,8 +78,8 @@ const Consultant = () => {
               </motion.div>
             ) : null}
           </button>
-        </CSS.SearchTool> */}
-      </CSS.SearchForm>
+        </CSS.SearchTool>
+      </CSS.SearchForm> */}
     </CSS.ConsultantMode>
   );
 };

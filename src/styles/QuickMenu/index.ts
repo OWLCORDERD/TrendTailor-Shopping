@@ -57,19 +57,6 @@ QuickMenu.AdditionalMenu = styled.div`
   width: 80px;
 `;
 
-QuickMenu.ScrollTop = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 20px;
-  color: #333;
-  background-color: #fff;
-  margin: 0 auto 20px auto;
-`;
-
 QuickMenu.Chatbot = styled.button`
   display: flex;
   align-items: center;
@@ -79,6 +66,8 @@ QuickMenu.Chatbot = styled.button`
   border-radius: 50%;
   background-color: #fff;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  border: none;
+  margin-bottom: 20px;
 
   & > img {
     width: 50px;

@@ -81,6 +81,11 @@ const ChatContainer = () => {
     },
   };
 
+  const modePayload: any = {
+    mode: "consultant",
+    user: data && data.user ? data.user.name : "익명",
+  };
+
   return (
     <CSS.Intro>
       <motion.div
@@ -135,7 +140,7 @@ const ChatContainer = () => {
           <button
             type='button'
             className='menu-btn'
-            onClick={() => dispatch(changeMode("consultant"))}
+            onClick={() => dispatch(changeMode(modePayload))}
           >
             <HiDocumentCheck fontSize={30} />
             컨설턴트 추천

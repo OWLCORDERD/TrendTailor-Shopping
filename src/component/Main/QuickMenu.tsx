@@ -33,7 +33,9 @@ const QuickMenu = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   // 챗봇 모달 활성화 여부 체크
-  const selector = useAppSelector((state) => state.chatBubble.chatOpen);
+  const chatContainerOpen = useAppSelector(
+    (state) => state.chatBubble.chatOpen
+  );
   const dispatch = useAppDispatch();
 
   // useEffect(() => {
@@ -96,9 +98,6 @@ const QuickMenu = () => {
         </CSS.Menu>
 
         <CSS.AdditionalMenu>
-          <CSS.ScrollTop>
-            <ScrollToTop type='click' />
-          </CSS.ScrollTop>
           <CSS.Chatbot onClick={() => dispatch(chatOpen())}>
             <Image
               src={ChatbotIcon}
@@ -108,10 +107,12 @@ const QuickMenu = () => {
               priority
             />
           </CSS.Chatbot>
+          <ScrollToTop type='click' />
         </CSS.AdditionalMenu>
       </div>
 
-      {selector && <TrendlyContainer />}
+      {/* 퀵 메뉴 챗봇 버튼 클릭 시 챗봇 모달 활성화 */}
+      {chatContainerOpen && <TrendlyContainer />}
     </>
   );
 };
