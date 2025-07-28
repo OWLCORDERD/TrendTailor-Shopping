@@ -43,6 +43,22 @@ const chatBubbleSlice = createSlice({
               content: `안녕하세요, ${action.payload.user}님! 지금부터 회원님에게 어울리는 의류 컨설팅을 위해 간단한 설문조사를 시작할게요.`,
             },
           },
+          {
+            role: "chatbot",
+            message: {
+              type: "question",
+              content: {
+                title: "01. 찾고 있는 스타일의 목적은 무엇인가요?",
+                options: [
+                  { label: "데일리룩", value: "daily" },
+                  { label: "출근/오피스룩", value: "business" },
+                  { label: "데이트룩", value: "date" },
+                  { label: "하겍룩", value: "guest" },
+                  { label: "기타", value: "etc" },
+                ],
+              },
+            },
+          },
         ];
       }
     },

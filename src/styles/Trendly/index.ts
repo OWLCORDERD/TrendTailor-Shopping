@@ -292,7 +292,63 @@ Trendly.ChatBotIcon = styled.div`
   }
 `;
 
-// AI 챗봇 말풍선
+// 챗봇 질문 선택 답변 폼 영역
+Trendly.ChatBotQuestion = styled.div`
+  width: 100%;
+`;
+
+Trendly.QuestionTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 16px;
+  padding: 20px 30px;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  background-color: var(--colorMain);
+  color: #fff;
+`;
+
+Trendly.QuestionOptions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 35px;
+  margin-top: 20px;
+`;
+
+Trendly.QuestionOption = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 2 - 20px);
+  height: 100px;
+  font-size: 16px;
+  color: #777;
+  border: none;
+  background-color: #fff;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  font-weight: bold;
+`;
+
+Trendly.WarningText = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 0;
+
+  .warning-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .warning-txt {
+    font-size: 16px;
+    color: var(--colorMain);
+  }
+`;
+
+// 사용자 답변 말풍선
 Trendly.UserBubble = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -315,15 +371,15 @@ Trendly.UserMessage = styled.div`
 
 Trendly.UserProfile = styled.div`
   display: block;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  padding: 10px;
+  overflow: hidden;
 
-  & > img {
+  img {
     width: 100%;
     height: 100%;
-    object-fit: initial;
+    object-fit: cover;
   }
 `;
 

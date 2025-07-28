@@ -268,3 +268,60 @@ export const wishChatSvgIcon = {
     </svg>;
   },
 };
+
+export const questionIcon = {
+  name: "question",
+  icon: () => (
+    <svg
+      width='35'
+      height='35'
+      viewBox='0 0 50 50'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M20 17.6875C20 15.0987 22.2387 13 25 13C27.7613 13 30 15.0987 30 17.6875C30 19.4061 29.0133 20.9087 27.5424 21.7247C26.2747 22.4277 25 23.4943 25 24.875V28'
+        stroke='white'
+        stroke-width='4'
+        stroke-linecap='round'
+      />
+      <path
+        d='M25.0833 36.1667C26.2339 36.1667 27.1667 35.2339 27.1667 34.0833C27.1667 32.9327 26.2339 32 25.0833 32C23.9327 32 23 32.9327 23 34.0833C23 35.2339 23.9327 36.1667 25.0833 36.1667Z'
+        fill='white'
+      />
+      <path
+        d='M14.5832 6.95375C17.6475 5.18115 21.2053 4.16663 24.9998 4.16663C36.5057 4.16663 45.8332 13.494 45.8332 25C45.8332 36.5058 36.5057 45.8333 24.9998 45.8333C13.4939 45.8333 4.1665 36.5058 4.1665 25C4.1665 21.2054 5.18102 17.6476 6.95363 14.5833'
+        stroke='white'
+        stroke-width='3'
+        stroke-linecap='round'
+      />
+    </svg>
+  ),
+};
+
+export const warningIcon = {
+  name: "warning",
+  icon: () => (
+    <svg
+      width='30'
+      height='30'
+      viewBox='0 0 24 24'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M12 7V13'
+        stroke='#1C274C'
+        stroke-width='1.5'
+        stroke-linecap='round'
+      />
+      <circle cx='12' cy='16' r='1' fill='#1C274C' />
+      <path
+        d='M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7'
+        stroke='#1C274C'
+        stroke-width='1.5'
+        stroke-linecap='round'
+      />
+    </svg>
+  ),
+};

@@ -5,6 +5,7 @@ import { IoIosAttach } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import { useAppSelector } from "@/store/hooks";
 import UserBubble from "@/component/trendlyAI/bubble/User";
+import { warningIcon } from "@/component/svgData";
 
 const Consultant = () => {
   const aiMessage =
@@ -47,6 +48,15 @@ const Consultant = () => {
         })}
         {/* 챗봇 채팅창 영역 */}
       </CSS.ChatArea>
+
+      <CSS.WarningText>
+        <span className='warning-icon'>{warningIcon.icon()}</span>
+        <span className='warning-txt'>
+          챗봇의 안내에 따라 설문조사에 답변해주세요.
+          <br />
+          결과는 서버 상태에최대 몇분 소요될 수 있습니다.
+        </span>
+      </CSS.WarningText>
       {/* <CSS.SearchForm>
         <CSS.SearchInput>
           <input

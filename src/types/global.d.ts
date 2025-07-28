@@ -86,7 +86,15 @@ declare global {
 
   interface messageType {
     type: string;
-    content: string;
+    content: any; // 질문 타입은 questionType, 챗봇 답변은 string
+  }
+
+  interface questionType {
+    title: string; // 질문 제목
+    options: {
+      label: string; // 옵션 레이블
+      value: string; // 옵션 값
+    }[]; // 선택 가능한 옵션 목록
   }
 
   // 추천 의류 아이템 타입
