@@ -85,7 +85,7 @@ const ResponsiveMenu = ({
   const login = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    router.push("/signin");
+    router.push("/login");
 
     setResponsiveMenuActive(false);
   };

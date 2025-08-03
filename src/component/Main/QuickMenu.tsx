@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { QuickMenu as CSS } from "styles";
 import { IoSearch } from "react-icons/io5";
 import { HiSpeakerphone } from "react-icons/hi";
@@ -14,6 +14,8 @@ import { ScrollToTop } from "@/hooks/ScrollToTop";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { chatOpen } from "@/store/chatBubbleSlice";
 import TrendlyContainer from "@/component/trendlyAI/Container";
+import AlertModal from "../common/modal/Alert";
+import { AnimatePresence } from "framer-motion";
 
 const QuickMenu = () => {
   const { width } = useWindowSize();
@@ -32,49 +34,21 @@ const QuickMenu = () => {
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const modalProps = {
+    type: "login",
+    title: "로그인 후 이용 가능한 서비스입니다.",
+    content: "로그인하여 패션 컨설턴트의 맞춤 컨설팅을 받아보세요!",
+  };
+
+  // 로그인 모달 활성화 여부
+  const modalOpen = useAppSelector((state) => state.modal.modalOpen);
   // 챗봇 모달 활성화 여부 체크
   const chatContainerOpen = useAppSelector(
     (state) => state.chatBubble.chatOpen
   );
+
   const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   const stickyArea = document.querySelector("main");
-
-  //   gsap.to(".quick-menu", {
-  //     bottom: "50%",
-  //     display: "none",
-  //     scrollTrigger: {
-  //       trigger: stickyArea,
-  //       start: "95% top",
-  //       end: "bottom bottom",
-  //       scrub: 1,
-  //     },
-  //   });
-
-  //   gsap.to(".trendly-modal", {
-  //     display: "none",
-  //     scrollTrigger: {
-  //       trigger: stickyArea,
-  //       start: "95% top",
-  //       end: "bottom bottom",
-  //       scrub: 1,
-  //     },
-  //   });
-
-  //   const refresh = ScrollTrigger.refresh();
-
-  //   window.addEventListener("resize", () => refresh);
-  //   window.addEventListener("orientationchange", () => refresh);
-  //   window.addEventListener("visibilitychange", () => refresh);
-
-  //   return () => {
-  //     gsap.killTweensOf(".quick-menu");
-  //     window.removeEventListener("resize", () => refresh);
-  //     window.removeEventListener("orientationchange", () => refresh);
-  //     window.removeEventListener("visibilitychange", () => refresh);
-  //   };
-  // }, []);
   return (
     <>
       <div className='quick-menu'>
@@ -113,6 +87,17 @@ const QuickMenu = () => {
 
       {/* 퀵 메뉴 챗봇 버튼 클릭 시 챗봇 모달 활성화 */}
       {chatContainerOpen && <TrendlyContainer />}
+
+      {/* 컨설팅 메뉴 클릭 시, 로그인 여부 체크하여 모달 노출 */}
+      <AnimatePresence>
+        {modalOpen && (
+          <AlertModal
+            title={modalProps.title}
+            content={modalProps.content}
+            type={modalProps.type}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };

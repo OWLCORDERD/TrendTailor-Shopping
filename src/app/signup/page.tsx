@@ -283,7 +283,7 @@ const Register = () => {
         });
 
         if (res.ok) {
-          router.replace("/signin");
+          router.replace("/login");
         } else {
           console.log(res.status + "error status");
         }

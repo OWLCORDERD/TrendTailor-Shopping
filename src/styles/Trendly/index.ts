@@ -8,7 +8,7 @@ Trendly.Intro = styled.div`
   align-items: center;
   gap: 30px;
   font-family: "TheJamsil", sans-serif;
-  padding: 50px 30px;
+  padding: 30px 30px 0 30px;
 
   .character {
     position: relative;
@@ -60,7 +60,7 @@ Trendly.Intro = styled.div`
 
     .intro-comment {
       width: 100%;
-      padding: 20px 0 60px 0;
+      padding: 20px 0 30px 0;
 
       .title {
         display: block;
@@ -144,12 +144,12 @@ Trendly.ConsultantMode = styled.div`
   height: calc(100% - 70px);
   margin: 0 auto;
   padding: 0 20px;
-`;
 
-Trendly.ChatArea = styled.div`
-  height: calc(100% - 150px);
-  overflow-y: auto;
-  padding: 30px 20px;
+  .chat-area {
+    height: calc(100% - 150px);
+    overflow-y: auto;
+    padding: 30px 20px;
+  }
 `;
 
 Trendly.SearchForm = styled.div`
@@ -261,10 +261,45 @@ Trendly.SearchInput = styled.div`
 // AI 챗봇 말풍선
 Trendly.ChatBotBubble = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
   max-width: 100%;
   margin-bottom: 20px;
+
+  .btn-wrap {
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+
+    .start-btn {
+      display: block;
+      flex: 1;
+      height: 30px;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+      background-color: var(--colorMain);
+      border: none;
+    }
+
+    .exit-btn {
+      display: block;
+      flex: 1;
+      height: 30px;
+      color: rgb(65, 65, 65);
+      text-align: center;
+      line-height: 30px;
+      border: 2px solid rgb(65, 65, 65);
+      border: none;
+    }
+  }
+`;
+
+Trendly.BubbleWrap = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 `;
 
 Trendly.ChatBotMessage = styled.div`

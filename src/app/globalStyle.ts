@@ -57,7 +57,7 @@ $lightFont-Color: #000;
     }
 
     &::-webkit-scrollbar-thumb{
-        background-color: #5f5f5f;
+        background-color: var(--colorMain);
         display: block;
     }
     
@@ -312,6 +312,15 @@ $lightFont-Color: #000;
                     }
                 }
             }
+        }
+    }
+
+    button {
+        &:disabled {
+            background-color: #a3a3a3 !important;
+            color: #303030 !important;
+            border: 2px solid #303030 !important;
+            pointer-events: none;
         }
     }
 }

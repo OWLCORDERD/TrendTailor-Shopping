@@ -12,6 +12,7 @@ import { IoIosChatboxes } from "react-icons/io";
 import { HiDocumentCheck } from "react-icons/hi2";
 import { useAppDispatch } from "@/store/hooks";
 import { changeMode } from "@/store/chatBubbleSlice";
+import { openModal } from "@/store/modalSlice";
 
 const ChatContainer = () => {
   const { data, status } = useSession();
@@ -81,9 +82,28 @@ const ChatContainer = () => {
     },
   };
 
+  const consultantMode = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    // 비로그인 사용자일 시, 로그인 모달 노출
+    if (status !== "authenticated") {
+      dispatch(openModal());
+      return;
+    } else {
+      // 로그인 사용자일 시, 컨설턴트 모드 변경
+      dispatch(changeMode(modePayload));
+    }
+  };
+
+  const chatMode = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    alert("현재 개발중입니다.");
+    return;
+  };
+
   const modePayload: any = {
     mode: "consultant",
-    user: data && data.user ? data.user.name : "익명",
+    user: data?.user?.name,
   };
 
   return (
@@ -140,12 +160,16 @@ const ChatContainer = () => {
           <button
             type='button'
             className='menu-btn'
-            onClick={() => dispatch(changeMode(modePayload))}
+            onClick={(e) => consultantMode(e)}
           >
             <HiDocumentCheck fontSize={30} />
             컨설턴트 추천
           </button>
-          <button type='button' className='menu-btn'>
+          <button
+            type='button'
+            className='menu-btn'
+            onClick={(e) => chatMode(e)}
+          >
             <IoIosChatboxes fontSize={30} />
             채팅 시작
           </button>

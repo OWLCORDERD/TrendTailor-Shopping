@@ -1,0 +1,172 @@
+@import "../app/globals.scss";
+@import "styles/ResponseMixin/_mixin";
+
+.alert-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 1200;
+
+    .modal-inner {
+        position: absolute;
+        top: 50%;
+        width: 650px;
+        padding: 2rem;
+        background-color: var(--colorMain);
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 30px;
+
+            .close-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                border: none;
+                background-color: transparent;
+                color: #fff;
+            }
+        }
+
+        .modal-cont {
+            margin: 0 auto;
+            width: 80%;
+            font-family: $Jamsil-font;
+
+                .title {
+                    width: 100%;
+                    line-height: 4rem;
+                    word-break: keep-all;
+                    font-weight: bold;
+                    font-size: 24px;
+                    color: #fff;
+                    text-align: center;
+                }
+
+                .cont {
+                    display: block;
+                    width: 100%;
+                    height: 3rem;
+                    margin-top: 2rem;
+                    font-weight: 400;
+                    color: #fff;
+                    text-align: center;
+                    word-wrap: break-word;
+                }
+        }
+
+        .btn-wrap {
+            margin: 0 auto;
+            margin-top: 20px;
+            width: 450px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            .login-btn {
+                flex: 1;
+                height: 40px;
+                background-color: #000;
+                font-family: $Jamsil-font;
+                color: #fff;
+                border: none;
+                font-weight: bold;
+                text-align: center;
+                line-height: 40px;
+                transition: all 0.3s ease-in-out;
+                cursor: pointer;
+            }
+
+            .close-btn {
+                flex: 1;
+                width: calc(100% / 2 - 20px);
+                height: 40px;
+                background-color: #fff;
+                border: none;
+                font-family: $Jamsil-font;
+                color: #000;
+                font-weight: bold;
+                text-align: center;
+                line-height: 40px;
+                transition: all 0.3s ease-in-out;
+                cursor: pointer;
+            }  
+        }
+    }
+}
+
+@include mobile {
+    .error-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        z-index: 1200;
+    
+        .modal-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 20rem;
+            height: 12rem;
+            padding: 0 1rem;
+            background-color: rgb(255, 255, 255);
+            border: 2px solid #000;
+    
+            .error-icon {
+                width: 3rem;
+                height: 3rem;
+            }
+    
+            .modal-cont {
+                width: 12rem;
+                height: 10rem;
+                font-family: $Jamsil-font;
+    
+                .message {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    width: 100%;
+                    height: 5.5rem;
+    
+                    h1 {
+                        width: 100%;
+                        word-break: keep-all;
+                        font-weight: bold;
+                        font-size: 14px;
+                        color: #970303;
+                    }
+                }
+    
+                button {
+                    margin-top: 2rem;
+                    height: 2.5rem;
+                    font-family: $Jamsil-font;
+                    color: #000;
+                    font-weight: bold;
+                    text-align: center;
+                    line-height: 2.5rem;
+                    transition: all 0.3s ease-in-out;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

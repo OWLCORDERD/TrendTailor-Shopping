@@ -7,6 +7,8 @@ import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { chatClose } from "@/store/chatBubbleSlice";
 
 interface queryType {
   userEmail: string;
@@ -18,6 +20,10 @@ const Login = () => {
     userEmail: "",
     password: "",
   });
+
+  const dispatch = useAppDispatch();
+
+  const chatOpen = useAppSelector((state) => state.chatBubble.chatOpen);
 
   const router = useRouter();
   const { status } = useSession();
@@ -64,6 +70,11 @@ const Login = () => {
   useEffect(() => {
     if (status === "authenticated") {
       router.push("/");
+    }
+
+    // 챗봇 컨테이너가 열려있을 시, 컨테이너 닫기
+    if (chatOpen) {
+      dispatch(chatClose());
     }
   }, []);
 

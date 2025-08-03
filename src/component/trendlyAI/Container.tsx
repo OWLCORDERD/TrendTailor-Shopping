@@ -1,12 +1,13 @@
 "use client";
 
 import Intro from "@/component/trendlyAI/mode/Intro";
-import Consultant from "@/component/trendlyAI/mode/Consultant";
+import Consultant from "@/component/trendlyAI/mode/Consultant/Consultant";
 import React, { useState } from "react";
 import { useAppSelector } from "@/store/hooks";
 import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
-import { chatClose } from "@/store/chatBubbleSlice";
+import { changeMode, chatClose } from "@/store/chatBubbleSlice";
+import { TiHome } from "react-icons/ti";
 
 const Container = () => {
   // 현재 활성화된 채팅 모드
@@ -20,6 +21,10 @@ const Container = () => {
       default:
         return <Intro />;
     }
+  };
+
+  const introMode: any = {
+    mode: "intro",
   };
 
   return (
@@ -36,6 +41,18 @@ const Container = () => {
       {/* 인트로 화면 */}
       {/* 컨설팅 관련 채팅 화면 */}
       {dynamicImport()}
+
+      {chatMode === "consultant" && (
+        <div className='modal-footer'>
+          <button
+            type='button'
+            className='home-btn'
+            onClick={() => dispatch(changeMode(introMode.mode))}
+          >
+            <TiHome />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

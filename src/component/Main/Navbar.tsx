@@ -127,7 +127,7 @@ const Navbar = () => {
               </CSS.LoginUser>
             ) : (
               <>
-                <Link href='/signin' className='login'>
+                <Link href='/login' className='login'>
                   <AiOutlineLogin className='icon' />
                   <span>login</span>
                 </Link>
