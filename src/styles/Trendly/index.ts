@@ -264,7 +264,7 @@ Trendly.ChatBotBubble = styled.div`
   flex-direction: column;
   align-items: flex-start;
   max-width: 100%;
-  margin-bottom: 20px;
+  margin: 20px 0;
 
   .btn-wrap {
     width: 100%;
@@ -330,6 +330,7 @@ Trendly.ChatBotIcon = styled.div`
 // 챗봇 질문 선택 답변 폼 영역
 Trendly.ChatBotQuestion = styled.div`
   width: 100%;
+  margin: 20px 0;
 `;
 
 Trendly.QuestionTitle = styled.div`
@@ -351,7 +352,7 @@ Trendly.QuestionOptions = styled.div`
   margin-top: 20px;
 `;
 
-Trendly.QuestionOption = styled.button`
+Trendly.QuestionOption = styled.button<{ $select: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -359,11 +360,17 @@ Trendly.QuestionOption = styled.button`
   height: 100px;
   font-size: 16px;
   color: #777;
-  border: none;
+  border: ${(props) =>
+    props.$select ? "2px solid var(--colorMain)" : "2px solid transparent"};
   background-color: #fff;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   font-weight: bold;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border: 2px solid var(--colorMain);
+  }
 `;
 
 Trendly.WarningText = styled.div`

@@ -91,8 +91,10 @@ declare global {
 
   interface questionType {
     title: string; // 질문 제목
+    step: number; // 현 질문 단계
     options: {
-      label: string; // 옵션 레이블
+      label: string; // 옵션
+      // 레이블
       value: string; // 옵션 값
     }[]; // 선택 가능한 옵션 목록
   }

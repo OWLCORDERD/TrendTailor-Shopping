@@ -4,7 +4,13 @@ import chatbotImg from "@/assets/images/chatbot.png";
 import Image from "next/image";
 import { questionIcon } from "@/component/svgData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { changeMode, chatClose, nextStep } from "@/store/chatBubbleSlice";
+import {
+  changeMode,
+  chatClose,
+  consultantPrompt,
+  handleConsultantPrompt,
+  nextStep,
+} from "@/store/chatBubbleSlice";
 
 interface messageType {
   type: string;
@@ -13,10 +19,19 @@ interface messageType {
 
 const Trendly = ({ message }: { message: messageType }) => {
   const QAstep = useAppSelector((state) => state.chatBubble.QA_step);
+  const QAselect = useAppSelector((state) => state.chatBubble.QA_select);
   const dispatch = useAppDispatch();
 
   const nextQuestionStep = () => {
     dispatch(nextStep());
+  };
+
+  const selectQuestion = (cont: string, step: number) => {
+    const currentSelect: any = {
+      step: step,
+      selectLabel: cont,
+    };
+    dispatch(handleConsultantPrompt(currentSelect));
   };
 
   const introMode: any = {
@@ -55,7 +70,7 @@ const Trendly = ({ message }: { message: messageType }) => {
       )}
       {/* 챗봇 질문 선택 영역 */}
       {message.type === "question" && (
-        <CSS.ChatBotQuestion>
+        <CSS.ChatBotQuestion class='title'>
           <CSS.QuestionTitle>
             <span className='question-icon'>{questionIcon.icon()}</span>
             {message.content.title}
@@ -63,7 +78,15 @@ const Trendly = ({ message }: { message: messageType }) => {
           <CSS.QuestionOptions>
             {message.content.options.map((option, idx) => {
               return (
-                <CSS.QuestionOption key={idx}>
+                <CSS.QuestionOption
+                  $select={
+                    QAselect.filter(
+                      (item: any) => item.step === message.content.step
+                    )[0]?.selectLabel === option.label
+                  }
+                  key={idx}
+                  onClick={() => selectQuestion(option.label, QAstep)}
+                >
                   {option.label}
                 </CSS.QuestionOption>
               );
