@@ -6,8 +6,6 @@ import { questionIcon } from "@/component/svgData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   changeMode,
-  chatClose,
-  consultantPrompt,
   handleConsultantPrompt,
   nextStep,
 } from "@/store/chatBubbleSlice";

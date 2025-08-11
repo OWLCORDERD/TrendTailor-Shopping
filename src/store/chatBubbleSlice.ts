@@ -5,9 +5,9 @@ interface ChatBubbleState {
   mode: string;
   messages: messagesType[];
   // 컨설팅 모드 관련 상태 값
-  QA_step: number;
-  QA_select: selectType[];
-  QA_prompt: "";
+  QA_step: number; // 현 QA 단계
+  QA_select: selectType[]; // 각 단계별 사용자 QA 선택 답변
+  QA_prompt: ""; // QA 종합 프롬프트
 }
 
 interface selectType {
@@ -214,7 +214,7 @@ const chatBubbleSlice = createSlice({
       const userAnswer = action.payload;
 
       // 선택한 단계의 라벨로 기존 배열 업데이트
-      const updateStepSelect = state.QA_select.map((item) => {
+      const updateStepSelect = state.QA_select.map((item: any) => {
         return item.step === state.QA_step ? userAnswer : item;
       });
 
