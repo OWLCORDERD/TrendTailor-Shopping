@@ -8,7 +8,7 @@ interface ChatBubbleState {
   QA_step: number;
   allSelect: boolean;
   QA_select: selectType[];
-  QA_prompt: "";
+  QA_prompt: string;
   generateCreating: boolean; // 챗봇 답변 생성 여부
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
 }
@@ -255,7 +255,7 @@ const chatBubbleSlice = createSlice({
       const userAnswer = action.payload;
 
       // 선택한 단계의 라벨로 기존 배열 업데이트
-      const updateStepSelect = state.QA_select.map((item) => {
+      const updateStepSelect = state.QA_select.map((item: any) => {
         return item.step === state.QA_step ? userAnswer : item;
       });
 
