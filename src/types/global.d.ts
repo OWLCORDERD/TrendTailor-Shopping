@@ -92,11 +92,37 @@ declare global {
   interface questionType {
     title: string; // 질문 제목
     step: number; // 현 질문 단계
-    options: {
-      label: string; // 옵션
-      // 레이블
-      value: string; // 옵션 값
-    }[]; // 선택 가능한 옵션 목록
+    options: defaultOptions[] | genderBodyOption; // 선택 가능한 옵션 목록
+  }
+
+  interface defaultOptions {
+    label: string; // 옵션
+    // 레이블
+    value: string; // 옵션 값
+  }
+
+  interface genderBodyOption {
+    gender: [
+      {
+        label: string; // 성별 레이블
+        value: string; // 성별 값
+      }
+    ];
+    body: [
+      {
+        label: string; // 체형 레이블
+        value: string; // 체형 값
+      }
+    ];
+  }
+
+  interface bodyGenderSelect {
+    gender: {
+      label: string; // 성별 레이블
+    };
+    body: {
+      label: string; // 체형 레이블
+    };
   }
 
   // 추천 의류 아이템 타입

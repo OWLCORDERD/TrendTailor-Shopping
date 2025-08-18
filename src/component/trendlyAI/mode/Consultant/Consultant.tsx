@@ -1,36 +1,26 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Trendly as CSS } from "@/styles";
 import TrendlyBubble from "@/component/trendlyAI/bubble/Trendly";
-import { IoIosAttach } from "react-icons/io";
-import { FaSearch } from "react-icons/fa";
 import { useAppSelector } from "@/store/hooks";
 import UserBubble from "@/component/trendlyAI/bubble/User";
 import { warningIcon } from "@/component/svgData";
+import Chatbot from "assets/images/chatbot.png";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 const Consultant = () => {
-  const [openAIQuestion, setOpenAIQuestion] = useState<string>("");
-
   const messages = useAppSelector((state) => state.chatBubble.messages);
   const QA_step = useAppSelector((state) => state.chatBubble.QA_step);
+  const generateRecommendation = useAppSelector(
+    (state) => state.chatBubble.generateCreating
+  );
+  const consultingResultData = useAppSelector(
+    (state) => state.chatBubble.consultingResultData
+  );
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const chatArea = useRef<HTMLDivElement>(null);
-  // 2025.02.02: openAI API 질문 요청
-  const requestOpenAI = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // 입력칸에서 enter 키 눌렀을때만 실행
-    if (e.key === "Enter") {
-      const res = await fetch("/api/recommendOpenAI", {
-        method: "POST",
-        body: JSON.stringify({
-          question: openAIQuestion,
-        }),
-      });
-
-      if (res.status === 200) {
-        const data = await res.json();
-        console.log(data);
-      }
-    }
-  };
 
   // 2025.08.02: 컨설팅 모드 > 질문 템플릿 메시지 생성시마다
   // 채팅 영역 하단으로 스크롤 이동
@@ -45,22 +35,54 @@ const Consultant = () => {
     }
   }, [messages]);
 
-  // 2025.02.02: 사용자 질문 입력값 실시간 업데이트
-  const onChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setOpenAIQuestion(e.target.value);
-  };
+  useEffect(() => {
+    // 로딩 이후 답변 가공 완료되어 로딩 상태 초기화될때 답변 출력
+    if (!generateRecommendation) {
+      console.log(consultingResultData);
+    }
+  }, [generateRecommendation, consultingResultData]);
   return (
     <CSS.ConsultantMode>
-      <div className='chat-area' ref={chatArea}>
-        {messages.map((message, index) => {
-          return message.role === "user" ? (
-            <UserBubble message={message.message} />
-          ) : (
-            <TrendlyBubble message={message.message} />
-          );
-        })}
-        {/* 챗봇 채팅창 영역 */}
-      </div>
+      {/* 컨설팅 답변 생성 중 나타나는 UI */}
+      {generateRecommendation ? (
+        <CSS.RecommendationLoading>
+          <motion.div
+            className='chatbot'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className='chatbot-character'>
+              <Image src={Chatbot} width={310} height={250} alt='챗봇 아이콘' />
+            </div>
+
+            <div className='chatbot-bubble'>
+              <span className='comment'>회원님의 성향을 분석중입니다</span>
+              <ul className='loading-dot'>
+                <li className='dot'></li>
+                <li className='dot'></li>
+                <li className='dot'></li>
+              </ul>
+            </div>
+          </motion.div>
+          <span className='loading-text'>
+            Trendly 챗봇이 최적의 컨설턴트를 찾는중입니다.
+            <br /> 잠시만 기다려주세요!
+          </span>
+        </CSS.RecommendationLoading>
+      ) : (
+        <div className='chat-area' ref={chatArea}>
+          {messages.map((message, index) => {
+            return message.role === "user" ? (
+              <UserBubble message={message.message} />
+            ) : (
+              <TrendlyBubble message={message.message} />
+            );
+          })}
+          {/* 챗봇 채팅창 영역 */}
+        </div>
+      )}
 
       <CSS.WarningText>
         <span className='warning-icon'>{warningIcon.icon()}</span>

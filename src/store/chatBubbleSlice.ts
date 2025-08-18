@@ -6,8 +6,11 @@ interface ChatBubbleState {
   messages: messagesType[];
   // 컨설팅 모드 관련 상태 값
   QA_step: number;
+  allSelect: boolean;
   QA_select: selectType[];
   QA_prompt: "";
+  generateCreating: boolean; // 챗봇 답변 생성 여부
+  consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
 }
 
 interface selectType {
@@ -20,6 +23,7 @@ const initialState: ChatBubbleState = {
   mode: "intro",
   messages: [],
   QA_step: 0, // 컨설팅 질문 단계
+  allSelect: false, // 컨설팅 모든 질문 단계 선택 완료 여부,
   // 컨설팅 질문 단계에서 선택한 답변 저장 배열
   QA_select: [
     {
@@ -42,12 +46,10 @@ const initialState: ChatBubbleState = {
       step: 5,
       selectLabel: "",
     },
-    {
-      step: 6,
-      selectLabel: "",
-    },
   ],
   QA_prompt: "",
+  generateCreating: false, // 챗봇 답변 생성 중 여부 (기본값 true)
+  consultingResultData: {}, // 챗봇 답변 메시지,
 };
 
 // 2025.08.11: 컨설팅 모드 > 단계별 답변 선택 시 호출되는 thunk 함수
@@ -61,39 +63,25 @@ export const handleConsultantPrompt = createAsyncThunk(
     const state = getState() as { chatBubble: ChatBubbleState };
 
     // 모든 단계의 선택이 완료되었다면 프롬프트 문자 구성
-    const allStepSelect = state.chatBubble.QA_select.find(
-      (item) => item.selectLabel === ""
+    const allStepSelect = state.chatBubble.QA_select.every(
+      (item) => item.selectLabel !== ""
     );
 
     // 단계별 선택지 조합하여 프롬프트 문자 셋팅
-    if (!allStepSelect) {
-      state.chatBubble.QA_select.forEach((item) => {
-        switch (item.step) {
-          case 1:
-            state.chatBubble.QA_prompt += `추천받을 스타일의 목적은 ${item.selectLabel}(을/를) 찾고 있고,`;
-            break;
-          case 2:
-            state.chatBubble.QA_prompt +=
-              " " + `${item.selectLabel} 한 스타일을 좋아해. `;
-            break;
-          case 3:
-            state.chatBubble.QA_prompt += `현재 계절은 ${item.selectLabel}에 알맞게 소재 추천해줬으면 하고,`;
-            break;
-          case 4:
-            state.chatBubble.QA_prompt +=
-              " " + `사용자의 성별 및 체형은 ${item.selectLabel},`;
-            break;
-          case 5:
-            state.chatBubble.QA_prompt += `즐겨입고 선호하는 브랜드는 ${item.selectLabel}이야. `;
-            break;
-          case 6:
-            state.chatBubble.QA_prompt +=
-              " " +
-              `최종적으로 추천받고 싶은 항목, 카테고리는 ${item.selectLabel} 위주로 추천해줘! `;
-            break;
-        }
-      });
+    if (allStepSelect && state.chatBubble.QA_prompt === "") {
+      dispatch(consultantPrompt());
     } else {
+      // 성별과 체형 두가지를 선택하는 단계
+      if (state.chatBubble.QA_step === 4) {
+        const stepSelect: any = state.chatBubble.QA_select.find(
+          (item) => item.step === 4
+        )?.selectLabel;
+
+        // 성별, 체형 모두 선택하지 않았을 시 다음 단계 진행 불가
+        if (stepSelect.split(", ").length < 2) {
+          return;
+        }
+      }
       // 단계 이동하여 다음 질문 셋팅
       dispatch(nextStep());
     }
@@ -121,6 +109,9 @@ const chatBubbleSlice = createSlice({
       state.QA_step = 0; // 질문 단계 초기화
       state.QA_prompt = ""; // 프롬프트 문자 초기화
       state.QA_select = initialState.QA_select; // 선택 배열 초기화
+      state.allSelect = false; // 모든 질문 단계 선택 완료 여부 초기화
+      state.generateCreating = false; // 챗봇 답변 생성 중 여부 초기화
+      state.consultingResultData = {}; // 컨설팅 챗봇 답변 데이터 초기화
 
       if (action.payload.mode === "consultant") {
         state.messages = [
@@ -143,7 +134,9 @@ const chatBubbleSlice = createSlice({
     },
     // 2025.08.04: 컨설팅 모드 > 질문 단계에 따른 템플릿 메시지 추가
     nextStep: (state) => {
-      state.QA_step = state.QA_step + 1; // 질문 단계 업데이트
+      if (state.QA_step < 5) {
+        state.QA_step = state.QA_step + 1; // 질문 단계 업데이트
+      }
 
       if (state.mode === "consultant") {
         switch (state.QA_step) {
@@ -206,6 +199,54 @@ const chatBubbleSlice = createSlice({
             });
 
             break;
+
+          case 4:
+            state.messages.push({
+              role: "chatbot",
+              message: {
+                type: "question",
+                content: {
+                  title: "04. 성별과 체형을 선택해주세요.",
+                  step: 4,
+                  options: {
+                    gender: [
+                      { label: "여성", value: "female" },
+                      { label: "남성", value: "male" },
+                    ],
+                    body: [
+                      { label: "마른 체형", value: "slim" },
+                      { label: "보통 체형", value: "average" },
+                      { label: "근육질 체형", value: "muscle" },
+                      { label: "통통 체형", value: "chubby" },
+                      { label: "뚱뚱 체형", value: "fat" },
+                    ],
+                  },
+                },
+              },
+            });
+
+            break;
+
+          case 5:
+            state.messages.push({
+              role: "chatbot",
+              message: {
+                type: "question",
+                content: {
+                  title: "05. 좋아하거나 자주 찾는 브랜드가 있다면 골라주세요",
+                  step: 5,
+                  options: [
+                    { label: "무신사", value: "musinsa" },
+                    { label: "29CM", value: "29CM" },
+                    { label: "W Concept", value: "w_concept" },
+                    { label: "유니클로 / 자라", value: "uniqlo/zara" },
+                    { label: "기타", value: "etc" },
+                  ],
+                },
+              },
+            });
+
+            break;
         }
       }
     },
@@ -224,6 +265,55 @@ const chatBubbleSlice = createSlice({
     pushMessage: (state, action) => {
       state.messages.push(action.payload);
     },
+    consultantPrompt: (state) => {
+      state.allSelect = true; // 모든 질문 단계 선택 완료
+      state.QA_select.forEach((item) => {
+        switch (item.step) {
+          case 1:
+            state.QA_prompt += `${item.selectLabel} 스타일을 추천받는것이 목적이고,`;
+            break;
+          case 2:
+            state.QA_prompt +=
+              " " + `${item.selectLabel} 부류의 스타일을 좋아해. `;
+            break;
+          case 3:
+            state.QA_prompt += `계절은 ${item.selectLabel}에 알맞게 소재 추천해줬으면 하고,`;
+            break;
+          case 4:
+            state.QA_prompt +=
+              " " + `사용자의 성별 및 체형은 ${item.selectLabel}이고, `;
+            break;
+          case 5:
+            state.QA_prompt += `마지막 선호하는 브랜드는 ${item.selectLabel}! 해당 사용자가 스타일링하기에 알맞은 의류 유튜버를 추천해줘 `;
+            break;
+          default:
+            break;
+        }
+      });
+
+      state.generateCreating = true; // 챗봇 답변 생성 중 상태로 변경
+
+      fetch("/api/recommendOpenAI", {
+        method: "POST",
+        body: JSON.stringify({
+          question: state.QA_prompt,
+        }),
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error("Failed to fetch data");
+          }
+        })
+        .then((data) => {
+          state.consultingResultData = data;
+          state.generateCreating = false; // 챗봇 답변 생성 완료 상태로 변경
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
   },
 });
 
@@ -234,5 +324,6 @@ export const {
   chatClose,
   nextStep,
   stepSelector,
+  consultantPrompt,
 } = chatBubbleSlice.actions;
 export default chatBubbleSlice.reducer;

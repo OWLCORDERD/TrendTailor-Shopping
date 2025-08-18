@@ -71,7 +71,11 @@ const AlertModal = ({ type, title, content }: modalProps) => {
 
         <div className='btn-wrap'>
           {type === "login" && (
-            <button type='button' className='login-btn' onClick={(e) => login(e)}>
+            <button
+              type='button'
+              className='login-btn'
+              onClick={(e) => login(e)}
+            >
               로그인 하러가기
             </button>
           )}

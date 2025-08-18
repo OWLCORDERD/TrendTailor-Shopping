@@ -72,7 +72,7 @@ Trendly.Intro = styled.div`
 
       .desc {
         font-weight: 400;
-        font-size: 20px;
+        font-size: 16px;
         text-align: center;
       }
     }
@@ -101,7 +101,7 @@ Trendly.Intro = styled.div`
         transition: all 0.2s ease-in-out;
         margin-bottom: 1.5rem;
 
-        &:nth-child(2) {
+        &:nth-child(1) {
           color: var(--colorMain);
           border: 2px solid var(--colorMain);
           margin-bottom: 20px;
@@ -120,7 +120,7 @@ Trendly.Intro = styled.div`
           }
         }
 
-        &:nth-child(3) {
+        &:nth-child(2) {
           border: 2px solid var(--txtColor);
           color: var(--txtColor);
 
@@ -196,65 +196,6 @@ Trendly.SearchInput = styled.div`
     border: none;
   }
 `;
-
-// 파일 첨부 기능 비활성화 (보류)
-// Trendly.SearchTool = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex-wrap: wrap;
-//   width: 100%;
-//   height: 30px;
-
-//   .attach-file {
-//     position: relative;
-//     width: 30px;
-//     height: 30px;
-//     border: none;
-//     background: transparent;
-//     color: #000;
-//     cursor: pointer;
-
-//     svg {
-//       width: 100%;
-//       height: 100%;
-//     }
-//   }
-
-//   .tooltip {
-//     position: absolute;
-//     left: 50%;
-//     top: -60px;
-//     transform: translateX(-50%);
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     width: 80px;
-//     height: 40px;
-//     background: #000;
-//     border-radius: 10px;
-
-//     &::before {
-//       position: absolute;
-//       left: 50%;
-//       bottom: -20px;
-//       content: "";
-//       transform: translateX(-50%);
-//       width: 0;
-//       height: 0;
-//       border-left: 10px solid transparent;
-//       border-right: 10px solid transparent;
-//       border-bottom: 10px solid transparent;
-//       border-top: 12px solid #000;
-//     }
-
-//     span {
-//       font-family: "TheJamsil", sans-serif;
-//       font-size: 14px;
-//       font-weight: bold;
-//       color: #fff;
-//     }
-//   }
-// `;
 
 // 채팅 말풍선
 
@@ -333,6 +274,7 @@ Trendly.ChatBotQuestion = styled.div`
   margin: 20px 0;
 `;
 
+// 챗봇 질문 제목 인덱스 영역
 Trendly.QuestionTitle = styled.div`
   display: flex;
   align-items: center;
@@ -345,6 +287,7 @@ Trendly.QuestionTitle = styled.div`
   color: #fff;
 `;
 
+// 챗봇 질문 선택 옵션 영역
 Trendly.QuestionOptions = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -352,12 +295,65 @@ Trendly.QuestionOptions = styled.div`
   margin-top: 20px;
 `;
 
+// 신체 유형 선택 select 커스텀
+Trendly.BodyOptions = styled.div`
+  position: relative;
+  width: 100%;
+  margin: 20px 0;
+
+  .select-btn {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    padding: 10px 20px;
+    border: 1px solid #d5d5d5;
+    border-radius: 20px;
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+
+    .drop-icon {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: #333;
+    }
+  }
+
+  .select-list {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    border: 1px solid #d5d5d5;
+    border-radius: 20px;
+    overflow: hidden;
+
+    .option-btn {
+      display: block;
+      width: 100%;
+      padding: 10px 20px;
+      background: transparent;
+      color: #333;
+      border: none;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+`;
+
+// 챗봇 질문 옵션 버튼
 Trendly.QuestionOption = styled.button<{ $select: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: calc(100% / 2 - 20px);
-  height: 100px;
+  padding: 20px;
   font-size: 16px;
   color: #777;
   border: ${(props) =>
@@ -367,9 +363,105 @@ Trendly.QuestionOption = styled.button<{ $select: string }>`
   border-radius: 20px;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
+  pointer-events: ${(props) => (props.$select ? "none" : "auto")};
 
   &:hover {
     border: 2px solid var(--colorMain);
+  }
+`;
+
+// 컨설팅 챗봇 답변 생성 중 로딩 화면
+Trendly.RecommendationLoading = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100% - 150px);
+
+  .chatbot {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 40px;
+
+    &-character {
+      margin: 0 auto;
+      width: 120px;
+      height: 100px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &-bubble {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+      gap: 10px;
+      width: 300px;
+      padding: 20px;
+      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+      border-radius: 20px;
+      border: 1px solid rgb(188, 188, 188);
+      background-color: #fff;
+
+      .comment {
+        font-weight: bold;
+        color: var(--colorMain);
+      }
+
+      .loading-dot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: var(--colorMain);
+          animation: dotBlink 1s infinite forwards;
+          opacity: 0;
+          margin-bottom: 2px;
+
+          &:nth-child(1) {
+            animation-delay: 0s;
+          }
+
+          &:nth-child(2) {
+            animation-delay: 1s;
+          }
+
+          &:nth-child(3) {
+            animation-delay: 2s;
+          }
+
+          @keyframes dotBlink {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .loading-text {
+    display: block;
+    width: calc(100% - 50px);
+    margin: 0 auto;
+    text-align: center;
+    color: #333;
+    padding-top: 50px;
+    font-size: 16px;
   }
 `;
 

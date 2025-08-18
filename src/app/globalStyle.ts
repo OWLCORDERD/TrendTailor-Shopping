@@ -317,9 +317,8 @@ $lightFont-Color: #000;
 
     button {
         &:disabled {
-            background-color: #a3a3a3 !important;
+            background-color:rgb(221, 221, 221) !important;
             color: #303030 !important;
-            border: 2px solid #303030 !important;
             pointer-events: none;
         }
     }

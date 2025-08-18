@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "https://openapi.naver.com",
   "scripts": {
-    "dev": "next dev",
+    "local": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
