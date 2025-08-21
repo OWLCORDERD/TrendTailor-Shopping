@@ -180,7 +180,7 @@ const Trendly = ({ message }: { message: messageType }) => {
                   disabled={
                     QAselect.find(
                       (item: any) => item.step === message.content.step
-                    )?.selectLabel.split(', ').length > 1
+                    )?.selectLabel.split(', ')[1] !== undefined
                   }
                 >
                   {QAselect.find(
