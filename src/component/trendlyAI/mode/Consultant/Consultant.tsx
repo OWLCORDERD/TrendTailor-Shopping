@@ -4,18 +4,14 @@ import TrendlyBubble from "@/component/trendlyAI/bubble/Trendly";
 import { useAppSelector } from "@/store/hooks";
 import UserBubble from "@/component/trendlyAI/bubble/User";
 import { warningIcon } from "@/component/svgData";
-import Chatbot from "assets/images/chatbot.png";
-import Image from "next/image";
-import { motion } from "framer-motion";
+import Loading from "./Loading";
+import Result from "./Result";
 
 const Consultant = () => {
   const messages = useAppSelector((state) => state.chatBubble.messages);
   const QA_step = useAppSelector((state) => state.chatBubble.QA_step);
   const generateRecommendation = useAppSelector(
     (state) => state.chatBubble.generateCreating
-  );
-  const consultingResultData = useAppSelector(
-    (state) => state.chatBubble.consultingResultData
   );
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,54 +31,40 @@ const Consultant = () => {
     }
   }, [messages]);
 
-  useEffect(() => {
-    // 로딩 이후 답변 가공 완료되어 로딩 상태 초기화될때 답변 출력
-    if (!generateRecommendation) {
-      console.log(consultingResultData);
+  // 2025.08.26: 컨설팅 모드 상태에 따른 화면 전환 관리
+  const dynamicChatScreen = () => {
+    switch (generateRecommendation) {
+      case "before":
+        return (
+          <div className='chat-area' ref={chatArea}>
+            {messages.map((message, index) => {
+              return message.role === "user" ? (
+                <UserBubble message={message.message} key={index} />
+              ) : (
+                <TrendlyBubble message={message.message} key={index} />
+              );
+            })}
+            {/* 챗봇 채팅창 영역 */}
+          </div>
+        );
+      case "creating":
+        return <Loading />;
+      // case "complete":
+      //   return <Result />;
+      // case "error":
+      //   return null;
+      default:
+        return <Result />;
     }
-  }, [generateRecommendation, consultingResultData]);
+  };
   return (
     <CSS.ConsultantMode>
-      {/* 컨설팅 답변 생성 중 나타나는 UI */}
-      {generateRecommendation ? (
-        <CSS.RecommendationLoading>
-          <motion.div
-            className='chatbot'
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className='chatbot-character'>
-              <Image src={Chatbot} width={310} height={250} alt='챗봇 아이콘' />
-            </div>
-
-            <div className='chatbot-bubble'>
-              <span className='comment'>회원님의 성향을 분석중입니다</span>
-              <ul className='loading-dot'>
-                <li className='dot'></li>
-                <li className='dot'></li>
-                <li className='dot'></li>
-              </ul>
-            </div>
-          </motion.div>
-          <span className='loading-text'>
-            Trendly 챗봇이 최적의 컨설턴트를 찾는중입니다.
-            <br /> 잠시만 기다려주세요!
-          </span>
-        </CSS.RecommendationLoading>
-      ) : (
-        <div className='chat-area' ref={chatArea}>
-          {messages.map((message, index) => {
-            return message.role === "user" ? (
-              <UserBubble message={message.message} />
-            ) : (
-              <TrendlyBubble message={message.message} />
-            );
-          })}
-          {/* 챗봇 채팅창 영역 */}
-        </div>
-      )}
+      {/* 실시간 컨설팅 단계에 따른 화면 전환
+      1. 컨설팅 질문 선택 
+      2. 모든 질문 답변 선택 시, 답변 생성 로딩 활성화
+      3. 완료된 컨설팅 답변 화면
+      */}
+      {dynamicChatScreen()}
 
       <CSS.WarningText>
         <span className='warning-icon'>{warningIcon.icon()}</span>

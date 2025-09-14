@@ -6,27 +6,29 @@ interface surveyForm {
 }
 
 export async function POST(req: NextRequest) {
-  const body: surveyForm = await req.json();
+  const body: surveyForm = await req.json(); // 클라이언트에서 전송받은 body 파라미터 파싱
   const questionCommend: string = body.question;
 
   const openAI = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
-  });
+  }); // OpenAI 생성자 객체 생성
 
   try {
+    // Chat Completion API 호출
     const completion = await openAI.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
           content:
-            "너는 스타일링 AI 어시스턴트야. 사용자가 요청한 스타일링에 어울리는 유튜버 1명을 소개시켜주고 유튜버에 대해 간략히 설명해줘. ",
+            "너는 스타일링 유튜버 추천 AI 어시스턴트야. 사용자가 요청한 스타일링에 어울리는 유튜버 1명을 소개시켜주고 aiComment 영역에 summary 요약 설명과 함께 reason 추천 이유를 3가지 이상 작성해줘. ",
         },
         { role: "user", content: questionCommend },
       ],
       temperature: 0.5,
       max_tokens: 256,
       top_p: 1,
+      // 공통 답변 형식에 맞게 가공하는 콜백 함수 호출
       functions: [
         {
           name: "styling_recommendation",
@@ -52,7 +54,19 @@ export async function POST(req: NextRequest) {
                     },
                     required: ["channelName", "channelId"],
                   },
-                  aiReason: { type: "string" },
+                  aiComment: {
+                    type: "object",
+                    properties: {
+                      summary: { type: "string", maxLength: 50 },
+                      reason: {
+                        type: "array",
+                        items: {
+                          type: "string",
+                        },
+                        minItems: 3,
+                      },
+                    },
+                  },
                 },
                 required: [
                   "stylePurpose",
@@ -70,6 +84,7 @@ export async function POST(req: NextRequest) {
           },
         },
       ],
+      // 콜백 함수 선언
       function_call: {
         name: "styling_recommendation",
       },
@@ -82,32 +97,53 @@ export async function POST(req: NextRequest) {
     // 응답 답변 데이터 문자열 JSON 파싱
     const parsed = JSON.parse(responseAI);
 
-    // 추천 컨설턴트(유튜버) 채널 아이디 추출
-    const channelId = parsed.content.recommendationYoutuber.channelId;
+    // // 추천 컨설턴트(유튜버) 채널 아이디 추출
+    const channelName = parsed.content.recommendationYoutuber.channelName;
 
-    const getChannelPath = `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`;
+    const searchAPI = "https://www.googleapis.com/youtube/v3/search"; // 채널명 아이디 검색 API
+    const channelAPI = "https://www.googleapis.com/youtube/v3/channels"; // 채널 정보 조회 API
 
-    const channelResponse = await fetch(getChannelPath, {
-      method: "GET",
-    });
-    const channelData = await channelResponse.json();
+    try {
+      const getChannelId = await fetch(
+        `${searchAPI}?type=channel&q=${channelName}&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`
+      );
 
-    const responsePayload = {
-      ...parsed,
-      content: {
-        ...parsed.content,
-        recommendationYoutuber: {
-          ...parsed.content.recommendationYoutuber,
-          channelInfo: {
-            channelDesc: channelData.items[0].snippet.description,
-            channelThumbnail: channelData.items[0].snippet.thumbnails.high?.url,
-            subscriberCount: channelData.items[0].statistics.subscriberCount,
+      const channelId = await getChannelId.json();
+
+      if (!channelId.items || channelId.items.length === 0) {
+        return NextResponse.json({ err: "채널을 찾을 수 없습니다." });
+      }
+
+      const getChannelData = await fetch(
+        `${channelAPI}?part=snippet,statistics&id=${channelId.items[0].id.channelId}&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`
+      );
+
+      const channelData = await getChannelData.json();
+
+      if (!channelData.items || channelData.items.length === 0) {
+        return NextResponse.json({ err: "채널 정보를 찾을 수 없습니다." });
+      }
+
+      const responsePayload = {
+        ...parsed,
+        content: {
+          ...parsed.content,
+          recommendationYoutuber: {
+            ...parsed.content.recommendationYoutuber,
+            channelInfo: {
+              channelDesc: channelData.items[0].snippet.description,
+              channelThumbnail:
+                channelData.items[0].snippet.thumbnails.high?.url,
+              subscriberCount: channelData.items[0].statistics.subscriberCount,
+            },
           },
         },
-      },
-    };
+      };
 
-    return NextResponse.json({ recommend: responsePayload, status: 200 });
+      return NextResponse.json({ recommend: responsePayload, status: 200 });
+    } catch (err) {
+      return NextResponse.json({ err: `파싱에 실패하였습니다. + ${err}` });
+    }
   } catch (err) {
     return NextResponse.json({ err: err });
   }

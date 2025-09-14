@@ -517,4 +517,116 @@ Trendly.UserProfile = styled.div`
   }
 `;
 
+Trendly.RecommendResult = styled.div`
+  padding: 20px;
+  height: 420px;
+  overflow-y: scroll;
+`;
+
+Trendly.ResultHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+
+  .result-txt {
+    font-size: 18px;
+    font-weight: 500;
+  }
+`;
+
+Trendly.ResultSection = styled.div`
+  margin-top: 20px;
+`;
+
+Trendly.ResultStep = styled.div`
+  padding: 20px 0;
+
+  .step-title {
+    display: block;
+    margin-bottom: 30px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .summary {
+    width: 100%;
+
+    .summary-comment {
+      display: block;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #333;
+      line-height: 16px;
+      font-weight: bold;
+    }
+
+    .summary-reason {
+      padding-left: 15px;
+
+      li {
+        position: relative;
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: #333;
+        line-height: 16px;
+      }
+    }
+  }
+
+  .consultant-channel {
+    .thumbnail {
+      margin: 0 auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 30px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .channel-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+
+      li {
+        display: flex;
+        gap: 20px;
+
+        .channel-name {
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .channel-label {
+          color: #777;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .channel-subscriber {
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .channel-desc {
+          display: block;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 300;
+          color: #777;
+        }
+      }
+    }
+  }
+`;
+
 export { Trendly };

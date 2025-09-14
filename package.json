@@ -47,7 +47,8 @@
     "styled-components": "^6.1.8",
     "swiper": "^11.0.4",
     "swr": "^2.2.5",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-private-methods": "^7.22.5",

@@ -9,7 +9,7 @@ interface ChatBubbleState {
   allSelect: boolean;
   QA_select: selectType[];
   QA_prompt: string;
-  generateCreating: boolean; // 챗봇 답변 생성 여부
+  generateCreating: string; // 챗봇 답변 생성 여부
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
 }
 
@@ -48,9 +48,32 @@ const initialState: ChatBubbleState = {
     },
   ],
   QA_prompt: "",
-  generateCreating: false, // 챗봇 답변 생성 중 여부 (기본값 true)
+  generateCreating: "before", // 챗봇 답변 생성 중 여부 (기본값 true)
   consultingResultData: {}, // 챗봇 답변 메시지,
 };
+
+// 2025.09.07 [mhlim]: 완성된 컨설팅 챗봇 질문 프롬프트 전송하여 답변 요청하는 thunk 함수
+export const handleConsultingResult = createAsyncThunk(
+  "chatbubble/handleConsultingResult",
+  async (_, { getState, dispatch }) => {
+    const state = getState() as { chatBubble: ChatBubbleState };
+
+    try {
+      const res = await fetch("/api/recommendOpenAI", {
+        method: "POST",
+        body: JSON.stringify({
+          question: state.chatBubble.QA_prompt,
+        }),
+      });
+
+      const data = res.json();
+      return data;
+    } catch (err) {
+      console.error("Failed to fetch openAI chatbot consulting result");
+      return err;
+    }
+  }
+);
 
 // 2025.08.11: 컨설팅 모드 > 단계별 답변 선택 시 호출되는 thunk 함수
 export const handleConsultantPrompt = createAsyncThunk(
@@ -69,7 +92,8 @@ export const handleConsultantPrompt = createAsyncThunk(
 
     // 단계별 선택지 조합하여 프롬프트 문자 셋팅
     if (allStepSelect && state.chatBubble.QA_prompt === "") {
-      dispatch(consultantPrompt());
+      dispatch(consultantPrompt()); // 질문 프롬프트 구성
+      dispatch(handleConsultingResult()); // 완성된 프롬프트로 챗봇 답변 요청
     } else {
       // 성별과 체형 두가지를 선택하는 단계
       if (state.chatBubble.QA_step === 4) {
@@ -110,7 +134,7 @@ const chatBubbleSlice = createSlice({
       state.QA_prompt = ""; // 프롬프트 문자 초기화
       state.QA_select = initialState.QA_select; // 선택 배열 초기화
       state.allSelect = false; // 모든 질문 단계 선택 완료 여부 초기화
-      state.generateCreating = false; // 챗봇 답변 생성 중 여부 초기화
+      state.generateCreating = "before"; // 챗봇 답변 생성 중 여부 초기화
       state.consultingResultData = {}; // 컨설팅 챗봇 답변 데이터 초기화
 
       if (action.payload.mode === "consultant") {
@@ -290,30 +314,22 @@ const chatBubbleSlice = createSlice({
             break;
         }
       });
-
-      state.generateCreating = true; // 챗봇 답변 생성 중 상태로 변경
-
-      fetch("/api/recommendOpenAI", {
-        method: "POST",
-        body: JSON.stringify({
-          question: state.QA_prompt,
-        }),
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            return res.json();
-          } else {
-            throw new Error("Failed to fetch data");
-          }
-        })
-        .then((data) => {
-          state.consultingResultData = data;
-          state.generateCreating = false; // 챗봇 답변 생성 완료 상태로 변경
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(handleConsultingResult.pending, (state) => {
+      state.generateCreating = "creating"; // 챗봇 답변 생성 중
+    }),
+      builder.addCase(
+        handleConsultingResult.fulfilled,
+        (state, action: any) => {
+          state.consultingResultData = action.payload.recommend; // 챗봇 답변 데이터 저장
+          state.generateCreating = "complete"; // 챗봇 답변 생성 완료
+        }
+      );
+    builder.addCase(handleConsultingResult.rejected, (state) => {
+      state.generateCreating = "error"; // 챗봇 답변 생성 에러
+    });
   },
 });
 

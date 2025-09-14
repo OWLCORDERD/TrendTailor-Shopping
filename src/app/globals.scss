@@ -391,7 +391,7 @@ footer{
     &.trendly {
         right: 200px;
         bottom: 50px;
-        width: 500px;
+        max-width: 500px;
         height: 650px;
         background-color: #fff;
         border-radius: 20px;
