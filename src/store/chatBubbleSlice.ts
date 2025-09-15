@@ -291,7 +291,7 @@ const chatBubbleSlice = createSlice({
     },
     consultantPrompt: (state) => {
       state.allSelect = true; // 모든 질문 단계 선택 완료
-      state.QA_select.forEach((item) => {
+      state.QA_select.forEach((item: selectType) => {
         switch (item.step) {
           case 1:
             state.QA_prompt += `${item.selectLabel} 스타일을 추천받는것이 목적이고,`;
