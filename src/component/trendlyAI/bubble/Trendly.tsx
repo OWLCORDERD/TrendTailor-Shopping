@@ -12,7 +12,7 @@ import { questionIcon } from "@/component/svgData";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   changeMode,
-  handleConsultantPrompt,
+  handleSurveySelect,
   nextStep,
 } from "@/store/chatBubbleSlice";
 import { IoIosArrowDown } from "react-icons/io";
@@ -48,7 +48,7 @@ const Trendly = ({ message }: { message: messageType }) => {
       step: QAstep,
       selectLabel: cont,
     };
-    dispatch(handleConsultantPrompt(currentSelect));
+    dispatch(handleSurveySelect(currentSelect));
   };
 
   const stepSelectDisabled = (currentStep: number, selectLabel: string) => {
@@ -76,7 +76,7 @@ const Trendly = ({ message }: { message: messageType }) => {
         selectLabel: `${multipleSelect.gender.label}`,
       };
 
-      dispatch(handleConsultantPrompt(currentSelect));
+      dispatch(handleSurveySelect(currentSelect));
     }
 
     if (multipleSelect.body.label !== "") {
@@ -89,7 +89,7 @@ const Trendly = ({ message }: { message: messageType }) => {
           `${multipleSelect.body.label}`,
       };
 
-      dispatch(handleConsultantPrompt(currentSelect));
+      dispatch(handleSurveySelect(currentSelect));
 
       setMultipleSelect({
         body: { label: "" }, // 선택 초기화
@@ -180,7 +180,7 @@ const Trendly = ({ message }: { message: messageType }) => {
                   disabled={
                     QAselect.find(
                       (item: any) => item.step === message.content.step
-                    )?.selectLabel.split(', ')[1] !== undefined
+                    )?.selectLabel.split(", ")[1] !== undefined
                   }
                 >
                   {QAselect.find(

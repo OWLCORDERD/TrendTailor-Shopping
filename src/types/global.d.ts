@@ -41,6 +41,27 @@ declare global {
     };
   }
 
+  interface consultantChannelType {
+    snippet: {
+      title: string;
+      description: string;
+      customUrl: string;
+      thumbnails: {
+        default: { url: string; width: number; height: number };
+        medium: { url: string; width: number; height: number };
+        high: { url: string; width: number; height: number };
+      };
+      localized: { title: string; description: string };
+    };
+    statistics: {
+      viewCount: string;
+      subscriberCount: string;
+      hiddenSubscriberCount: boolean;
+      videoCount: string;
+    };
+    keyword: string;
+  }
+
   // 유튜브 API에서 받아오는 비디오 데이터 타입
   interface videoType {
     id: {

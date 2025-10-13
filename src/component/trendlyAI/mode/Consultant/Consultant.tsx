@@ -5,7 +5,7 @@ import { useAppSelector } from "@/store/hooks";
 import UserBubble from "@/component/trendlyAI/bubble/User";
 import { warningIcon } from "@/component/svgData";
 import Loading from "./Loading";
-import Result from "./Result";
+import Result from "./Result/Main";
 
 const Consultant = () => {
   const messages = useAppSelector((state) => state.chatBubble.messages);
@@ -13,8 +13,6 @@ const Consultant = () => {
   const generateRecommendation = useAppSelector(
     (state) => state.chatBubble.generateCreating
   );
-
-  const [loading, setLoading] = useState<boolean>(false);
 
   const chatArea = useRef<HTMLDivElement>(null);
 

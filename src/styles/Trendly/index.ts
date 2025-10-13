@@ -523,6 +523,7 @@ Trendly.RecommendResult = styled.div`
   overflow-y: scroll;
 `;
 
+// 컨설팅 결과 화면 헤더 영역
 Trendly.ResultHeader = styled.div`
   display: flex;
   flex-direction: column;
@@ -535,53 +536,188 @@ Trendly.ResultHeader = styled.div`
   }
 `;
 
+// 컨설팅 결과 화면 섹션 영역
 Trendly.ResultSection = styled.div`
-  margin-top: 20px;
-`;
-
-Trendly.ResultStep = styled.div`
   padding: 20px 0;
 
-  .step-title {
-    display: block;
-    margin-bottom: 30px;
-    font-size: 16px;
-    font-weight: bold;
+  .step-bubble {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 10px;
+    min-width: 340px;
+    padding: 20px;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    background-color: #fff;
+
+    & > span {
+      display: block;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 500;
+      color: #2d2d2d;
+    }
+  }
+`;
+
+// 컨설팅 결과 화면 > 컨설턴트 목록 슬라이드 컨테이너
+Trendly.ChannelSlider = styled.div`
+  position: relative;
+  width: 100%;
+  margin: 20px 0 0 0;
+`;
+
+// 컨설팅 결과 화면 > 컨설턴트 목록 슬라이드 wrapper 영역
+Trendly.SlideWrap = styled.div`
+  width: 100%;
+  height: max-content;
+  overflow-x: hidden;
+
+  .swiper-slide {
+    width: max-content !important;
   }
 
-  .summary {
-    width: 100%;
+  .channel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
 
-    .summary-comment {
-      display: block;
-      margin-bottom: 20px;
-      font-size: 14px;
-      color: #333;
-      line-height: 16px;
-      font-weight: bold;
+    .channel-thumbnail {
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
-    .summary-reason {
-      padding-left: 15px;
-
-      li {
-        position: relative;
+    .channel-info {
+      .channel-name {
+        display: block;
+        width: 100%;
         margin-bottom: 10px;
         font-size: 13px;
+        font-weight: 700;
         color: #333;
-        line-height: 16px;
+      }
+
+      .channel-subscriber {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: #777;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+      .channel-thumbnail {
+        img {
+          transform: scale(1.05);
+          transition: all 0.3s ease-in-out;
+        }
       }
     }
   }
+`;
 
-  .consultant-channel {
-    .thumbnail {
-      margin: 0 auto;
-      width: 150px;
+// 컨설팅 결과 화면 > 컨설턴트 목록 슬라이드 버튼 영역
+Trendly.ControlButton = styled.button<{ $type: string }>`
+  position: absolute;
+  top: 50%;
+  ${(props) => (props.$type === "prev" ? "left: -15px;" : "right: -15px;")}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  color: #777;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #777;
+  transform: translateY(-50%);
+  z-index: 10;
+
+  &:disabled {
+    display: none;
+  }
+`;
+
+// 컨설팅 결과 화면 > 검색 실패 에러 화면
+Trendly.ResultError = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+
+  .error-icon {
+    width: 140px;
+    height: 140px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .txt-wrap {
+    max-width: 250px;
+
+    .error-txt {
+      display: block;
+      text-align: center;
+      word-break: keep-all;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgb(48, 48, 48);
+      margin-bottom: 15px;
+    }
+
+    .error-sub-txt {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+      color: rgb(100, 100, 100);
+    }
+  }
+
+  .retry-btn {
+    width: 250px;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: var(--colorMain);
+    transition: all 0.2s ease-in-out;
+    border: none;
+
+    &:hover {
+      background-color: rgb(43, 85, 221);
+    }
+  }
+`;
+
+Trendly.ChannelDetail = styled.div`
+  .channel-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 150px;
+    margin: 0 auto;
+
+    .channel-img {
+      width: 120px;
       height: 150px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-bottom: 30px;
 
       img {
         width: 100%;
@@ -593,37 +729,73 @@ Trendly.ResultStep = styled.div`
     .channel-info {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 30px;
+      justify-content: space-between;
+      width: calc(100% - 150px);
+      height: 100%;
 
-      li {
-        display: flex;
-        gap: 20px;
-
+      .index {
         .channel-name {
-          text-align: center;
-          font-size: 18px;
-          font-weight: bold;
-        }
-
-        .channel-label {
-          color: #777;
-          font-size: 14px;
+          display: block;
+          font-size: 17px;
           font-weight: bold;
         }
 
         .channel-subscriber {
-          font-size: 14px;
-          font-weight: 500;
-        }
-
-        .channel-desc {
-          display: block;
-          text-align: center;
-          font-size: 14px;
-          font-weight: 300;
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          margin: 10px 0;
+          font-size: 13px;
           color: #777;
+          font-weight: 500;
+
+          .title {
+            font-weight: bold;
+          }
         }
+      }
+
+      .channel-link {
+        display: block;
+        width: 100%;
+        padding: 10px 20px;
+        text-align: center;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 500;
+        background-color: var(--colorMain);
+        border: none;
+      }
+    }
+  }
+
+  .recommend-comment {
+    width: 100%;
+    margin: 20px 0;
+
+    .index {
+      display: block;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .comment {
+      font-weight: 500;
+      color: #777;
+      font-size: 15px;
+      word-break: keep-all;
+    }
+
+    .keyword {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #777;
+
+      .title {
+        font-weight: bold;
       }
     }
   }

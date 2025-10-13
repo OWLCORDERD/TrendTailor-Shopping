@@ -8,6 +8,7 @@ import Footer from "component/Main/Footer";
 import QuickMenu from "component/Main/QuickMenu";
 import { ScrollToTop } from "@/hooks/ScrollToTop";
 import "./globals.scss";
+import SessionWatcher from "@/component/common/SessionWatcher";
 
 export const metadata: Metadata = {
   title: "TrendTailor",
@@ -35,6 +36,7 @@ export default function RootLayout({
     <>
       {/* 로그인 인증 전역 nextAuth Provider */}
       <AuthSession>
+        <SessionWatcher />
         {/* 전역 상태관리 redux Provider */}
         <ReduxProvider>
           {/* 스타일 컴포넌트 SSR Preload 레지스트리 */}

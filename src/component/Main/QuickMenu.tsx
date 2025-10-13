@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { QuickMenu as CSS } from "styles";
 import { IoSearch } from "react-icons/io5";
 import { HiSpeakerphone } from "react-icons/hi";
