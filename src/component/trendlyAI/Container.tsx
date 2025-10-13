@@ -58,7 +58,7 @@ const Container = () => {
       </div>
       {/* 인트로 화면 */}
       {/* 컨설팅 관련 채팅 화면 */}
-      {dynamicImport()}
+      {dynamicImport()} 
 
       {chatMode === "consultant" && (
         <div className='modal-footer'>

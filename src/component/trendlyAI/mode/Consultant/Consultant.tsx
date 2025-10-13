@@ -35,7 +35,7 @@ const Consultant = () => {
       case "before":
         return (
           <div className='chat-area' ref={chatArea}>
-            {messages.map((message, index) => {
+            {messages.map((message: messagesType, index: number) => {
               return message.role === "user" ? (
                 <UserBubble message={message.message} key={index} />
               ) : (
@@ -47,12 +47,10 @@ const Consultant = () => {
         );
       case "creating":
         return <Loading />;
-      // case "complete":
-      //   return <Result />;
-      // case "error":
-      //   return null;
-      default:
+      case "complete":
         return <Result />;
+      case "error":
+        return null;
     }
   };
   return (
