@@ -81,7 +81,7 @@ const handler = NextAuth({
             const refreshToken = getRefreshToken(user[0]);
 
             let userId = "";
-            userDoc.forEach((doc) => {
+            userDoc.forEach((doc: any) => {
               userId = doc.id;
             });
 
@@ -117,7 +117,7 @@ const handler = NextAuth({
   },
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: any) {
       if (user) {
         token.userId = user.userId;
         token.accessToken = user.accessToken;
@@ -125,21 +125,19 @@ const handler = NextAuth({
         token.accessTokenExpires = Date.now() + 30 * 60 * 1000; // 토큰 유효 30분
       }
 
-      if (Date.now() < token.accessTokenExpires) return token;
+      if (Date.now() < token.accessTokenExpires) return token as loginTokenType;
 
       const newToken = await refreshAccessToken(token);
 
       return newToken;
     },
 
-    async session({ session, token }) {
+    async session({ session, token }: {session: any, token: any}) {
       session.user = {
         email: token.email,
         name: token.name,
         image: token.picture,
       };
-      session.accessToken = token.accessToken;
-      session.refreshToken = token.refreshToken;
       session.error = token.error;
       return session;
     },

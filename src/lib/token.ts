@@ -35,7 +35,7 @@ export function verifyRefreshToken(token: string) {
 
 export async function refreshAccessToken(token: any) {
   try {
-    const decoded = verifyRefreshToken(token.refreshToken);
+    const decoded: any = verifyRefreshToken(token.refreshToken);
     if (!decoded) throw new Error("Invalid refresh token");
 
     const userRef = doc(db, "user", decoded.userId);
