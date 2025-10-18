@@ -17,10 +17,12 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "@/component/fetchDB/firebase";
+import { JWT, Session, User, userType } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
 
 interface currentType {
-  userEmail: string | undefined;
-  password: string | undefined;
+  userEmail?: string;
+  password?: string;
 }
 
 const handler = NextAuth({
@@ -90,13 +92,13 @@ const handler = NextAuth({
             });
 
             return {
-              userId: userId, // 사용자 컬렉션 DB > 로그인 사용자 문서 아이디
+              id: userId, // 사용자 컬렉션 DB > 로그인 사용자 문서 아이디
               email: currentUserEmail,
               name: username,
               image: user[0].image ? user[0].image : null,
               accessToken: accesssToken,
               refreshToken: refreshToken,
-            } as any;
+            };
           }
         } catch (e) {
           throw new Error("error to access account");
@@ -117,28 +119,29 @@ const handler = NextAuth({
   },
 
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }: { token: JWT; user: User | AdapterUser }) {
       if (user) {
-        token.userId = user.userId;
-        token.accessToken = user.accessToken;
-        token.refreshToken = user.refreshToken;
+        token.id = user.id;
+        token.accessToken = (user as userType).accessToken;
+        token.refreshToken = (user as userType).refreshToken;
         token.accessTokenExpires = Date.now() + 30 * 60 * 1000; // 토큰 유효 30분
       }
 
-      if (Date.now() < token.accessTokenExpires) return token as loginTokenType;
+      if (Date.now() < token.accessTokenExpires) return token;
 
       const newToken = await refreshAccessToken(token);
 
       return newToken;
     },
 
-    async session({ session, token }: {session: any, token: any}) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       session.user = {
-        email: token.email,
-        name: token.name,
-        image: token.picture,
+        email: token.email as string,
+        name: token.name as string,
+        image: token.picture as string,
       };
       session.error = token.error;
+
       return session;
     },
   },

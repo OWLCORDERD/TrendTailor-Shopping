@@ -169,17 +169,6 @@ declare global {
     recommendations: recommendItem[]; // 추천 아이템 목록
     aiComment: string; // 챗봇 멘트
   }
-
-  // nextAuth 로그인 사용자 토큰 타입
-  interface loginTokenType {
-    userId: string; // 로그인 사용자 컬렉션 문서 아이디
-    accessToken: string; // 엑세스 토큰 (64진수 hex)
-    refreshToken: string; // 리프레시 토큰 (64진수 hex)
-    accessTokenExpires: any; // 로그인 시점 토큰 만료 시간 (밀리초 )
-    email: string;
-    name: string;
-    picture: string;
-  }
 }
 
 export {};
