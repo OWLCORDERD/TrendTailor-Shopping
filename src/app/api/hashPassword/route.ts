@@ -4,6 +4,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "component/fetchDB/firebase";
 
 interface bodyTypes {
+  id: string;
   email: string;
   username: string;
   password: string;
@@ -13,12 +14,11 @@ interface bodyTypes {
 export async function POST(req: Request) {
   const body: bodyTypes = await req.json();
 
+  const id = body.id;
   const email = body.email;
   const username = body.username;
   const password = body.password;
   const uploadImageUrl = body.image;
-
-  console.log(uploadImageUrl);
 
   try {
     if (uploadImageUrl) {
@@ -40,6 +40,7 @@ export async function POST(req: Request) {
       const hashPw = await bcrypt.hash(password, salt);
 
       const userData = {
+        id: id,
         email: email,
         username: username,
         password: hashPw,

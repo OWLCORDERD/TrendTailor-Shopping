@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { chatClose } from "@/store/chatBubbleSlice";
+import { FaUserAlt } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
 
 interface queryType {
   userEmail: string;
@@ -83,48 +85,59 @@ const Login = () => {
   }, [router]);
 
   return (
-    <div className='loginPage-container'>
+    <div className='login-container'>
       <div className='login-wrapper'>
-        <div className='loginPage-titleBox'>
-          <h1 className='login-title'>LOGIN</h1>
-          <p className='login-subTitle'>
+        <div className='title-wrap'>
+          <h1 className='title'>LOGIN</h1>
+          <p className='sub-txt'>
             정회원 로그인 혹은 카카오 간편 로그인을 통해 서비스를 이용하실 수
             있습니다.
           </p>
         </div>
 
-        <div className='login-Box'>
-          <form
-            className='loginPage-InputBox'
-            onSubmit={(e) => handleSubmit(e)}
-          >
-            <input
-              type='text'
-              placeholder='example@naver.com'
-              onChange={(e) => TypeEmail(e)}
-            ></input>
-            <input type='password' onChange={(e) => TypePassword(e)}></input>
+        <div className='login-box'>
+          <form className='input-box' onSubmit={(e) => handleSubmit(e)}>
+            <div className='input-wrap'>
+              <FaUserAlt className='input-icon' />
+
+              <input
+                type='text'
+                placeholder='example@naver.com'
+                onChange={(e) => TypeEmail(e)}
+              ></input>
+            </div>
+
+            <div className='input-wrap'>
+              <RiLockPasswordFill className='input-icon' />
+              <input
+                type='password'
+                onChange={(e) => TypePassword(e)}
+                placeholder='비밀번호를 입력하세요.'
+              ></input>
+            </div>
 
             <button type='submit' className='login-button'>
               로그인
             </button>
 
             <div className='signup-form'>
-              <h1 className='signup-question'>New to Wish?</h1>
+              <h1 className='signup-question'>
+                TrendTailor 회원이 아니신가요?
+              </h1>
               <Link href='/signup' className='signup-link'>
-                Create an acount
+                회원가입하기
               </Link>
             </div>
           </form>
 
-          <div className='login-Boxline'>
+          <div className='form-line'>
             <span className='line'></span>
             <span className='line-text'>또는</span>
           </div>
 
           <button
             type='button'
-            className='kakaoLogin-button'
+            className='kakao-button'
             onClick={() => signIn("kakao", { callbackUrl: "/" })}
           >
             <RiKakaoTalkFill className='kakao' />

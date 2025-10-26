@@ -123,11 +123,6 @@ SeasonPeed.Slider = styled.div`
     display: none;
   }
 
-  @media screen and (min-width: 1440px) and (max-width: 1900px) {
-    width: calc(18rem * 4);
-    height: 30rem;
-  }
-
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 30rem;
