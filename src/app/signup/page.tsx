@@ -278,6 +278,33 @@ const Register = () => {
     }, 1000);
   }, [checkButtonClick]);
 
+  const selectAgreeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checkedValue = e.target.value;
+    
+    switch(checkedValue) {
+      case 'all':
+        setAgreeState({
+        ...agreeState,
+        all: true,
+      })
+      break;
+
+      case 'service':
+        setAgreeState({
+        ...agreeState,
+        service: true,
+      })
+      break;
+
+      case 'guide':
+        setAgreeState({
+        ...agreeState,
+        guide: true,
+      })
+      break;
+    }
+  }
+
   const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files }: any = e.target;
 
@@ -301,16 +328,6 @@ const Register = () => {
 
     setImageThumbnail(url);
   };
-
-  useEffect(() => {
-    if (agreeState.all) {
-      setAgreeState({
-        ...agreeState,
-        service: true,
-        guide: true,
-      });
-    }
-  }, [agreeState]);
 
   const createUser = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -635,12 +652,8 @@ const Register = () => {
                 <input
                   type='checkbox'
                   id='all-check'
-                  onChange={(e) =>
-                    setAgreeState({
-                      ...agreeState,
-                      all: e.target.checked,
-                    })
-                  }
+                  value='all'
+                  onChange={(e) => selectAgreeChange(e)}
                 />
                 <label htmlFor='all-check'>전체 동의합니다.</label>
               </div>
@@ -651,13 +664,9 @@ const Register = () => {
                 <input
                   type='checkbox'
                   id='service-check'
-                  onChange={(e) =>
-                    setAgreeState({
-                      ...agreeState,
-                      service: e.target.checked,
-                    })
-                  }
-                  checked={agreeState.service}
+                  value='service'
+                  onChange={(e) => selectAgreeChange(e)}
+                  checked={agreeState.service || agreeState.all}
                 />
                 <label htmlFor='service-check'>
                   회원가입약관의 내용에 동의합니다.
@@ -668,13 +677,9 @@ const Register = () => {
                 <input
                   type='checkbox'
                   id='guide-check'
-                  onChange={(e) =>
-                    setAgreeState({
-                      ...agreeState,
-                      guide: e.target.checked,
-                    })
-                  }
-                  checked={agreeState.guide}
+                  value='guide'
+                  onChange={(e) => selectAgreeChange(e)}
+                  checked={agreeState.guide || agreeState.all}
                 />
                 <label htmlFor='guide-check'>
                   회원가입약관의 내용에 동의합니다.
