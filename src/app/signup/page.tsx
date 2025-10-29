@@ -285,21 +285,21 @@ const Register = () => {
       case 'all':
         setAgreeState({
         ...agreeState,
-        all: true,
+        all: !agreeState.all,
       })
       break;
 
       case 'service':
         setAgreeState({
         ...agreeState,
-        service: true,
+        service: !agreeState.service,
       })
       break;
 
       case 'guide':
         setAgreeState({
         ...agreeState,
-        guide: true,
+        guide: !agreeState.guide,
       })
       break;
     }
@@ -433,7 +433,7 @@ const Register = () => {
 
         /* user 라우터에서 DB 연동과 로직 정상적으로 작동 되었을 시 로그인 페이지로 이동 */
         if (res.ok) {
-          router.replace("/signin");
+          router.replace("/login");
         } else {
           console.log(res.status + "error status");
         }
