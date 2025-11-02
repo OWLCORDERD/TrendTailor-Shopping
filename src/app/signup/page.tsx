@@ -54,6 +54,7 @@ const Register = () => {
   const [isUserId, setIsUserId] = useState<boolean>(false); // 아이디
   const [isPassword, setIsPassword] = useState<boolean>(false); // 비밀번호
   const [isCheckPassword, setIsCheckPassword] = useState<boolean>(false); // 비밀번호 확인
+  const [isCheckPhoneNumber, setIsCheckPhoneNumber] = useState<boolean>(false); // 휴대전화 확인
   const [isUserIdDuplicate, setIsUserIdDuplicate] = useState<boolean>(false); // 아이디 중복 여부
 
   // ** 이미지 업로드 관련 상태 값 ** //
@@ -206,6 +207,37 @@ const Register = () => {
       });
     }
   };
+
+  const phoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 숫자만 추출
+    let value = e.target.value.replace(/\D/g, "");
+
+    // 하이픈 자동 삽입
+    if (value.length > 7) {
+      value = value.replace(/(\d{3})(\d{4})(\d{0,4})/, "$1-$2-$3");
+    } else if (value.length > 3) {
+      value = value.replace(/(\d{3})(\d{0,4})/, "$1-$2");
+    }
+
+    // 하이픈 포함 13자리 이상 입력 방지
+    if (value.length > 13) {
+      value = value.slice(0, 13);
+      setPhoneNumber(value);
+    }
+
+    setPhoneNumber(value);
+  };
+
+  useEffect(() => {
+    const checkRegex = /^0\d{1,2}-?\d{3,4}-?\d{4}$/;
+
+    if (checkRegex.test(phoneNumber)) {
+      console.log(phoneNumber);
+      setIsCheckPhoneNumber(true);
+    } else {
+      setIsCheckPhoneNumber(false);
+    }
+  }, [phoneNumber]);
 
   // 아이디 입력 값 정규식 체크 후 업데이트
   const idChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -558,16 +590,18 @@ const Register = () => {
           <div className='form-input'>
             <span className='field-title required'>휴대전화</span>
             <div className='field-item'>
-              <div className='field-input'>
+              <div className='field-input phone'>
                 <input
                   type='text'
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => phoneNumberChange(e)}
                   ref={phoneNumberRef}
+                  value={phoneNumber}
+                  placeholder="휴대폰 번호 입력 ('-' 제외 11자리 입력)"
                 />
               </div>
-              {isName === false ? (
+              {isCheckPhoneNumber === false ? (
                 <div className='Valid-errorTxt'>
-                  <h1>2~8글자 이내로 입력해주세요.</h1>
+                  <h1>휴대전화를 올바르게 입력하세요.</h1>
                 </div>
               ) : null}
             </div>

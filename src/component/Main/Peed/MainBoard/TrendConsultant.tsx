@@ -9,6 +9,7 @@ import Link from "next/link";
 import VideoItem from "@/component/Trend/VideoItem";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import CurrentVideo from "@/component/Trend/CurrentVideo";
 
 interface consultantDataType {
   trendYoutuber: channelDataType[] | undefined;
@@ -105,52 +106,63 @@ const TrendConsultant = ({
       ) : null}
 
       {trendYoutubeVideo ? (
-        <CSS.VideoBox>
-          <div className='slide-control'>
-            <span className='slide-pagination'>
-              {currentPage + 1} / {trendYoutubeVideo.length}
-            </span>
-            <div className='btn-wrap'>
-              <button type='button' className='slide-prev' ref={prevRef}>
-                <IoIosArrowBack fill='#fff' />
-              </button>
-              <button type='button' className='slide-next' ref={nextRef}>
-                <IoIosArrowForward fill='#fff' />
-              </button>
+        <>
+          <CSS.VideoBox>
+            <div className='slide-control'>
+              <span className='slide-pagination'>
+                {currentPage + 1} / {trendYoutubeVideo.length}
+              </span>
+              <div className='btn-wrap'>
+                <button type='button' className='slide-prev' ref={prevRef}>
+                  <IoIosArrowBack fill='#fff' />
+                </button>
+                <button type='button' className='slide-next' ref={nextRef}>
+                  <IoIosArrowForward fill='#fff' />
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className='slide-container'>
-            <Swiper
-              spaceBetween={30}
-              slidesPerView={"auto"}
-              centeredSlides={true}
-              modules={[Navigation, Pagination]}
-              loop={true}
-              speed={300}
-              onSlideChange={(swiper) => paginationUpdate(swiper)}
-              onLoad={(swiper) => swiperUpdate(swiper)}
-              navigation={{
-                nextEl: nextRef.current,
-                prevEl: prevRef.current,
-              }}
-            >
-              {trendYoutubeVideo.map((video, index) => (
-                <SwiperSlide key={index}>
-                  <VideoItem
-                    key={index}
-                    video={video}
-                    mobileMQuery={mobileMQuery}
-                    setVideoOpen={setVideoOpen}
-                    channelData={trendYoutuber}
-                    currentVideo={currentVideo}
-                    setCurrentVideo={setCurrentVideo}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </CSS.VideoBox>
+            <div className='slide-container'>
+              <Swiper
+                spaceBetween={30}
+                slidesPerView={"auto"}
+                centeredSlides={true}
+                modules={[Navigation, Pagination]}
+                loop={true}
+                speed={300}
+                onSlideChange={(swiper) => paginationUpdate(swiper)}
+                onLoad={(swiper) => swiperUpdate(swiper)}
+                navigation={{
+                  nextEl: nextRef.current,
+                  prevEl: prevRef.current,
+                }}
+              >
+                {trendYoutubeVideo.map((video, index) => (
+                  <SwiperSlide key={index}>
+                    <VideoItem
+                      key={index}
+                      video={video}
+                      mobileMQuery={mobileMQuery}
+                      setVideoOpen={setVideoOpen}
+                      channelData={trendYoutuber}
+                      currentVideo={currentVideo}
+                      setCurrentVideo={setCurrentVideo}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          </CSS.VideoBox>
+
+          {videoOpen ? (
+            <CurrentVideo
+              open={videoOpen}
+              setOpen={setVideoOpen}
+              currentVideo={currentVideo}
+              allVideo={trendYoutubeVideo}
+            />
+          ) : null}
+        </>
       ) : null}
     </CSS.Container>
   );
