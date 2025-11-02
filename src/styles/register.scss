@@ -55,6 +55,7 @@
             width: 100%;
             height: max-content;
 
+            // 입력 필드 대제목
             .form-title{
                 width: 100%;
                 margin-bottom: 50px;
@@ -65,6 +66,7 @@
                 }
             }
 
+            // 입력 필드 wrapper
             .form-input{
                 width: 100%;
                 display: flex;
@@ -95,13 +97,16 @@
                     width: calc(100% - 320px);
                     min-height: 83px;
                     display: flex;
+                    flex-direction: column;
                     align-items: flex-start;
-                    justify-content: center;
                     gap: 20px;
 
                     .field-input {
+                        display: flex;
+                        align-items: center;
                         width: 100%;
 
+                        // 입력 input 공통 스타일 적용
                         input{
                             position: relative;
                             width: 100%;
@@ -117,189 +122,29 @@
                             }
                         }
 
-                        .Valid-errorTxt{
-                            position: relative;
-                            width: 60%;
-    
-                            h1{
-                                font-size: 12px;
-                                font-family: $Noto-Korean;
-                                color: rgb(209, 53, 53);
-                                line-height: 3rem;
-                            }
-                        }
-                    }
-
-                    &.id {
-                        .field-input {
-                            width: calc(100% - 120px);
-                        }
-                    }
-
-                    &.email {
-                        .field-input {
+                        &.email {
                             display: flex;
-                            flex-direction: column;
-                            align-items: flex-start !important;
-                            width: calc(100% - 397px);
+                            align-items: center;
+                            justify-content: space-between;
+                            width: 100%;
 
                             .input-wrap {
-                                width: 100%;
+                                width: calc(100% - 417px);
                                 display: flex;
                                 align-items: center;
                                 justify-content: space-between;
 
                                 .id {
-                                    width: 220px;
+                                    width: 30%;
                                     height: 100%;
                                 }
         
                                 .domain {
-                                    width: 397px;
+                                    width: 60%;
                                     height: 100%;
                                 }
                             }
-                        }
-                    }
 
-                    .domain-select {
-                        width: 397px;
-                        height: 35px;
-
-                        select {
-                            width: 100%;
-                            height: 100%;
-                            border: 1px solid #d7d7d7;
-                            padding: 0 20px 0 0;
-                        }
-                    }
-
-                    .duplicate-check {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        width : 100px;
-                        height: 35px;
-                        border: 1px solid #D7D7D7;
-                        background-color: #fff;
-                        color: #666;
-                        border-radius: 10px;
-                        font-family: $Noto-Korean;
-                        font-size: 13px;
-                        font-weight: bold;
-                        cursor: pointer;
-                        transition : all 0.3s ease-in;
-    
-                        &:hover {
-                            background-color: #000;
-                            transition: all 0.3s ease-in;
-                            color: #fff;
-                        }
-                    }
-                }
-
-                .duplicate-button{
-                    display: block;
-                    width: 8rem;
-                    height: 2.5rem;
-                    font-size: 1rem;
-                    font-family: $Noto-Korean;
-                    background-color: #000;
-                    border: none;
-                    color: #fff;
-                    font-weight: bold;
-                    cursor: pointer;
-                }
-            }
-        }
-
-                // 회원 개인정보 입력 필드 폼
-                .info-form {
-                    position: relative;
-                    width: 100%;
-                    height: max-content;
-        
-                    .form-title{
-                        width: 100%;
-                        margin-bottom: 50px;
-        
-                        h1{
-                            line-height: 5rem;
-                            font-size: 20px;
-                        }
-                    }
-        
-                    .form-input{
-                        width: 100%;
-                        display: flex;
-                        gap: 20px;
-                        margin-bottom: 30px;
-        
-                        // 입력 필드명
-                        .field-title {
-                            width: 300px;
-                            max-height: 35px;
-                            font-size: 16px;
-                            font-weight: bold;
-                            line-height: 35px;
-        
-                            &.required {
-                                &::after {
-                                    display: inline-block;
-                                    content: '*';
-                                    color: rgb(209, 53, 53);
-                                    margin-left: 8px;
-                                }
-                            }
-                        }
-        
-                        // 입력 필드 input 요소 & 버튼 wrapper
-                        .field-item {
-                            position: relative;
-                            width: calc(100% - 320px);
-                            min-height: 83px;
-                            display: flex;
-                            align-items: flex-start;
-                            justify-content: center;
-                            gap: 20px;
-        
-                            .field-input {
-                                width: 100%;
-        
-                                input{
-                                    position: relative;
-                                    width: 100%;
-                                    padding: 10px 20px;
-                                    font-size: 14px;
-                                    border: 1px solid #d7d7d7;
-                                    border-radius: 8px;
-                                    max-height: 35px;
-            
-                                    &:focus{
-                                        outline: none;
-                                        border: 1px solid rgb(0, 0, 0);
-                                    }
-                                }
-        
-                                .Valid-errorTxt{
-                                    position: relative;
-                                    width: 60%;
-            
-                                    h1{
-                                        font-size: 12px;
-                                        font-family: $Noto-Korean;
-                                        color: rgb(209, 53, 53);
-                                        line-height: 3rem;
-                                    }
-                                }
-                            }
-        
-                            &.id {
-                                .field-input {
-                                    width: calc(100% - 120px);
-                                }
-                            }
-        
                             .domain-select {
                                 width: 397px;
                                 height: 35px;
@@ -312,21 +157,29 @@
                                 }
                             }
                         }
-        
-                        .duplicate-button{
-                            display: block;
-                            width: 8rem;
-                            height: 2.5rem;
-                            font-size: 1rem;
+                    }
+
+                    .Valid-errorTxt{
+                        position: relative;
+                        width: 100%;
+                        height: 25px;
+
+                        h1{
+                            font-size: 13px;
                             font-family: $Noto-Korean;
-                            background-color: #000;
-                            border: none;
-                            color: #fff;
-                            font-weight: bold;
-                            cursor: pointer;
+                            color: rgb(209, 53, 53);
+                            line-height: 135%;
+                        }
+                    }
+
+                    &.id {
+                        .field-input {
+                            width: calc(100% - 120px);
                         }
                     }
                 }
+            }
+        }
 
         // 회원 개인정보 입력 필드 폼
         .profile-form {
@@ -463,7 +316,11 @@
                             gap: 20px;
         
                             .field-input {
+                                display: flex;
                                 width: 100%;
+                                flex-direction: column;
+                                align-items: flex-start;
+                                gap: 20px;
         
                                 input{
                                     position: relative;
@@ -479,17 +336,18 @@
                                         border: 1px solid rgb(0, 0, 0);
                                     }
                                 }
+                            }
+
+                            .Valid-errorTxt{
+                                position: relative;
+                                width: 100%;
+                                height: 25px;
         
-                                .Valid-errorTxt{
-                                    position: relative;
-                                    width: 60%;
-            
-                                    h1{
-                                        font-size: 12px;
-                                        font-family: $Noto-Korean;
-                                        color: rgb(209, 53, 53);
-                                        line-height: 3rem;
-                                    }
+                                h1{
+                                    font-size: 13px;
+                                    font-family: $Noto-Korean;
+                                    color: rgb(209, 53, 53);
+                                    line-height: 135%;
                                 }
                             }
         
@@ -623,165 +481,509 @@
     }
 }
 
-@media screen and (max-width : 768px){
-    .register-container{
-        position: relative;
-        width: 100%;
-        height: 100%;
-    
-        .register-wrap{
-            position: relative;
-            left : 0;
-            transform: translateX(0);
-            width: 100%;
+@media screen and (max-width : 1440px){
+    .register-container {
+        .register-wrap {
+            max-width: 100%;
             height: 100%;
-            padding: 2rem 0 5rem 0;
+            padding: 50px 0;
     
-            .register-titleBox{
-                margin-bottom: 2rem;
+            .register-title {
+                position: relative;
+                width: 80%;
+                margin: 0 auto 30px auto;
+                height: 100px;
+                padding-left: 20px;
     
-                .register-title{
-                    font-size: 1.2rem;
-                }
+                .txt {
+                    font-size: 25px;
     
-                .register-subTitle{
-                    font-size: 12px;
+                    &::before {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        content: '';
+                        width: 20%;
+                        background-color: var(--colorMain);
+                        height: 10px;
+                        border-top-left-radius: 5px;
+                        border-top-right-radius: 5px;
+                    }
                 }
             }
     
-            .register-form{
+            // 회원 개인정보 입력 필드 폼
+        .info-form{
+            position: relative;
+            width: 80%;
+            margin: 0 auto;
+            height: max-content;
+
+            // 입력 필드 대제목
+            .form-title{
+                width: 100%;
+                margin-bottom: 50px;
+
+                h1{
+                    line-height: 5rem;
+                    font-size: 20px;
+                }
+            }
+
+            // 입력 필드 wrapper
+            .form-input{
+                width: 100%;
+                display: flex;
+                gap: 20px;
+                margin-bottom: 30px;
+
+                // 입력 필드명
+                .field-title {
+                    width: 200px;
+                    max-height: 35px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    line-height: 35px;
+
+                    &.required {
+                        &::after {
+                            display: inline-block;
+                            content: '*';
+                            color: rgb(209, 53, 53);
+                            margin-left: 8px;
+                        }
+                    }
+                }
+
+                // 입력 필드 input 요소 & 버튼 wrapper
+                .field-item {
+                    position: relative;
+                    width: calc(100% - 200px);
+                    min-height: 83px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 20px;
+
+                    .field-input {
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+
+                        &.email {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 20px;
+                            justify-content: space-between;
+                            width: 100%;
+
+                            .input-wrap {
+                                width: 100%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                            }
+
+                            .domain-select {
+                                width: 60%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+            // 회원 개인정보 입력 필드 폼
+            .profile-form {
+                width: 80%;
+                margin: 0 auto;
+    
+                .form-title{
+                    width: 100%;
+                    margin-bottom: 50px;
+    
+                    h1{
+                        line-height: 5rem;
+                        font-size: 20px;
+                    }
+                }
+    
+                .inner-wrap {
+                    display: flex;
+                    gap: 50px;
+                    align-items: flex-start;
+    
+                    .upload-image {
+                        width: 150px;
+        
+                        .upload-input {
+                            height: 200px;
+                        }
+                    }
+    
+                    .input-box {
+                        width: calc(100% - 200px);
+    
+                        .form-input{
+                            width: 100%;
+                            display: flex;
+                            gap: 20px;
+                            margin-bottom: 30px;
+            
+                            // 입력 필드명
+                            .field-title {
+                                width: 150px;
+                            }
+            
+                            // 입력 필드 input 요소 & 버튼 wrapper
+                            .field-item {
+                                width: calc(100% - 150px);
+            
+                                .field-input {
+                                    width: 100%;
+            
+                                    input{
+                                        position: relative;
+                                        width: 100%;
+                                        padding: 10px 20px;
+                                        font-size: 14px;
+                                        border: 1px solid #d7d7d7;
+                                        border-radius: 8px;
+                                        max-height: 35px;
+                
+                                        &:focus{
+                                            outline: none;
+                                            border: 1px solid rgb(0, 0, 0);
+                                        }
+                                    }
+            
+                                    .Valid-errorTxt{
+                                        position: relative;
+                                        width: 100%;
+                                        height: 25px;
+                                        margin-top: 10px;
+                
+                                        h1{
+                                            font-size: 13px;
+                                            font-family: $Noto-Korean;
+                                            color: rgb(209, 53, 53);
+                                            line-height: 135%;
+                                        }
+                                    }
+                                }
+            
+                                &.id {
+                                    .field-input {
+                                        width: calc(100% - 120px);
+                                    }
+                                }
+                            }
+            
+                            .duplicate-button{
+                                display: block;
+                                width: 8rem;
+                                height: 2.5rem;
+                                font-size: 1rem;
+                                font-family: $Noto-Korean;
+                                background-color: #000;
+                                border: none;
+                                color: #fff;
+                                font-weight: bold;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+    
+            .form-footer {
+                width: 80%;
+                margin: 50px auto 0 auto;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .register-container {
+        .register-wrap {
+            margin: 0 auto;
+            max-width: 100%;
+            padding: 50px 20px;
+    
+            .register-title {
+                position: relative;
+                width: 100%;
+                height: 100px;
+                margin-bottom: 30px;
+                padding-left: 0;
+    
+                .txt {
+                    width: max-content;
+                    font-size: 23px;
+                    text-transform: uppercase;
+                    line-height: 100px;
+                    text-align: center;
+                    color: var(--colorMain);
+                }
+            }
+    
+            // 회원 개인정보 입력 필드 폼
+            .info-form{
                 position: relative;
                 width: 100%;
                 height: max-content;
-                padding: 0 1rem;
     
-                .registerForm-title{
+                // 입력 필드 대제목
+                .form-title{
+                    width: 100%;
+                    margin-bottom: 30px;
     
                     h1{
-                        font-size: 1rem;
+                        line-height: 135%;
+                        font-size: 16px;
                     }
                 }
     
-                .input-id{
+                // 입력 필드 wrapper
+                .form-input{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                    margin-bottom: 30px;
     
-                    label{
-                        width: 20%;
-                        font-size: 12px;
+                    // 입력 필드명
+                    .field-title {
+                        width: 150px;
+                        height: 40px;
+                        font-size: 13px;
+                        font-weight: bold;
+                        line-height: 35px;
                     }
     
-                    .username-inputBox{
+                    // 입력 필드 input 요소 & 버튼 wrapper
+                    .field-item {
                         position: relative;
-                        width: 65%;
+                        width: 100%;
+                        min-height: 83px;
+                        gap: 20px;
+    
+                        .field-input {
+                            display: flex;
+                            align-items: center;
+                            width: 100%;
+    
+                            // 입력 input 공통 스타일 적용
+                            input{
+                                padding: 10px 20px;
+                                font-size: 12px;
+                                max-height: max-content;
+                            }
+    
+                            &.email {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                width: 100%;
+    
+                                .input-wrap {
+                                    width: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+    
+                                    .id {
+                                        width: 40%;
+                                        height: 100%;
+                                    }
+            
+                                    .domain {
+                                        width: 50%;
+                                        height: 100%;
+                                    }
+                                }
+    
+                                .domain-select {
+                                    width: 100%;
+                                    height: 35px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            // 회원 개인정보 입력 필드 폼
+            .profile-form {
+                position: relative;
+                width: 100%;
+                height: max-content;
+    
+                .form-title{
+                    width: 100%;
+                    margin-bottom: 30px;
+    
+                    h1{
+                        line-height: 135%;
+                        font-size: 16px;
+                    }
+                }
+    
+                .inner-wrap {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 30px;
+                    align-items: center;
+    
+                    .upload-image {
+                        width: 200px;
+        
+                        .upload-input {
+                            height: 220px;
+                        }
+                    }
+    
+                    .input-box {
+                        width: 100%;
+    
+                        .form-input{
+                            width: 100%;
+                            display: flex;
+                            gap: 20px;
+                            margin-bottom: 30px;
+            
+                            // 입력 필드명
+                            .field-title {
+                                width: 150px;
+                                max-height: 35px;
+                                font-size: 13px;
+                            }
+            
+                            // 입력 필드 input 요소 & 버튼 wrapper
+                            .field-item {
+                                position: relative;
+                                width: calc(100% - 150px);
+                                min-height: 83px;
+                                display: flex;
+                                align-items: flex-start;
+                                justify-content: center;
+                                gap: 20px;
+            
+                                .field-input {
+                                    width: 100%;
+                                    gap: 10px;
+            
+                                    input{
+                                        position: relative;
+                                        width: 100%;
+                                        padding: 10px 20px;
+                                        font-size: 14px;
+                                        border: 1px solid #d7d7d7;
+                                        border-radius: 8px;
+                                        max-height: 35px;
+                
+                                        &:focus{
+                                            outline: none;
+                                            border: 1px solid rgb(0, 0, 0);
+                                        }
+                                    }
+
+                                    .Valid-errorTxt{
+                                        position: relative;
+                                        width: 100%;
+                                        height: 25px;
+                
+                                        h1{
+                                            font-size: 10px;
+                                            font-family: $Noto-Korean;
+                                            color: rgb(209, 53, 53);
+                                            line-height: 135%;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            .form-footer {
+                width: 100%;
+                margin-top: 5rem;
+    
+                .agree-form {
+                    .agree-guide {
                         display: flex;
                         flex-direction: column;
                         align-items: flex-start;
-                        justify-content: center;
-                        padding: 0 1rem;
+                        gap: 20px;
+                        justify-content: initial;
     
-                        input{
-                            width: 90%;
-                            font-size: 13px;
-
+                        .desc {
+                            word-break: keep-all;
+                            font-size: 14px;
+                            color: #333;
                         }
     
-                        .Valid-errorTxt{
-                            position: relative;
-                            width: 90%;
+                        .select-all {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
     
-                            h1{
-                                font-size: 9px;
-                                font-family: $Noto-Korean;
-                                color: rgb(209, 53, 53);
-                                line-height: 3rem;
+                            input {
+                                width: 14px;
+                                height: 14px;
+                                border: 1px solid #333;
+                            }
+    
+                            label {
+                                font-size: 14px;
+                                cursor: pointer;
                             }
                         }
                     }
     
-                    .idCheck-button {
-                        width : 15%;
-                        background-color: #000;
-                        border-radius: 0;
-                        font-size: 10px;
+                    .agree-list {
+                        margin-top: 30px;
+                        
+                        .agree-menu {
+                            margin: 10px 0;
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
     
-                        &:hover {
-                            background-color: #000;
-                        }
-                    }
-                }
+                            input {
+                                width: 14px;
+                                height: 14px;
+                                border: 1px solid #333;
+                            }
     
-                .input-password{
-    
-                    label{
-                        width: 20%;
-                        font-size: 12px;
-                    }
-    
-                    .password-InputBox{
-                        position: relative;
-                        width: 80%;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        padding: 0 1rem;
-    
-                        input{
-                            width: 100%;
-                            font-size: 12px;
-                        }
-    
-                        .Valid-errorTxt{
-                            position: relative;
-                            width: 100%;
-    
-                            h1{
-                                font-size: 9px;
-                                font-family: $Noto-Korean;
-                                color: rgb(209, 53, 53);
-                                line-height: 3rem;
+                            label {
+                                font-size: 14px;
+                                cursor: pointer;
                             }
                         }
                     }
                 }
     
-                .input-email{
+                .btn-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    width: max-content;
+                    margin: 50px auto 0 auto;
     
-                    label{
-                        width: 20%;
-                        font-size: 12px;
+                    button {
+                        width: 150px;
+                        padding: 15px 10px;
+                        font-size: 16px;
+                        font-weight: 500;
+                        text-align: center;
+                        color: #fff;
+                        border: none;
                     }
-    
-                    .email-inputBox{
-                        position: relative;
-                        width: 80%;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        padding: 0 1rem;
-    
-                        input{
-                            width: 100%;
-                            font-size: 13px;
-                        }
-    
-                        .Valid-errorTxt{
-                            position: relative;
-                            width: 100%;
-        
-                            h1{
-                                font-size: 9px;
-                                font-family: $Noto-Korean;
-                                color: rgb(209, 53, 53);
-                                line-height: 3rem;
-                            }
-                        }
-                    }
-                }
-    
-                .signup-button{
-                    background-color: #000;
-                    font-size: 1rem;
-                    border-radius: 0px;
-                    margin-top: 3rem;
                 }
             }
         }

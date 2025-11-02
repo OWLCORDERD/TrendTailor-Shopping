@@ -11,6 +11,7 @@ import { IoIosImages } from "react-icons/io";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "component/fetchDB/firebase";
+import { AlertToast } from "@/hooks/useToastify";
 
 interface infoType {
   id: string;
@@ -31,33 +32,6 @@ interface sendDataType {
 }
 
 const Register = () => {
-  // 에러 메시지 토스트 메시지
-  const errorToast = (str: string) => {
-    return toast.error(str, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      closeButton: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  };
-
-  const successToast = (str: string) => {
-    return toast(str, {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      draggable: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      closeButton: false,
-      type: "success",
-      theme: "light",
-    });
-  };
   /* 가입정보의 모든 value 값 저장 & 관리 하는 프로퍼티 객체 값 */
   const [registerInfo, setRegisterInfo] = useState<infoType>({
     id: "",
@@ -81,9 +55,9 @@ const Register = () => {
   const [isPassword, setIsPassword] = useState<boolean>(false); // 비밀번호
   const [isCheckPassword, setIsCheckPassword] = useState<boolean>(false); // 비밀번호 확인
   const [isUserIdDuplicate, setIsUserIdDuplicate] = useState<boolean>(false); // 아이디 중복 여부
-  const [checkButtonClick, setCheckButtonClick] = useState<boolean>(false);
 
   // ** 이미지 업로드 관련 상태 값 ** //
+  const uploadFileRef = useRef<HTMLInputElement>(null); // 파일 업로드 Input 요소
   const [uploadImage, setUploadImage] = useState<File | undefined>(); // 업로드 이미지 파일 객체
   const [imageThumbnail, setImageThumbnail] = useState<string>(); // 업로드 이미지 미리보기 URL
   const [uploadImageUrl, setUploadImageUrl] = useState<string | undefined>(); // 이미지 DB 업로드 경로
@@ -93,7 +67,9 @@ const Register = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const idRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const CheckPassword = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const phoneNumberRef = useRef<HTMLInputElement>(null);
+  const checkPassword = useRef<HTMLInputElement>(null);
 
   const [selectDomain, setSelectDomain] = useState<string>("");
 
@@ -160,6 +136,13 @@ const Register = () => {
       emailValidation();
     }
   }, [registerInfo.email]);
+
+  // 파일 첨부 버튼 클릭 -> 파일 input 요소 클릭 트리거 함수
+  const handleUploadFile = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    uploadFileRef.current?.click();
+  };
 
   // 비밀번호 입력 값 정규식 체크 후 업데이트
   const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -243,67 +226,79 @@ const Register = () => {
     }
   };
 
-  const checkUserIdDuplication = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const checkUserIdDuplication = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
 
     if (isUserId) {
-      axios
-        .get("api/duplicationIdCheck", {
-          params: {
-            userName: registerInfo.id,
-          },
-        })
-        .then((res) => res.data)
-        .then((data) => {
-          setIsUserIdDuplicate(data.duplicate);
-          setCheckButtonClick(!checkButtonClick);
-        })
-        .catch((err) => {
-          errorToast(err);
+      const res = await axios.get("api/duplicationIdCheck", {
+        params: {
+          userName: registerInfo.id,
+        },
+      });
+
+      if (res.status === 200) {
+        const duplicate = await res.data;
+
+        if (duplicate) {
+          AlertToast({
+            str: "사용 가능한 아이디입니다.",
+            type: "success",
+            theme: "colored",
+          });
+          setIsUserIdDuplicate(false);
+        } else {
+          AlertToast({
+            str: "이미 사용중인 아이디입니다.",
+            type: "error",
+            theme: "dark",
+          });
+          setIsUserIdDuplicate(true);
+        }
+      } else {
+        AlertToast({
+          str: "아이디 중복확인에 실패하였습니다. 다시 시도하세요.",
+          type: "error",
+          theme: "dark",
         });
+      }
     } else {
-      errorToast("아이디를 정규식에 맞게 입력해주세요.");
+      AlertToast({
+        str: "아이디를 정규식에 맞게 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (isUserId) {
-        if (isUserIdDuplicate) {
-          errorToast("중복된 아이디입니다");
-        } else {
-          successToast("사용 가능한 아이디입니다");
-        }
-      }
-    }, 1000);
-  }, [checkButtonClick]);
-
+  // 서비스 약관동의 전체/개별 선택 처리
   const selectAgreeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checkedValue = e.target.value;
-    
-    switch(checkedValue) {
-      case 'all':
-        setAgreeState({
-        ...agreeState,
-        all: !agreeState.all,
-      })
-      break;
 
-      case 'service':
+    switch (checkedValue) {
+      case "all":
         setAgreeState({
-        ...agreeState,
-        service: !agreeState.service,
-      })
-      break;
+          ...agreeState,
+          all: !agreeState.all,
+        });
+        break;
 
-      case 'guide':
+      case "service":
         setAgreeState({
-        ...agreeState,
-        guide: !agreeState.guide,
-      })
-      break;
+          ...agreeState,
+          service: !agreeState.service,
+        });
+        break;
+
+      case "guide":
+        setAgreeState({
+          ...agreeState,
+          guide: !agreeState.guide,
+        });
+        break;
     }
-  }
+  };
 
   const uploadFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files }: any = e.target;
@@ -335,47 +330,84 @@ const Register = () => {
     const currentEmail = `${registerInfo.email.id}@${registerInfo.email.domain}`;
 
     /*가입정보에 아무것도 입력하지 않았을 시 해당 입력창으로 focus 시킨 후 실행 종료 */
-    if (registerInfo.username.length === 0 && idRef.current) {
-      errorToast("아이디를 입력해주세요.");
-      return idRef.current.focus();
-    } else if (registerInfo.password.length === 0 && passwordRef.current) {
-      errorToast("비밀번호를 입력해주세요.");
-      return passwordRef.current.focus();
+    if (registerInfo.username.length === 0 && usernameRef.current) {
+      AlertToast({
+        str: "성명을 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
+      return usernameRef.current.focus();
     } else if (
       registerInfo.email.id === "" ||
       registerInfo.email.domain === "" ||
       currentEmail === "@"
     ) {
-      errorToast("이메일을 입력해주세요.");
+      AlertToast({
+        str: "이메일을 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
       return emailRef.current?.focus();
-    } else if (CheckPassword.current && !isCheckPassword) {
-      errorToast("입력하신 비밀번호를 확인해주세요.");
-      return CheckPassword.current.focus();
     } else if (phoneNumber.length === 0) {
-      errorToast("휴대전화를 입력해주세요.");
-      return;
-    } else if (registerInfo.username.length === 0) {
-      errorToast("성명을 입력해주세요.");
-      return;
+      AlertToast({
+        str: "휴대전화 번호를 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
+      return phoneNumberRef.current?.focus();
+    } else if (registerInfo.id.length === 0 && idRef.current) {
+      AlertToast({
+        str: "아이디를 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
+      return idRef.current.focus();
+    } else if (registerInfo.password.length === 0 && passwordRef.current) {
+      AlertToast({
+        str: "비밀번호를 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
+      return passwordRef.current.focus();
     }
 
     /* 가입정보에 정규식 혹은 조건에 맞지 않은 값을 입력했을 시 해당 입력창에 focus 시킨 후 실행 종료*/
     if (isUserIdDuplicate && idRef.current) {
-      errorToast("아이디 중복확인을 진행해주세요.");
+      AlertToast({
+        str: "아이디 중복확인을 진행하세요.",
+        type: "error",
+        theme: "dark",
+      });
       return idRef.current.focus();
     } else if (isEmail === false && emailRef.current) {
-      errorToast("이메일을 올바르게 입력해주세요.");
+      AlertToast({
+        str: "이메일 형식에 맞게 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
       return emailRef.current.focus();
     } else if (isPassword === false && passwordRef.current) {
-      errorToast("비밀번호를 올바르게 입력해주세요.");
+      AlertToast({
+        str: "비밀번호를 올바르게 입력하세요.",
+        type: "error",
+        theme: "dark",
+      });
       return passwordRef.current.focus();
-    } else if (isCheckPassword === false && CheckPassword.current) {
-      errorToast("비밀번호를 다시 확인해주세요.");
-      return CheckPassword.current.focus();
+    } else if (isCheckPassword === false && checkPassword.current) {
+      AlertToast({
+        str: "비밀번호를 다시 확인하세요.",
+        type: "error",
+        theme: "dark",
+      });
+      return checkPassword.current.focus();
     }
 
     if (!agreeState.service || !agreeState.guide) {
-      errorToast("약관에 동의해 주세요.");
+      AlertToast({
+        str: "약관 전체 동의가 필요합니다.",
+        type: "error",
+        theme: "dark",
+      });
       return;
     }
 
@@ -408,7 +440,11 @@ const Register = () => {
         if (res.ok) {
           router.replace("/login");
         } else {
-          console.log(res.status + "error status");
+          AlertToast({
+            str: "로그인 처리중에 오류가 발생했습니다. 다시 시도해주세요.",
+            type: "error",
+            theme: "dark",
+          });
         }
       }
     } else {
@@ -461,25 +497,30 @@ const Register = () => {
             <span className='field-title required'>성명</span>
             <div className='field-item'>
               <div className='field-input'>
-                <input type='text' onChange={(e) => usernameChange(e)} />
-                {isName === false ? (
-                  <div className='Valid-errorTxt'>
-                    <h1>2~8글자 이내로 입력해주세요.</h1>
-                  </div>
-                ) : null}
+                <input
+                  type='text'
+                  onChange={(e) => usernameChange(e)}
+                  placeholder='성명을 입력하세요.'
+                  ref={usernameRef}
+                />
               </div>
+              {isName === false ? (
+                <div className='Valid-errorTxt'>
+                  <h1>2~8글자 이내로 입력해주세요.</h1>
+                </div>
+              ) : null}
             </div>
           </div>
 
           <div className='form-input'>
             <span className='field-title required'>이메일</span>
-            <div className='field-item email'>
-              <div className='field-input'>
+            <div className='field-item'>
+              <div className='field-input email'>
                 <div className='input-wrap'>
                   <input
                     type='text'
                     className='id'
-                    placeholder='email@example.com'
+                    placeholder='이메일을 입력하세요'
                     onChange={(e) => emailChange(e)}
                     ref={emailRef}
                   />
@@ -491,26 +532,26 @@ const Register = () => {
                     onChange={(e) => setSelectDomain(e.target.value)}
                   />
                 </div>
-                {isEmail === false ? (
-                  <div className='Valid-errorTxt'>
-                    <h1>이메일 형식에 맞게 입력해주세요.</h1>
-                  </div>
-                ) : null}
+                <div className='domain-select'>
+                  <select
+                    onChange={(e: ChangeEvent | any) =>
+                      setSelectDomain(e.target.value)
+                    }
+                  >
+                    <option value=''>직접입력</option>
+                    <option value='naver.com'>naver.com</option>
+                    <option value='gmail.com'>gmail.com</option>
+                    <option value='daum.net'>daum.net</option>
+                    <option value='nate.com'>nate.com</option>
+                  </select>
+                </div>
               </div>
 
-              <div className='domain-select'>
-                <select
-                  onChange={(e: ChangeEvent | any) =>
-                    setSelectDomain(e.target.value)
-                  }
-                >
-                  <option value=''>직접입력</option>
-                  <option value='naver.com'>naver.com</option>
-                  <option value='gmail.com'>gmail.com</option>
-                  <option value='daum.net'>daum.net</option>
-                  <option value='nate.com'>nate.com</option>
-                </select>
-              </div>
+              {isEmail === false ? (
+                <div className='Valid-errorTxt'>
+                  <h1>이메일 형식에 맞게 입력해주세요.</h1>
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -521,8 +562,14 @@ const Register = () => {
                 <input
                   type='text'
                   onChange={(e) => setPhoneNumber(e.target.value)}
+                  ref={phoneNumberRef}
                 />
               </div>
+              {isName === false ? (
+                <div className='Valid-errorTxt'>
+                  <h1>2~8글자 이내로 입력해주세요.</h1>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -558,10 +605,19 @@ const Register = () => {
                   </>
                 )}
               </label>
-              <button type='button' className='upload-btn'>
+              <button
+                type='button'
+                className='upload-btn'
+                onClick={(e) => handleUploadFile(e)}
+              >
                 파일 첨부
               </button>
-              <input type='file' id='upload-img' onChange={uploadFile} />
+              <input
+                type='file'
+                id='upload-img'
+                onChange={uploadFile}
+                ref={uploadFileRef}
+              />
             </div>
 
             <div className='input-box'>
@@ -577,8 +633,7 @@ const Register = () => {
                     {isUserId === false ? (
                       <div className='Valid-errorTxt'>
                         <h1>
-                          아이디는 영문자로 시작하는 6~20자 영문자 또는
-                          숫자이어야 합니다
+                          영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다
                         </h1>
                       </div>
                     ) : (
@@ -626,7 +681,7 @@ const Register = () => {
                     <input
                       type='password'
                       onChange={(e) => passwordCheck(e)}
-                      ref={CheckPassword}
+                      ref={checkPassword}
                     />
 
                     {isCheckPassword === false ? (
