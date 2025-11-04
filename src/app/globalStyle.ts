@@ -7,33 +7,31 @@ export const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Unbounded:wght@200..900&display=swap');
 
-$Pacifico-font : 'Pacifico', cursive;
 $Raleway-font : 'Raleway', sans-serif;
 $Noto-Korean : 'Noto Sans KR', sans-serif;
+$Pacifico-font : 'Pacifico', cursive;
 
 @font-face {
     font-family: 'TheJamsil';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
-    font-weight: 700;
+    src: url('/fonts/TheJamsil-Regular.ttf') format('woff2');
+    font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'TheJamsil';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil4Medium.woff2') format('woff2');
+    src: url('/fonts/TheJamsil-Medium.ttf') format('woff2');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'TheJamsil';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil3Regular.woff2') format('woff2');
-    font-weight: 400;
+    src: url('/fonts/TheJamsil-Bold.ttf') format('woff2');
+    font-weight: 700;
     font-style: normal;
 }
 
-
-// variables
 $Jamsil-font : 'TheJamsil', sans-serif;
 $darkMode-button : rgba(154,154,154,0.2);
 $darkFont-Color: #fff;
@@ -47,7 +45,6 @@ $lightFont-Color: #000;
     list-style: none;
     text-decoration: none;
 
-    // 스크롤바 디자인
     &::-webkit-scrollbar{
         width: 10px;
     }
@@ -64,6 +61,7 @@ $lightFont-Color: #000;
     body{
         background-color: #fff;
         height: 100%;
+        font-family: $Jamsil-font;
 
         main{
             position: relative;
@@ -78,7 +76,6 @@ $lightFont-Color: #000;
             transition : all 0.5s ease-out;
         }
 
-        // 검정 테마 디자인 요소
         .dark{
             background-color: #000;
             
@@ -198,7 +195,6 @@ $lightFont-Color: #000;
             }
         }
 
-        // 밝은 테마 디자인 요소
         .light{
             background-color: #fff;
 
@@ -227,9 +223,7 @@ $lightFont-Color: #000;
 
             .AddNotice-button{
                 a{
-                    border : none;
-                    background-color : #000;
-                    color : #fff;
+                    background-color: #000;
                 }
             }
 
@@ -317,11 +311,14 @@ $lightFont-Color: #000;
 
     button {
         &:disabled {
-            background-color:rgb(221, 221, 221) !important;
-            color: #303030 !important;
-            pointer-events: none;
+            background-color: #d5d5d5;
+            color: #303030;
         }
     }
+}
+
+button, a {
+    cursor: pointer;
 }
 
 nav{
@@ -330,13 +327,13 @@ nav{
 
 header {
     position: sticky;
-    background-color: #fff;
     top: 0;
     left: 0;
     width: 100%;
     height: 5rem;
-    border-bottom: 1px solid #e9ecef;
-    z-index: 1100;
+    box-shadow: 0 2px 6px #0000;
+    z-index: 999;
+    background-color: #fff;
 }
 
 footer{
@@ -359,6 +356,103 @@ footer{
     }
 }
 
+// 페이지 하단 고정 퀵 메뉴
+.quick-menu {
+    display: block;
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    max-width: 150px;
+    z-index: 1001;
+    transition: all 0.5s ease-in-out;
+    opacity: 1;
+
+    .scroll-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 20px;
+        color: #333;
+        background-color: #fff;
+        margin: 0 auto 20px auto;
+        border: 2px solid #777;
+    }
+
+    @media screen and (max-width: 768px) {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+// 모달 css (공통)
+.modal {
+    position: fixed;
+    z-index: 1001;
+
+    // trendly 챗봇 모달
+    &.trendly {
+        right: 200px;
+        bottom: 50px;
+        max-width: 500px;
+        height: 650px;
+        background-color: #fff;
+        border-radius: 20px;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+
+        .modal-header {
+            width: 100%;
+            height: 70px;
+            padding: 20px 30px;
+
+            .close-btn {
+                display: block;
+                line-height: 30px;
+                text-align: center;
+                font-size: 28px;
+                background-color: transparent;
+                color: #000;
+                border: none;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .home-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 50px;
+                padding: 10px;
+                text-align: center;
+                font-size: 28px;
+                background-color: transparent;
+                color: #000;
+                border: none;
+                border-radius: 50%;
+                box-shadow: 0 0 2px inset rgba(0, 0, 0, 0.8
+                );
+            }
+        }
+    }
+}
+
+
 section{
     position: relative;
     display: inline-block;
@@ -368,6 +462,9 @@ section{
 
 :root {
     --colorMain: #2D3A8C;
-    --chatColor: #f5f5f5;
+    --subColor1: #E5E7EB;
+    --subColor2: #F5F0EB;
+    --txtColor: #1F1F1F;
+    --subTxtColor: #838383;
 }
 `;

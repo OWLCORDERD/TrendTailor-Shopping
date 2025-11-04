@@ -13,13 +13,13 @@ import { FaUserAlt } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 
 interface queryType {
-  userEmail: string;
+  userId: string;
   password: string;
 }
 
 const Login = () => {
   const [loginQuery, setLoginQuery] = useState<queryType>({
-    userEmail: "",
+    userId: "",
     password: "",
   });
 
@@ -30,20 +30,20 @@ const Login = () => {
   const router = useRouter();
   const { status } = useSession();
 
-  const TypeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeUserId = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     setLoginQuery({
-      userEmail: e.target.value,
+      userId: e.target.value,
       password: loginQuery.password,
     });
   };
 
-  const TypePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     setLoginQuery({
-      userEmail: loginQuery.userEmail,
+      userId: loginQuery.userId,
       password: e.target.value,
     });
   };
@@ -51,13 +51,13 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const email: string = loginQuery.userEmail;
+    const userId: string = loginQuery.userId;
 
     const password: string = loginQuery.password;
 
     const result = await signIn("credentials", {
       redirect: false,
-      userEmail: email,
+      userId: userId,
       password: password,
     });
 
@@ -102,8 +102,8 @@ const Login = () => {
 
               <input
                 type='text'
-                placeholder='example@naver.com'
-                onChange={(e) => TypeEmail(e)}
+                placeholder='아이디를 입력하세요.'
+                onChange={(e) => handleChangeUserId(e)}
               ></input>
             </div>
 
@@ -111,7 +111,7 @@ const Login = () => {
               <RiLockPasswordFill className='input-icon' />
               <input
                 type='password'
-                onChange={(e) => TypePassword(e)}
+                onChange={(e) => handleChangePassword(e)}
                 placeholder='비밀번호를 입력하세요.'
               ></input>
             </div>

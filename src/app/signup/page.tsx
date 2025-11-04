@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { IoIosImages } from "react-icons/io";
+import { IoIosImages, IoIosCloseCircle } from "react-icons/io";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "component/fetchDB/firebase";
@@ -356,6 +356,12 @@ const Register = () => {
     setImageThumbnail(url);
   };
 
+  const refreshPreview = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setImageThumbnail("");
+    setUploadImage(undefined);
+  };
+
   const createUser = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -618,12 +624,17 @@ const Register = () => {
             <div className='upload-image'>
               <label htmlFor='upload-img' className='upload-input'>
                 {imageThumbnail ? (
+                  <>
+                  <button type='button' className='refresh-btn' onClick={(e) => refreshPreview(e)}>
+                    <IoIosCloseCircle />
+                  </button>
                   <Image
                     src={imageThumbnail}
                     width='300'
                     height='300'
                     alt='업로드 이미지 미리보기'
                   />
+                  </>
                 ) : (
                   <>
                     <div className='image-icon'>

@@ -21,7 +21,7 @@ import { JWT, Session, User, userType } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 
 interface currentType {
-  userEmail?: string;
+  userId?: string;
   password?: string;
 }
 
@@ -31,24 +31,24 @@ const handler = NextAuth({
       name: "Crendentials",
 
       credentials: {
-        userEmail: {
-          label: "UserEmail",
+        userId: {
+          label: "userId",
           type: "text",
         },
         password: {
-          label: "Password",
+          label: "password",
           type: "text",
         },
       },
 
       authorize: async (credentials: currentType | undefined) => {
         try {
-          const currentUserEmail = String(credentials?.userEmail);
+          const currentUserId = String(credentials?.userId);
           const currentPassword = String(credentials?.password);
 
           // firebase 사용자 컬렉션 내부에 이메일 사용자 문서 조회
           const docRef = collection(db, "user");
-          const q = query(docRef, where("email", "==", currentUserEmail));
+          const q = query(docRef, where("id", "==", currentUserId));
           const userDoc = await getDocs(q);
 
           // 이메일과 일치하는 사용자 정보가 존재하지 않을 시, 401 null 반환
@@ -64,7 +64,7 @@ const handler = NextAuth({
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                email: currentUserEmail,
+                id: currentUserId,
               }),
             }
           );
@@ -93,7 +93,7 @@ const handler = NextAuth({
 
             return {
               id: userId, // 사용자 컬렉션 DB > 로그인 사용자 문서 아이디
-              email: currentUserEmail,
+              userId: currentUserId,
               name: username,
               image: user[0].image ? user[0].image : null,
               accessToken: accesssToken,

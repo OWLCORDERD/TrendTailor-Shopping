@@ -13,12 +13,12 @@ interface userType {
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const email: string | undefined = body ? body.email : undefined;
+  const id: string | undefined = body ? body.id : undefined;
 
-  if (email !== undefined) {
+  if (id !== undefined) {
     try {
       const docRef = collection(db, "user");
-      const q = query(docRef, where("email", "==", email));
+      const q = query(docRef, where("id", "==", id));
 
       const querySnapShot = await getDocs(q);
 
