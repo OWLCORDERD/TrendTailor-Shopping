@@ -3,11 +3,12 @@ import { AiOutlineClose } from "react-icons/ai";
 import "styles/currentVideo.scss";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Loading from "../fetchDB/loading/Loading";
 
 interface currentIdPropsType {
   currentVideo: videoType | null;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  allVideo: videoType[] | null;
+  allVideo: videoType[] | [];
   open: boolean;
 }
 
@@ -31,6 +32,20 @@ const CurrentVideo = ({
     },
   };
 
+  // 현 비디오 외의 비디오 목록
+  const [pagination, setPagination] = useState({
+    perPage: 5,
+    currentPage: 1,
+    totalCount: 0,
+    totalPage: allVideo.length / 5,
+  });
+
+  const paginationRef = useRef<HTMLDivElement | null>(null);
+
+  const [currentPageList, setCurrentPageList] = useState<any>([]);
+
+  // 현재 선택한 영상을 제외한 나머지 컨설턴트 영상 목록
+
   /*currentVideo-wrap 내부에 있는 video 영역 Framer Motion Animation */
   const openCurrentVideo = {
     initial: {
@@ -45,6 +60,61 @@ const CurrentVideo = ({
       },
     },
   };
+
+  useEffect(() => {
+    if (pagination.currentPage > 1) {
+      const startIndex = (pagination.currentPage - 1) * pagination.perPage;
+      const endIndex = startIndex + pagination.perPage;
+
+      const newVideos = allVideo.slice(startIndex, endIndex);
+
+      setCurrentPageList([...currentPageList, ...newVideos]);
+    }
+
+    if (pagination.currentPage >= pagination.totalPage) {
+      if (paginationRef.current) {
+        paginationRef.current.style.display = "none";
+      }
+    }
+  }, [pagination.currentPage]);
+
+  useEffect(() => {
+    if (currentVideo?.id.videoId && allVideo.length > 0) {
+      const filterCurrentVideo = allVideo.filter(
+        (video) => video.id.videoId !== currentVideo?.id.videoId
+      );
+
+      setPagination((prev) => ({
+        ...prev,
+        totalCount: filterCurrentVideo.length,
+        totalPage: Math.ceil(filterCurrentVideo.length / prev.perPage),
+      }));
+
+      setCurrentPageList(filterCurrentVideo.slice(0, pagination.perPage));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (paginationRef.current) {
+      const intersectionObserver: IntersectionObserver =
+        new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            setTimeout(() => {
+              setPagination((prev) => ({
+                ...prev,
+                currentPage: prev.currentPage + 1,
+              }));
+            }, 500);
+          }
+        });
+
+      intersectionObserver.observe(paginationRef.current);
+
+      return () => {
+        intersectionObserver.disconnect();
+      };
+    }
+  }, [paginationRef.current]);
 
   /*Trend page VideoList의 비디오 아이템을 클릭하여 넘겨받은 props currentVideo 값을
   selectVideoData 상태값에 저장 (비디오를 선택할 때, selectVideo 데이터 값을 변경시키기 위해서)*/
@@ -98,9 +168,9 @@ const CurrentVideo = ({
   };
 
   return (
-    <div className='CurrentVideo-container' ref={currentRef}>
+    <div className='video-container' ref={currentRef}>
       <motion.div
-        className='CurrentVideo-wrap'
+        className='container-wrapper'
         variants={openAnimate}
         animate='animate'
         initial='initial'
@@ -112,8 +182,9 @@ const CurrentVideo = ({
         >
           <AiOutlineClose color={"#fff"} />
         </button>
-        <motion.div className='Current-video' variants={openCurrentVideo}>
-          <div className='Current-iframe'>
+
+        <motion.div className='current-player' variants={openCurrentVideo}>
+          <div className='video-iframe'>
             <iframe
               width='560'
               height='315'
@@ -125,29 +196,38 @@ const CurrentVideo = ({
             />
           </div>
 
-          <div className='CurrentVideo-contentBox'>
-            <h2 className='Video-title'>{selectVideoData?.snippet.title}</h2>
-            <p className='Video-channel'>
+          <div className='video-cont'>
+            <h2 className='video-title'>{selectVideoData?.snippet.title}</h2>
+            <p className='video-channel'>
               {selectVideoData?.snippet.channelTitle}
             </p>
-            <div className='Video-description'>
+            <div className='video-desc'>
               <span>{selectVideoData?.snippet.description}</span>
             </div>
           </div>
         </motion.div>
 
-        <motion.div className='VideoList-container' variants={openCurrentVideo}>
-          <div className='Video-ListBox'>
-            {allVideo
-              ? allVideo.map((video) => {
+        <motion.div className='video-list' variants={openCurrentVideo}>
+          <>
+            <div className='count'>
+              <span className='total-count'>
+                총 <strong>{pagination.totalCount}건</strong>
+              </span>
+
+              <span className='page-count'>
+                {pagination.currentPage} / {pagination.totalPage} 페이지
+              </span>
+            </div>
+            {currentPageList.length > 0
+              ? currentPageList.map((video: any) => {
                   return (
                     <div
-                      className='videoList-item'
+                      className='video-item'
                       key={video.id.videoId}
                       onClick={(e) => viewVideo(e, video)}
                       role='presentation'
                     >
-                      <div className='video-imgBox'>
+                      <div className='video-thumbnail'>
                         <Image
                           width='250'
                           height='150'
@@ -156,7 +236,7 @@ const CurrentVideo = ({
                         />
                       </div>
 
-                      <div className='video-contentBox'>
+                      <div className='video-cont'>
                         <h2 className='video-title'>{video.snippet.title}</h2>
                         <span className='video-channel'>
                           {video.snippet.channelTitle}
@@ -166,7 +246,11 @@ const CurrentVideo = ({
                   );
                 })
               : null}
-          </div>
+
+            <div className='pagination' ref={paginationRef}>
+              <Loading colorTheme={"#fff"} />
+            </div>
+          </>
         </motion.div>
       </motion.div>
     </div>
