@@ -277,7 +277,7 @@ const Register = () => {
           AlertToast({
             str: "사용 가능한 아이디입니다.",
             type: "success",
-            theme: "colored",
+            theme: "light",
           });
           setIsUserIdDuplicate(false);
         } else {
@@ -625,15 +625,19 @@ const Register = () => {
               <label htmlFor='upload-img' className='upload-input'>
                 {imageThumbnail ? (
                   <>
-                  <button type='button' className='refresh-btn' onClick={(e) => refreshPreview(e)}>
-                    <IoIosCloseCircle />
-                  </button>
-                  <Image
-                    src={imageThumbnail}
-                    width='300'
-                    height='300'
-                    alt='업로드 이미지 미리보기'
-                  />
+                    <button
+                      type='button'
+                      className='refresh-btn'
+                      onClick={(e) => refreshPreview(e)}
+                    >
+                      <IoIosCloseCircle />
+                    </button>
+                    <Image
+                      src={imageThumbnail}
+                      width='300'
+                      height='300'
+                      alt='업로드 이미지 미리보기'
+                    />
                   </>
                 ) : (
                   <>

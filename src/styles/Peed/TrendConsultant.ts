@@ -217,18 +217,21 @@ TrendConsultant.VideoBox = styled.div`
       .swiper-wrapper {
         .swiper-slide {
           max-width: 550px;
-        }
-        .swiper-slide-active {
-          width: 100%;
-          .trend-video {
-            .video-thumbnail {
-              &::before {
-                opacity: 0;
-              }
-            }
+          pointer-events: none;
 
-            .video-infoBox {
-              display: flex;
+          &-active {
+            width: 100%;
+            pointer-events: initial;
+            .trend-video {
+              .video-thumbnail {
+                &::before {
+                  opacity: 0;
+                }
+              }
+
+              .video-infoBox {
+                display: flex;
+              }
             }
           }
         }
