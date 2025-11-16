@@ -9,6 +9,7 @@ import QuickMenu from "component/Main/QuickMenu";
 import { ScrollToTop } from "@/hooks/ScrollToTop";
 import "./globals.scss";
 import SessionWatcher from "@/component/common/SessionWatcher";
+import { ModalProvider } from "../../context/ModalContext";
 
 export const metadata: Metadata = {
   title: "TrendTailor",
@@ -45,14 +46,16 @@ export default function RootLayout({
             <ScrollToTop type='routeMove' />
             <html lang='ko'>
               <body>
-                <ThemeProvider>
-                  <Navbar />
-                  <main>
-                    <QuickMenu />
-                    {children}
-                  </main>
-                </ThemeProvider>
-                <Footer />
+                <ModalProvider>
+                  <ThemeProvider>
+                    <Navbar />
+                    <main>
+                      <QuickMenu />
+                      {children}
+                    </main>
+                    <Footer />
+                  </ThemeProvider>
+                </ModalProvider>
               </body>
             </html>
           </StyledComponentsRegistry>
