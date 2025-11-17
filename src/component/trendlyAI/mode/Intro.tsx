@@ -2,9 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import { IoIosAttach } from "react-icons/io";
+import React, { useContext, useEffect, useState } from "react";
 import { Trendly as CSS } from "styles";
 import Chatbot from "assets/images/chatbot.png";
 import { motion } from "framer-motion";
@@ -13,10 +11,13 @@ import { HiDocumentCheck } from "react-icons/hi2";
 import { useAppDispatch } from "@/store/hooks";
 import { changeMode } from "@/store/chatBubbleSlice";
 import { openModal } from "@/store/modalSlice";
+import { ModalContext } from "../../../../context/ModalContext";
 
 const ChatContainer = () => {
   const { data, status } = useSession();
   const dispatch = useAppDispatch();
+
+  const { modalOpen } = useContext(ModalContext);
 
   // 챗봇 인트로 애니메이션
   const chatbotAnimated = {
@@ -59,7 +60,17 @@ const ChatContainer = () => {
 
     // 비로그인 사용자일 시, 로그인 모달 노출
     if (status !== "authenticated") {
-      dispatch(openModal());
+      const options: any = {
+        title: "로그인 후 이용 가능한 서비스입니다.",
+        type: "login",
+        dynamicComponent: "LoginContent",
+      };
+
+      console.log(modalOpen);
+
+      if (modalOpen) {
+        modalOpen(options);
+      }
       return;
     } else {
       // 로그인 사용자일 시, 컨설턴트 모드 변경

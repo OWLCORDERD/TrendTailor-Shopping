@@ -5,6 +5,8 @@ import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { IoIosClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import "@/styles/modal.scss";
+import Loading from "@/component/fetchDB/loading/Loading";
 
 interface ReactType {
   children: React.ReactNode;
@@ -15,8 +17,12 @@ interface modalType {
   title?: string;
   type?: string;
   contComponent?: string;
-  modalOpen?: React.EventHandler<React.MouseEvent>;
-  modalClose?: React.EventHandler<React.MouseEvent>;
+  modalOpen?: (args: {
+    title: string;
+    dynamicComponent: string;
+    type: string;
+  }) => void;
+  modalClose?: () => void;
 }
 
 export const ModalContext = React.createContext<modalType>({});
@@ -45,23 +51,27 @@ export const ModalProvider = ({ children }: ReactType) => {
     setType(type);
   };
 
+  const DynamicComponent = {
+    LoginContent: dynamic(
+      () => import(`@/component/common/modal/content/Login`),
+      {
+        ssr: false,
+        loading: () => <Loading colorTheme='#2D3A8C' />,
+      }
+    ),
+  };
+
   const dynamicContent = useMemo(() => {
     if (!contComponent) return null;
 
-    const DynamicComponent = dynamic(
-      () => import(`@/component/common/modal/content/${contComponent}`),
-      {
-        ssr: false,
-      }
-    );
+    const Component =
+      DynamicComponent[contComponent as keyof typeof DynamicComponent];
 
-    return <DynamicComponent />;
+    return Component ? <Component /> : null;
   }, [contComponent]);
 
   // 모달 비활성화 업데이트 메소드
-  const modalClose = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
+  const modalClose = () => {
     setShowModal(false);
     setTitle(title);
     setContComponent("");
@@ -72,6 +82,8 @@ export const ModalProvider = ({ children }: ReactType) => {
 
   const login = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    modalClose();
 
     router.push("/login");
   };
@@ -118,7 +130,7 @@ export const ModalProvider = ({ children }: ReactType) => {
                 type='button'
                 onClick={(e) => modalClose(e)}
               >
-                <IoIosClose fontSize={30} color='#000' />
+                <IoIosClose color='#000' />
               </button>
             </div>
             <div className='modal-cont'>{dynamicContent}</div>
