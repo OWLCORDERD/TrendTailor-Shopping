@@ -8,9 +8,10 @@ import { Loading as CSS } from "styles";
 
 interface LoadingProps {
   colorTheme?: string;
+  height: number;
 }
 
-const Loading: React.FC<LoadingProps> = ({ colorTheme }) => {
+const Loading: React.FC<LoadingProps> = ({ colorTheme, height }) => {
   const { mode } = useContext(ThemeContext);
 
   const colorRGB = useMemo(() => {
@@ -26,7 +27,7 @@ const Loading: React.FC<LoadingProps> = ({ colorTheme }) => {
   }, [colorTheme, mode]);
 
   return (
-    <CSS.ContentsContainer>
+    <CSS.ContentsContainer height={height}>
       <RotatingLines
         strokeColor={colorRGB}
         strokeWidth='3'

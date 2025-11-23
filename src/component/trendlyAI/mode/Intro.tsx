@@ -66,8 +66,6 @@ const ChatContainer = () => {
         dynamicComponent: "LoginContent",
       };
 
-      console.log(modalOpen);
-
       if (modalOpen) {
         modalOpen(options);
       }
@@ -80,7 +78,15 @@ const ChatContainer = () => {
 
   const chatMode = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    alert("현재 개발중입니다.");
+
+    const options: any = {
+      title: "개발 진행중입니다.",
+      dynamicComponent: "ServiceContent",
+    };
+
+    if (modalOpen) {
+      modalOpen(options);
+    }
     return;
   };
 

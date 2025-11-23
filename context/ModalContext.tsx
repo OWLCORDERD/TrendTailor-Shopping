@@ -56,7 +56,14 @@ export const ModalProvider = ({ children }: ReactType) => {
       () => import(`@/component/common/modal/content/Login`),
       {
         ssr: false,
-        loading: () => <Loading colorTheme='#2D3A8C' />,
+        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
+      }
+    ),
+    ServiceContent: dynamic(
+      () => import(`@/component/common/modal/content/Service`),
+      {
+        ssr: false,
+        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
       }
     ),
   };
