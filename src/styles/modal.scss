@@ -71,6 +71,16 @@
                             color: #AA1414;
                         }
                     }
+
+
+                    &.success {
+                        .title-icon {
+                            color: var(--colorMain);
+                        }
+                        .title {
+                            color: var(--colorMain);
+                        }
+                    }
                 }
 
                 .content-box {

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "app/globals.scss";
 import "styles/register.scss";
 import { useRouter } from "next/navigation";
@@ -12,6 +18,7 @@ import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "component/fetchDB/firebase";
 import { AlertToast } from "@/hooks/useToastify";
+import { ModalContext } from "../../../context/ModalContext";
 
 interface infoType {
   id: string;
@@ -309,9 +316,11 @@ const Register = () => {
     const checkedValue = e.target.value;
 
     switch (checkedValue) {
+      // 전체 동의 시, 전체 약관 동의 상태 값 동시 변경
       case "all":
         setAgreeState({
-          ...agreeState,
+          service: !agreeState.all,
+          guide: !agreeState.all,
           all: !agreeState.all,
         });
         break;
@@ -361,6 +370,8 @@ const Register = () => {
     setImageThumbnail("");
     setUploadImage(undefined);
   };
+
+  const { modalOpen } = useContext(ModalContext);
 
   const createUser = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -476,7 +487,13 @@ const Register = () => {
         });
 
         if (res.ok) {
-          router.replace("/login");
+          if (typeof modalOpen === "function") {
+            modalOpen({
+              title: "회원가입이 완료되었습니다.",
+              type: "login",
+              dynamicComponent: "SignupComplete",
+            });
+          }
         } else {
           AlertToast({
             str: "로그인 처리중에 오류가 발생했습니다. 다시 시도해주세요.",
@@ -786,7 +803,7 @@ const Register = () => {
                   checked={agreeState.guide || agreeState.all}
                 />
                 <label htmlFor='guide-check'>
-                  회원가입약관의 내용에 동의합니다.
+                  개인정보이용약관 내용에 동의합니다.
                 </label>
               </li>
             </ul>

@@ -26,6 +26,7 @@ export async function POST(req: Request) {
       const hashPw = await bcrypt.hash(password, salt);
 
       const userData = {
+        id: id,
         email: email,
         username: username,
         password: hashPw,

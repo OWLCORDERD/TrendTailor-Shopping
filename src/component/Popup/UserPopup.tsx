@@ -192,10 +192,6 @@ const UserPopup = ({ setUserPopupOpen }: propsSvgType) => {
       </UserProfile>
 
       <UserMenu>
-        <MenuItem onClick={toggle}>
-          {mode === "light" ? <BsFillSunFill /> : <IoCloudyNightSharp />}
-          <span>Theme</span>
-        </MenuItem>
         <MenuItem>
           <FaShoppingCart />
           <span>장바구니</span>

@@ -66,6 +66,13 @@ export const ModalProvider = ({ children }: ReactType) => {
         loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
       }
     ),
+    SignupComplete: dynamic(
+      () => import(`@/component/common/modal/content/Signup`),
+      {
+        ssr: false,
+        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
+      }
+    ),
   };
 
   const dynamicContent = useMemo(() => {
