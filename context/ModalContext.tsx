@@ -22,7 +22,9 @@ interface modalType {
     dynamicComponent: string;
     type: string;
   }) => void;
-  modalClose?: () => void;
+  modalClose?: (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => void;
 }
 
 export const ModalContext = React.createContext<modalType>({});
