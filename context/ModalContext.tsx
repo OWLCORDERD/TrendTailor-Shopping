@@ -84,12 +84,12 @@ export const ModalProvider = ({ children }: ReactType) => {
     return Component ? <Component /> : null;
   }, [contComponent]);
 
-  // 모달 비활성화 업데이트 메소드
-  const modalClose = () => {
-    setShowModal(false);
-    setTitle(title);
-    setContComponent("");
-    setType("");
+  // 모달 닫기(비활성화) 초기화 함수
+  const modalClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setShowModal(false); // 모달 비활성화
+    setTitle(""); // 제목 
+    setContComponent(""); // 동적 컨텐츠 컴포넌트
+    setType(""); // 유형
   };
 
   const router = useRouter();
