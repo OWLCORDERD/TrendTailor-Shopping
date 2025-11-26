@@ -97,7 +97,7 @@ export const ModalProvider = ({ children }: ReactType) => {
   const login = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    modalClose();
+    modalClose(e);
 
     router.push("/login");
   };
