@@ -26,11 +26,6 @@ const QuickMenu = () => {
       link: "/notice",
       iconType: "icon",
     },
-    {
-      title: "쇼핑 검색",
-      link: "/shop",
-      iconType: "icon",
-    },
   ];
 
   gsap.registerPlugin(ScrollTrigger);

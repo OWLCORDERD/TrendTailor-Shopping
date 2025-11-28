@@ -27,20 +27,28 @@ const PageList = styled.ul`
   margin: 0 2rem;
 
   li {
-    display: inline-block;
-    width: 3rem;
-    text-align: center;
-    line-height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
 
     a {
+      width: 100%;
+      height: 100%;
       font-family: "TheJamsil", sans-serif;
       font-weight: 400;
       cursor: pointer;
-      color: #777;
+      color: #333;
+      text-align: center;
+      line-height: 50px;
 
       &.active {
         font-weight: bold;
-        color: #000;
+        color: #fff;
+        background-color: #2d3a8c;
       }
     }
   }

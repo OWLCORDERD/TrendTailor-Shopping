@@ -7,6 +7,7 @@ import { IoIosClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import "@/styles/modal.scss";
 import Loading from "@/component/fetchDB/loading/Loading";
+import ModalContentRenderer from "@/component/common/modal/DynamicComponent";
 
 interface ReactType {
   children: React.ReactNode;
@@ -16,15 +17,16 @@ interface modalType {
   showModal?: boolean;
   title?: string;
   type?: string;
-  contComponent?: string;
+  // 동적 렌더링 관련 설정
+  dynamic?: {
+    componentPath: string;
+  };
   modalOpen?: (args: {
     title: string;
     dynamicComponent: string;
     type: string;
   }) => void;
-  modalClose?: (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => void;
+  modalClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const ModalContext = React.createContext<modalType>({});
@@ -36,8 +38,10 @@ export const ModalProvider = ({ children }: ReactType) => {
   // 모달 제목
   const [title, setTitle] = useState<string>("");
 
-  // 컨텐츠 영역 동적 렌더링 컴포넌트 경로
-  const [contComponent, setContComponent] = useState<string>("");
+  // 동적 렌더링 요소 관련 설정
+  const [dynamic, setDynamic] = useState<{ componentPath: string }>({
+    componentPath: "", // 컨텐츠 영역 동적 렌더링 컴포넌트 경로
+  });
 
   // 모달 유형 (ex: warning, confirm 등)
   const [type, setType] = useState<string>("");
@@ -48,49 +52,20 @@ export const ModalProvider = ({ children }: ReactType) => {
 
     setTitle(title);
 
-    setContComponent(dynamicComponent);
+    setDynamic({
+      componentPath: dynamicComponent,
+    });
 
     setType(type);
   };
 
-  const DynamicComponent = {
-    LoginContent: dynamic(
-      () => import(`@/component/common/modal/content/Login`),
-      {
-        ssr: false,
-        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
-      }
-    ),
-    ServiceContent: dynamic(
-      () => import(`@/component/common/modal/content/Service`),
-      {
-        ssr: false,
-        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
-      }
-    ),
-    SignupComplete: dynamic(
-      () => import(`@/component/common/modal/content/Signup`),
-      {
-        ssr: false,
-        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
-      }
-    ),
-  };
-
-  const dynamicContent = useMemo(() => {
-    if (!contComponent) return null;
-
-    const Component =
-      DynamicComponent[contComponent as keyof typeof DynamicComponent];
-
-    return Component ? <Component /> : null;
-  }, [contComponent]);
-
   // 모달 닫기(비활성화) 초기화 함수
   const modalClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     setShowModal(false); // 모달 비활성화
-    setTitle(""); // 제목 
-    setContComponent(""); // 동적 컨텐츠 컴포넌트
+    setTitle(""); // 제목
+    setDynamic({
+      componentPath: "",
+    }); // 동적 컨텐츠 컴포넌트
     setType(""); // 유형
   };
 
@@ -128,7 +103,7 @@ export const ModalProvider = ({ children }: ReactType) => {
 
   return (
     <ModalContext.Provider
-      value={{ showModal, title, type, contComponent, modalOpen, modalClose }}
+      value={{ showModal, title, type, dynamic, modalOpen, modalClose }}
     >
       {children}
       {showModal && (
@@ -149,7 +124,9 @@ export const ModalProvider = ({ children }: ReactType) => {
                 <IoIosClose color='#000' />
               </button>
             </div>
-            <div className='modal-cont'>{dynamicContent}</div>
+            <div className='modal-cont'>
+              <ModalContentRenderer {...dynamic} />
+            </div>
 
             <div className='btn-wrap'>
               {type === "login" && (

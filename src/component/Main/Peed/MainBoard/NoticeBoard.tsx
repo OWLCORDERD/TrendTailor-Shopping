@@ -41,7 +41,7 @@ const NoticeBoard = ({ noticeDB }: MainBoardPropsType) => {
 
         <Link href='/notice'>
           <AiOutlinePlus
-            color={mode === "dark" ? "#fff" : "#000"}
+            color={"#000"}
             fontSize={20}
             aria-label='공지사항 더보기 버튼'
           />

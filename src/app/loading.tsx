@@ -10,7 +10,7 @@ const Loading = () => {
   return (
     <CSS.PageContainer>
       <RotatingLines
-        strokeColor={mode === "dark" ? "#fff" : "#000"}
+        strokeColor={"#000"}
         strokeWidth='3'
         animationDuration='0.75'
         width='50'

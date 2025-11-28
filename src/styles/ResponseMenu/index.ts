@@ -171,9 +171,14 @@ ResponseMenu.CategoryMenu = styled.div`
       transition: all 0.5s ease-out;
       overflow: hidden;
 
+      .sub-menu {
+        padding-left: 10px;
+        margin: 10px 0;
+      }
+
       &.on {
         &:first-child {
-          height: 160px;
+          height: 180px;
           transition: all 0.5s ease-in;
         }
 
@@ -208,6 +213,7 @@ ResponseMenu.CategoryMenu = styled.div`
         width: 100%;
         height: 40px;
         padding: 0 20px;
+        cursor: pointer;
 
         h2 {
           width: max-content;

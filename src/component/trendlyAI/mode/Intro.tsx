@@ -63,7 +63,7 @@ const ChatContainer = () => {
       const options: any = {
         title: "로그인 후 이용 가능한 서비스입니다.",
         type: "login",
-        dynamicComponent: "LoginContent",
+        dynamicComponent: "Login",
       };
 
       if (modalOpen) {
@@ -81,7 +81,7 @@ const ChatContainer = () => {
 
     const options: any = {
       title: "개발 진행중입니다.",
-      dynamicComponent: "ServiceContent",
+      dynamicComponent: "Service",
     };
 
     if (modalOpen) {

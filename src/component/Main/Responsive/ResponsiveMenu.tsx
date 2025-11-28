@@ -178,27 +178,28 @@ const ResponsiveMenu = ({
 
       <CSS.CategoryMenu>
         <ul>
-          <li className={toggleSubMenu ? "on" : ""}>
+          <li
+            className={toggleSubMenu ? "on" : ""}
+            onClick={() => setToggleSubMenu(!toggleSubMenu)}
+          >
             <div className='toggleMenu-title'>
               <h2>Community</h2>
-              <IoIosArrowDown
-                onClick={() => setToggleSubMenu(!toggleSubMenu)}
-              />
+              <IoIosArrowDown />
             </div>
             <ul className='sub-menu'>
-              <li>
-                <a>
-                  <span>고객센터</span>
-                </a>
-              </li>
               <li>
                 <Link href='/notice'>
                   <span>공지사항</span>
                 </Link>
               </li>
               <li>
+                <a>
+                  <span>커뮤니티</span>
+                </a>
+              </li>
+              <li>
                 <Link href='/trend'>
-                  <span>Trend News</span>
+                  <span>트랜드 뉴스</span>
                 </Link>
               </li>
             </ul>

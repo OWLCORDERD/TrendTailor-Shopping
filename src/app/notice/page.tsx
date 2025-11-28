@@ -22,8 +22,6 @@ export interface NoticeType {
 }
 
 export default function Notice() {
-  const { mode } = useContext(ThemeContext);
-
   const router = useRouter();
 
   const { status } = useSession();
@@ -134,11 +132,11 @@ export default function Notice() {
         </div>
         <div className='Notice-table'>
           {isLoading || loading ? (
-            <Loading />
+            <Loading height={665} />
           ) : (
             <div className='border-table'>
               <table>
-                <thead className={mode === "dark" ? "darkMode" : "lightMode"}>
+                <thead>
                   <tr>
                     <th>
                       <h1>제목</h1>
@@ -157,12 +155,7 @@ export default function Notice() {
                     currentPageDB.map((item) => {
                       return (
                         <>
-                          <tr
-                            key={item.id}
-                            className={
-                              mode === "dark" ? "darkMode" : "lightMode"
-                            }
-                          >
+                          <tr key={item.id}>
                             <td
                               onClick={() => viewNotice(item.view_cnt, item.id)}
                             >

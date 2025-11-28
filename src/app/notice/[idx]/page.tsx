@@ -99,7 +99,7 @@ const CurrentNotice = ({ params }: any) => {
             </div>
           </>
         ) : (
-          <Loading />
+          <Loading height={500} />
         )}
       </section>
     </div>
