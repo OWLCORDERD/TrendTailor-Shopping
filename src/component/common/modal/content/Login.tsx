@@ -10,9 +10,9 @@ const Login = () => {
 
   const router = useRouter();
 
-  const goSignupPage = () => {
+  const goSignupPage = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (modalClose) {
-      modalClose();
+      modalClose(e);
     }
 
     router.push("/signup");
@@ -32,7 +32,7 @@ const Login = () => {
         <button
           type='button'
           className='signup-link'
-          onClick={() => goSignupPage()}
+          onClick={(e) => goSignupPage(e)}
         >
           <span>혹시 TrendTailor 회원이 아니신가요?</span>
         </button>

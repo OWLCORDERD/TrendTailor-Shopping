@@ -14,9 +14,7 @@ import { ScrollToTop } from "@/hooks/ScrollToTop";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { chatOpen } from "@/store/chatBubbleSlice";
 import TrendlyContainer from "@/component/trendlyAI/Container";
-import AlertModal from "../common/modal/Alert";
 import { AnimatePresence } from "framer-motion";
-import { ModalContext, ModalProvider } from "../../../context/ModalContext";
 
 const QuickMenu = () => {
   const { width } = useWindowSize();
