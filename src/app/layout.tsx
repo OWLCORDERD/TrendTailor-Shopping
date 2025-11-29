@@ -10,6 +10,7 @@ import { ScrollToTop } from "@/hooks/ScrollToTop";
 import "./globals.scss";
 import SessionWatcher from "@/component/common/SessionWatcher";
 import { ModalProvider } from "../../context/ModalContext";
+import BreadCrumb from "@/component/common/BreadCrumb";
 
 export const metadata: Metadata = {
   title: "TrendTailor",
@@ -50,6 +51,7 @@ export default function RootLayout({
                   <ThemeProvider>
                     <Navbar />
                     <main>
+                      <BreadCrumb />
                       <QuickMenu />
                       {children}
                     </main>

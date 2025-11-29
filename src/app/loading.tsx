@@ -6,7 +6,6 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { Loading as CSS } from "styles";
 
 const Loading = () => {
-  const { mode } = useContext(ThemeContext);
   return (
     <CSS.PageContainer>
       <RotatingLines

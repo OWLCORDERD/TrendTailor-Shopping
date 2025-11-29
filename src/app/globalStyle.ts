@@ -101,9 +101,9 @@ header {
 footer{
     position: relative;
     width: 100%;
-    height: 30rem;
+    height: 18rem;
     background-color: var(--colorMain);
-    padding : 2rem 6.25rem;
+    padding : 3rem 6.25rem;
     display: flex;
     justify-content: space-between;
 

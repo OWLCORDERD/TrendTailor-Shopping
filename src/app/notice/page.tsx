@@ -119,10 +119,6 @@ export default function Notice() {
     <div className='wrap'>
       <section className='NoticePage-container'>
         <div className='Notice-header'>
-          <div className='Notice-title'>
-            <h1>공지사항</h1>
-          </div>
-
           <div
             className='AddNotice-button'
             hidden={status === "authenticated" ? false : true}
