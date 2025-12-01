@@ -35,26 +35,12 @@ $Pacifico-font : 'Pacifico', cursive;
 $Jamsil-font : 'TheJamsil', sans-serif;
 $lightFont-Color: #000;
 
-
 *{
     margin : 0;
     padding : 0;
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
-
-    &::-webkit-scrollbar{
-        width: 10px;
-    }
-
-    &::-webkit-scrollbar-track{
-        background-color: #fff;
-    }
-
-    &::-webkit-scrollbar-thumb{
-        background-color: var(--colorMain);
-        display: block;
-    }
     
     body{
         background-color: #fff;
@@ -67,7 +53,44 @@ $lightFont-Color: #000;
             left : 0;
             width : 100%;
             height : 100%;
+            min-height: 100vh;
             display: block;
+
+            .page-banner {
+                display: block;
+                width: 100%;
+                padding: 50px 20px;
+                height: 200px;
+                background: var(--colorMain);
+
+                .page-title {
+                    width: 100%;
+                    line-height: 3rem;
+                    text-align: center;
+                    margin: 0 auto 20px auto;
+                    color: #fff;
+                }
+
+                .breadcrumb-list {
+                    width: max-content;
+                    margin: 20px auto 0;
+                    display: flex;
+                    align-items: center;
+
+                    .breadcrumb-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        color: #fff;
+                        text-transform: uppercase;
+                        padding-left: 10px;
+
+                        &:nth-child(1) {
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -81,6 +104,7 @@ $lightFont-Color: #000;
 
 button, a {
     cursor: pointer;
+    color: #000;
 }
 
 nav{
@@ -106,6 +130,7 @@ footer{
     padding : 3rem 6.25rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     @media screen and (max-width : 768px) {
         position: relative;

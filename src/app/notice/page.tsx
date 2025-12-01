@@ -2,9 +2,8 @@
 
 import axios from "axios";
 import Pagenation from "component/Pagenation/Pagenation";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "styles/notice.scss";
-import { ThemeContext } from "../../../context/ThemeContext";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "component/fetchDB/firebase";
 import { useRouter } from "next/navigation";
@@ -117,16 +116,8 @@ export default function Notice() {
 
   return (
     <div className='wrap'>
-      <section className='NoticePage-container'>
-        <div className='Notice-header'>
-          <div
-            className='AddNotice-button'
-            hidden={status === "authenticated" ? false : true}
-          >
-            <a href='/addNotice'>공지사항 작성</a>
-          </div>
-        </div>
-        <div className='Notice-table'>
+      <section className='notice-container'>
+        <div className='notice-table'>
           {isLoading || loading ? (
             <Loading height={665} />
           ) : (
