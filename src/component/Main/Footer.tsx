@@ -12,9 +12,9 @@ const Inner = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1400px) {
     flex-direction: column;
-    height: 100%;
+    height: 35rem;
   }
 `;
 
@@ -25,11 +25,10 @@ const MainCont = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  @media screen and (max-width: 1400px) {
+    width: 80%;
+    height: max-content;
+    gap: 20px;
     align-items: center;
     margin-bottom: 2rem;
   }
@@ -110,10 +109,6 @@ const MainMenu = styled.div`
       }
     }
   }
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const Community = styled.div`
@@ -159,8 +154,8 @@ const SubCont = styled.div`
   height: max-content;
   color: #fff;
 
-  @media screen and (max-width: 768px) {
-    width: 100%;
+  @media screen and (max-width: 1400px) {
+    width: 80%;
     height: max-content;
   }
 `;

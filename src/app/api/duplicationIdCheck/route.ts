@@ -7,7 +7,7 @@ interface usernameType {
 }
 
 export async function GET(req: NextRequest) {
-  const currentUserName = req.nextUrl.searchParams.get("userName");
+  const currentUserId = req.nextUrl.searchParams.get("userId");
 
   let duplicateState: boolean = false;
 
@@ -17,14 +17,14 @@ export async function GET(req: NextRequest) {
 
   users.forEach((doc) => {
     const data = {
-      username: doc.data()["username"],
+      username: doc.data()["id"],
     };
 
     userNameArray.push(data);
   });
 
   const duplicateCheck = userNameArray.find(
-    (user) => user.username === currentUserName
+    (user) => user.username === currentUserId
   );
 
   if (duplicateCheck) {

@@ -63,7 +63,7 @@ Navbar.LoginMenu = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 12rem;
+  gap: 20px;
   height: 100%;
 
   .login,
@@ -99,12 +99,12 @@ Navbar.LoginMenu = styled.div`
 Navbar.LoginUser = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  border-radius: 10px;
-  font-family: "Noto Sans KR", sans-serif;
-  padding: 0 1rem;
   cursor: pointer;
+  border-radius: 50%;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
 
   .user-imgBox {
     position: relative;
@@ -127,24 +127,18 @@ Navbar.LoginUser = styled.div`
   .user-icon {
     display: flex;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
     width: 3rem;
     height: 3rem;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
 
     svg {
-      font-size: 1.5rem;
+      fill: #333;
+      width: 2rem;
+      height: 2rem;
     }
-  }
-
-  .user-name {
-    width: 5rem;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .arrow-down {
-    font-size: 15px;
   }
 `;
 

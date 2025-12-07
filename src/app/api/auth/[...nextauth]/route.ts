@@ -77,6 +77,7 @@ const handler = NextAuth({
           );
 
           const username = user[0].username;
+          const userEmail = user[0].email;
 
           if (user && isValid) {
             const accesssToken = getAccessToken(user[0]);
@@ -95,6 +96,7 @@ const handler = NextAuth({
               id: userId, // 사용자 컬렉션 DB > 로그인 사용자 문서 아이디
               userId: currentUserId,
               name: username,
+              email: userEmail,
               image: user[0].image ? user[0].image : null,
               accessToken: accesssToken,
               refreshToken: refreshToken,

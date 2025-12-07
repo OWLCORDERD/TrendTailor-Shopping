@@ -63,6 +63,7 @@ const Navbar = () => {
     <header>
       {mobileMatches ? (
         <>
+          {/* 반응형 네비게이션 */}
           <CSS.ResponsiveNav>
             <CSS.ResponsiveLogo>
               <Link href='/' prefetch={true} className='logo'>
@@ -88,6 +89,7 @@ const Navbar = () => {
             />
           </CSS.ResponsiveNav>
 
+          {/* 반응형 햄버거 메뉴 영역 */}
           <AnimatePresence>
             {responsiveMenuActive ? (
               <ResponsiveMenu
@@ -97,51 +99,61 @@ const Navbar = () => {
           </AnimatePresence>
         </>
       ) : (
-        <CSS.Container>
-          <CSS.Logo>
-            <Link href='/' prefetch={true} className='logo'>
-              <Image src={Logo} alt='TrendTailor 로고 이미지' />
-              <h1 className='logo-title'>TrendTailor</h1>
-            </Link>
-          </CSS.Logo>
+        <>
+          {/* 데스크탑 네비게이션 */}
+          <CSS.Container>
+            <CSS.Logo>
+              <Link href='/' prefetch={true} className='logo'>
+                <Image src={Logo} alt='TrendTailor 로고 이미지' />
+                <h1 className='logo-title'>TrendTailor</h1>
+              </Link>
+            </CSS.Logo>
 
-          <CSS.LoginMenu>
-            {status === "authenticated" && data.user ? (
-              <CSS.LoginUser onClick={() => setUserPopupOpen(!userPopupOpen)}>
-                {data.user.image ? (
-                  <div className='user-imgBox'>
-                    <Image
-                      src={data.user.image}
-                      alt='user-image'
-                      width='50'
-                      height='50'
-                    />
-                  </div>
-                ) : (
-                  <div className='user-icon'>
-                    <FaUserCircle />
-                  </div>
-                )}
-                <span className='user-name'>{data.user.name}</span>
-                <IoIosArrowDown className='arrow-down' />
-              </CSS.LoginUser>
-            ) : (
-              <>
-                <Link href='/login' className='login'>
-                  <AiOutlineLogin className='icon' />
-                  <span>login</span>
-                </Link>
+            <CSS.LoginMenu>
+              {status === "authenticated" && data.user ? (
+                <CSS.LoginUser>
+                  {data.user.image ? (
+                    <button
+                      type='button'
+                      className='user-imgBox'
+                      onClick={() => setUserPopupOpen(!userPopupOpen)}
+                    >
+                      <Image
+                        src={data.user.image}
+                        alt='user-image'
+                        width='50'
+                        height='50'
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      type='button'
+                      className='user-icon'
+                      onClick={() => setUserPopupOpen(!userPopupOpen)}
+                    >
+                      <FaUserCircle />
+                    </button>
+                  )}
+                </CSS.LoginUser>
+              ) : (
+                <>
+                  <Link href='/login' className='login'>
+                    <AiOutlineLogin className='icon' />
+                    <span>login</span>
+                  </Link>
 
-                <Link href='/signup' className='signup'>
-                  <AiOutlineUserAdd className='icon' />
-                  <span>sign Up</span>
-                </Link>
-              </>
-            )}
-          </CSS.LoginMenu>
-        </CSS.Container>
+                  <Link href='/signup' className='signup'>
+                    <AiOutlineUserAdd className='icon' />
+                    <span>sign Up</span>
+                  </Link>
+                </>
+              )}
+            </CSS.LoginMenu>
+          </CSS.Container>
+        </>
       )}
 
+      {/* 로그인 사용자 프로필 클릭 시, 드롭다운되는 팝업 */}
       {userPopupOpen ? <UserPopup setUserPopupOpen={setUserPopupOpen} /> : null}
     </header>
   );

@@ -6,12 +6,9 @@ import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
-import { FaShoppingCart } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { useRouter } from "next/navigation";
-import { BsFillSunFill } from "react-icons/bs";
-import { IoCloudyNightSharp } from "react-icons/io5";
 
 interface propsSvgType {
   setUserPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,11 +16,12 @@ interface propsSvgType {
 
 const PopupContainer = styled.div`
   position: absolute;
-  top: 5rem;
-  right: 50px;
+  top: 4rem;
+  right: 5rem;
   width: 20rem;
   height: max-content;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: #333;
+  border-radius: 10px;
 `;
 
 const UserProfile = styled.div`
@@ -191,16 +189,9 @@ const UserPopup = ({ setUserPopupOpen }: propsSvgType) => {
         ) : null}
       </UserProfile>
 
-      <UserMenu>
-        <MenuItem>
-          <FaShoppingCart />
-          <span>장바구니</span>
-        </MenuItem>
-      </UserMenu>
-
       <LogoutMenu onClick={logoutUser}>
         <IoMdLogOut />
-        <span>Log Out</span>
+        <span>로그아웃</span>
       </LogoutMenu>
     </PopupContainer>
   );

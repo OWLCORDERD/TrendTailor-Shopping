@@ -273,14 +273,14 @@ const Register = () => {
     if (isUserId) {
       const res = await axios.get("api/duplicationIdCheck", {
         params: {
-          userName: registerInfo.id,
+          userId: registerInfo.id,
         },
       });
 
       if (res.status === 200) {
-        const duplicate = await res.data;
+        const duplicate = await res.data.duplicate;
 
-        if (duplicate) {
+        if (!duplicate) {
           AlertToast({
             str: "사용 가능한 아이디입니다.",
             type: "success",

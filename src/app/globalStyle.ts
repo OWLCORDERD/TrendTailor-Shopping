@@ -125,7 +125,6 @@ header {
 footer{
     position: relative;
     width: 100%;
-    height: 18rem;
     background-color: var(--colorMain);
     padding : 3rem 6.25rem;
     display: flex;
@@ -133,13 +132,7 @@ footer{
     align-items: center;
 
     @media screen and (max-width : 768px) {
-        position: relative;
-        width: 100%;
-        height: 42rem;
-        padding : 2rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        display: none;
     }
 }
 

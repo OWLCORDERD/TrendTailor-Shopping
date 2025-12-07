@@ -504,7 +504,9 @@ Trendly.UserMessage = styled.div`
 `;
 
 Trendly.UserProfile = styled.div`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 50px;
   border-radius: 50%;
