@@ -104,16 +104,7 @@ export const handleSurveySelect = createAsyncThunk(
     if (allStepSelect) {
       dispatch(recommendOpenAI()); // 전체 답변 선택 시, 챗봇 답변 요청
     } else {
-      // 성별과 체형 두가지를 선택하는 단계
-      if (state.chatBubble.QA_step === 4) {
-        const stepSelect: any = state.chatBubble.QA_select.find(
-          (item) => item.step === 4
-        )?.selectLabel;
-
-        // 성별, 체형 모두 선택하지 않았을 시 다음 단계 진행 불가
-        if (stepSelect.split(", ").length < 2) {
-          return;
-        }
+      if (state.chatBubble.QA_step === 2) {
       }
       // 단계 이동하여 다음 질문 셋팅
       dispatch(nextStep());
@@ -157,14 +148,14 @@ const chatBubbleSlice = createSlice({
             role: "user",
             message: {
               type: "chat",
-              content: "스타일 컨설턴트를 추천받고싶어",
+              content: "내가 찾는 조건에 맞는 의류를 컨설팅 받고싶어",
             },
           },
           {
             role: "chatbot",
             message: {
               type: "chat",
-              content: `안녕하세요, ${action.payload.user}님! 지금부터 회원님에게 어울리는 의류 컨설팅을 위해 간단한 설문조사를 시작할게요.`,
+              content: `안녕하세요, ${action.payload.user}님! 지금부터 회원님이 찾으시는 의류 컨설팅을 도와드릴 Trendly 챗봇이에요! 우선 간단한 설문조사를 시작할게요.`,
             },
           },
         ];
@@ -172,7 +163,7 @@ const chatBubbleSlice = createSlice({
     },
     // 2025.08.04: 컨설팅 모드 > 질문 단계에 따른 템플릿 메시지 추가
     nextStep: (state) => {
-      if (state.QA_step < 5) {
+      if (state.QA_step < 4) {
         state.QA_step = state.QA_step + 1; // 질문 단계 업데이트
       }
 
@@ -184,13 +175,15 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "01. 평소 찾는 스타일의 목적은 무엇인가요?",
+                  title: "01. 어떤 종류의 의류를 찾고 계신가요?",
                   step: 1,
                   options: [
-                    { label: "데일리룩", value: "daily" },
-                    { label: "출근/오피스룩", value: "business" },
-                    { label: "데이트룩", value: "date" },
-                    { label: "하겍룩", value: "guest" },
+                    { label: "아우터", value: "outer" },
+                    { label: "티셔츠", value: "t-shirt" },
+                    { label: "바지", value: "pants" },
+                    { label: "후드티", value: "hoodie" },
+                    { label: "원피스", value: "onepiece" },
+                    { label: "직접입력", value: "etc" },
                   ],
                 },
               },
@@ -203,15 +196,14 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "02. 선호하는 스타일은 무엇인가요?",
+                  title: "02. 평소 찾는 스타일의 목적은 무엇인가요?",
                   step: 2,
                   options: [
-                    { label: "미니멀", value: "minimal" },
-                    { label: "캐주얼", value: "casual" },
-                    { label: "스트리트", value: "street" },
-                    { label: "러블리", value: "lovely" },
-                    { label: "유니크", value: "unique" },
-                    { label: "클래식", value: "classic" },
+                    { label: "데일리룩", value: "daily" },
+                    { label: "출근/오피스룩", value: "business" },
+                    { label: "데이트룩", value: "date" },
+                    { label: "운동룩", value: "workout" },
+                    { label: "직접입력", value: "etc" },
                   ],
                 },
               },
@@ -225,12 +217,11 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "03. 어떤 계절 또는 날씨의 의상에 관심이 있으신가요?",
+                  title: "03. 회원님의 성별을 선택해주세요.",
                   step: 3,
                   options: [
-                    { label: "여름 / 더운 날", value: "summer" },
-                    { label: "간절기 (봄 / 가을)", value: "spring" },
-                    { label: "겨울 / 추운 날", value: "winter" },
+                    { label: "여성", value: "female" },
+                    { label: "남성", value: "male" },
                   ],
                 },
               },
@@ -244,41 +235,13 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "04. 성별과 연령대를 선택해주세요.",
+                  title: "04. 원하시는 가격선을 선택해주세요",
                   step: 4,
-                  options: {
-                    gender: [
-                      { label: "여성", value: "female" },
-                      { label: "남성", value: "male" },
-                    ],
-                    body: [
-                      { label: "10대", value: "teenager" },
-                      { label: "20대", value: "20s" },
-                      { label: "30대", value: "30s" },
-                      { label: "40대 이상", value: "40s and older" },
-                    ],
-                  },
-                },
-              },
-            });
-
-            break;
-
-          case 5:
-            state.messages.push({
-              role: "chatbot",
-              message: {
-                type: "question",
-                content: {
-                  title: "05. 좋아하거나 자주 찾는 브랜드가 있다면 골라주세요",
-                  step: 5,
                   options: [
-                    { label: "무신사", value: "musinsa" },
-                    { label: "29CM", value: "29CM" },
-                    { label: "W Concept", value: "w_concept" },
-                    { label: "유니클로", value: "uniqlo" },
-                    { label: "자라", value: "zara" },
-                    { label: "없음", value: "no-brand" },
+                    { label: "5만원 이하", value: "50000" },
+                    { label: "10만원 이하", value: "100000" },
+                    { label: "20만원 이하", value: "200000" },
+                    { label: "직접 입력", value: "etc" },
                   ],
                 },
               },

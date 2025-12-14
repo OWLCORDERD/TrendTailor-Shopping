@@ -2,7 +2,7 @@ import ProductDetail from "component/Product/ProductDetail";
 import React from "react";
 
 const getSeasonData = async () => {
-  const seasonQuery = "봄 의류";
+  const seasonQuery = "아우터";
 
   const naverApiHeaders: any = {
     "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,

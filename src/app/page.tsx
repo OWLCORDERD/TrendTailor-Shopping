@@ -5,7 +5,7 @@ import SeasonPeed from "@/component/Main/Peed/Contents/SeasonPeed";
 import TrendConsultant from "@/component/Main/Peed/MainBoard/TrendConsultant";
 
 const getSeasonClothesDB = async () => {
-  const seasonQuery = "봄 의류";
+  const seasonQuery = "겨울 아우터";
 
   const naverApiHeaders: any = {
     "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
@@ -61,7 +61,7 @@ const getTrendClothes = async () => {
   };
 
   const apiEndPoint = "https://openapi.naver.com/v1/search/shop.json";
-  const searchQuery = "미니멀 패션";
+  const searchQuery = "트랜드 의류";
 
   try {
     const res = await fetch(`${apiEndPoint}?query=${searchQuery}&display=100`, {

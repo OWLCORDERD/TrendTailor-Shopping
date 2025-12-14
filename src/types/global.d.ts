@@ -113,7 +113,7 @@ declare global {
   interface questionType {
     title: string; // 질문 제목
     step: number; // 현 질문 단계
-    options: defaultOptions[] | genderBodyOption; // 선택 가능한 옵션 목록
+    options: defaultOptions[]; // 선택 가능한 옵션 목록
   }
 
   interface defaultOptions {

@@ -5,7 +5,7 @@ import { useAppSelector } from "@/store/hooks";
 import UserBubble from "@/component/trendlyAI/bubble/User";
 import { warningIcon } from "@/component/svgData";
 import Loading from "./Loading";
-import Result from "./Result/Main";
+import Result from "./Result";
 
 const Consultant = () => {
   const messages = useAppSelector((state) => state.chatBubble.messages);
