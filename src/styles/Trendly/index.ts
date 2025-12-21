@@ -287,6 +287,40 @@ Trendly.QuestionTitle = styled.div`
   color: #fff;
 `;
 
+Trendly.UserDirectInput = styled.div`
+  display: block;
+  width: 100%;
+  padding: 20px 0;
+
+  & > input[type="text"] {
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    border: 1px solid #d5d5d5;
+    border-radius: 20px;
+    font-size: 16px;
+    font-family: "TheJamsil", sans-serif;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    margin: 20px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    background-color: var(--colorMain);
+  }
+`;
+
 // 챗봇 질문 선택 옵션 영역
 Trendly.QuestionOptions = styled.div`
   display: flex;

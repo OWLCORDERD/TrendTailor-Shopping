@@ -40,10 +40,6 @@ const initialState: ChatBubbleState = {
       step: 4,
       selectLabel: "",
     },
-    {
-      step: 5,
-      selectLabel: "",
-    },
   ],
   generateCreating: "before", // 챗봇 답변 생성 중 여부 (기본값 true)
   consultingResultData: {}, // 챗봇 답변 메시지
@@ -88,9 +84,9 @@ export const retryRecommendOpenAI = createAsyncThunk(
 // 2025.08.11: 컨설팅 모드 > 단계별 답변 선택 시 호출되는 thunk 함수
 export const handleSurveySelect = createAsyncThunk(
   "chatbubble/handleSurveySelect",
-  async (selectLabel: any, { getState, dispatch }) => {
+  async (selectObject: any, { getState, dispatch }) => {
     // 사용자가 선택한 단계 답변 저장
-    dispatch(stepSelector(selectLabel));
+    dispatch(stepSelector(selectObject));
 
     // 실시간 상태관리 호출
     const state = getState() as { chatBubble: ChatBubbleState };
@@ -104,10 +100,14 @@ export const handleSurveySelect = createAsyncThunk(
     if (allStepSelect) {
       dispatch(recommendOpenAI()); // 전체 답변 선택 시, 챗봇 답변 요청
     } else {
-      if (state.chatBubble.QA_step === 2) {
+      // 현재 단계에서 직접 입력 선택한 경우, 다음 단계 이동 제한
+      if (selectObject.selectLabel !== "직접입력") {
+        // 단계 이동하여 다음 질문 셋팅
+        dispatch(nextStep());
+        console.log(state.chatBubble.QA_select);
+      } else {
+        return;
       }
-      // 단계 이동하여 다음 질문 셋팅
-      dispatch(nextStep());
     }
   }
 );
@@ -241,7 +241,7 @@ const chatBubbleSlice = createSlice({
                     { label: "5만원 이하", value: "50000" },
                     { label: "10만원 이하", value: "100000" },
                     { label: "20만원 이하", value: "200000" },
-                    { label: "직접 입력", value: "etc" },
+                    { label: "직접입력", value: "etc" },
                   ],
                 },
               },
@@ -261,6 +261,24 @@ const chatBubbleSlice = createSlice({
       });
 
       state.QA_select = updateStepSelect;
+    },
+    // 단계 직접 입력 선택 케이스 > 사용자 입력 값 저장
+    stepDirectInputUpdate: (state, action: any) => {
+      const userDirectInput = action.payload;
+
+      // 선택한 단계의 라벨로 기존 배열 업데이트
+      const updateStepInput = state.QA_select.map((item: any) => {
+        return (
+          item.step === state.QA_step && {
+            ...item,
+            userDirectInput: userDirectInput,
+          }
+        );
+      });
+
+      console.log(updateStepInput);
+
+      state.QA_select = updateStepInput;
     },
     // 프롬프트 혹은 API 문제로 인해 오류 발생 시, 재시도 화면 버튼 이벤트
     retryConsulting: (state) => {
@@ -304,5 +322,6 @@ export const {
   retryConsulting,
   updateChannelDetail,
   closeChannelDetail,
+  stepDirectInputUpdate,
 } = chatBubbleSlice.actions;
 export default chatBubbleSlice.reducer;

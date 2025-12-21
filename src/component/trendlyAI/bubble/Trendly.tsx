@@ -16,6 +16,7 @@ import {
   nextStep,
 } from "@/store/chatBubbleSlice";
 import { IoIosArrowDown } from "react-icons/io";
+import ErrorModal from "@/component/common/modal/Error";
 
 interface messageType {
   type: string;
@@ -27,13 +28,36 @@ const Trendly = ({ message }: { message: messageType }) => {
   const QAselect = useAppSelector((state) => state.chatBubble.QA_select);
   const dispatch = useAppDispatch();
 
+  const [directlyInput, setDirectlyInput] = useState<string>("");
+
+  const [error, setError] = useState<string>("");
+
+  const directlyInputUpdate = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    if (directlyInput.trim() === "") {
+      setError("answer-error");
+      return;
+    }
+    await dispatch(
+      handleSurveySelect({
+        step: message.content.step,
+        selectLabel: directlyInput,
+      })
+    );
+
+    console.log("직접 입력 후 다음 단계 이동");
+    console.log(QAselect);
+  };
+
   const nextQuestionStep = () => {
     dispatch(nextStep());
   };
 
   const selectQuestion = (cont: string) => {
     const currentSelect: any = {
-      step: QAstep,
+      step: message.content.step,
       selectLabel: cont,
     };
     dispatch(handleSurveySelect(currentSelect));
@@ -90,6 +114,24 @@ const Trendly = ({ message }: { message: messageType }) => {
             <span className='question-icon'>{questionIcon.icon()}</span>
             {message.content.title}
           </CSS.QuestionTitle>
+          {/* 질문 선택 옵션 목록 */}
+          {QAselect.find((item: any) => item.step === message.content.step)
+            ?.selectLabel === "직접입력" && (
+            <CSS.UserDirectInput>
+              <input
+                type='text'
+                placeholder='답변을 직접 입력하세요.'
+                onChange={(e) => setDirectlyInput(e.target.value)}
+              />
+              <button
+                type='button'
+                className='submit-btn'
+                onClick={(e) => directlyInputUpdate(e)}
+              >
+                다음 단계로 이동
+              </button>
+            </CSS.UserDirectInput>
+          )}
           <CSS.QuestionOptions>
             {message.content.options.map((option, idx) => {
               return (
@@ -112,6 +154,12 @@ const Trendly = ({ message }: { message: messageType }) => {
             })}
           </CSS.QuestionOptions>
         </CSS.ChatBotQuestion>
+      )}
+      {error === "answer-error" && (
+        <ErrorModal
+          errorMessage='답변을 입력해야 다음 단계로 넘어갈 수 있습니다.'
+          setError={setError}
+        />
       )}
     </>
   );
