@@ -46,9 +46,6 @@ const Trendly = ({ message }: { message: messageType }) => {
         selectLabel: directlyInput,
       })
     );
-
-    console.log("직접 입력 후 다음 단계 이동");
-    console.log(QAselect);
   };
 
   const nextQuestionStep = () => {

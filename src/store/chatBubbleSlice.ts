@@ -11,6 +11,7 @@ interface ChatBubbleState {
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
   consultantDetailMode: boolean; // 컨설턴트 상세 모드 여부
   currentConsultant: consultantChannelType | null; // 현재 선택한 컨설턴트 채널 정보
+  clothesData: any[]; // 컨설팅용 의류 데이터
 }
 interface selectType {
   step: number;
@@ -45,6 +46,7 @@ const initialState: ChatBubbleState = {
   consultingResultData: {}, // 챗봇 답변 메시지
   consultantDetailMode: false, // 컨설턴트 상세 모드 여부
   currentConsultant: null, // 현재 선택한 컨설턴트 채널 정보
+  clothesData: [], // 컨설팅용 의류 데이터
 };
 
 // 2025.09.07 [mhlim]: 선택한 답변 목록 전송 ->  추천 검색 결과 요청하는 thunk 함수
@@ -93,21 +95,47 @@ export const handleSurveySelect = createAsyncThunk(
 
     // 모든 단계의 선택이 완료되었다면 프롬프트 문자 구성
     const allStepSelect = state.chatBubble.QA_select.every(
-      (item) => item.selectLabel !== ""
+      (item) => item.selectLabel !== "" && item.selectLabel !== "직접입력"
     );
 
     // 모든 질문 단계 선택 완료 시 챗봇 답변 요청
     if (allStepSelect) {
-      dispatch(recommendOpenAI()); // 전체 답변 선택 시, 챗봇 답변 요청
+      // 챗봇 요청 전, 설문 데이터 기반으로 서버 사이드측 1차 필터링
+      dispatch(searchConsultingClothes());
     } else {
       // 현재 단계에서 직접 입력 선택한 경우, 다음 단계 이동 제한
       if (selectObject.selectLabel !== "직접입력") {
         // 단계 이동하여 다음 질문 셋팅
         dispatch(nextStep());
-        console.log(state.chatBubble.QA_select);
       } else {
         return;
       }
+    }
+  }
+);
+
+export const searchConsultingClothes = createAsyncThunk(
+  "chatbubble/handleSearchClothes",
+  async (_, { getState, dispatch }) => {
+    const state = getState() as { chatBubble: ChatBubbleState };
+
+    try {
+      const res = await fetch("/api/searchClothes", {
+        method: "POST",
+        body: JSON.stringify({
+          type: "consulting",
+          select: state.chatBubble.QA_select,
+          display: 300,
+        }),
+      });
+
+      const data = await res.json();
+
+      console.log(data);
+
+      return data.clothesData;
+    } catch (err) {
+      return err;
     }
   }
 );
@@ -255,6 +283,23 @@ const chatBubbleSlice = createSlice({
     stepSelector: (state, action: any) => {
       const userAnswer = action.payload;
 
+      // 가격은 label이 아닌 value 값으로 저장
+      if (state.QA_step === 4) {
+        switch (userAnswer.selectLabel) {
+          case "5만원 이하":
+            userAnswer.selectLabel = "50000";
+            break;
+          case "10만원 이하":
+            userAnswer.selectLabel = "100000";
+            break;
+          case "20만원 이하":
+            userAnswer.selectLabel = "200000";
+            break;
+          default:
+            break;
+        }
+      }
+
       // 선택한 단계의 라벨로 기존 배열 업데이트
       const updateStepSelect = state.QA_select.map((item: any) => {
         return item.step === state.QA_step ? userAnswer : item;
@@ -275,8 +320,6 @@ const chatBubbleSlice = createSlice({
           }
         );
       });
-
-      console.log(updateStepInput);
 
       state.QA_select = updateStepInput;
     },
@@ -308,6 +351,9 @@ const chatBubbleSlice = createSlice({
       });
     builder.addCase(recommendOpenAI.rejected, (state) => {
       state.generateCreating = "error"; // 챗봇 답변 생성 에러
+    });
+    builder.addCase(searchConsultingClothes.fulfilled, (state, action) => {
+      state.clothesData = action.payload.clothesData; // 추후 의류 데이터 저장
     });
   },
 });
