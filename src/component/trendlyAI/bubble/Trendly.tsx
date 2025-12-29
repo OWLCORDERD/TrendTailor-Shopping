@@ -107,17 +107,19 @@ const Trendly = ({ message }: { message: messageType }) => {
       {/* 챗봇 질문 선택 영역 */}
       {message.type === "question" && (
         <CSS.ChatBotQuestion class='title'>
+          {QAselect.find((item: any) => item.step === message.content.step)
+            ?.selectLabel}
           <CSS.QuestionTitle>
             <span className='question-icon'>{questionIcon.icon()}</span>
             {message.content.title}
           </CSS.QuestionTitle>
           {/* 질문 선택 옵션 목록 */}
           {QAselect.find((item: any) => item.step === message.content.step)
-            ?.selectLabel === "직접입력" && (
+            ?.selectLabel === "etc" && (
             <CSS.UserDirectInput>
               <input
                 type='text'
-                placeholder='답변을 직접 입력하세요.'
+                placeholder={message.content.placeholder}
                 onChange={(e) => setDirectlyInput(e.target.value)}
               />
               <button
@@ -136,14 +138,14 @@ const Trendly = ({ message }: { message: messageType }) => {
                   $select={
                     QAselect.filter(
                       (item: any) => item.step === message.content.step
-                    )[0]?.selectLabel === option.label
+                    )[0]?.selectLabel === option.value
                   }
                   disabled={stepSelectDisabled(
                     message.content.step,
-                    option.label
+                    option.value
                   )}
                   key={idx}
-                  onClick={() => selectQuestion(option.label)}
+                  onClick={() => selectQuestion(option.value)}
                 >
                   {option.label}
                 </CSS.QuestionOption>

@@ -41,6 +41,10 @@ const initialState: ChatBubbleState = {
       step: 4,
       selectLabel: "",
     },
+    {
+      step: 5,
+      selectLabel: "",
+    },
   ],
   generateCreating: "before", // 챗봇 답변 생성 중 여부 (기본값 true)
   consultingResultData: {}, // 챗봇 답변 메시지
@@ -104,7 +108,7 @@ export const handleSurveySelect = createAsyncThunk(
       dispatch(searchConsultingClothes());
     } else {
       // 현재 단계에서 직접 입력 선택한 경우, 다음 단계 이동 제한
-      if (selectObject.selectLabel !== "직접입력") {
+      if (selectObject.selectLabel !== "etc") {
         // 단계 이동하여 다음 질문 셋팅
         dispatch(nextStep());
       } else {
@@ -130,8 +134,6 @@ export const searchConsultingClothes = createAsyncThunk(
       });
 
       const data = await res.json();
-
-      console.log(data);
 
       return data.clothesData;
     } catch (err) {
@@ -191,7 +193,7 @@ const chatBubbleSlice = createSlice({
     },
     // 2025.08.04: 컨설팅 모드 > 질문 단계에 따른 템플릿 메시지 추가
     nextStep: (state) => {
-      if (state.QA_step < 4) {
+      if (state.QA_step < 5) {
         state.QA_step = state.QA_step + 1; // 질문 단계 업데이트
       }
 
@@ -203,8 +205,26 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "01. 어떤 종류의 의류를 찾고 계신가요?",
+                  title: "01. 어떤 기준으로 추천 받고 싶으신가요?",
                   step: 1,
+                  options: [
+                    { label: "인기 브랜드 기준", value: "popular" },
+                    { label: "가성비 기준", value: "cheap" },
+                  ],
+                },
+              },
+            });
+
+            break;
+          case 2:
+            state.messages.push({
+              role: "chatbot",
+              message: {
+                type: "question",
+                content: {
+                  title: "02. 어떤 종류의 의류를 찾고 계신가요?",
+                  step: 2,
+                  placeholder: "의류 종류 키워드를 입력하세요.",
                   options: [
                     { label: "아우터", value: "outer" },
                     { label: "티셔츠", value: "t-shirt" },
@@ -218,35 +238,59 @@ const chatBubbleSlice = createSlice({
             });
             break;
 
-          case 2:
-            state.messages.push({
-              role: "chatbot",
-              message: {
-                type: "question",
-                content: {
-                  title: "02. 평소 찾는 스타일의 목적은 무엇인가요?",
-                  step: 2,
-                  options: [
-                    { label: "데일리룩", value: "daily" },
-                    { label: "출근/오피스룩", value: "business" },
-                    { label: "데이트룩", value: "date" },
-                    { label: "운동룩", value: "workout" },
-                    { label: "직접입력", value: "etc" },
-                  ],
+          case 3:
+            // 가성비 기준 선택 시, 정해진 브랜드 화이트리스트 큐레이션 대상 제외
+            // -> 자유롭게 스타일 선택할 수 있도록 직접입력 옵션 추가
+            if (state.QA_select[0].selectLabel !== "popular") {
+              state.messages.push({
+                role: "chatbot",
+                message: {
+                  type: "question",
+                  content: {
+                    title: "03. 평소 찾는 스타일은 무엇인가요?",
+                    step: 3,
+                    placeholder: "스타일 키워드를 입력하세요.",
+                    options: [
+                      { label: "오피스룩", value: "office" },
+                      { label: "스포츠/운동", value: "sports" },
+                      { label: "스트릿", value: "street" },
+                      { label: "미니멀", value: "minimal" },
+                      { label: "캐쥬얼", value: "casual" },
+                      { label: "직접입력", value: "etc" },
+                    ],
+                  },
                 },
-              },
-            });
+              });
+            } else {
+              state.messages.push({
+                role: "chatbot",
+                message: {
+                  type: "question",
+                  content: {
+                    title: "03. 평소 찾는 스타일은 무엇인가요?",
+                    step: 3,
+                    options: [
+                      { label: "오피스룩", value: "office" },
+                      { label: "스포츠/운동", value: "sports" },
+                      { label: "스트릿", value: "street" },
+                      { label: "미니멀", value: "minimal" },
+                      { label: "캐쥬얼", value: "casual" },
+                    ],
+                  },
+                },
+              });
+            }
 
             break;
 
-          case 3:
+          case 4:
             state.messages.push({
               role: "chatbot",
               message: {
                 type: "question",
                 content: {
-                  title: "03. 회원님의 성별을 선택해주세요.",
-                  step: 3,
+                  title: "04. 회원님의 성별을 선택해주세요.",
+                  step: 4,
                   options: [
                     { label: "여성", value: "female" },
                     { label: "남성", value: "male" },
@@ -257,14 +301,15 @@ const chatBubbleSlice = createSlice({
 
             break;
 
-          case 4:
+          case 5:
             state.messages.push({
               role: "chatbot",
               message: {
                 type: "question",
                 content: {
-                  title: "04. 원하시는 가격선을 선택해주세요",
-                  step: 4,
+                  title: "05. 원하시는 가격선을 선택해주세요",
+                  step: 5,
+                  placeholder: "원하시는 가격을 숫자로 직접 입력하세요.",
                   options: [
                     { label: "5만원 이하", value: "50000" },
                     { label: "10만원 이하", value: "100000" },
@@ -282,23 +327,6 @@ const chatBubbleSlice = createSlice({
     // 단계별 선택 저장 및 프롬프트 문자 구성
     stepSelector: (state, action: any) => {
       const userAnswer = action.payload;
-
-      // 가격은 label이 아닌 value 값으로 저장
-      if (state.QA_step === 4) {
-        switch (userAnswer.selectLabel) {
-          case "5만원 이하":
-            userAnswer.selectLabel = "50000";
-            break;
-          case "10만원 이하":
-            userAnswer.selectLabel = "100000";
-            break;
-          case "20만원 이하":
-            userAnswer.selectLabel = "200000";
-            break;
-          default:
-            break;
-        }
-      }
 
       // 선택한 단계의 라벨로 기존 배열 업데이트
       const updateStepSelect = state.QA_select.map((item: any) => {

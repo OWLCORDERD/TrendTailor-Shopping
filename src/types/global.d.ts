@@ -113,6 +113,7 @@ declare global {
   interface questionType {
     title: string; // 질문 제목
     step: number; // 현 질문 단계
+    placeholder: string; // 답변 직접입력 플레이스홀더
     options: defaultOptions[]; // 선택 가능한 옵션 목록
   }
 
