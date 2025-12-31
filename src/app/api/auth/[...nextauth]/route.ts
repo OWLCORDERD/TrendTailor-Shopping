@@ -16,7 +16,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "@/component/fetchDB/firebase";
+import { db } from "@/lib/firebase";
 import { JWT, Session, User, userType } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 

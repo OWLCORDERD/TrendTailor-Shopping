@@ -5,7 +5,7 @@ import "styles/addNotice.scss";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "component/fetchDB/firebase";
+import { storage } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { FaImage } from "react-icons/fa6";
 import ErrorModal from "@/component/common/modal/Error";

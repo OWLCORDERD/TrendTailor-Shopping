@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { IoIosImages, IoIosCloseCircle } from "react-icons/io";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "component/fetchDB/firebase";
+import { storage } from "@/lib/firebase";
 import { AlertToast } from "@/hooks/useToastify";
 import { ModalContext } from "../../../context/ModalContext";
 

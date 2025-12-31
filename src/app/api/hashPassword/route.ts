@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "component/fetchDB/firebase";
+import { db } from "@/lib/firebase";
 
 interface bodyTypes {
   id: string;

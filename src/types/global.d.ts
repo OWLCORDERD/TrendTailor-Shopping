@@ -87,16 +87,21 @@ declare global {
     link: string;
     image: string;
     lprice: string;
-    hprice: string;
+    hprice?: string;
     mallName: string;
     productId: string;
     productType: string;
     brand: string;
     maker: string;
-    category1: string;
-    category2: string;
-    category3: string;
-    category4: string;
+    category1?: string;
+    category2?: string;
+    category3?: string;
+    category4?: string;
+    viewCount: number; // 조회 수 (인기 순 필터링에 활용)
+    likeCount: number; // 좋아요 수 (인기 순 필터링에 활용)
+    collectedAt: string; // 추천 일시
+    searchStyle: string; // 검색 스타일 키워드
+    searchCategory: string; // 검색 카테고리 키워드
   }
 
   // 대화 세션 메시지 타입 정의

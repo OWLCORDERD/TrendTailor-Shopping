@@ -3,7 +3,7 @@ import NoticeBoard from "./NoticeBoard";
 import Banner from "./Banner";
 import { NoticeType } from "app/notice/page";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "component/fetchDB/firebase";
+import { db } from "@/lib/firebase";
 
 export interface slideType {
   id: number;

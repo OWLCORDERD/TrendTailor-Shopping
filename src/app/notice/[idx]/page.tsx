@@ -1,6 +1,6 @@
 "use client";
 
-import { db } from "component/fetchDB/firebase";
+import { db } from "@/lib/firebase";
 import Loading from "component/fetchDB/loading/Loading";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";

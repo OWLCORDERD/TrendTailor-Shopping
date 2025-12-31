@@ -1,4 +1,4 @@
-import { db } from "component/fetchDB/firebase";
+import { db } from "@/lib/firebase";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { NextResponse } from "next/server";
 

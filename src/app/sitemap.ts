@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { NoticeType } from "./notice/page";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "component/fetchDB/firebase";
+import { db } from "@/lib/firebase";
 
 interface example {
   url: string;
