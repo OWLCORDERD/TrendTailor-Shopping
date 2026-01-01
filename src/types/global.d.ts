@@ -83,6 +83,7 @@ declare global {
 
   // 네이버 쇼핑 API 의류 데이터 타입
   interface clothes {
+    doc_id: string;
     title: string;
     link: string;
     image: string;
