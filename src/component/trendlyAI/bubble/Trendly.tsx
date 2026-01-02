@@ -107,8 +107,6 @@ const Trendly = ({ message }: { message: messageType }) => {
       {/* 챗봇 질문 선택 영역 */}
       {message.type === "question" && (
         <CSS.ChatBotQuestion class='title'>
-          {QAselect.find((item: any) => item.step === message.content.step)
-            ?.selectLabel}
           <CSS.QuestionTitle>
             <span className='question-icon'>{questionIcon.icon()}</span>
             {message.content.title}

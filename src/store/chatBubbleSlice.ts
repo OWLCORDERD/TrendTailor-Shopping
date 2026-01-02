@@ -56,14 +56,14 @@ const initialState: ChatBubbleState = {
 // 2025.09.07 [mhlim]: 선택한 답변 목록 전송 ->  추천 검색 결과 요청하는 thunk 함수
 export const recommendOpenAI = createAsyncThunk(
   "chatbubble/recommendOpenAI",
-  async (_, { getState, dispatch }) => {
+  async (clothesData: clothes[], { getState, dispatch }) => {
     const state = getState() as { chatBubble: ChatBubbleState };
 
     try {
       const res = await fetch("/api/recommendOpenAI", {
         method: "POST",
         body: JSON.stringify({
-          selectList: state.chatBubble.QA_select,
+          selectClothes: clothesData,
         }),
       });
 
@@ -104,8 +104,8 @@ export const handleSurveySelect = createAsyncThunk(
 
     // 모든 질문 단계 선택 완료 시 챗봇 답변 요청
     if (allStepSelect) {
-      // 챗봇 요청 전, 설문 데이터 기반으로 서버 사이드측 1차 필터링
-      dispatch(searchConsultingClothes());
+      // 1단계: 사용자 답변 기반 컨설팅 의류 데이터 필터링
+      await dispatch(searchConsultingClothes());
     } else {
       // 현재 단계에서 직접 입력 선택한 경우, 다음 단계 이동 제한
       if (selectObject.selectLabel !== "etc") {
@@ -124,18 +124,25 @@ export const searchConsultingClothes = createAsyncThunk(
     const state = getState() as { chatBubble: ChatBubbleState };
 
     try {
+      // 1단계: 선택 단계별 라벨 기반으로 의류 데이터 필터링 요청
       const res = await fetch("/api/searchClothes", {
         method: "POST",
         body: JSON.stringify({
           type: "consulting",
           select: state.chatBubble.QA_select,
-          display: 300,
         }),
       });
 
-      const data = await res.json();
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch consulting clothes data");
+      } else {
+        const data = await res.json();
 
-      return data.clothesData;
+        if (data.clothesData.length > 0) {
+          // 2단계: 필터링 데이터 기반 챗봇 답변 요청
+          await dispatch(recommendOpenAI(data.clothesData));
+        }
+      }
     } catch (err) {
       return err;
     }
@@ -205,81 +212,57 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "01. 어떤 기준으로 추천 받고 싶으신가요?",
+                  title: "01. 어떤 아이템을 찾고 계신가요?",
                   step: 1,
+                  placeholder: "의류 종류 키워드를 입력하세요.",
                   options: [
-                    { label: "인기 브랜드 기준", value: "popular" },
-                    { label: "가성비 기준", value: "cheap" },
+                    { label: "아우터", value: "outer" },
+                    { label: "상의", value: "top" },
+                    { label: "하의", value: "bottom" },
                   ],
                 },
               },
             });
-
             break;
+
           case 2:
             state.messages.push({
               role: "chatbot",
               message: {
                 type: "question",
                 content: {
-                  title: "02. 어떤 종류의 의류를 찾고 계신가요?",
+                  title:
+                    "02. 다음 중, 평소 선호하거나 찾고싶은 스타일은 무엇인가요?",
                   step: 2,
-                  placeholder: "의류 종류 키워드를 입력하세요.",
                   options: [
-                    { label: "아우터", value: "outer" },
-                    { label: "티셔츠", value: "t-shirt" },
-                    { label: "바지", value: "pants" },
-                    { label: "후드티", value: "hoodie" },
-                    { label: "원피스", value: "onepiece" },
-                    { label: "직접입력", value: "etc" },
+                    { label: "오피스룩", value: "office" },
+                    { label: "스포티/운동룩", value: "sportify" },
+                    { label: "스트릿", value: "street" },
+                    { label: "미니멀", value: "minimal" },
+                    { label: "빈티지", value: "vintage" },
                   ],
                 },
               },
             });
+
             break;
 
           case 3:
-            // 가성비 기준 선택 시, 정해진 브랜드 화이트리스트 큐레이션 대상 제외
-            // -> 자유롭게 스타일 선택할 수 있도록 직접입력 옵션 추가
-            if (state.QA_select[0].selectLabel !== "popular") {
-              state.messages.push({
-                role: "chatbot",
-                message: {
-                  type: "question",
-                  content: {
-                    title: "03. 평소 찾는 스타일은 무엇인가요?",
-                    step: 3,
-                    placeholder: "스타일 키워드를 입력하세요.",
-                    options: [
-                      { label: "오피스룩", value: "office" },
-                      { label: "스포츠/운동", value: "sports" },
-                      { label: "스트릿", value: "street" },
-                      { label: "미니멀", value: "minimal" },
-                      { label: "캐쥬얼", value: "casual" },
-                      { label: "직접입력", value: "etc" },
-                    ],
-                  },
+            state.messages.push({
+              role: "chatbot",
+              message: {
+                type: "question",
+                content: {
+                  title: "03. 어떤 성별의 스타일을 추천받고 싶으신가요?",
+                  step: 3,
+                  options: [
+                    { label: "여성", value: "female" },
+                    { label: "남성", value: "male" },
+                    { label: "모두", value: "default" },
+                  ],
                 },
-              });
-            } else {
-              state.messages.push({
-                role: "chatbot",
-                message: {
-                  type: "question",
-                  content: {
-                    title: "03. 평소 찾는 스타일은 무엇인가요?",
-                    step: 3,
-                    options: [
-                      { label: "오피스룩", value: "office" },
-                      { label: "스포츠/운동", value: "sports" },
-                      { label: "스트릿", value: "street" },
-                      { label: "미니멀", value: "minimal" },
-                      { label: "캐쥬얼", value: "casual" },
-                    ],
-                  },
-                },
-              });
-            }
+              },
+            });
 
             break;
 
@@ -289,32 +272,12 @@ const chatBubbleSlice = createSlice({
               message: {
                 type: "question",
                 content: {
-                  title: "04. 회원님의 성별을 선택해주세요.",
-                  step: 4,
-                  options: [
-                    { label: "여성", value: "female" },
-                    { label: "남성", value: "male" },
-                  ],
-                },
-              },
-            });
-
-            break;
-
-          case 5:
-            state.messages.push({
-              role: "chatbot",
-              message: {
-                type: "question",
-                content: {
-                  title: "05. 원하시는 가격선을 선택해주세요",
+                  title:
+                    "05. 마지막으로 인기도 vs 가성비, 어떤 의류를 더 선호하시나요?",
                   step: 5,
-                  placeholder: "원하시는 가격을 숫자로 직접 입력하세요.",
                   options: [
-                    { label: "5만원 이하", value: "50000" },
-                    { label: "10만원 이하", value: "100000" },
-                    { label: "20만원 이하", value: "200000" },
-                    { label: "직접입력", value: "etc" },
+                    { label: "인기도", value: "popular" },
+                    { label: "가성비", value: "cheap" },
                   ],
                 },
               },
@@ -380,7 +343,7 @@ const chatBubbleSlice = createSlice({
     builder.addCase(recommendOpenAI.rejected, (state) => {
       state.generateCreating = "error"; // 챗봇 답변 생성 에러
     });
-    builder.addCase(searchConsultingClothes.fulfilled, (state, action) => {
+    builder.addCase(searchConsultingClothes.fulfilled, (state, action: any) => {
       state.clothesData = action.payload.clothesData; // 추후 의류 데이터 저장
     });
   },

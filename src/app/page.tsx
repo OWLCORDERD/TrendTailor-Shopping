@@ -3,64 +3,45 @@ import ClothesPeed from "@/component/Main/Peed/Contents/ClothesPeed";
 import MainBoard from "@/component/Main/Peed/MainBoard";
 import SeasonPeed from "@/component/Main/Peed/Contents/SeasonPeed";
 import TrendConsultant from "@/component/Main/Peed/MainBoard/TrendConsultant";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
-// const getSeasonClothesDB = async () => {
-//   const seasonQuery = "겨울 아우터";
-
-//   const naverApiHeaders: any = {
-//     "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
-//     "X-Naver-Client-Secret": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
-//   };
-
-//   try {
-//     const res = await fetch(
-//       `https://openapi.naver.com/v1/search/shop.json?query=${seasonQuery}&display=20`,
-//       {
-//         headers: naverApiHeaders,
-//       }
-//     );
-
-//     if (res.ok) {
-//       const resData = await res.json();
-
-//       const clothesData: clothes[] = resData.items;
-
-//       /*Naver Open API 비동기 데이터 통신 결과값의 items 배열의 데이터들마다
-//     title 속성 문자열 값에 포함된 태그 제거하는 replace 작업 진행 */
-//       const replaceTitle: clothes[] = clothesData.map((clothes) => {
-//         return {
-//           title: clothes.title.replace(/<[^>]*>?/g, ""),
-//           link: clothes.link,
-//           image: clothes.image,
-//           lprice: clothes.lprice,
-//           hprice: clothes.hprice,
-//           mallName: clothes.mallName,
-//           productId: clothes.productId,
-//           productType: clothes.productType,
-//           brand: clothes.brand,
-//           maker: clothes.maker,
-//           category1: clothes.category1,
-//           category2: clothes.category2,
-//           category3: clothes.category3,
-//           category4: clothes.category4,
-//         };
-//       });
-//       console.log(replaceTitle);
-
-//       return replaceTitle;
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
+// 2026.01.01: 1달마다 cron 스케줄링으로 업데이트되는 트랜드 의류 데이터 조회
 const getTrendClothes = async () => {
-  try {
-    const res = await fetch(`/api/monthly-collection?secret=${process.env.CRON_SECRET_KEY}`);
-    const data = await res.json();
-    return data.totalMonthlyCollection;
-  } catch (err) {
-    console.log(err);
+  const collectionRef = collection(db, "clothes");
+
+  const docs = await getDocs(collectionRef);
+
+  if (docs.empty) {
+    return [];
+  } else {
+    const clothesData: clothes[] = [];
+    docs.forEach((doc) => {
+      const data = doc.data();
+      clothesData.push({
+        doc_id: doc.id,
+        title: data.title,
+        image: data.image,
+        link: data.link,
+        lprice: data.lprice,
+        hprice: data.hprice,
+        mallName: data.mallName,
+        productId: data.productId,
+        productType: data.productType,
+        brand: data.brand,
+        maker: data.maker,
+        category1: data.category1,
+        category2: data.category2,
+        category3: data.category3,
+        category4: data.category4,
+        viewCount: data.viewCount,
+        likeCount: data.likeCount,
+        collectedAt: data.collectedAt,
+        searchStyle: data.searchStyle,
+        searchCategory: data.searchCategory,
+      });
+    });
+    return clothesData;
   }
 };
 
@@ -108,12 +89,9 @@ const getChannelData = async () => {
 };
 
 const page = async () => {
-  // const seasonClothes: clothes[] | undefined = await getSeasonClothesDB();
   const allClothes: clothes[] | undefined = await getTrendClothes();
   const trendYoutuber: channelDataType[] | undefined = await getChannelData();
   const trendYoutubeVideo: videoType[] | undefined = await getYoutuberVideo();
-
-  console.log(allClothes);
   return (
     <section className='MainPeed-container'>
       <MainBoard />
@@ -123,7 +101,7 @@ const page = async () => {
           trendYoutuber={trendYoutuber}
           trendYoutubeVideo={trendYoutubeVideo}
         />
-        {/* <ClothesPeed clothesData={allClothes} /> */}
+        <ClothesPeed clothesData={allClothes} />
       </div>
     </section>
   );
