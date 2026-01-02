@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { MONTHLY_TREND } from "@/data/MONTHLY_TREND";
 
 interface jobType {
@@ -11,12 +11,11 @@ interface jobType {
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-
-  const secretKey = searchParams.get("secret");
+  // vercel CI에서의 cron 요청 여부 체크 (cron 요청 헤더 및 vercel 환경 체크)
+  const isCron = req.headers.get('x-vercel-cron') === '1' || process.env.VERCEL === '1';
 
   // 2025.12.31: 월별 데이터 수집 전, cron 요청에 대한 비밀 키 검증
-  if (secretKey !== process.env.CRON_SECRET_KEY) {
+  if (!isCron) {
     return NextResponse.json(
       {
         error: "Unauthorized",
