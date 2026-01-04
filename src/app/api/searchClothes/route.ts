@@ -170,7 +170,7 @@ export async function POST(req: NextRequest) {
           );
 
           return NextResponse.json({
-            clothesData: sortByViewCount,
+            clothesData: sortByViewCount.slice(0, 10),
             status: 200,
           });
         case "cheap":
@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
           );
 
           return NextResponse.json({
-            clothesData: sortByLowerPrice,
+            clothesData: sortByLowerPrice.slice(0, 10),
             status: 200,
           });
       }

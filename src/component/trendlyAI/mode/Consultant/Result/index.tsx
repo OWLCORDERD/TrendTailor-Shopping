@@ -20,7 +20,7 @@ interface ResultTemplate {
     templateId: string;
     title: string;
   };
-  channelList: {
+  clothesList: {
     title: string;
     content: consultantChannelType[];
   };
@@ -36,30 +36,31 @@ const Result = () => {
   );
   const dispatch = useAppDispatch();
 
-  // 채널 선택 시, 채널 상세 모드 관리
-  const detailMode = useAppSelector(
-    (state) => state.chatBubble.consultantDetailMode
-  );
+  // 의상 선택 시, 채널 상세 모드 관리
+  // const detailMode = useAppSelector(
+  //   (state) => state.chatBubble.consultantDetailMode
+  // );
 
   const aiRecommendTemplate: ResultTemplate = useMemo(() => {
     const template: ResultTemplate = {
       index: {
         templateId: sessionId,
-        title: "회원님에게 딱 맞는 컨설턴트 탐색을 완료했어요!",
+        title: "회원님께서 찾으시는 의상 탐색을 완료했어요!",
       },
-      // 컨설턴트 유튜버 목록
-      channelList: {
+      // 추천 의류 목록
+      clothesList: {
         title: `${data?.user?.name}님에게 딱 맞는 의류 선별이 완료되었습니다!
         클릭하여 더 상세한 의류 정보를 확인해보세요!`,
         content: [],
       },
     };
 
+    console.log(consultingResultData);
+
     //
-    if (consultingResultData) {
-      template.channelList.content =
-        consultingResultData.content.channelList || [];
-    }
+    // if (consultingResultData) {
+    //   template.clothesList.content = consultingResultData.products || [];
+    // }
 
     return template;
   }, [consultingResultData]);
@@ -70,37 +71,35 @@ const Result = () => {
 
   const chatArea = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (chatArea.current) {
-      chatArea.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  }, [detailMode]);
+  // useEffect(() => {
+  //   if (chatArea.current) {
+  //     chatArea.current.scrollTo({
+  //       top: 0,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // }, [detailMode]);
 
   return (
     <CSS.RecommendResult ref={chatArea}>
-      {detailMode && <Detail />}
-      {aiRecommendTemplate.channelList.content.length > 0 ? (
+      {/* {detailMode && <Detail />} */}
+      {aiRecommendTemplate.clothesList.content.length > 0 ? (
         <>
-          {!detailMode && (
-            <>
-              <CSS.ResultHeader>
-                <Image src={Chatbot} width={80} height={60} alt='챗봇 아이콘' />
-                <h3 className='result-txt'>
-                  {aiRecommendTemplate.index.title}
-                </h3>
-              </CSS.ResultHeader>
+          {/* {!detailMode && ( */}
+          <>
+            <CSS.ResultHeader>
+              <Image src={Chatbot} width={80} height={60} alt='챗봇 아이콘' />
+              <h3 className='result-txt'>{aiRecommendTemplate.index.title}</h3>
+            </CSS.ResultHeader>
 
-              <CSS.ResultSection>
-                {/* 추천 컨설턴트 채널 조회된 경우, 슬라이드 목록 */}
-                <div className='step-bubble'>
-                  <span>{aiRecommendTemplate.channelList.title}</span>
-                </div>
+            <CSS.ResultSection>
+              {/* 추천 컨설턴트 채널 조회된 경우, 슬라이드 목록 */}
+              <div className='step-bubble'>
+                <span>{aiRecommendTemplate.clothesList.title}</span>
+              </div>
 
-                <CSS.ChannelSlider>
-                  <CSS.SlideWrap>
+              <CSS.ChannelSlider>
+                {/* <CSS.SlideWrap>
                     <Swiper
                       slidesPerView={"auto"}
                       navigation={{
@@ -111,8 +110,8 @@ const Result = () => {
                       speed={1000}
                       spaceBetween={20}
                     >
-                      {aiRecommendTemplate.channelList.content.map(
-                        (channel) => {
+                      {aiRecommendTemplate.clothesList.content.map(
+                        (clothes) => {
                           return (
                             <SwiperSlide key={channel.snippet.customUrl}>
                               <div
@@ -148,27 +147,27 @@ const Result = () => {
                         }
                       )}
                     </Swiper>
-                  </CSS.SlideWrap>
+                  </CSS.SlideWrap> */}
 
-                  <CSS.ControlButton
-                    aria-label='slide prev button'
-                    className='prev-btn'
-                    $type={"prev"}
-                  >
-                    <IoIosArrowBack />
-                  </CSS.ControlButton>
+                <CSS.ControlButton
+                  aria-label='slide prev button'
+                  className='prev-btn'
+                  $type={"prev"}
+                >
+                  <IoIosArrowBack />
+                </CSS.ControlButton>
 
-                  <CSS.ControlButton
-                    aria-label='slide next button'
-                    className='next-btn'
-                    $type={"next"}
-                  >
-                    <IoIosArrowForward />
-                  </CSS.ControlButton>
-                </CSS.ChannelSlider>
-              </CSS.ResultSection>
-            </>
-          )}
+                <CSS.ControlButton
+                  aria-label='slide next button'
+                  className='next-btn'
+                  $type={"next"}
+                >
+                  <IoIosArrowForward />
+                </CSS.ControlButton>
+              </CSS.ChannelSlider>
+            </CSS.ResultSection>
+          </>
+          {/* )} */}
         </>
       ) : (
         <CSS.ResultError>

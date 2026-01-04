@@ -58,7 +58,6 @@ export const recommendOpenAI = createAsyncThunk(
   "chatbubble/recommendOpenAI",
   async (clothesData: clothes[], { getState, dispatch }) => {
     const state = getState() as { chatBubble: ChatBubbleState };
-
     try {
       const res = await fetch("/api/recommendOpenAI", {
         method: "POST",
@@ -68,6 +67,7 @@ export const recommendOpenAI = createAsyncThunk(
       });
 
       const data = await res.json();
+
       return data;
     } catch (err) {
       console.error("Failed to fetch openAI chatbot consulting result");
@@ -83,7 +83,7 @@ export const retryRecommendOpenAI = createAsyncThunk(
     dispatch(retryConsulting());
 
     // 다시 openAI 및 youtube API 채널 컨설턴트 추천 요청
-    dispatch(recommendOpenAI());
+    // dispatch(recommendOpenAI());
   }
 );
 
@@ -142,6 +142,8 @@ export const searchConsultingClothes = createAsyncThunk(
           // 2단계: 필터링 데이터 기반 챗봇 답변 요청
           await dispatch(recommendOpenAI(data.clothesData));
         }
+
+        return data;
       }
     } catch (err) {
       return err;
@@ -267,6 +269,27 @@ const chatBubbleSlice = createSlice({
             break;
 
           case 4:
+            state.messages.push({
+              role: "chatbot",
+              message: {
+                type: "question",
+                content: {
+                  title: "04. 원하시는 가격선을 선택해주세요",
+                  step: 4,
+                  placeholder: "원하시는 가격을 숫자로 직접 입력하세요.",
+                  options: [
+                    { label: "5만원 이하", value: "50000" },
+                    { label: "10만원 이하", value: "100000" },
+                    { label: "20만원 이하", value: "200000" },
+                    { label: "직접입력", value: "etc" },
+                  ],
+                },
+              },
+            });
+
+            break;
+
+          case 5:
             state.messages.push({
               role: "chatbot",
               message: {
