@@ -96,11 +96,6 @@ export async function POST(req: NextRequest) {
         );
       });
 
-      clothesData.forEach((item) => {
-        console.log(item.searchCategory);
-        console.log(selectValueFormatter(selectType.clothes_type));
-      });
-
       if (filterByType.length === 0) {
         return NextResponse.json({
           err: "선택하신 의류 종류에 맞는 의류가 없습니다.",

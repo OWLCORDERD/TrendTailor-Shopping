@@ -15,8 +15,6 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const selectClothes: clothes[] = body.selectClothes;
 
-  console.log(selectClothes);
-
   const openAI = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   }); // OpenAI 생성자 객체 생성
@@ -54,7 +52,7 @@ products: ${JSON.stringify(selectClothes)}`,
         { role: "user", content: keywordPrompt.userPrompt },
       ],
       temperature: 0.6,
-      max_tokens: 256,
+      max_tokens: 1800,
       top_p: 1,
       // 답변을 원하는 JSON 객체 형태로 셋팅 가능한 함수 선언
       functions: [
@@ -85,17 +83,12 @@ products: ${JSON.stringify(selectClothes)}`,
                       type: "string",
                       description: "Simple styling suggestion",
                     },
-                    mood: {
-                      type: "string",
-                      description: "Overall fashion mood",
-                    },
                   },
                   required: [
                     "productId",
                     "summary",
                     "keyPoints",
                     "stylingTip",
-                    "mood",
                   ],
                 },
               },
@@ -121,9 +114,9 @@ products: ${JSON.stringify(selectClothes)}`,
       });
     }
 
-    // const parsedRecommend = await JSON.parse(recommendInformation);
+    const parsedRecommend = await JSON.parse(recommendInformation);
 
-    return NextResponse.json({ recommend: recommendInformation, status: 200 });
+    return NextResponse.json({ recommend: parsedRecommend, status: 200 });
   } catch (err) {
     return NextResponse.json({
       status: 404,
