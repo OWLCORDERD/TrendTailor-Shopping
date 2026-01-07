@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import searchClothesReducer from "./searchClothes";
+import searchClothesReducer from "./monthlyClothesSlice";
 import chatBubbleSliceReducer from "./chatBubbleSlice";
 import modalSliceReducer from "./modalSlice";
 

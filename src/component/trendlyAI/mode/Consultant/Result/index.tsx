@@ -11,9 +11,10 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import searchError from "@/assets/images/search-error.png";
 import {
   retryRecommendOpenAI,
-  updateChannelDetail,
+  consultingClothesDetail,
 } from "@/store/chatBubbleSlice";
 import Detail from "./Detail";
+import { getRecommendClothes } from "@/store/monthlyClothesSlice";
 
 interface ResultTemplate {
   index: {
@@ -22,7 +23,7 @@ interface ResultTemplate {
   };
   clothesList: {
     title: string;
-    content: consultantChannelType[];
+    content: clothes[];
   };
 }
 
@@ -37,9 +38,9 @@ const Result = () => {
   const dispatch = useAppDispatch();
 
   // 의상 선택 시, 채널 상세 모드 관리
-  // const detailMode = useAppSelector(
-  //   (state) => state.chatBubble.consultantDetailMode
-  // );
+  const detailMode = useAppSelector(
+    (state) => state.chatBubble.clothesDetailMode
+  );
 
   const aiRecommendTemplate: ResultTemplate = useMemo(() => {
     const template: ResultTemplate = {
@@ -55,30 +56,34 @@ const Result = () => {
       },
     };
 
-    console.log(consultingResultData);
-
-    //
-    // if (consultingResultData) {
-    //   template.clothesList.content = consultingResultData.products || [];
-    // }
+    // 추천 의류 목록 데이터 조회
+    if (consultingResultData) {
+      consultingResultData.products.forEach(async (product: recommendClothes) => {
+        const searchData = await dispatch(getRecommendClothes(product.productId));
+        if (searchData !== null) {
+          template.clothesList.content.push(searchData.payload as clothes);
+        }
+      })
+    }
 
     return template;
   }, [consultingResultData]);
 
-  const currentChannelDetail = (channel: consultantChannelType) => {
-    dispatch(updateChannelDetail(channel));
+  // 사용자가 클릭한 AI 컨설팅 추천 상품 상세 정보 동적 업데이트
+  const currentClothesDetail = (clothes: clothes) => {
+    dispatch(consultingClothesDetail(clothes));
   };
 
   const chatArea = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   if (chatArea.current) {
-  //     chatArea.current.scrollTo({
-  //       top: 0,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // }, [detailMode]);
+  useEffect(() => {
+    if (chatArea.current) {
+      chatArea.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [detailMode]);
 
   return (
     <CSS.RecommendResult ref={chatArea}>
@@ -99,7 +104,7 @@ const Result = () => {
               </div>
 
               <CSS.ChannelSlider>
-                {/* <CSS.SlideWrap>
+                <CSS.SlideWrap>
                     <Swiper
                       slidesPerView={"auto"}
                       navigation={{
@@ -113,18 +118,18 @@ const Result = () => {
                       {aiRecommendTemplate.clothesList.content.map(
                         (clothes) => {
                           return (
-                            <SwiperSlide key={channel.snippet.customUrl}>
+                            <SwiperSlide key={clothes.productId}>
                               <div
                                 className='channel-item'
-                                onClick={() => currentChannelDetail(channel)}
+                                // onClick={() => currentChannelDetail(channel)}
                               >
                                 <div className='channel-thumbnail'>
                                   <Image
-                                    src={channel.snippet.thumbnails.high.url}
+                                    src={clothes.image}
                                     width={150}
                                     height={150}
                                     alt={
-                                      channel.snippet.title +
+                                      clothes.title +
                                       "유튜브 채널 썸네일"
                                     }
                                   />
@@ -132,12 +137,12 @@ const Result = () => {
 
                                 <div className='channel-info'>
                                   <p className='channel-name'>
-                                    {channel.snippet.title}
+                                    {clothes.title}
                                   </p>
                                   <div className='channel-subscriber'>
-                                    <span>구독자</span>
+                                    <span>좋아요</span>
                                     <span>
-                                      {channel.statistics.subscriberCount}명
+                                      {clothes.likeCount}명
                                     </span>
                                   </div>
                                 </div>
@@ -147,7 +152,7 @@ const Result = () => {
                         }
                       )}
                     </Swiper>
-                  </CSS.SlideWrap> */}
+                  </CSS.SlideWrap>
 
                 <CSS.ControlButton
                   aria-label='slide prev button'

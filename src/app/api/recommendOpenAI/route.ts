@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-interface surveyForm {
-  selectList: selectType[]; // 선택한 답변 리스트
-}
-
-interface selectType {
-  step: number;
-  selectLabel: string; // 선택한 답변 레이블
-}
-
 export async function POST(req: NextRequest) {
   // 클라이언트 상태관리에서 전달받은 답변 선택 배열 값 파싱
   const body = await req.json();
@@ -72,16 +63,16 @@ products: ${JSON.stringify(selectClothes)}`,
                     summary: {
                       type: "string",
                       description:
-                        "One sentence summary as a clothing store staff",
+                        "One sentence korean language summary as a clothing store staff",
                     },
                     keyPoints: {
                       type: "array",
                       items: { type: "string" },
-                      description: "2~3 key selling points",
+                      description: "2~3 korean language key selling points",
                     },
                     stylingTip: {
                       type: "string",
-                      description: "Simple styling suggestion",
+                      description: "Simple korean language styling suggestion",
                     },
                   },
                   required: [

@@ -105,6 +105,13 @@ declare global {
     searchCategory: string; // 검색 카테고리 키워드
   }
 
+  interface recommendClothes {
+    productId: string;
+    summary: string;
+    keyPoints: string[];
+    stylingTip: string;
+  }
+
   // 대화 세션 메시지 타입 정의
   interface messagesType {
     role: string; // 사용자 & 챗봇 답변 메시지 분류

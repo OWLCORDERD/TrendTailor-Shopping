@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import Pagenation from "../Pagenation/Pagenation";
 import { useSearchParams } from "next/navigation";
-import { getSearchClothesAsync } from "store/searchClothes";
+import { getSearchClothes } from "@/store/monthlyClothesSlice";
 
 const SearchProductList = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,7 +26,7 @@ const SearchProductList = () => {
 
   const fetchKeyword = async () => {
     if (searchQuery !== null) {
-      dispatch(getSearchClothesAsync(searchQuery));
+      dispatch(getSearchClothes(searchQuery as string));
     }
   };
 

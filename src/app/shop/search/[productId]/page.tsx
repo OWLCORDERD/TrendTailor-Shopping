@@ -2,7 +2,7 @@
 
 import ProductDetail from "component/Product/ProductDetail";
 import React, { useEffect } from "react";
-import { currentSearchProduct } from "store/searchClothes";
+import { currentSearchProduct } from "@/store/monthlyClothesSlice";
 import { useAppDispatch } from "store/hooks";
 
 const SearchCurrentProduct = ({ params }: any) => {

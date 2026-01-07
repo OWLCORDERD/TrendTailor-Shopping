@@ -9,15 +9,15 @@ import { useDispatch } from "react-redux";
 import {
   changeMode,
   chatClose,
-  closeChannelDetail,
+  closeClothesDetail,
 } from "@/store/chatBubbleSlice";
 import { TiHome } from "react-icons/ti";
 
 const Container = () => {
   // 현재 활성화된 채팅 모드
   const chatMode = useAppSelector((state) => state.chatBubble.mode);
-  const consultantDetailMode = useAppSelector(
-    (state) => state.chatBubble.consultantDetailMode
+  const clothesDetailMode = useAppSelector(
+    (state) => state.chatBubble.clothesDetailMode
   );
   const dispatch = useDispatch();
 
@@ -37,11 +37,11 @@ const Container = () => {
   return (
     <div className='modal trendly'>
       <div className='modal-header'>
-        {consultantDetailMode ? (
+        {clothesDetailMode ? (
           <button
             type='button'
             className='close-btn'
-            onClick={() => dispatch(closeChannelDetail())}
+            onClick={() => dispatch(closeClothesDetail())}
             style={{ transform: "rotate(180deg)" }}
           >
             <IoReturnUpForwardSharp />

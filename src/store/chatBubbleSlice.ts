@@ -9,8 +9,8 @@ interface ChatBubbleState {
   QA_select: selectType[];
   generateCreating: string; // 챗봇 답변 생성 여부
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
-  consultantDetailMode: boolean; // 컨설턴트 상세 모드 여부
-  currentConsultant: consultantChannelType | null; // 현재 선택한 컨설턴트 채널 정보
+  clothesDetailMode: boolean; // 컨설팅 의류 상세 모드 여부
+  currentClothes: clothes | null; // 현재 선택한 컨설팅 의류 정보
   clothesData: any[]; // 컨설팅용 의류 데이터
 }
 interface selectType {
@@ -48,8 +48,8 @@ const initialState: ChatBubbleState = {
   ],
   generateCreating: "before", // 챗봇 답변 생성 중 여부 (기본값 true)
   consultingResultData: {}, // 챗봇 답변 메시지
-  consultantDetailMode: false, // 컨설턴트 상세 모드 여부
-  currentConsultant: null, // 현재 선택한 컨설턴트 채널 정보
+  clothesDetailMode: false, // 컨설팅 의류 상세 모드 여부
+  currentClothes: null, // 현재 선택한 컨설팅 의류 정보
   clothesData: [], // 컨설팅용 의류 데이터
 };
 
@@ -67,6 +67,10 @@ export const recommendOpenAI = createAsyncThunk(
       });
 
       const data = await res.json();
+
+      if (data.status !== 200) {
+        throw new Error("Failed to fetch recommend openAI data");
+      }
 
       return data;
     } catch (err) {
@@ -166,8 +170,8 @@ const chatBubbleSlice = createSlice({
       state.QA_select = initialState.QA_select; // 선택 배열 초기화
       state.generateCreating = "before"; // 챗봇 답변 생성 중 여부 초기화
       state.consultingResultData = {}; // 컨설팅 챗봇 답변 데이터 초기화
-      state.consultantDetailMode = false; // 컨설턴트 상세 모드 비활성화
-      state.currentConsultant = null; // 현재 선택한 컨설턴트 채널 정보 초기화
+      state.clothesDetailMode = false; // 컨설팅 의류 상세 모드 비활성화
+      state.currentClothes = null; // 현재 선택한 컨설팅 의류 정보 초기화
     },
     // 챗봇 모드 변경
     changeMode: (state, action: any) => {
@@ -178,8 +182,8 @@ const chatBubbleSlice = createSlice({
       state.QA_select = initialState.QA_select; // 선택 배열 초기화
       state.generateCreating = "before"; // 챗봇 답변 생성 중 여부 초기화
       state.consultingResultData = {}; // 컨설팅 챗봇 답변 데이터 초기화
-      state.consultantDetailMode = false; // 컨설턴트 상세 모드 비활성화
-      state.currentConsultant = null; // 현재 선택한 컨설턴트 채널 정보 초기화
+      state.clothesDetailMode = false; // 컨설팅 의류 상세 모드 비활성화
+      state.currentClothes = null; // 현재 선택한 컨설팅 의류 정보 초기화
 
       if (action.payload.mode === "consultant") {
         state.messages = [
@@ -346,13 +350,14 @@ const chatBubbleSlice = createSlice({
     pushMessage: (state, action) => {
       state.messages.push(action.payload);
     },
-    updateChannelDetail: (state, action) => {
-      state.currentConsultant = action.payload;
-      state.consultantDetailMode = true; // 컨설턴트 상세 모드 활성화
+    // AI 컨설팅 추천 상품 상세 모드 관리
+    consultingClothesDetail: (state, action) => {
+      state.currentClothes = action.payload;
+      state.clothesDetailMode = true; // 컨설팅 의류 상세 모드 활성화
     },
-    closeChannelDetail: (state) => {
-      state.currentConsultant = null;
-      state.consultantDetailMode = false; // 컨설턴트 상세 모드 비활성화
+    closeClothesDetail: (state) => {
+      state.currentClothes = null;
+      state.clothesDetailMode = false; // 컨설팅 의류 상세 모드 비활성화
     },
   },
   extraReducers: (builder) => {
@@ -380,8 +385,8 @@ export const {
   nextStep,
   stepSelector,
   retryConsulting,
-  updateChannelDetail,
-  closeChannelDetail,
+  consultingClothesDetail,
+  closeClothesDetail,
   stepDirectInputUpdate,
 } = chatBubbleSlice.actions;
 export default chatBubbleSlice.reducer;
