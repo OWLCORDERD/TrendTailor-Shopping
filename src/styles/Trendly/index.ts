@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 const Trendly: any = {};
 
+// Trendly 챗봇 채팅 모달 내부 컨텐츠 영역
+
+// 챗봇 인트로
 Trendly.Intro = styled.div`
   display: flex;
   flex-direction: column;
@@ -835,6 +838,15 @@ Trendly.ChannelDetail = styled.div`
       }
     }
   }
+`;
+
+Trendly.ChatArea = styled.div`
+  width: calc(100% - 350px);
+`;
+
+Trendly.RecentChatSideBar = styled.div`
+  width: 350px;
+  background-color: #f5f5f5;
 `;
 
 export { Trendly };

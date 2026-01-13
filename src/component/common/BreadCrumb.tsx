@@ -12,15 +12,17 @@ const BreadCrumb = () => {
 
   const pageTitle = useMemo(() => {
     if (currentBreadcrumb.length > 0) {
-    return currentBreadcrumb[currentBreadcrumb.length - 1].name;
+      return currentBreadcrumb[currentBreadcrumb.length - 1].name;
     } else {
       return "";
     }
   }, [currentBreadcrumb]);
 
+  const filterRoute = route !== "/" && route !== "/trendly";
+
   return (
     <>
-      {route !== "/" && (
+      {filterRoute && (
         <div className='page-banner'>
           <h1 className='page-title'>{pageTitle}</h1>
 
