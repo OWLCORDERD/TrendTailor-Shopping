@@ -1,21 +1,44 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useSession } from "next-auth/react";
+import { getRecommendClothes } from "./monthlyClothesSlice";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 interface ChatBubbleState {
   chatOpen: boolean;
   mode: string;
   messages: messagesType[];
   // 컨설팅 모드 관련 상태 값
-  QA_step: number;
-  QA_select: selectType[];
+  QA_step: number; // QA 단계
+  QA_select: selectType[]; // QA 단계별 사용자 답변 선택 값 
   generateCreating: string; // 챗봇 답변 생성 여부
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
   clothesDetailMode: boolean; // 컨설팅 의류 상세 모드 여부
   currentClothes: clothes | null; // 현재 선택한 컨설팅 의류 정보
   clothesData: any[]; // 컨설팅용 의류 데이터
 }
+
 interface selectType {
   step: number;
   selectLabel: string; // 선택한 답변 레이블
+}
+
+interface ResultTemplate {
+  // 컨설팅 요청 사용자 정보 및 단계별 답변 선택 값
+  user: {
+    info: {
+      username: string;
+      email: string;
+    },
+    QA_select: {
+      step: number;
+      selectLabel: string;
+    }[];
+  };
+  assistant: {
+    recommendInfo: recommendClothes[];
+    products: clothes[];
+  };
 }
 
 const initialState: ChatBubbleState = {
@@ -47,7 +70,7 @@ const initialState: ChatBubbleState = {
     },
   ],
   generateCreating: "before", // 챗봇 답변 생성 중 여부 (기본값 true)
-  consultingResultData: {}, // 챗봇 답변 메시지
+  consultingResultData: null, // 챗봇 답변 메시지
   clothesDetailMode: false, // 컨설팅 의류 상세 모드 여부
   currentClothes: null, // 현재 선택한 컨설팅 의류 정보
   clothesData: [], // 컨설팅용 의류 데이터
@@ -75,6 +98,58 @@ export const recommendOpenAI = createAsyncThunk(
       return data;
     } catch (err) {
       console.error("Failed to fetch openAI chatbot consulting result");
+      return err;
+    }
+  }
+);
+
+export const recommendResultSession = createAsyncThunk(
+  "chatbubble/recommendResultSession",
+  async (userData: any, { getState, dispatch }) => {
+    const state = getState() as { chatBubble: ChatBubbleState };
+    const userQASelect = state.chatBubble.QA_select;
+
+    try {
+      const template: ResultTemplate = {
+        user: {
+          info: {
+            username: userData?.user?.name ?? "",
+            email: userData?.user?.email ?? "",
+          },
+          QA_select: userQASelect,
+        },
+        // 추천 의류 목록
+        assistant: {
+          recommendInfo: [],
+          products: [],
+        },
+      };
+
+      console.log(template, '결과 객체화');
+
+      // 추천 의류 목록 데이터 조회
+      const productPromises = state.chatBubble.consultingResultData.products.map(
+      async (product: recommendClothes) => {
+        const searchData = await dispatch(getRecommendClothes(product.productId));
+        return searchData.payload as clothes;
+      });
+
+      const products = await Promise.all(productPromises);
+      template.assistant.products = products;
+      template.assistant.recommendInfo = state.chatBubble.consultingResultData.products;
+
+      const recentChatsCollection = collection(db, "recent-chats");
+
+      const res = await addDoc(recentChatsCollection, {
+        ...template,
+        createAt: new Date().toISOString(),
+      });
+
+      return res;
+
+      return res;
+    } catch (err) {
+      console.error("Failed to fetch recommend result session");
       return err;
     }
   }
@@ -366,13 +441,20 @@ const chatBubbleSlice = createSlice({
     }),
       builder.addCase(recommendOpenAI.fulfilled, (state, action: any) => {
         state.consultingResultData = action.payload.recommend; // 챗봇 답변 데이터 저장
-        state.generateCreating = "complete"; // 챗봇 답변 생성 완료
       });
     builder.addCase(recommendOpenAI.rejected, (state) => {
       state.generateCreating = "error"; // 챗봇 답변 생성 에러
     });
     builder.addCase(searchConsultingClothes.fulfilled, (state, action: any) => {
       state.clothesData = action.payload.clothesData; // 추후 의류 데이터 저장
+    });
+    builder.addCase(recommendResultSession.fulfilled, (state, action: any) => {
+      if (`recent-chats/${action.payload.id}` === action.payload.path) {
+        state.generateCreating = "complete"; // 챗봇 답변 생성 완료
+      }
+    });
+    builder.addCase(recommendResultSession.rejected, (state) => {
+      state.generateCreating = "error"; // 챗봇 답변 생성 에러
     });
   },
 });

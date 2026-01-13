@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Trendly as CSS } from "@/styles";
 import TrendlyBubble from "@/component/trendlyAI/bubble/Trendly";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import UserBubble from "@/component/trendlyAI/bubble/User";
 import { warningIcon } from "@/component/svgData";
 import Loading from "./Loading";
 import Result from "./Result";
+import { recommendResultSession } from "@/store/chatBubbleSlice";
+import { useSession } from "next-auth/react";
 
 const Consultant = () => {
   const messages = useAppSelector((state) => state.chatBubble.messages);
@@ -13,8 +15,14 @@ const Consultant = () => {
   const generateRecommendation = useAppSelector(
     (state) => state.chatBubble.generateCreating
   );
+  // 컨설팅 챗봇 결과 응답 데이터
+  const consultingResultData = useAppSelector(
+    (state) => state.chatBubble.consultingResultData
+  )
 
   const chatArea = useRef<HTMLDivElement>(null);
+
+  const dispatch = useAppDispatch();
 
   // 2025.08.02: 컨설팅 모드 > 질문 템플릿 메시지 생성시마다
   // 채팅 영역 하단으로 스크롤 이동
@@ -47,12 +55,18 @@ const Consultant = () => {
         );
       case "creating":
         return <Loading />;
-      case "complete":
+      default:
         return <Result />;
-      case "error":
-        return null;
     }
   };
+
+  const { data } = useSession();
+
+  useEffect(() => {
+    if (consultingResultData.products && consultingResultData.products.length > 0) {
+      dispatch(recommendResultSession(data)); // 컨설팅 결과 세션 저장
+    }
+  }, [consultingResultData])
   return (
     <CSS.ConsultantMode>
       {/* 실시간 컨설팅 단계에 따른 화면 전환
