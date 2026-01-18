@@ -15,6 +15,7 @@ const TrendlyPage = () => {
         setSideBarActive={setSideBarActive}
       />
 
+      {/* 채팅 인트로 or 모드 화면 영역 */}
       <ChatArea
         sideBarActive={sideBarActive}
         setSideBarActive={setSideBarActive}

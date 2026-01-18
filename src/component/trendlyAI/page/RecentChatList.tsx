@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Trendly as CSS } from "@/styles";
 import logoIcon from "@/assets/images/logo-icon.png";
 import chatbotCharacter from "@/assets/images/chatbot.png";
@@ -10,6 +10,8 @@ import { FiSidebar } from "react-icons/fi";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { questionBubbleIcon } from "@/component/svgData";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface propsType {
   sideBarActive: boolean;
@@ -32,7 +34,7 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
       // 조회 조건 쿼리
       const selectQuery = query(
         collectionRef,
-        where("userEmail", "==", data?.user?.email)
+        where("user.info.email", "==", data?.user?.email)
       );
 
       // 쿼리 참조하여 컬렉션 내부 문서 조회
@@ -43,11 +45,25 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
         throw new Error("최근 채팅 내역이 없습니다.");
       }
 
+      const snapShotData: any = [];
       querySnapshot.forEach((doc) => {
-        const data = doc.data();
+        const data = doc.data(); // 문서 데이터
 
-        setRecentData((prev) => [...prev, data]);
+        // 조회 문서 아이디와 데이터 함께 저장 처리
+        snapShotData.push({
+          id: doc.id,
+          type: data["type"],
+          title: data["title"] ?? "제목 없음",
+          userSelect: data["userSelect"],
+          assistant: {
+            products: data["assistant.products"]?.products ?? [],
+            recommendInfo: data["assistant.recommendInfo"] ?? {},
+          },
+          createdAt: data["createAt"] ?? "",
+        });
       });
+
+      setRecentData(snapShotData);
     } catch (err) {
       console.error("최근 채팅 내역 불러오기 오류", err);
     }
@@ -56,52 +72,104 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
   };
 
   useEffect(() => {
-    async () => {
-      await currentUserRecentListLoad();
-    };
-  }, []);
+    currentUserRecentListLoad();
+  }, [data?.user?.email]);
+
+  const dateFormat = (date: string) => {
+    return new Date(date).toLocaleDateString("ko-KR");
+  };
+
+  const sideBarMotion = {
+    initial: {
+      opacity: 0,
+    },
+    animate: {
+      opacity: 1,
+      transition: {
+        delay: 0.2,
+        duration: 0.5,
+      },
+    },
+  };
 
   return (
-    <CSS.RecentChatSideBar>
-      <div className='sidebar-inner'>
-        <div className='sidebar-inner-control'>
-          <Image
-            src={logoIcon}
-            width={70}
-            height={70}
-            alt='trendTailor 로고 아이콘'
-          />
+    <CSS.RecentChatSideBar $sideActive={sideBarActive}>
+      <div className='sidebar-control'>
+        {sideBarActive && (
+          <motion.div
+            className='logo-icon'
+            variants={sideBarMotion}
+            initial='initial'
+            animate='animate'
+          >
+            <Image
+              src={logoIcon}
+              width={70}
+              height={70}
+              alt='trendTailor 로고 아이콘'
+            />
+          </motion.div>
+        )}
 
+        <button
+          type='button'
+          className='toggle-btn'
+          onClick={() => setSideBarActive(!sideBarActive)}
+        >
           <FiSidebar />
-        </div>
-
-        <div className='recent-chat-list'>
-          {loading ? (
-            <div className='loading-txt'>최근 채팅 내역 불러오는 중...</div>
-          ) : recentData.length === 0 ? (
-            <>
-              <div className='no-data'>
-                <div className='no-data-icon'>
-                  <div className='question-bubble'>
-                    {questionBubbleIcon.icon()}
-                  </div>
-                  <Image
-                    src={chatbotCharacter}
-                    width={50}
-                    height={50}
-                    alt='최근 채팅 내역 없음 아이콘'
-                  />
-                </div>
-                <p className='no-data-txt'>최근 채팅 내역이 없습니다.</p>
-              </div>
-            </>
-          ) : (
-            recentData.map((item, index) => (
-              <div key={index} className='chat-item'></div>
-            ))
-          )}
-        </div>
+        </button>
       </div>
+
+      {sideBarActive && (
+        <motion.div
+          className='recent-chat-list'
+          variants={sideBarMotion}
+          initial='initial'
+          animate='animate'
+        >
+          <h1 className='chat-list-title'>최근 채팅 내역</h1>
+
+          <ul className='chat-list'>
+            {loading ? (
+              <div className='loading-txt'>최근 채팅 내역 불러오는 중...</div>
+            ) : recentData.length === 0 ? (
+              <>
+                <div className='no-data'>
+                  <div className='no-data-icon'>
+                    <div className='question-bubble'>
+                      {questionBubbleIcon.icon()}
+                    </div>
+                    <Image
+                      src={chatbotCharacter}
+                      width={50}
+                      height={50}
+                      alt='최근 채팅 내역 없음 아이콘'
+                      className='chatbot-character'
+                    />
+                  </div>
+                  <p className='no-data-txt'>최근 채팅 내역이 없습니다.</p>
+                </div>
+              </>
+            ) : (
+              recentData.map((item, index) => (
+                <div key={index} className='chat-item'>
+                  <span className='type-label consult'>
+                    {item.type === "consulting" ? "컨설팅" : "채팅"}
+                  </span>
+
+                  <Link href='/trendly' className='chat-title'>
+                    {item.title ?? "제목"}
+                  </Link>
+
+                  <span className='chat-date'>
+                    {dateFormat(item.createdAt)}
+                  </span>
+                </div>
+              ))
+            )}
+          </ul>
+        </motion.div>
+      )}
     </CSS.RecentChatSideBar>
   );
 };

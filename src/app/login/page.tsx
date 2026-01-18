@@ -5,7 +5,7 @@ import "styles/signIn.scss";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { chatClose } from "@/store/chatBubbleSlice";
@@ -24,6 +24,7 @@ const Login = () => {
   });
 
   const dispatch = useAppDispatch();
+  const params = useSearchParams();
 
   const chatOpen = useAppSelector((state) => state.chatBubble.chatOpen);
 
@@ -62,7 +63,16 @@ const Login = () => {
     });
 
     if (!result?.error) {
-      router.push("/");
+      // 리다이렉트 경로 쿼리값 존재할 경우
+      const redirectQuery: string = params.get("redirect") ?? "";
+
+      if (redirectQuery !== "") {
+        // 로그인 성공 시, 리다이렉트 경로 이동 처리
+        router.push(redirectQuery);
+        return;
+      } else {
+        router.push("/");
+      }
     } else {
       alert("없는 정보이거나 비밀번호가 올바르지 않습니다.");
       return;

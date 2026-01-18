@@ -840,13 +840,152 @@ Trendly.ChannelDetail = styled.div`
   }
 `;
 
-Trendly.ChatArea = styled.div`
-  width: calc(100% - 350px);
+Trendly.ChatArea = styled.div<{ $sideActive: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${(props) => (props.$sideActive ? "calc(100% - 350px)" : "100%")};
+  height: 100vh;
+  transition: all 0.3s ease-in-out;
 `;
 
-Trendly.RecentChatSideBar = styled.div`
-  width: 350px;
+Trendly.ChatInner = styled.div`
+  max-width: 500px;
+  margin: 0 auto;
+`;
+
+/* 좌측 네비게이션 바 */
+Trendly.RecentChatSideBar = styled.div<{ $sideActive: boolean }>`
+  width: ${(props) => (props.$sideActive ? "350px" : "100px")};
   background-color: #f5f5f5;
+  height: 100vh;
+  padding: 15px 20px;
+  transition: all 0.3s ease-in-out;
+
+  // 좌측 네비게이션 바 > 상단 컨트롤 바
+  .sidebar-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+
+    .toggle-btn {
+      display: block;
+      width: 70px;
+      height: 70px;
+      border: none;
+      background-color: transparent;
+
+      & > svg {
+        font-size: 30px;
+        color: var(--colorMain);
+      }
+    }
+  }
+
+  // 채팅 목록 영역
+  .recent-chat-list {
+    padding: 20px 10px;
+
+    // 영역 대제목
+    .chat-list-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    // 채팅 목록
+    .chat-list {
+      padding: 25px 0;
+
+      .loading-txt {
+        margin: 20px 0;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      // 컨텐츠 노데이터 상태인 경우
+      &:has(.no-data) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin: 20px 0;
+      }
+
+      .no-data {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        &-icon {
+          position: relative;
+          width: 150px;
+          height: 200px;
+
+          .question-bubble {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+
+          .chatbot-character {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 100px;
+          }
+        }
+      }
+
+      // 목록 데이터가 존재할 경우 채팅 히스토리 아이템
+      .chat-item {
+        height: 28px;
+        margin-bottom: 20px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .type-label {
+          display: inline-block;
+          vertical-align: middle;
+          text-align: center;
+          padding: 6.5px 7px;
+          font-size: 12px;
+          color: #fff;
+          min-width: 40px;
+          margin-right: 10px;
+
+          &.consult {
+            border-radius: 5px;
+            background-color: var(--colorMain);
+          }
+        }
+
+        .chat-title {
+          display: inline-block;
+          vertical-align: middle;
+          width: calc(100% - 150px);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 16px;
+          margin-right: 10px;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .chat-date {
+          font-size: 12px;
+        }
+      }
+    }
+  }
 `;
 
 export { Trendly };
