@@ -18,7 +18,7 @@ const Consultant = () => {
   // 컨설팅 챗봇 결과 응답 데이터
   const consultingResultData = useAppSelector(
     (state) => state.chatBubble.consultingResultData
-  )
+  );
 
   const chatArea = useRef<HTMLDivElement>(null);
 
@@ -63,10 +63,13 @@ const Consultant = () => {
   const { data } = useSession();
 
   useEffect(() => {
-    if (consultingResultData.products && consultingResultData.products.length > 0) {
+    if (
+      consultingResultData.products &&
+      consultingResultData.products.length > 0
+    ) {
       dispatch(recommendResultSession(data)); // 컨설팅 결과 세션 저장
     }
-  }, [consultingResultData])
+  }, [consultingResultData]);
   return (
     <CSS.ConsultantMode>
       {/* 실시간 컨설팅 단계에 따른 화면 전환

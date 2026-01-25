@@ -152,19 +152,23 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
               </>
             ) : (
               recentData.map((item, index) => (
-                <div key={index} className='chat-item'>
+                <Link
+                  href={"/trendly/consulting" + `?id=${item.id}`}
+                  key={index}
+                  className='chat-item'
+                >
                   <span className='type-label consult'>
                     {item.type === "consulting" ? "컨설팅" : "채팅"}
                   </span>
 
-                  <Link href='/trendly' className='chat-title'>
+                  <Link href={`trendly/${item.id}`} className='chat-title'>
                     {item.title ?? "제목"}
                   </Link>
 
                   <span className='chat-date'>
                     {dateFormat(item.createdAt)}
                   </span>
-                </div>
+                </Link>
               ))
             )}
           </ul>

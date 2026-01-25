@@ -10,7 +10,7 @@ interface ChatBubbleState {
   messages: messagesType[];
   // 컨설팅 모드 관련 상태 값
   QA_step: number; // QA 단계
-  QA_select: selectType[]; // QA 단계별 사용자 답변 선택 값 
+  QA_select: selectType[]; // QA 단계별 사용자 답변 선택 값
   generateCreating: string; // 챗봇 답변 생성 여부
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
   clothesDetailMode: boolean; // 컨설팅 의류 상세 모드 여부
@@ -29,7 +29,7 @@ interface ResultTemplate {
     info: {
       username: string;
       email: string;
-    },
+    };
     QA_select: {
       step: number;
       selectLabel: string;
@@ -125,18 +125,21 @@ export const recommendResultSession = createAsyncThunk(
         },
       };
 
-      console.log(template, '결과 객체화');
-
       // 추천 의류 목록 데이터 조회
-      const productPromises = state.chatBubble.consultingResultData.products.map(
-      async (product: recommendClothes) => {
-        const searchData = await dispatch(getRecommendClothes(product.productId));
-        return searchData.payload as clothes;
-      });
+      const productPromises =
+        state.chatBubble.consultingResultData.products.map(
+          async (product: recommendClothes) => {
+            const searchData = await dispatch(
+              getRecommendClothes(product.productId)
+            );
+            return searchData.payload as clothes;
+          }
+        );
 
       const products = await Promise.all(productPromises);
       template.assistant.products = products;
-      template.assistant.recommendInfo = state.chatBubble.consultingResultData.products;
+      template.assistant.recommendInfo =
+        state.chatBubble.consultingResultData.products;
 
       const recentChatsCollection = collection(db, "recent-chats");
 
@@ -144,8 +147,6 @@ export const recommendResultSession = createAsyncThunk(
         ...template,
         createAt: new Date().toISOString(),
       });
-
-      return res;
 
       return res;
     } catch (err) {

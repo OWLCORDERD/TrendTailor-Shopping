@@ -18,7 +18,7 @@ const BreadCrumb = () => {
     }
   }, [currentBreadcrumb]);
 
-  const filterRoute = route !== "/" && route !== "/trendly";
+  const filterRoute = route !== "/" && !route.includes("trendly");
 
   return (
     <>

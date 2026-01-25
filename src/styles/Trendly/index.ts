@@ -558,134 +558,115 @@ Trendly.UserProfile = styled.div`
 
 Trendly.RecommendResult = styled.div`
   padding: 20px;
-  height: 420px;
   overflow-y: scroll;
-`;
-
-// 컨설팅 결과 화면 헤더 영역
-Trendly.ResultHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-
-  .result-txt {
-    font-size: 18px;
-    font-weight: 500;
-  }
 `;
 
 // 컨설팅 결과 화면 섹션 영역
 Trendly.ResultSection = styled.div`
-  padding: 20px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 80px;
+  padding: 50px;
 
-  .step-bubble {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
-    gap: 10px;
-    min-width: 340px;
-    padding: 20px;
-    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    background-color: #fff;
-
-    & > span {
+  .result-info {
+    max-width: 500px;
+    &-title {
       display: block;
-      width: 100%;
-      font-size: 14px;
-      font-weight: 500;
-      color: #2d2d2d;
-    }
-  }
-`;
-
-// 컨설팅 결과 화면 > 컨설턴트 목록 슬라이드 컨테이너
-Trendly.ChannelSlider = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 20px 0 0 0;
-`;
-
-// 컨설팅 결과 화면 > 컨설턴트 목록 슬라이드 wrapper 영역
-Trendly.SlideWrap = styled.div`
-  width: 100%;
-  height: max-content;
-  overflow-x: hidden;
-
-  .swiper-slide {
-    width: max-content !important;
-  }
-
-  .channel-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-
-    .channel-thumbnail {
-      width: 150px;
-      height: 150px;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+      margin-top: 10px;
+      font-size: 24px;
+      font-weight: bold;
     }
 
-    .channel-info {
-      .channel-name {
-        display: block;
-        width: 100%;
-        margin-bottom: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        color: #333;
-      }
+    .select-keyword {
+      margin: 40px 0;
 
-      .channel-subscriber {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 12px;
-        color: #777;
-      }
-    }
+      &-item {
+        margin-bottom: 50px;
 
-    &:hover {
-      cursor: pointer;
-      .channel-thumbnail {
-        img {
-          transform: scale(1.05);
-          transition: all 0.3s ease-in-out;
+        .index-title {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .keyword-list {
+          margin-top: 10px;
+
+          .keyword {
+            display: inline-block;
+            vertical-align: middle;
+            padding: 10px 30px;
+            background: var(--colorMain);
+            color: #fff;
+            margin-left: 20px;
+            border-radius: 10px;
+
+            &:first-child {
+              margin-left: 0;
+            }
+          }
         }
       }
     }
   }
-`;
 
-// 컨설팅 결과 화면 > 컨설턴트 목록 슬라이드 버튼 영역
-Trendly.ControlButton = styled.button<{ $type: string }>`
-  position: absolute;
-  top: 50%;
-  ${(props) => (props.$type === "prev" ? "left: -15px;" : "right: -15px;")}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  font-size: 18px;
-  color: #777;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid #777;
-  transform: translateY(-50%);
-  z-index: 10;
+  .product-list {
+    display: grid;
+    width: calc(100% - 500px);
+    height: 750px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+    padding: 0 30px;
+    overflow-y: scroll;
 
-  &:disabled {
-    display: none;
+    &-item {
+      .product-inner {
+        .product-img {
+          width: 100%;
+          height: 320px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .product-info {
+          padding: 0 20px;
+          margin-top: 25px;
+
+          .product-title {
+            width: 100%;
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            word-break: keep-all;
+            line-height: 20px;
+          }
+
+          .product-maker {
+            display: block;
+            font-size: 14px;
+            color: rgb(70, 70, 70);
+            font-weight: bold;
+          }
+        }
+
+        &:hover {
+          .product-img {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+          }
+          .product-info {
+            .product-title {
+              text-decoration: underline;
+              text-underline-offset: 4px;
+            }
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -841,17 +822,26 @@ Trendly.ChannelDetail = styled.div`
 `;
 
 Trendly.ChatArea = styled.div<{ $sideActive: boolean }>`
+  width: ${(props) => (props.$sideActive ? "calc(100% - 350px)" : "100%")};
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.$sideActive ? "calc(100% - 350px)" : "100%")};
-  height: 100vh;
   transition: all 0.3s ease-in-out;
 `;
 
 Trendly.ChatInner = styled.div`
-  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  height: calc(100% - 50px);
+  overflow-y: scroll;
   margin: 0 auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 /* 좌측 네비게이션 바 */

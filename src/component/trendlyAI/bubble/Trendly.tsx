@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useState } from "react";
 import { Trendly as CSS } from "@/styles";
 import chatbotImg from "@/assets/images/chatbot.png";
 import Image from "next/image";
@@ -23,7 +17,13 @@ interface messageType {
   content: questionType; // 질문 타입은 questionType, 챗봇 답변은 string
 }
 
-const Trendly = ({ message }: { message: messageType }) => {
+const Trendly = ({
+  message,
+  viewOnly,
+}: {
+  message: messageType;
+  viewOnly?: boolean;
+}) => {
   const QAstep = useAppSelector((state) => state.chatBubble.QA_step);
   const QAselect = useAppSelector((state) => state.chatBubble.QA_select);
   const dispatch = useAppDispatch();
@@ -84,7 +84,7 @@ const Trendly = ({ message }: { message: messageType }) => {
             </CSS.ChatBotIcon>
             <CSS.ChatBotMessage>{message.content}</CSS.ChatBotMessage>
           </CSS.BubbleWrap>
-          {QAstep === 0 && (
+          {QAstep === 0 && !viewOnly && (
             <div className='btn-wrap'>
               <button
                 type='button'
