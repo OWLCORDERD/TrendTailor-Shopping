@@ -61,7 +61,7 @@ const Navbar = () => {
 
   return (
     <>
-      {route !== "/trendly" && (
+      {!route.includes("/trendly") && (
         <header>
           {mobileMatches ? (
             <>

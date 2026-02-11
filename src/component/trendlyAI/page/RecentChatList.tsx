@@ -96,19 +96,14 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
     <CSS.RecentChatSideBar $sideActive={sideBarActive}>
       <div className='sidebar-control'>
         {sideBarActive && (
-          <motion.div
-            className='logo-icon'
-            variants={sideBarMotion}
-            initial='initial'
-            animate='animate'
-          >
+          <Link className='logo-icon' href='/'>
             <Image
               src={logoIcon}
               width={70}
               height={70}
               alt='trendTailor 로고 아이콘'
             />
-          </motion.div>
+          </Link>
         )}
 
         <button
@@ -152,23 +147,21 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
               </>
             ) : (
               recentData.map((item, index) => (
-                <Link
-                  href={"/trendly/consulting" + `?id=${item.id}`}
-                  key={index}
-                  className='chat-item'
-                >
-                  <span className='type-label consult'>
-                    {item.type === "consulting" ? "컨설팅" : "채팅"}
-                  </span>
+                <>
+                  <div className='chat-item'>
+                    <span className='type-label consult'>
+                      {item.type === "consulting" ? "컨설팅" : "채팅"}
+                    </span>
 
-                  <Link href={`trendly/${item.id}`} className='chat-title'>
-                    {item.title ?? "제목"}
-                  </Link>
+                    <Link href={`/trendly/${item.id}`} className='chat-title'>
+                      {item.title ?? "제목"}
+                    </Link>
 
-                  <span className='chat-date'>
-                    {dateFormat(item.createdAt)}
-                  </span>
-                </Link>
+                    <span className='chat-date'>
+                      {dateFormat(item.createdAt)}
+                    </span>
+                  </div>
+                </>
               ))
             )}
           </ul>

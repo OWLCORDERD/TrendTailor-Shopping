@@ -6,8 +6,9 @@ import UserBubble from "@/component/trendlyAI/bubble/User";
 import { warningIcon } from "@/component/svgData";
 import Loading from "./Loading";
 import Result from "./Result";
-import { recommendResultSession } from "@/store/chatBubbleSlice";
+import { chatClose, recommendResultSession } from "@/store/chatBubbleSlice";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Consultant = () => {
   const messages = useAppSelector((state) => state.chatBubble.messages);
@@ -55,8 +56,8 @@ const Consultant = () => {
         );
       case "creating":
         return <Loading />;
-      default:
-        return <Result />;
+      case "complete":
+        dispatch(chatClose());
     }
   };
 

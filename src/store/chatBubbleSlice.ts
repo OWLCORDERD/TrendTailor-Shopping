@@ -450,8 +450,12 @@ const chatBubbleSlice = createSlice({
       state.clothesData = action.payload.clothesData; // 추후 의류 데이터 저장
     });
     builder.addCase(recommendResultSession.fulfilled, (state, action: any) => {
-      if (`recent-chats/${action.payload.id}` === action.payload.path) {
+      if (
+        action.payload.id &&
+        `recent-chats/${action.payload.id}` === action.payload.path
+      ) {
         state.generateCreating = "complete"; // 챗봇 답변 생성 완료
+        window.location.href = `/trendly/${action.payload.id}`;
       }
     });
     builder.addCase(recommendResultSession.rejected, (state) => {

@@ -932,6 +932,7 @@ Trendly.RecentChatSideBar = styled.div<{ $sideActive: boolean }>`
 
       // 목록 데이터가 존재할 경우 채팅 히스토리 아이템
       .chat-item {
+        display: block;
         height: 28px;
         margin-bottom: 20px;
 
@@ -946,7 +947,7 @@ Trendly.RecentChatSideBar = styled.div<{ $sideActive: boolean }>`
           padding: 6.5px 7px;
           font-size: 12px;
           color: #fff;
-          min-width: 40px;
+          width: 50px;
           margin-right: 10px;
 
           &.consult {
