@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
 
@@ -175,7 +176,9 @@ const CopyRight = styled.span`
 `;
 
 const Footer = () => {
-  return (
+  const route = usePathname();
+
+  return route.includes("/trendly") ? null : (
     <footer>
       <Inner>
         <MainCont>

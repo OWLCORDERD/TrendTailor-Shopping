@@ -116,15 +116,15 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
       </div>
 
       {sideBarActive && (
-        <motion.div
-          className='recent-chat-list'
-          variants={sideBarMotion}
-          initial='initial'
-          animate='animate'
-        >
+        <div className='recent-chat-list'>
           <h1 className='chat-list-title'>최근 채팅 내역</h1>
 
-          <ul className='chat-list'>
+          <motion.ul
+            className='chat-list'
+            variants={sideBarMotion}
+            initial='initial'
+            animate='animate'
+          >
             {loading ? (
               <div className='loading-txt'>최근 채팅 내역 불러오는 중...</div>
             ) : recentData.length === 0 ? (
@@ -164,8 +164,8 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
                 </>
               ))
             )}
-          </ul>
-        </motion.div>
+          </motion.ul>
+        </div>
       )}
     </CSS.RecentChatSideBar>
   );

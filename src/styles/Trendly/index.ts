@@ -557,16 +557,18 @@ Trendly.UserProfile = styled.div`
 `;
 
 Trendly.RecommendResult = styled.div`
-  padding: 20px;
-  overflow-y: scroll;
+  width: calc(100% - 350px);
+  padding: 20px 20px 0 20px;
 `;
 
 // 컨설팅 결과 화면 섹션 영역
 Trendly.ResultSection = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 80px;
-  padding: 50px;
+  padding: 50px 0 0 50px;
 
   .result-info {
     max-width: 500px;
@@ -611,18 +613,30 @@ Trendly.ResultSection = styled.div`
 
   .product-list {
     display: grid;
-    width: calc(100% - 500px);
-    height: 750px;
+    width: 750px;
+    height: calc(100vh - 70px);
     grid-template-columns: repeat(2, 1fr);
-    gap: 50px;
-    padding: 0 30px;
+    gap: 25px;
     overflow-y: scroll;
+    padding-right: 20px;
+    padding-bottom: 50px;
 
     &-item {
+      position: relative;
+      width: 100%;
+      height: calc(225px + 180px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+
+      &:nth-child(even) {
+        transform: translateY(40px);
+      }
+
       .product-inner {
         .product-img {
           width: 100%;
-          height: 320px;
+          height: 225px;
 
           img {
             width: 100%;
@@ -632,36 +646,61 @@ Trendly.ResultSection = styled.div`
         }
 
         .product-info {
-          padding: 0 20px;
-          margin-top: 25px;
+          padding: 20px 15px;
 
-          .product-title {
-            width: 100%;
-            display: block;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            word-break: keep-all;
-            line-height: 20px;
-          }
-
-          .product-maker {
-            display: block;
-            font-size: 14px;
-            color: rgb(70, 70, 70);
-            font-weight: bold;
-          }
-        }
-
-        &:hover {
-          .product-img {
-            transform: scale(1.05);
-            transition: all 0.3s ease-in-out;
-          }
-          .product-info {
+          .product-index {
             .product-title {
-              text-decoration: underline;
-              text-underline-offset: 4px;
+              width: 100%;
+              max-width: 280px;
+              display: block;
+              font-size: 16px;
+              word-break: keep-all;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              font-weight: bold;
+              margin-bottom: 10px;
+              line-height: 20px;
+              margin-bottom: 20px;
+              cursor: default;
+            }
+
+            .product-maker {
+              display: block;
+              font-size: 14px;
+              color: rgb(70, 70, 70);
+              font-weight: bold;
+            }
+          }
+
+          .ai-recommend-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            width: 40px;
+            height: 40px;
+            color: #fff;
+            background: #000;
+            border-radius: 50%;
+            border: none;
+            margin-left: auto;
+            margin-top: 20px;
+
+            .txt {
+              display: none;
+              line-height: 19px;
+            }
+
+            .icon {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 20px;
+              transform: rotate(0deg);
             }
           }
         }

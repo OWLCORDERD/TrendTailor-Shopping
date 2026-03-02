@@ -6,12 +6,13 @@ import { Trendly as CSS } from "@/styles";
 import Image from "next/image";
 import searchError from "@/assets/images/search-error.png";
 import { retryRecommendOpenAI } from "@/store/chatBubbleSlice";
-import { useSearchParams } from "next/navigation";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { keywordSearch } from "@/component/svgData";
 import Trendly from "@/component/trendlyAI/bubble/Trendly";
-import Link from "next/link";
+import { FaPlus } from "react-icons/fa6";
+import NextImage from "@/component/common/NextImage";
+import { motion } from "framer-motion";
 
 interface ResultTemplate {
   // 챗봇 답변 및 의류 데이터
@@ -127,6 +128,8 @@ const Result = ({ docId }: any) => {
         return "여성";
       case "male":
         return "남성";
+      case "default":
+        return "남녀공용";
       // 추천 기준 키워드
       case "cheap":
         return "가성비";
@@ -139,6 +142,39 @@ const Result = ({ docId }: any) => {
   };
 
   const dispatch = useAppDispatch();
+
+  const clothesDetailBtn = {
+    btnEl: {
+      initial: {
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%",
+      },
+      animate: {
+        width: "150px",
+        borderRadius: "5px",
+        transition: {
+          staggerChildren: 0.2,
+        },
+      },
+    },
+    iconEl: {
+      initial: {
+        transform: "rotate(0deg)",
+      },
+      animate: {
+        transform: "rotate(360deg)",
+      },
+    },
+    txtEl: {
+      initial: {
+        display: "none",
+      },
+      animate: {
+        display: "block",
+      },
+    },
+  };
 
   return (
     <CSS.RecommendResult>
@@ -187,14 +223,9 @@ const Result = ({ docId }: any) => {
           {consultingData?.assistant.products.map((item, index) => {
             return (
               <li className='product-list-item' key={index}>
-                <Link
-                  href={item.link}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='product-inner'
-                >
+                <div className='product-inner'>
                   <div className='product-img'>
-                    <Image
+                    <NextImage
                       src={item.image}
                       width={150}
                       height={200}
@@ -203,11 +234,36 @@ const Result = ({ docId }: any) => {
                   </div>
 
                   <div className='product-info'>
-                    <h1 className='product-title'>{item.title}</h1>
+                    <div className='product-index'>
+                      <h1 className='product-title' title={item.title}>
+                        {item.title}
+                      </h1>
 
-                    <span className='product-maker'>{item.maker}</span>
+                      <span className='product-maker'>{item.maker}</span>
+                    </div>
+
+                    <motion.button
+                      type='button'
+                      className='ai-recommend-btn'
+                      variants={clothesDetailBtn.btnEl}
+                      initial='initial'
+                      whileHover='animate'
+                    >
+                      <motion.div
+                        className='icon'
+                        variants={clothesDetailBtn.iconEl}
+                      >
+                        <FaPlus />
+                      </motion.div>
+                      <motion.span
+                        className='txt'
+                        variants={clothesDetailBtn.txtEl}
+                      >
+                        AI 분석 보기
+                      </motion.span>
+                    </motion.button>
                   </div>
-                </Link>
+                </div>
               </li>
             );
           })}
