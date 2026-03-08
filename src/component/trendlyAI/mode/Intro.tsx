@@ -155,7 +155,7 @@ const ChatContainer = () => {
             onClick={(e) => consultantMode(e)}
           >
             <HiDocumentCheck fontSize={30} />
-            컨설턴트 추천
+            맞춤 컨설팅 시작
           </button>
           <button
             type='button'

@@ -12,6 +12,8 @@ import {
   closeClothesDetail,
 } from "@/store/chatBubbleSlice";
 import { TiHome } from "react-icons/ti";
+import { GoHistory } from "react-icons/go";
+import { useRouter } from "next/navigation";
 
 const Container = () => {
   // 현재 활성화된 채팅 모드
@@ -32,6 +34,13 @@ const Container = () => {
 
   const introMode: any = {
     mode: "intro",
+  };
+
+  const router = useRouter();
+
+  const moveTrendlyPage = () => {
+    dispatch(chatClose());
+    router.push("/trendly");
   };
 
   return (
@@ -55,10 +64,15 @@ const Container = () => {
             <IoClose />
           </button>
         )}
+
+        <button className='chat-history' onClick={() => moveTrendlyPage()}>
+          <GoHistory fontSize={18} />
+          <span className='txt'>채팅 내역</span>
+        </button>
       </div>
       {/* 인트로 화면 */}
       {/* 컨설팅 관련 채팅 화면 */}
-      {dynamicImport()} 
+      {dynamicImport()}
 
       {chatMode === "consultant" && (
         <div className='modal-footer'>

@@ -248,6 +248,7 @@ const Result = ({ docId }: any) => {
                       variants={clothesDetailBtn.btnEl}
                       initial='initial'
                       whileHover='animate'
+                      onClick={() => window.open(item.link, "_blank")}
                     >
                       <motion.div
                         className='icon'
@@ -259,7 +260,7 @@ const Result = ({ docId }: any) => {
                         className='txt'
                         variants={clothesDetailBtn.txtEl}
                       >
-                        AI 분석 보기
+                        의류 상세보기
                       </motion.span>
                     </motion.button>
                   </div>
