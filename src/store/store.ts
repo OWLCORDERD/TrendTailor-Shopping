@@ -2,12 +2,14 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import searchClothesReducer from "./monthlyClothesSlice";
 import chatBubbleSliceReducer from "./chatBubbleSlice";
 import modalSliceReducer from "./modalSlice";
+import simulationReducer from "./simulationInstance";
 
 /* redux toolkit combineReducers 메소드를 사용하여 reducer들을 하나의 객체로 묶음 */
 const rootReducers = combineReducers({
   searchDB: searchClothesReducer,
   chatBubble: chatBubbleSliceReducer,
   modal: modalSliceReducer,
+  simulation: simulationReducer,
 });
 
 export const store = configureStore({

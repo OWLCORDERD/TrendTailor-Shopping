@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Skeleton from "./Skeleton/Skeleton";
-import Loading from "component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 import CurrentVideo from "component/Trend/CurrentVideo";
 import VideoItem from "./VideoItem";
 

@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import "styles/currentVideo.scss";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Loading from "../fetchDB/loading/Loading";
+import Loading from "../common/Loading";
 
 interface currentIdPropsType {
   currentVideo: videoType | null;

@@ -1,4 +1,4 @@
-import Loading from "@/component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 import dynamic from "next/dynamic";
 import { Component, useMemo } from "react";
 

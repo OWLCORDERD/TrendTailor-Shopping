@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useMemo, useState } from "react";
 
 interface ImageProps {
-  src: string;
+  src: any;
   alt: string;
   width?: number;
   height?: number;
@@ -12,7 +12,7 @@ interface ImageProps {
 
 const NextImage = ({ src, alt, width, height }: ImageProps) => {
   // 이미지 경로 바인딩 관리 (기본 props 경로 값으로 초기화)
-  const [imgPath, setImgPath] = useState<string>(src);
+  const [imgPath, setImgPath] = useState<any>(src);
 
   // 이미지 사이즈 조정 (기본값: 250 * 250)
   const imageSize = useMemo(() => {

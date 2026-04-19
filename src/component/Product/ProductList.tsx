@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Pagenation from "../Pagenation/Pagenation";
 import Image from "next/image";
 import Link from "next/link";
-import Loading from "component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 
 interface allClothesType {
   trendClothes: clothes[];

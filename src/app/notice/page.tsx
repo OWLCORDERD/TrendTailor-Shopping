@@ -9,7 +9,7 @@ import { db } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import Loading from "component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 
 export interface NoticeType {
   id: string;

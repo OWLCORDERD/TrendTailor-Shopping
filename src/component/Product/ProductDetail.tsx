@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { useAppSelector } from "store/hooks";

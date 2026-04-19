@@ -1,6 +1,7 @@
 import { Navbar } from "styles/Navbar";
 import { Search } from "styles/Search";
-import { Banner } from "styles/Banner";
+import { Banner } from "styles/Banner/Clothes";
+import { MainBanner } from "styles/Banner/Main";
 import { NoticeBoard } from "styles/NoticeBoard";
 import { SeasonPeed } from "styles/Peed/SeasonPeed";
 import { ClothesPeed } from "./Peed/ClothesPeed";
@@ -11,6 +12,7 @@ import { QuickMenu } from "./QuickMenu";
 import { Loading } from "./Loading";
 import { ResponseMenu } from "./ResponseMenu";
 import { TrendConsultant } from "./Peed/TrendConsultant";
+import { TrendTailorAI } from "./Peed/TrendTailorAI";
 
 export {
   Navbar,
@@ -26,4 +28,6 @@ export {
   Loading,
   ResponseMenu,
   TrendConsultant,
+  MainBanner,
+  TrendTailorAI,
 };

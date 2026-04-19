@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import { useContext } from "react";
 import { RotatingLines } from "react-loader-spinner";
-import { ThemeContext } from "../../../../context/ThemeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import { Loading as CSS } from "styles";
 
 interface LoadingProps {

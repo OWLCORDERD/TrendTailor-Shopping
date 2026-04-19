@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { SeasonPeed as CSS } from "styles";
 import Image from "next/image";
-import Loading from "component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Scrollbar } from "swiper/modules";

@@ -49,7 +49,7 @@ export default function RootLayout({
               <body>
                 <ModalProvider>
                   <ThemeProvider>
-                    <Navbar />
+                    {/* <Navbar /> */}
                     <main>
                       <BreadCrumb />
                       <QuickMenu />

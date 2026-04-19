@@ -1,6 +1,6 @@
 "use client";
 
-import Loading from "component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";

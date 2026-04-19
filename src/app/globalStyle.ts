@@ -43,7 +43,7 @@ $lightFont-Color: #000;
     text-decoration: none;
     
     body{
-        background-color: #fff;
+        background: linear-gradient(to bottom, #0E132F 0%, #14184D 100%);
         height: 100%;
         font-family: $Jamsil-font;
 
@@ -111,7 +111,7 @@ nav{
     font-family: $Raleway-font;
 }
 
-header {
+/* header {
     position: sticky;
     top: 0;
     left: 0;
@@ -120,7 +120,7 @@ header {
     box-shadow: 0 2px 6px #0000;
     z-index: 999;
     background-color: #fff;
-}
+} */
 
 footer{
     position: relative;

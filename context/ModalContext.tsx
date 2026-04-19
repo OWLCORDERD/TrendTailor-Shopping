@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { IoIosClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import "@/styles/modal.scss";
-import Loading from "@/component/fetchDB/loading/Loading";
+import Loading from "@/component/common/Loading";
 import ModalContentRenderer from "@/component/common/modal/DynamicComponent";
 
 interface ReactType {

@@ -1,0 +1,30 @@
+.keypoint-simulation {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1440px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .keyword-graph-svg {
+        .keyword-node {
+            .point-node {
+                &.keyword-root {
+                    filter: drop-shadow(0px 4px 15px rgba(255, 255, 255, 0.5));
+                    stroke-width: 2px;
+                }
+            }
+
+            .preview-sample-node {
+                width: 30px;
+                height: 30px;
+                overflow: hidden;
+            }
+            .keyword-label {
+                .keyword-text {
+                    fill: #fff;
+                }
+            }
+        }
+    }
+}
