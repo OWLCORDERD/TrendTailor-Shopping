@@ -10,7 +10,7 @@ import "styles/swiper/swiper.css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-interface slideType {
+export interface slideType {
   id: number;
   image: string;
   title: string;

@@ -8,8 +8,6 @@ import Link from "next/link";
 import ChatbotIcon from "assets/images/chatbot.png";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollToTop } from "@/hooks/ScrollToTop";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { chatOpen } from "@/store/chatBubbleSlice";
@@ -24,9 +22,12 @@ const QuickMenu = () => {
       link: "/notice",
       iconType: "icon",
     },
+    {
+      title: "쇼핑",
+      link: "/shop",
+      iconType: "icon",
+    },
   ];
-
-  gsap.registerPlugin(ScrollTrigger);
 
   // 챗봇 모달 활성화 여부 체크
   const chatContainerOpen = useAppSelector(

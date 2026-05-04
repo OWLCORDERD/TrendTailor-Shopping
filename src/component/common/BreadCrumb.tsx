@@ -18,6 +18,7 @@ const BreadCrumb = () => {
     }
   }, [currentBreadcrumb]);
 
+  // 메인 인트로 홈, 쇼핑 or 챗봇 페이지에서는 브레드크럼 제외 처리
   const filterRoute = route !== "/" && !route.includes("trendly");
 
   return (

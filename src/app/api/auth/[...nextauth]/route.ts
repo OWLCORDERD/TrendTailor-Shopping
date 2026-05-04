@@ -80,7 +80,7 @@ const handler = NextAuth({
           const userEmail = user[0].email;
 
           if (user && isValid) {
-            const accesssToken = getAccessToken(user[0]);
+            const accessToken = getAccessToken(user[0]);
             const refreshToken = getRefreshToken(user[0]);
 
             let userId = "";
@@ -98,7 +98,7 @@ const handler = NextAuth({
               name: username,
               email: userEmail,
               image: user[0].image ? user[0].image : null,
-              accessToken: accesssToken,
+              accessToken: accessToken,
               refreshToken: refreshToken,
             };
           }
@@ -123,13 +123,26 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: User | AdapterUser }) {
       if (user) {
-        token.id = user.id;
-        token.accessToken = (user as userType).accessToken;
-        token.refreshToken = (user as userType).refreshToken;
-        token.accessTokenExpires = Date.now() + 30 * 60 * 1000; // 토큰 유효 30분
+        // 엑세스 토큰 payload 추출
+        const payload = (user as userType).accessToken?.split(".")[1] || null;
+
+        if (payload !== null) {
+          // 엑세스 토큰 payload 디코딩 후 파싱
+          const parsePayload: any = JSON.parse(
+            Buffer.from(payload, "base64").toString("utf-8")
+          );
+
+          // 엑세스 토큰 만료 날짜
+          const expiredDate = parsePayload.exp;
+
+          token.id = user.id;
+          token.accessToken = (user as userType).accessToken;
+          token.refreshToken = (user as userType).refreshToken;
+          token.accessTokenExpires = new Date(expiredDate * 1000);
+        }
       }
 
-      if (Date.now() < token.accessTokenExpires) return token;
+      if (new Date() < new Date(token.accessTokenExpires)) return token;
 
       const newToken = await refreshAccessToken(token);
 

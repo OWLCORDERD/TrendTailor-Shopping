@@ -3,7 +3,8 @@ import AuthSession from "@/component/common/AuthSession";
 import { ThemeProvider } from "../../context/ThemeContext";
 import StyledComponentsRegistry from "./RootStyleRegistry";
 import ReduxProvider from "store/provider/Provider";
-import Navbar from "component/Main/Navbar";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "component/Main/Footer";
 import QuickMenu from "component/Main/QuickMenu";
 import { ScrollToTop } from "@/hooks/ScrollToTop";
@@ -11,6 +12,7 @@ import "./globals.scss";
 import SessionWatcher from "@/component/common/SessionWatcher";
 import { ModalProvider } from "../../context/ModalContext";
 import BreadCrumb from "@/component/common/BreadCrumb";
+import Navbar from "@/component/Main/Navbar";
 
 export const metadata: Metadata = {
   title: "TrendTailor",
@@ -28,6 +30,8 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
   },
 };
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function RootLayout({
   children,
@@ -49,7 +53,7 @@ export default function RootLayout({
               <body>
                 <ModalProvider>
                   <ThemeProvider>
-                    {/* <Navbar /> */}
+                    <Navbar />
                     <main>
                       <BreadCrumb />
                       <QuickMenu />

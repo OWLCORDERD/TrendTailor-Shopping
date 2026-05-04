@@ -28,7 +28,7 @@ const Hero = () => {
   }, [selector, dispatch]);
   return (
     <>
-      <CSS.Container>
+      <CSS.Container className='timeline-section'>
         <CSS.Index>
           <CSS.Title>TrendTailor</CSS.Title>
           <CSS.Subtitle>

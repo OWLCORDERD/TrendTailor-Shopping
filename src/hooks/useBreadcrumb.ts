@@ -36,7 +36,7 @@ const useBreadcurmbSetting = (currentPath: string) => {
     {
       id: 2,
       menuUrl: "/shop",
-      menuName: "상품",
+      menuName: "쇼핑몰",
       menuIcon: FaStore,
       menuDepth: 1,
       isNavigate: true, // 네비게이션 활성화 여부
@@ -69,7 +69,7 @@ const useBreadcurmbSetting = (currentPath: string) => {
   if (currentPath && currentPath !== "") {
     menuList.forEach((menu) => {
       if (currentPath.includes(menu.menuUrl)) {
-        currentBreadcrumbItems.push({ 
+        currentBreadcrumbItems.push({
           name: menu.menuName,
           path: menu.menuUrl,
           icon: menu.menuIcon ?? undefined,

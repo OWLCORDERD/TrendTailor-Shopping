@@ -43,9 +43,12 @@ $lightFont-Color: #000;
     text-decoration: none;
     
     body{
-        background: linear-gradient(to bottom, #0E132F 0%, #14184D 100%);
         height: 100%;
         font-family: $Jamsil-font;
+
+        &:has(.MainPeed-container) {
+            background: linear-gradient(to bottom, #0E132F 0%, #14184D 100%);
+        }
 
         main{
             position: relative;
