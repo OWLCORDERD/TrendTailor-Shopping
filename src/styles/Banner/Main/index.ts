@@ -220,14 +220,14 @@ MainBanner.SlideWrap = styled.div`
 
   .swiper-wrapper {
     width: max-content;
-    padding: 20px 0;
   }
 
   .swiper-pagination {
     position: absolute;
-    bottom: 40px;
+    bottom: 0;
     height: 10px;
     top: inherit;
+    background-color: rgb(68, 68, 68);
 
     .swiper-pagination-progressbar-fill {
       background-color: #fff !important;
