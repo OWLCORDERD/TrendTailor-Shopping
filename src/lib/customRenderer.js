@@ -29,6 +29,7 @@ export default class forceDirectGraphRenderer {
     this.links = [];
     this.keywordNodes = [];
     this.categoryNodes = [];
+    this.dispatchCallback = null;
   }
 
   init() {
@@ -51,6 +52,11 @@ export default class forceDirectGraphRenderer {
 
       this.svg = svg;
     }
+
+    d3.select("keypoint-simulation")
+      .style("opacity", 1)
+      .transition("ease-in-out")
+      .duration(500);
 
     // 로딩 인디케이터 표시
     this.settingD3Simulation();
@@ -147,6 +153,7 @@ export default class forceDirectGraphRenderer {
 
     previewNode.each(function () {
       const currentData = d3.select(this).datum();
+
       const currentNode = d3.select(this);
 
       // 루트 노드는 키워드가 아니므로 제외 처리
@@ -251,6 +258,10 @@ export default class forceDirectGraphRenderer {
       }
     });
 
+    previewNode.on("click", (event, d) => {
+      this.dispatchCallback(d);
+    });
+
     // 키워드 라벨 텍스트 노드 생성
     const keywordLabel = this.createKeywordLabel(nodeGroup);
 
@@ -329,6 +340,7 @@ export default class forceDirectGraphRenderer {
 
         return d3
           .drag()
+          .clickDistance(10) // 클릭과 드래그를 구분하는 거리 설정
           .on("start", dragstarted)
           .on("drag", dragged)
           .on("end", dragended);
