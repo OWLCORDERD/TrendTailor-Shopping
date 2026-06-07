@@ -28,7 +28,7 @@ const Loading = () => {
         </div>
       </motion.div>
       <span className='loading-text'>
-        Trendly 챗봇이 최적의 컨설턴트를 찾는중입니다.
+        회원님의 스타일에 맞는 의상을 찾는중이에요.
         <br /> 잠시만 기다려주세요!
       </span>
     </CSS.RecommendationLoading>

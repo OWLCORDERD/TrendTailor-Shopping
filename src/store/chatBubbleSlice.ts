@@ -455,7 +455,7 @@ const chatBubbleSlice = createSlice({
         `recent-chats/${action.payload.id}` === action.payload.path
       ) {
         state.generateCreating = "complete"; // 챗봇 답변 생성 완료
-        window.location.href = `/trendly/${action.payload.id}`;
+        window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/trendly/${action.payload.id}`;
       }
     });
     builder.addCase(recommendResultSession.rejected, (state) => {
