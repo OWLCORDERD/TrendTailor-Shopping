@@ -13,6 +13,8 @@ import Trendly from "@/component/trendlyAI/bubble/Trendly";
 import { FaPlus } from "react-icons/fa6";
 import NextImage from "@/component/common/NextImage";
 import { motion } from "framer-motion";
+import Lottie from 'lottie-react';
+import loadingAnimation from '@/assets/lottie/list.json';
 
 interface ResultTemplate {
   // 챗봇 답변 및 의류 데이터
@@ -79,6 +81,12 @@ const Result = ({ docId }: any) => {
   );
 
   const resultMessage: messageType = useMemo(() => {
+    if (loading) {
+      return {
+        type: "chat",
+        content: "키워드 관련 의류 데이터를 조회 중입니다...",
+      }
+    }
     const message = {
       type: "chat",
       content: "",
@@ -187,21 +195,44 @@ const Result = ({ docId }: any) => {
           <div className='select-keyword'>
             <div className='select-keyword-item'>
               <span className='index-title'>스타일 키워드</span>
-              <ul className='keyword-list'>
-                {consultingData?.user.QA_select.filter(
-                  (item) => Number(item.step) <= 2
-                ).map((item, index) => {
-                  return (
-                    <li className='keyword' key={index}>
-                      {displayLabelType(item.selectLabel)}
-                    </li>
-                  );
-                })}
-              </ul>
+              {loading ? (
+                <ul className='keyword-list'>
+                  {Array.from({ length: 3}).map((_, index: number) => {
+                      return (
+                          <li className='keyword' key={index}>
+                              <div className='loader'></div>
+                          </li>
+                        );
+                  })}
+                </ul>
+              ): (
+                <ul className='keyword-list'>
+                  {consultingData?.user.QA_select.filter(
+                    (item) => Number(item.step) <= 2
+                  ).map((item, index) => {
+                    return (
+                      <li className='keyword' key={index}>
+                        {displayLabelType(item.selectLabel)}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
 
             <div className='select-keyword-item'>
               <span className='index-title'>선별 기준 키워드</span>
+              {loading ? (
+                <ul className='keyword-list'>
+                  {Array.from({ length: 3}).map((_, index: number) => {
+                      return (
+                          <li className='keyword' key={index}>
+                              <div className='loader'></div>
+                          </li>
+                      );
+                  })}
+                </ul>
+              ): (
               <ul className='keyword-list'>
                 {consultingData?.user.QA_select.filter(
                   (item) => Number(item.step) > 2
@@ -213,6 +244,7 @@ const Result = ({ docId }: any) => {
                   );
                 })}
               </ul>
+              )}
             </div>
           </div>
 
@@ -220,7 +252,13 @@ const Result = ({ docId }: any) => {
         </div>
 
         <ul className='product-list'>
-          {consultingData?.assistant.products.map((item, index) => {
+          {loading && (
+            <div className='loader-wrap'>
+              <Lottie animationData={loadingAnimation} loop={true} className='loading-animation'/>
+              <p className='loading-text'>키워드 관련 의류 데이터를 조회 중입니다...</p>
+            </div>
+          )}
+          {!loading && consultingData?.assistant.products.map((item, index) => {
             return (
               <li className='product-list-item' key={index}>
                 <div className='product-inner'>
@@ -303,7 +341,7 @@ const Result = ({ docId }: any) => {
         </CSS.ResultError>
       )}
     </CSS.RecommendResult>
-  );
+  )
 };
 
 export default Result;

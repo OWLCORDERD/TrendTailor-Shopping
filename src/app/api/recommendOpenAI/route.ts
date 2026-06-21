@@ -75,12 +75,7 @@ products: ${JSON.stringify(selectClothes)}`,
                       description: "Simple korean language styling suggestion",
                     },
                   },
-                  required: [
-                    "productId",
-                    "summary",
-                    "keyPoints",
-                    "stylingTip",
-                  ],
+                  required: ["productId", "summary", "keyPoints", "stylingTip"],
                 },
               },
             },
@@ -109,9 +104,6 @@ products: ${JSON.stringify(selectClothes)}`,
 
     return NextResponse.json({ recommend: parsedRecommend, status: 200 });
   } catch (err) {
-    return NextResponse.json({
-      status: 404,
-      err: `파싱에 실패하였습니다. + ${err}`,
-    });
+    return NextResponse.error();
   }
 }

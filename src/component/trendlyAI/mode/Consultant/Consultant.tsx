@@ -58,6 +58,18 @@ const Consultant = () => {
         return <Loading />;
       case "complete":
         dispatch(chatClose());
+      case "error":
+        return (
+          <div className='chat-area' ref={chatArea}>
+            {messages.map((message: messagesType, index: number) => {
+              return message.role === "user" ? (
+                <UserBubble message={message.message} key={index} />
+              ) : (
+                <TrendlyBubble message={message.message} key={index} />
+              );
+            })}
+          </div>
+        );
     }
   };
 
@@ -65,6 +77,7 @@ const Consultant = () => {
 
   useEffect(() => {
     if (
+      consultingResultData &&
       consultingResultData.products &&
       consultingResultData.products.length > 0
     ) {

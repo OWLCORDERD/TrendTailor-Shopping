@@ -97,7 +97,9 @@ export const recommendOpenAI = createAsyncThunk(
 
       return data;
     } catch (err) {
-      console.error("Failed to fetch openAI chatbot consulting result");
+      // Open AI API 응답 오류 시점
+      // > extraReducers rejected 대신 직접 generate 에러 핸들링 처리
+      dispatch(recommendAIError());
       return err;
     }
   }
@@ -422,6 +424,26 @@ const chatBubbleSlice = createSlice({
       state.generateCreating = "creating";
       state.consultingResultData = {};
     },
+    recommendAIError: (state) => {
+      state.generateCreating = "error";
+
+      state.messages = [
+        {
+          role: "user",
+          message: {
+            type: "chat",
+            content: "내가 찾는 조건에 맞는 의류를 컨설팅 받고싶어",
+          },
+        },
+        {
+          role: "chatbot",
+          message: {
+            type: "chat",
+            content: `회원님에게 제공할 최적의 의류를 조회하는 과정에서 오류가 발생했습니다. 다시 시도해주세요.`,
+          },
+        },
+      ];
+    },
     // 현재 대화 메시지 배열에 실시간 채팅 메시지 추가
     pushMessage: (state, action) => {
       state.messages.push(action.payload);
@@ -475,5 +497,6 @@ export const {
   consultingClothesDetail,
   closeClothesDetail,
   stepDirectInputUpdate,
+  recommendAIError,
 } = chatBubbleSlice.actions;
 export default chatBubbleSlice.reducer;

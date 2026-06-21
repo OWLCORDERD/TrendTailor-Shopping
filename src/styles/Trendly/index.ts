@@ -572,6 +572,7 @@ Trendly.ResultSection = styled.div`
 
   .result-info {
     max-width: 500px;
+    
     &-title {
       display: block;
       margin-top: 10px;
@@ -602,6 +603,26 @@ Trendly.ResultSection = styled.div`
             margin-left: 20px;
             border-radius: 10px;
 
+            .loader {
+              width: 25px;
+              height: 25px;
+              border: 4px solid #FFF;
+              border-bottom-color: transparent;
+              border-radius: 50%;
+              display: inline-block;
+              box-sizing: border-box;
+              animation: rotation 1s linear infinite;
+            }
+
+            @keyframes rotation {
+              0% {
+                  transform: rotate(0deg);
+              }
+              100% {
+                  transform: rotate(360deg);
+              }
+            } 
+
             &:first-child {
               margin-left: 0;
             }
@@ -620,6 +641,35 @@ Trendly.ResultSection = styled.div`
     overflow-y: scroll;
     padding-right: 20px;
     padding-bottom: 50px;
+
+    &.skeleton-v1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 750px;
+      height: 100%;
+    }
+
+    .loader-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 35rem;
+      height: 35rem;
+
+      .loading-animation {
+        width: 100%;
+        height: 30rem;
+      }
+
+      .loading-text {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+      }
+    }
 
     &-item {
       position: relative;

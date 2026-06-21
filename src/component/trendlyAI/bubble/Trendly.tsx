@@ -21,7 +21,7 @@ const Trendly = ({
   message,
   viewOnly,
 }: {
-  message: messageType;
+  message: string | messageType;
   viewOnly?: boolean;
 }) => {
   const QAstep = useAppSelector((state) => state.chatBubble.QA_step);
