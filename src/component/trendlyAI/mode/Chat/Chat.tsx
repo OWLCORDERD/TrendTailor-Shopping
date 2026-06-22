@@ -11,23 +11,22 @@ const Consultant = () => {
   const [openAIQuestion, setOpenAIQuestion] = useState<string>("");
 
   const messages = useAppSelector((state) => state.chatBubble.messages);
-  // 2025.02.02: openAI API 질문 요청
-  const requestOpenAI = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // 입력칸에서 enter 키 눌렀을때만 실행
-    if (e.key === "Enter") {
-      const res = await fetch("/api/recommendOpenAI", {
-        method: "POST",
-        body: JSON.stringify({
-          question: openAIQuestion,
-        }),
-      });
+  // // 2025.02.02: openAI API 질문 요청
+  // const requestOpenAI = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   // 입력칸에서 enter 키 눌렀을때만 실행
+  //   if (e.key === "Enter") {
+  //     const res = await fetch("/api/recommendOpenAI", {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         question: openAIQuestion,
+  //       }),
+  //     });
 
-      if (res.status === 200) {
-        const data = await res.json();
-        console.log(data);
-      }
-    }
-  };
+  //     if (res.status === 200) {
+  //       const data = await res.json();
+  //     }
+  //   }
+  // };
 
   // 2025.02.02: 사용자 질문 입력값 실시간 업데이트
   const onChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +35,7 @@ const Consultant = () => {
   return (
     <CSS.ConsultantMode>
       <CSS.ChatArea>
-        {messages.map((message, index) => {
+        {messages.map((message: any, index: number) => {
           return message.role === "user" ? (
             <UserBubble message={message.message} />
           ) : (

@@ -17,6 +17,13 @@ interface messageType {
   content: questionType; // 질문 타입은 questionType, 챗봇 답변은 string
 }
 
+// 설문 단계별 사용자 선택 객체 타입
+// > (설문 단계, 선택 라벨 문자열)
+interface selectOptions {
+  step: number;
+  selectLabel: string;
+};
+
 const Trendly = ({
   message,
   viewOnly,
@@ -40,12 +47,20 @@ const Trendly = ({
       setError("answer-error");
       return;
     }
-    await dispatch(
-      handleSurveySelect({
+
+    if (typeof message !== 'string') {
+      const surveySelect: selectOptions = {
         step: message.content.step,
         selectLabel: directlyInput,
-      })
-    );
+      } 
+
+      await dispatch(
+        handleSurveySelect({
+          step: message.content.step,
+          selectLabel: directlyInput,
+        })
+      );
+    }
   };
 
   const nextQuestionStep = () => {
@@ -53,14 +68,20 @@ const Trendly = ({
   };
 
   const selectQuestion = (cont: string) => {
-    const currentSelect: any = {
-      step: message.content.step,
-      selectLabel: cont,
+    const currentSelect: any = {};
+
+    // 채팅 전용 메시지가 아닌 설문 단계별 선택 메시지인 경우 
+    if (typeof message !== 'string') {
+      currentSelect.step = message.content.step;
+      currentSelect.selectLabel = cont;
     };
+
     dispatch(handleSurveySelect(currentSelect));
   };
 
   const stepSelectDisabled = (currentStep: number, selectLabel: string) => {
+    if (typeof message === 'string') return;
+
     return (
       QAselect.find((item: any) => item.step === currentStep)?.selectLabel !==
         "" &&
@@ -75,8 +96,19 @@ const Trendly = ({
 
   return (
     <>
+      {/*챗봇 채팅 전용 모드 말풍선 */}
+      {typeof message === 'string' && viewOnly && (
+        <CSS.ChatBotBubble>
+          <CSS.BubbleWrap>
+            <CSS.ChatBotIcon>
+              <Image src={chatbotImg} alt='Chat Bot Icon' />
+            </CSS.ChatBotIcon>
+            <CSS.ChatBotMessage>{message}</CSS.ChatBotMessage>
+          </CSS.BubbleWrap>
+        </CSS.ChatBotBubble>
+      )}
       {/* 챗봇 답변 영역 */}
-      {message.type === "chat" && (
+      {typeof message !== 'string' && message.type === "chat" && (
         <CSS.ChatBotBubble>
           <CSS.BubbleWrap>
             <CSS.ChatBotIcon>
@@ -105,7 +137,7 @@ const Trendly = ({
         </CSS.ChatBotBubble>
       )}
       {/* 챗봇 질문 선택 영역 */}
-      {message.type === "question" && (
+      {typeof message !== 'string' && message.type === "question" && (
         <CSS.ChatBotQuestion class='title'>
           <CSS.QuestionTitle>
             <span className='question-icon'>{questionIcon.icon()}</span>
