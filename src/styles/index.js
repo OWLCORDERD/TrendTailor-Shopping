@@ -13,6 +13,7 @@ import { Loading } from "./Loading";
 import { ResponseMenu } from "./ResponseMenu";
 import { TrendConsultant } from "./Peed/TrendConsultant";
 import { TrendTailorAI } from "./Peed/TrendTailorAI";
+import { Dashboard } from "./Dashboard";
 
 export {
   Navbar,
@@ -30,4 +31,5 @@ export {
   TrendConsultant,
   MainBanner,
   TrendTailorAI,
+  Dashboard,
 };

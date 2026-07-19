@@ -11,8 +11,10 @@ const BreadCrumb = () => {
   const currentBreadcrumb = useBreadcurmbSetting(route || "");
 
   const pageTitle = useMemo(() => {
-    if (currentBreadcrumb.length > 0) {
-      return currentBreadcrumb[currentBreadcrumb.length - 1].name;
+    if (currentBreadcrumb.breadcrumb.length > 0) {
+      return currentBreadcrumb.breadcrumb[
+        currentBreadcrumb.breadcrumb.length - 1
+      ].name;
     } else {
       return "";
     }
@@ -28,7 +30,7 @@ const BreadCrumb = () => {
           <h1 className='page-title'>{pageTitle}</h1>
 
           <ul className='breadcrumb-list'>
-            {currentBreadcrumb.map((item, index) => {
+            {currentBreadcrumb.breadcrumb.map((item, index) => {
               return (
                 <li className='breadcrumb-item' key={index}>
                   <div className='breadcrumb-icon'>
@@ -37,7 +39,7 @@ const BreadCrumb = () => {
 
                   <span className='breadcrumb-name'>{item.name}</span>
 
-                  {index !== currentBreadcrumb.length - 1 && (
+                  {index !== currentBreadcrumb.breadcrumb.length - 1 && (
                     <span className='breadcrumb-separator'>
                       <IoIosArrowForward />
                     </span>

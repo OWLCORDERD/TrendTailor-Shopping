@@ -4,6 +4,7 @@ import { FaStore } from "react-icons/fa"; // 상품 아이콘
 import { FaUser } from "react-icons/fa"; // 로그인 아이콘
 import { FaUserPlus } from "react-icons/fa"; // 회원가입 아이콘
 import { IconType } from "react-icons/lib"; // react-icons 아이콘 컴포넌트 타입
+import { PiTreeStructureLight } from "react-icons/pi";
 
 interface BreadcrumbItem {
   name: string;
@@ -26,6 +27,15 @@ const useBreadcurmbSetting = (currentPath: string) => {
   const menuList: menuType[] = [
     {
       id: 1,
+      menuUrl: "/",
+      menuName: "홈",
+      menuIcon: IoHomeSharp,
+      menuDepth: 0,
+      isNavigate: true, // 네비게이션 활성화 여부
+      children: [],
+    },
+    {
+      id: 2,
       menuUrl: "/notice",
       menuName: "공지사항",
       menuIcon: FaClipboardList,
@@ -34,16 +44,16 @@ const useBreadcurmbSetting = (currentPath: string) => {
       children: [],
     },
     {
-      id: 2,
+      id: 3,
       menuUrl: "/shop",
-      menuName: "쇼핑몰",
+      menuName: "쇼핑",
       menuIcon: FaStore,
       menuDepth: 1,
       isNavigate: true, // 네비게이션 활성화 여부
       children: [],
     },
     {
-      id: 3,
+      id: 4,
       menuUrl: "/login",
       menuName: "로그인",
       menuIcon: FaUser,
@@ -52,7 +62,7 @@ const useBreadcurmbSetting = (currentPath: string) => {
       children: [],
     },
     {
-      id: 4,
+      id: 5,
       menuUrl: "/signup",
       menuName: "회원가입",
       menuIcon: FaUserPlus,
@@ -60,8 +70,18 @@ const useBreadcurmbSetting = (currentPath: string) => {
       isNavigate: true, // 네비게이션 활성화 여부
       children: [],
     },
+    {
+      id: 6,
+      menuUrl: "/trend-keyword",
+      menuName: "트랜드 키워드",
+      menuIcon: PiTreeStructureLight,
+      menuDepth: 1,
+      isNavigate: true, // 네비게이션 활성화 여부
+      children: [],
+    },
   ];
 
+  // 루트 경로(home) 시작점부터 현재 경로에 따른 브래드크럼 배열 생성
   const currentBreadcrumbItems: BreadcrumbItem[] = [
     { name: "Home", path: "/", icon: IoHomeSharp },
   ];
@@ -90,7 +110,10 @@ const useBreadcurmbSetting = (currentPath: string) => {
     });
   }
 
-  return currentBreadcrumbItems;
+  return {
+    breadcrumb: currentBreadcrumbItems, // 루트 경로(home) > 현재 경로 브래드크럼 배열 반환
+    menuList: menuList, // 플랫폼 전체 메뉴 목록 반환
+  };
 };
 
 export default useBreadcurmbSetting;

@@ -3,17 +3,11 @@ import { styled } from "styled-components";
 const Navbar: any = {};
 
 // pc 해상도 헤더 네비게이션 영역
-Navbar.Container = styled.nav`
-  position: relative;
-  top: 0;
-  left: 0;
+Navbar.Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 5rem;
-  padding: 0 5rem;
-  z-index: 1100;
   transition: all 0.5s ease-out;
 
   @media screen and (max-width: 768px) {
@@ -23,28 +17,40 @@ Navbar.Container = styled.nav`
 
 Navbar.Logo = styled.div`
   position: relative;
-  width: 10rem;
+  width: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
 
   a {
     display: flex;
-    gap: 5px;
+    justify-content: space-between;
     align-items: center;
-    width: 200px;
+    width: 100%;
     height: 100%;
 
-    & > img {
-      width: 3rem;
-      height: 3rem;
+    .logo-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 8px;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: -0.05em;
+
+      & > img {
+        width: 32px;
+        height: 32px;
+      }
     }
 
     .logo-title {
       font-weight: 400;
       font-size: 1.5rem;
       font-family: "Pacifico", cursive;
-      color: var(--colorMain);
+      color: #fff;
       text-align: center;
     }
   }
@@ -54,6 +60,41 @@ Navbar.Logo = styled.div`
 
     .logo-title {
       font-size: 1.2rem;
+    }
+  }
+`;
+
+Navbar.NavMenu = styled.nav`
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--bg-elev) 60%, transparent);
+  border: 1px solid var(--border);
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 999px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+    }
+
+    &.active {
+      background: var(--accent);
+      color: #fff;
     }
   }
 `;
@@ -87,6 +128,7 @@ Navbar.LoginMenu = styled.div`
       text-transform: uppercase;
       cursor: pointer;
       text-align: center;
+      color: #fff;
     }
   }
 

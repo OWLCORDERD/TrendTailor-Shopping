@@ -54,7 +54,7 @@ export default function RootLayout({
                 <ModalProvider>
                   <ThemeProvider>
                     <Navbar />
-                    <main>
+                    <main className='page' id='page-root'>
                       <BreadCrumb />
                       <QuickMenu />
                       {children}

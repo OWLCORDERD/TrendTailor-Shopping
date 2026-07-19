@@ -15,6 +15,7 @@ import Image from "next/image";
 import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Logo from "assets/images/logo.png";
+import useBreadcurmbSetting from "@/hooks/useBreadcrumb";
 
 const Navbar = () => {
   const { data, status } = useSession();
@@ -25,6 +26,10 @@ const Navbar = () => {
 
   const [ResponsiveSearchActive, setResponsiveSearchActive] =
     useState<boolean>(false);
+
+  const path = usePathname();
+
+  const currentBreadcrumb = useBreadcurmbSetting(path || "");
 
   const [userPopupOpen, setUserPopupOpen] = useState<boolean>(false);
 
@@ -53,6 +58,11 @@ const Navbar = () => {
 
   const pathname = usePathname();
 
+  const hasLoginMenu = (menuUrl: string) => {
+    const loginUrl = ["/login", "/signup"];
+    return loginUrl.includes(menuUrl);
+  };
+
   useEffect(() => {
     if (pathname) {
       setResponsiveMenuActive(false);
@@ -61,7 +71,7 @@ const Navbar = () => {
 
   return (
     <>
-      {!route.includes("/trendly") && pathname !== "/" && (
+      {!route.includes("/trendly") && (
         <header>
           {mobileMatches ? (
             <>
@@ -108,10 +118,38 @@ const Navbar = () => {
               <CSS.Container>
                 <CSS.Logo>
                   <Link href='/' prefetch={true} className='logo'>
-                    <Image src={Logo} alt='TrendTailor 로고 이미지' />
+                    <div className='logo-icon'>
+                      <Image src={Logo} alt='TrendTailor 로고 이미지' />
+                    </div>
                     <h1 className='logo-title'>TrendTailor</h1>
                   </Link>
                 </CSS.Logo>
+
+                <CSS.NavMenu>
+                  {currentBreadcrumb.menuList
+                    .filter((menu) => !hasLoginMenu(menu.menuUrl))
+                    .map((menu) => {
+                      return (
+                        <Link
+                          key={menu.id}
+                          href={menu.menuUrl}
+                          className={
+                            "nav-item" +
+                            (route === menu.menuUrl ? " active" : "")
+                          }
+                        >
+                          {menu.menuIcon && (
+                            <span className='nav-item__icon'>
+                              <menu.menuIcon />
+                            </span>
+                          )}
+                          <span className='nav-item__name'>
+                            {menu.menuName}
+                          </span>
+                        </Link>
+                      );
+                    })}
+                </CSS.NavMenu>
 
                 <CSS.LoginMenu>
                   {status === "authenticated" && data.user ? (
@@ -142,12 +180,12 @@ const Navbar = () => {
                   ) : (
                     <>
                       <Link href='/login' className='login'>
-                        <AiOutlineLogin className='icon' />
+                        <AiOutlineLogin className='icon' color='#fff' />
                         <span>login</span>
                       </Link>
 
                       <Link href='/signup' className='signup'>
-                        <AiOutlineUserAdd className='icon' />
+                        <AiOutlineUserAdd className='icon' color='#fff' />
                         <span>sign Up</span>
                       </Link>
                     </>

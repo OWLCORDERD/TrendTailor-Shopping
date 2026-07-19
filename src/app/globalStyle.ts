@@ -45,18 +45,12 @@ $lightFont-Color: #000;
     body{
         height: 100%;
         font-family: $Jamsil-font;
-
-        &:has(.MainPeed-container) {
-            background: linear-gradient(to bottom, #0E132F 0%, #14184D 100%);
-        }
+        background: var(--colorMain);
 
         main{
-            position: relative;
-            top : 0;
-            left : 0;
-            width : 100%;
-            height : 100%;
-            min-height: 100vh;
+            max-width : 1440px;
+            margin: 0 auto;
+            padding: 32px 40px 120px;
             display: block;
 
             .page-banner {
@@ -91,6 +85,12 @@ $lightFont-Color: #000;
                         &:nth-child(1) {
                             padding-left: 0;
                         }
+
+                        .breadcrumb-icon {
+                            width: 16px;
+                            height: 16px;
+                            font-size: 16px;
+                        }
                     }
                 }
             }
@@ -114,16 +114,18 @@ nav{
     font-family: $Raleway-font;
 }
 
-/* header {
+header {
     position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 5rem;
-    box-shadow: 0 2px 6px #0000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid var(--border);
     z-index: 999;
-    background-color: #fff;
-} */
+}
 
 footer{
     position: relative;
@@ -251,6 +253,10 @@ footer{
     }
 }
 
+.trendly-container {
+    display: flex;
+}
+
 
 section{
     position: relative;
@@ -260,7 +266,25 @@ section{
 }
 
 :root {
-    --colorMain: #2D3A8C;
+    /* Dark palette (default) */
+    --colorMain: #0A1440;
+    --bg-elev: #111C55;
+    --bg-card: #17245E;
+    --border: rgba(255,255,255,0.10);
+    --text: #F4F4F0;
+    --text-muted: #8892C4;
+    --text-dim: #5A6BA8;
+    --border: rgba(255,255,255,0.10);
+    --r-rg: 20px;
+    --r-l: 24px;
+    --r-lx: 28px;
+    --accent: #3B5BFF;
+    --accent-hover: #5A76FF;
+    --accent-soft: rgba(59,91,255,0.15);
+    --hot: #FF4D6D;
+    --warm: #FFB84D;
+    --cool: #4DD4FF;
+    --grid-line: rgba(255,255,255,0.06);
     --subColor1: #E5E7EB;
     --subColor2: #F5F0EB;
     --txtColor: #1F1F1F;

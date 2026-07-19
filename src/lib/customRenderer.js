@@ -4,8 +4,8 @@ export default class forceDirectGraphRenderer {
   constructor(keywordRoot) {
     this.config = {
       svg: {
-        width: 1280,
-        height: 650,
+        width: 678,
+        height: 678,
       },
       node: {
         radius: 15,
@@ -34,7 +34,7 @@ export default class forceDirectGraphRenderer {
 
   init() {
     // 기존 도면 SVG 요소 탐색
-    const svg = d3.select(".keypoint-simulation").select("svg");
+    const svg = d3.select(".keyword-graph").select("svg");
 
     const width = this.config.svg.width;
     const height = this.config.svg.height;
@@ -42,7 +42,7 @@ export default class forceDirectGraphRenderer {
     // 존재하지 않을 경우, 신규 생성
     if (svg.empty()) {
       const svg = d3
-        .select(".keypoint-simulation")
+        .select(".keyword-graph")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -53,7 +53,7 @@ export default class forceDirectGraphRenderer {
       this.svg = svg;
     }
 
-    d3.select("keypoint-simulation")
+    d3.select(".keyword-graph")
       .style("opacity", 1)
       .transition("ease-in-out")
       .duration(500);

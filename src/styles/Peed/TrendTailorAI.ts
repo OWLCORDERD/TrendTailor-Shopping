@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 const styleOptions = {
   ContainerStyle: {
-    padding: "6.25rem 8rem",
+    padding: "3rem 0",
   } as StyledObject, // 컨테이너 wrapper
 
   Intro: {
@@ -42,7 +42,7 @@ const styleOptions = {
     display: "flex",
     flexDirection: "column",
     gap: "2.5rem",
-    width: "40%",
+    width: "calc(100% - 650px)",
   } as StyledObject, // 샘플 채팅 UI wrapper
 
   UserBubble: {
@@ -110,8 +110,7 @@ const styleOptions = {
 
   SampleResult: {
     position: "relative",
-    width: "560px",
-    marginRight: "4rem",
+    width: "580px",
 
     "& > img": {
       height: "auto",
@@ -120,7 +119,7 @@ const styleOptions = {
 };
 
 const TrendTailorAI = {
-  Container: styled(motion.div)(styleOptions.ContainerStyle),
+  Container: styled(motion.section)(styleOptions.ContainerStyle),
   Intro: styled.div(styleOptions.Intro),
   Contents: styled.div(styleOptions.Contents),
   SampleChat: styled(motion.div)(styleOptions.SampleChat),

@@ -1,4 +1,4 @@
-import { drawForceGraphPayload } from "@/component/Main/Peed/Hero";
+import { drawForceGraphPayload } from "@/component/Dashboard/ui/Hero";
 import { styleKeyword } from "@/data/styleKeyword";
 import forceDirectGraphRenderer from "@/lib/customRenderer";
 import { db } from "@/lib/firebase";

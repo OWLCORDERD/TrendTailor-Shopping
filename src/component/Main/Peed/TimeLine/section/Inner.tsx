@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import Hero from "../../Hero";
+import Hero from "../../../../Dashboard/ui/Hero";
 import TrendTailorAI from "../../TrendTailorAI";
 import { TimelineContext } from "../../../../../../context/TimelineContext";
 import { gsap } from "gsap";
