@@ -1,5 +1,5 @@
 import { createTrendSlug } from "@/feature/slug/keyword-slug";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import {
   collection,
   doc,

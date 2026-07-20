@@ -2,15 +2,33 @@ import React from "react";
 import Timeline from "@/component/Main/Peed/TimeLine";
 import DashboardSection from "@/component/Dashboard/Section";
 import SystemLabel from "@/component/Dashboard/ui/SystemLabel";
-import KPIGraph from "@/component/Dashboard/ui/KPIGraph";
 import KeywordMapGraph from "@/component/Dashboard/architecture/KeywordMapGraph";
 import TrendTailorAI from "@/component/Main/Peed/TrendTailorAI";
 
+interface HeaderChildren {
+  title?: string;
+  children: React.ReactNode;
+  label: {
+    type?: "dot" | "eyebrow";
+    labelTxt?: string;
+    subTxt_B?: string;
+  };
+}
+
+interface HeroChildren {
+  title: string;
+  desc: string;
+  children: React.ReactNode;
+  label: {
+    type?: "dot" | "eyebrow";
+    labelTxt?: string;
+    subTxt_B?: string;
+  };
+}
 const page = async () => {
-  return (
-    <>
-      {/* 본문 헤더 & KPI 통계 그래프 영역 */}
-      <DashboardSection type='header'>
+  const headerChildren: HeaderChildren = {
+    children: (
+      <>
         <SystemLabel
           type='dot'
           labelTxt='실시간 업데이트'
@@ -27,12 +45,41 @@ const page = async () => {
             <div className='count-item__value'>12</div>
           </div>
         </div>
-      </DashboardSection>
+      </>
+    ),
+    label: {
+      subTxt_B: "트랜드 스타일 대시보드"
+    }
+  }
 
-      <KPIGraph />
+  const heroChildren: HeroChildren = {
+    title: "올해 트랜드 키워드들을 분석해보세요.",
+    desc: `trendtailor는 월별마다 트랜드 키워드를 수집하며 
+    그래프로 시각화하여 제공합니다. 이번달에는 어떤 흐름의 변화가 나타났을지 그래프를 통해 분석해보세요!`,
+    children: (
+      <>
+        {/* 키워드 그래프 */}
+        <KeywordMapGraph />
+      </>
+    ),
+    label: {
+      labelTxt: "TRENDY KEYWORD VECTOR GRAPH",
+    }
+  }
+  return (
+    <>
+      {/* 본문 헤더 & KPI 통계 그래프 영역 */}
+      <DashboardSection
+        type='header'
+        header={headerChildren} />
+
+      <DashboardSection
+        type='kpi' />
 
       {/* 본문 상단 Hero 영역 */}
-      <KeywordMapGraph type='hero' />
+      <DashboardSection
+        type='hero'
+        hero={heroChildren} />
 
       <TrendTailorAI />
     </>

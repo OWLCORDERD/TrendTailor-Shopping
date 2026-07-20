@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET!;
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET!;

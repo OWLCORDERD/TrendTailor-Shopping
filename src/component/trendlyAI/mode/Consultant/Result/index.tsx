@@ -7,7 +7,7 @@ import Image from "next/image";
 import searchError from "@/assets/images/search-error.png";
 import { retryRecommendOpenAI } from "@/store/chatBubbleSlice";
 import { collection, doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import { keywordSearch } from "@/component/svgData";
 import Trendly from "@/component/trendlyAI/bubble/Trendly";
 import { FaPlus } from "react-icons/fa6";

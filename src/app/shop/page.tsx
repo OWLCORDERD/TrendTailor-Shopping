@@ -4,7 +4,7 @@ import ClothesPeed from "@/component/Main/Peed/Contents/ClothesPeed";
 import Banner, { slideType } from "@/component/Main/Peed/Clothes/Banner";
 import NoticeBoard from "@/component/Main/Peed/Clothes/NoticeBoard";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import TrendConsultant from "@/component/Main/Peed/TrendConsultant";
 import { NoticeType } from "../notice/page";
 

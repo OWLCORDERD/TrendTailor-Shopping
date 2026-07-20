@@ -5,7 +5,7 @@ import Pagenation from "component/Pagenation/Pagenation";
 import React, { useEffect, useState } from "react";
 import "styles/notice.scss";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";

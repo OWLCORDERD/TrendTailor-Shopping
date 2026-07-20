@@ -6,7 +6,7 @@ import {
   getAccessToken,
   getRefreshToken,
   refreshAccessToken,
-} from "@/lib/token";
+} from "@/shared/lib/token";
 import {
   collection,
   doc,
@@ -16,7 +16,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import { JWT, Session, User, userType } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 

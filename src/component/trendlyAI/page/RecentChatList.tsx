@@ -8,7 +8,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { FiSidebar } from "react-icons/fi";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import { questionBubbleIcon } from "@/component/svgData";
 import { motion } from "framer-motion";
 import Link from "next/link";

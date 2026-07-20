@@ -1,6 +1,6 @@
 "use client";
 
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import Loading from "@/component/common/Loading";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";

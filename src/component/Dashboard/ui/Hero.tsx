@@ -29,76 +29,76 @@ export interface drawForceGraphPayload {
   updateCurrentDetail?: (nodeDetail: any) => void;
 }
 const Hero = () => {
-  const keywordGraphRoot = useAppSelector(
-    (state) => state.simulation?.keywordGraphRoot
-  );
-  const previewOpen = useAppSelector((state) => state.simulation.previewOpen);
+  // const keywordGraphRoot = useAppSelector(
+  //   (state) => state.simulation?.keywordGraphRoot
+  // );
+  // const previewOpen = useAppSelector((state) => state.simulation.previewOpen);
 
-  const currentDetail = useAppSelector(
-    (state) => state.simulation.currentDetail
-  );
+  // const currentDetail = useAppSelector(
+  //   (state) => state.simulation.currentDetail
+  // );
 
-  const dispatch = useAppDispatch();
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  // const dispatch = useAppDispatch();
+  // const [isMounted, setIsMounted] = useState<boolean>(false);
 
-  const ref = useRef<any>(null);
+  // const ref = useRef<any>(null);
 
-  const graphRenderMotion = {
-    initial: {
-      opacity: 0,
-      transform: "scale(0.8)",
-    },
-    animate: {
-      opacity: 1,
-      transform: "scale(1)",
-      transition: {
-        duration: 1,
-        ease: "easeInOut",
-      },
-    },
-  };
+  // const graphRenderMotion = {
+  //   initial: {
+  //     opacity: 0,
+  //     transform: "scale(0.8)",
+  //   },
+  //   animate: {
+  //     opacity: 1,
+  //     transform: "scale(1)",
+  //     transition: {
+  //       duration: 1,
+  //       ease: "easeInOut",
+  //     },
+  //   },
+  // };
 
-  const updateCurrentDetail = useCallback(
-    (nodeDetail: any) => {
-      dispatch(currentKeywordDetailUpdate(nodeDetail));
-    },
-    [dispatch]
-  );
+  // const updateCurrentDetail = useCallback(
+  //   (nodeDetail: any) => {
+  //     dispatch(currentKeywordDetailUpdate(nodeDetail));
+  //   },
+  //   [dispatch]
+  // );
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
 
-  useEffect(() => {
-    dispatch(keywordSampleClothes());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(keywordSampleClothes());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (ref.current === null && !previewOpen) {
-        if (keywordGraphRoot !== null) {
-          dispatch(
-            drawForceGraph({
-              keywordGraphRoot,
-              updateCurrentDetail,
-            } as drawForceGraphPayload)
-          );
-        }
-      }
-    }, 500);
-  }, [previewOpen, keywordGraphRoot, updateCurrentDetail, dispatch]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (ref.current === null && !previewOpen) {
+  //       if (keywordGraphRoot !== null) {
+  //         dispatch(
+  //           drawForceGraph({
+  //             keywordGraphRoot,
+  //             updateCurrentDetail,
+  //           } as drawForceGraphPayload)
+  //         );
+  //       }
+  //     }
+  //   }, 500);
+  // }, [previewOpen, keywordGraphRoot, updateCurrentDetail, dispatch]);
 
-  useEffect(() => {
-    if (!keywordGraphRoot) return;
-    if (keywordGraphRoot === null) return;
+  // useEffect(() => {
+  //   if (!keywordGraphRoot) return;
+  //   if (keywordGraphRoot === null) return;
 
-    dispatch(
-      drawForceGraph({
-        keywordGraphRoot,
-        updateCurrentDetail,
-      } as drawForceGraphPayload)
-    );
-  }, [keywordGraphRoot, updateCurrentDetail, dispatch]);
+  //   dispatch(
+  //     drawForceGraph({
+  //       keywordGraphRoot,
+  //       updateCurrentDetail,
+  //     } as drawForceGraphPayload)
+  //   );
+  // }, [keywordGraphRoot, updateCurrentDetail, dispatch]);
   return (
     <>
       <CSS.Container className='timeline-section'>
@@ -118,7 +118,7 @@ const Hero = () => {
           className='keypoint-simulation'
         /> */}
 
-        {previewOpen &&
+        {/* {previewOpen &&
         currentDetail?.keyword &&
         currentDetail?.typeOfClothes ? (
           <div ref={ref}>
@@ -131,7 +131,7 @@ const Hero = () => {
             animate='animate'
             className='keypoint-simulation'
           />
-        )}
+        )} */}
       </CSS.Container>
     </>
   );

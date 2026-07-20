@@ -1,4 +1,4 @@
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 import ProductDetail from "component/Product/ProductDetail";
 import { collection, getDocs } from "firebase/firestore";
 import React from "react";

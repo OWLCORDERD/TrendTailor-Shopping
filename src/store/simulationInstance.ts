@@ -1,7 +1,7 @@
 import { drawForceGraphPayload } from "@/component/Dashboard/ui/Hero";
-import { styleKeyword } from "@/data/styleKeyword";
-import forceDirectGraphRenderer from "@/lib/customRenderer";
-import { db } from "@/lib/firebase";
+// import { styleKeyword } from "@/data/styleKeyword";
+import forceDirectGraphRenderer from "@/shared/lib/customRenderer";
+import { db } from "@/shared/lib/firebase";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { collection, getDocs } from "firebase/firestore";
 interface currentKeywordClothesType {
@@ -42,67 +42,67 @@ export const keywordSampleClothes = createAsyncThunk(
     const searchData = new Map();
     const categorySet = new Set(["상의", "하의", "아우터"]);
 
-    styleKeyword.children.forEach(({ name: keyword, children: categories }) => {
-      docs.forEach((doc) => {
-        const data = doc.data();
+    // styleKeyword.children.forEach(({ name: keyword, children: categories }) => {
+    //   docs.forEach((doc) => {
+    //     const data = doc.data();
 
-        if (data.searchStyle !== keyword) return;
-        if (!categorySet.has(data.searchCategory)) return;
+    //     if (data.searchStyle !== keyword) return;
+    //     if (!categorySet.has(data.searchCategory)) return;
 
-        const key = `${keyword} ${data.searchCategory}`;
+    //     const key = `${keyword} ${data.searchCategory}`;
 
-        let list = searchData.get(key);
-        if (!list) {
-          list = [];
-          searchData.set(key, list);
-        }
+    //     let list = searchData.get(key);
+    //     if (!list) {
+    //       list = [];
+    //       searchData.set(key, list);
+    //     }
 
-        if (list.length >= 10) return;
+    //     if (list.length >= 10) return;
 
-        const {
-          title,
-          image,
-          link,
-          lprice,
-          hprice,
-          mallName,
-          productId,
-          productType,
-          brand,
-          maker,
-          category1,
-          category2,
-          category3,
-          category4,
-        } = data;
+    //     const {
+    //       title,
+    //       image,
+    //       link,
+    //       lprice,
+    //       hprice,
+    //       mallName,
+    //       productId,
+    //       productType,
+    //       brand,
+    //       maker,
+    //       category1,
+    //       category2,
+    //       category3,
+    //       category4,
+    //     } = data;
 
-        list.push({
-          title,
-          image,
-          link,
-          lprice,
-          hprice,
-          mallName,
-          productId,
-          productType,
-          brand,
-          maker,
-          category1,
-          category2,
-          category3,
-          category4,
-        });
-      });
+    //     list.push({
+    //       title,
+    //       image,
+    //       link,
+    //       lprice,
+    //       hprice,
+    //       mallName,
+    //       productId,
+    //       productType,
+    //       brand,
+    //       maker,
+    //       category1,
+    //       category2,
+    //       category3,
+    //       category4,
+    //     });
+    //   });
 
-      categories.forEach((item) => {
-        const key = `${keyword} ${item.name}`;
-        if (searchData.has(key)) {
-          item.children = searchData.get(key);
-        }
-      });
-    });
+    //   categories.forEach((item) => {
+    //     const key = `${keyword} ${item.name}`;
+    //     if (searchData.has(key)) {
+    //       item.children = searchData.get(key);
+    //     }
+    //   });
+    // });
 
-    return styleKeyword;
+    // return styleKeyword;
   }
 );
 

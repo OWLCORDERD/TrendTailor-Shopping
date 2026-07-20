@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSession } from "next-auth/react";
 import { getRecommendClothes } from "./monthlyClothesSlice";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db } from "@/shared/lib/firebase";
 
 interface ChatBubbleState {
   chatOpen: boolean;

@@ -114,7 +114,7 @@ Dashboard.KPIGraphItem = styled.div`
   }
 `;
 
-Dashboard.KeywordGraphHero = styled.section`
+Dashboard.Hero = styled.section`
   position: relative;
   background: var(--bg-elev);
   border: 1px solid var(--border);
