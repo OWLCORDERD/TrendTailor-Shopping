@@ -5,11 +5,11 @@ import { Dashboard as CSS } from "@/styles";
 import SystemLabel from "../ui/SystemLabel";
 import { motion } from "framer-motion";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import {
-  currentKeywordDetailUpdate,
-  drawForceGraph,
-  keywordSampleClothes,
-} from "@/store/simulationInstance";
+// import {
+//   currentKeywordDetailUpdate,
+//   drawForceGraph,
+//   keywordSampleClothes,
+// } from "@/store/simulationInstance";
 import { drawForceGraphPayload } from "../ui/Hero";
 import "@/styles/hero.scss";
 import KeywordPreview from "@/component/Main/Peed/KeywordPreview";

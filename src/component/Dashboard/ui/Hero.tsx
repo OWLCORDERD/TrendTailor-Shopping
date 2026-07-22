@@ -10,11 +10,11 @@ import React, {
 } from "react";
 import { MainBanner as CSS } from "styles";
 import "@/styles/hero.scss";
-import {
-  currentKeywordDetailUpdate,
-  drawForceGraph,
-  keywordSampleClothes,
-} from "@/store/simulationInstance";
+// import {
+//   currentKeywordDetailUpdate,
+//   drawForceGraph,
+//   keywordSampleClothes,
+// } from "@/store/simulationInstance";
 import KeywordPreview from "@/component/Main/Peed/KeywordPreview";
 import { motion } from "framer-motion";
 

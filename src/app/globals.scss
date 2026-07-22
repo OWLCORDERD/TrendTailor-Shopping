@@ -42,11 +42,26 @@ $lightFont-Color: #000;
         font-family: $Jamsil-font;
         background: var(--colorMain);
 
+        &:has(.shop-container),
+        &:has(.notice-container) {
+            background: #fff;
+
+            header {
+                background: var(--colorMain);
+            }
+        }
+
         main{
             max-width : 1440px;
             margin: 0 auto;
             padding: 32px 40px 120px;
             display: block;
+
+            &:has(.shop-container),
+            &:has(.notice-container) {
+                max-width: 100%;
+                padding: 0;
+            }
 
             .page-banner {
                 display: block;

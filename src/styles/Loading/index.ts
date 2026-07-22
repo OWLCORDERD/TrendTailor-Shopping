@@ -24,7 +24,7 @@ Loading.PageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgb(255, 255, 255, 0.8);
+  background-color: rgb(10, 20, 64, 0.9);
   backdrop-filter: blur(10px);
   z-index: 1000;
 `;
