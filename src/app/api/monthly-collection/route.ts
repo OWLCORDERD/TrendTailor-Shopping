@@ -10,6 +10,12 @@ interface jobType {
 }
 
 export async function GET(req: NextRequest) {
+  return NextResponse.json(
+    {
+      message: "현재 구현중인 기능 API입니다.",
+      status: 200,
+    },
+  );
   // // vercel CI에서의 cron 요청 여부 체크 (cron 요청 헤더 및 vercel 환경 체크)
   // const isCron = req.headers.get('x-vercel-cron') === '1' || process.env.VERCEL === '1';
 

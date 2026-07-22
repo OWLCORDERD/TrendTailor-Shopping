@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef } from "react";
-import Hero from "../../../../Dashboard/ui/Hero";
 import TrendTailorAI from "../../TrendTailorAI";
 import { TimelineContext } from "../../../../../../context/TimelineContext";
 import { gsap } from "gsap";
@@ -40,7 +39,6 @@ const Inner = () => {
     <>
       {/* 타임라인 컨테이너 wrapper */}
       <div ref={gsapContext}>
-        <Hero />
         <TrendTailorAI />
       </div>
     </>

@@ -1,4 +1,3 @@
-import { drawForceGraphPayload } from "@/component/Dashboard/ui/Hero";
 // import { styleKeyword } from "@/data/styleKeyword";
 import forceDirectGraphRenderer from "@/shared/lib/customRenderer";
 import { db } from "@/shared/lib/firebase";
@@ -110,52 +109,52 @@ const simulationInstanceSlice = createSlice({
   name: "styleSimulationInstance",
   initialState: initialState,
   reducers: {
-    drawForceGraph: (state, action: PayloadAction<drawForceGraphPayload>) => {
-      const renderer = new forceDirectGraphRenderer(
-        action.payload.keywordGraphRoot
-      );
+    // drawForceGraph: (state, action: PayloadAction<drawForceGraphPayload>) => {
+    //   const renderer = new forceDirectGraphRenderer(
+    //     action.payload.keywordGraphRoot
+    //   );
 
-      renderer.init();
+    //   renderer.init();
 
-      const replaceName = (name: string) => {
-        if (name.includes("상의")) {
-          return "TOP";
-        } else if (name.includes("하의")) {
-          return "BOTTOM";
-        } else if (name.includes("아우터")) {
-          return "OUTER";
-        } else if (name.includes("미니멀")) {
-          return `MINIMAL(${name})`;
-        } else if (name.includes("스트릿")) {
-          return `STREET(${name})`;
-        } else if (name.includes("스포츠")) {
-          return `SPORTS(${name})`;
-        } else if (name.includes("빈티지")) {
-          return `VINTAGE(${name})`;
-        } else if (name.includes("오피스")) {
-          return `OFFICE(${name})`;
-        }
-        return name;
-      };
+    //   const replaceName = (name: string) => {
+    //     if (name.includes("상의")) {
+    //       return "TOP";
+    //     } else if (name.includes("하의")) {
+    //       return "BOTTOM";
+    //     } else if (name.includes("아우터")) {
+    //       return "OUTER";
+    //     } else if (name.includes("미니멀")) {
+    //       return `MINIMAL(${name})`;
+    //     } else if (name.includes("스트릿")) {
+    //       return `STREET(${name})`;
+    //     } else if (name.includes("스포츠")) {
+    //       return `SPORTS(${name})`;
+    //     } else if (name.includes("빈티지")) {
+    //       return `VINTAGE(${name})`;
+    //     } else if (name.includes("오피스")) {
+    //       return `OFFICE(${name})`;
+    //     }
+    //     return name;
+    //   };
 
-      renderer.dispatchCallback = (node: any) => {
-        const nodeDetail = {
-          keyword: replaceName(node.name),
-          category: node.children.map((item: any) => {
-            return {
-              type: replaceName(item.name),
-              clothes: item.children.map((clothes: any) => {
-                return clothes;
-              }),
-            };
-          }),
-        };
+    //   renderer.dispatchCallback = (node: any) => {
+    //     const nodeDetail = {
+    //       keyword: replaceName(node.name),
+    //       category: node.children.map((item: any) => {
+    //         return {
+    //           type: replaceName(item.name),
+    //           clothes: item.children.map((clothes: any) => {
+    //             return clothes;
+    //           }),
+    //         };
+    //       }),
+    //     };
 
-        if (action.payload.updateCurrentDetail) {
-          action.payload.updateCurrentDetail(nodeDetail);
-        }
-      };
-    },
+    //     if (action.payload.updateCurrentDetail) {
+    //       action.payload.updateCurrentDetail(nodeDetail);
+    //     }
+    //   };
+    // },
     currentKeywordDetailUpdate: (state, action: any) => {
       state.currentDetail = {
         keyword: action.payload.keyword,
@@ -183,7 +182,7 @@ const simulationInstanceSlice = createSlice({
 
 export default simulationInstanceSlice.reducer;
 export const {
-  drawForceGraph,
+  // drawForceGraph,
   currentKeywordDetailUpdate,
   closeDetailPreview,
 } = simulationInstanceSlice.actions;
