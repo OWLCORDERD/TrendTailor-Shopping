@@ -2,7 +2,6 @@ import React from "react";
 import Timeline from "@/component/Main/Peed/TimeLine";
 import DashboardSection from "@/component/Dashboard/Section";
 import SystemLabel from "@/component/Dashboard/ui/SystemLabel";
-import KeywordMapGraph from "@/component/Dashboard/architecture/KeywordMapGraph";
 import TrendTailorAI from "@/component/Main/Peed/TrendTailorAI";
 
 interface HeaderChildren {
@@ -59,7 +58,7 @@ const page = async () => {
     children: (
       <>
         {/* 키워드 그래프 */}
-        <KeywordMapGraph />
+        {/* <KeywordMapGraph /> */}
       </>
     ),
     label: {
