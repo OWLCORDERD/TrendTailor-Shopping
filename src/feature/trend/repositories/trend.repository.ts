@@ -32,6 +32,17 @@ export interface trendKeywordsType {
   };
 }
 
+export interface searchKeywordType {
+  name: string; // 트랜드 키워드명
+  aliases: string[]; // 트랜드 키워드 별칭
+  createdAt: Date; // 트랜드 키워드 생성일
+  children: {
+    top: string[];
+    bottom: string[];
+    shoes: string[];
+  };
+}
+
 const COLLECTION = "trend-keywords";
 
 type ExistingKeyword = {
@@ -39,6 +50,7 @@ type ExistingKeyword = {
   slug: string;
 };
 
+// 트랜드 키워드 컬렉션 내부 조회된 키워드 slug명과 일치하는 키워드 문서 체크
 async function findExistingKeyword(
   trendKeyword: trendKeywordsType,
   slug: string
@@ -127,10 +139,7 @@ export const save = async (trendKeywords: trendKeywordsType[]) => {
       }
 
       const existing = await findExistingKeyword(trendKeyword, slug);
-      const payload = buildKeywordPayload(
-        trendKeyword,
-        existing?.slug ?? slug
-      );
+      const payload = buildKeywordPayload(trendKeyword, existing?.slug ?? slug);
 
       if (existing) {
         await updateDoc(existing.ref, payload);
@@ -149,4 +158,28 @@ export const save = async (trendKeywords: trendKeywordsType[]) => {
     console.error(err);
     return { success: false as const, err };
   }
+};
+
+// 트랜드 키워드 컬렉션에 저장된 문서 전체 조회하여 검색 쿼리 반환
+export const getTrendKeywordDocs = async () => {
+  const colRef = collection(db, COLLECTION);
+
+  const getColRefDocs = await getDocs(colRef);
+
+  if (getColRefDocs.empty) {
+    return [];
+  }
+
+  return getColRefDocs.docs.map((doc) => {
+    return {
+      name: doc.data().name,
+      aliases: doc.data().aliases,
+      createdAt: doc.data().createdAt.toDate(),
+      children: {
+        top: doc.data().children.tops,
+        bottom: doc.data().children.bottoms,
+        shoes: doc.data().children.shoes,
+      },
+    };
+  }) as searchKeywordType[];
 };

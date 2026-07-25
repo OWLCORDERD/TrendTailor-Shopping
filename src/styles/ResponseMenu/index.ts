@@ -7,7 +7,7 @@ ResponseMenu.Container = styled.div`
   top: 0;
   right: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: #fff;
   z-index: 1000;
   transition: all 0.5s ease-in;

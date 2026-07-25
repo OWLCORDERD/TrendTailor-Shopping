@@ -79,7 +79,9 @@ const Navbar = () => {
               <CSS.ResponsiveNav>
                 <CSS.ResponsiveLogo>
                   <Link href='/' prefetch={true} className='logo'>
-                    <Image src={Logo} alt='TrendTailor 로고 이미지' />
+                    <div className='logo-icon'>
+                      <Image src={Logo} alt='TrendTailor 로고 이미지' />
+                    </div>
                     <h1 className='logo-title'>TrendTailor</h1>
                   </Link>
                 </CSS.ResponsiveLogo>

@@ -48,7 +48,9 @@ $lightFont-Color: #000;
         background: var(--colorMain);
 
         &:has(.shop-container),
-        &:has(.notice-container) {
+        &:has(.notice-container),
+        &:has(.login-container),
+        &:has(.signup-container) {
             background: #fff;
 
             header {
@@ -63,7 +65,9 @@ $lightFont-Color: #000;
             display: block;
 
             &:has(.shop-container),
-            &:has(.notice-container) {
+            &:has(.notice-container),
+            &:has(.login-container),
+            &:has(.signup-container) {
                 max-width: 100%;
                 padding: 0;
             }

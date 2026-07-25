@@ -43,7 +43,9 @@ $lightFont-Color: #000;
         background: var(--colorMain);
 
         &:has(.shop-container),
-        &:has(.notice-container) {
+        &:has(.notice-container),
+        &:has(.login-container),
+        &:has(.signup-container) {
             background: #fff;
 
             header {
@@ -58,7 +60,9 @@ $lightFont-Color: #000;
             display: block;
 
             &:has(.shop-container),
-            &:has(.notice-container) {
+            &:has(.notice-container),
+            &:has(.login-container),
+            &:has(.signup-container) {
                 max-width: 100%;
                 padding: 0;
             }
@@ -135,6 +139,10 @@ header {
     backdrop-filter: blur(20px) saturate(140%);
     border-bottom: 1px solid var(--border);
     z-index: 999;
+
+    @media screen and (max-width: 768px) {
+        background-color: #fff;
+    }
 }
 
 footer{

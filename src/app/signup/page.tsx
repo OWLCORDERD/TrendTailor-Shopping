@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import "app/globals.scss";
-import "styles/register.scss";
+import "styles/signup.scss";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -535,7 +535,7 @@ const Register = () => {
   };
 
   return (
-    <div className='register-container'>
+    <div className='signup-container'>
       <ToastContainer />
       <div className='register-wrap'>
         <div className='register-title'>

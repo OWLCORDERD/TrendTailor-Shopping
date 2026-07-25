@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import * as openAIService from "../services/api/openai.service";
 import * as trendKeywordRepository from "../repositories/trend.repository";
+import { searchClothesBytrendKeyword } from "./collect-clothes.jobs";
 
 // 2026.07.19:
 // 월별 트랜드 키워드 데이터 수집을 위한 프롬프트
@@ -61,13 +62,13 @@ const trendKeywordSystemPrompt = `
 
 // (월별 트랜드 키워드 데이터 수집 및 저장) 비즈니스 플로우 파이프라인 함수
 export const generateTrendKeywordJobs = async () => {
-    // 월별 트랜드 키워드 데이터 수집을 위한 사용자 프롬프트 생성
+  // 월별 트랜드 키워드 데이터 수집을 위한 사용자 프롬프트 생성
 
-    // 요청 날짜 기반 프롬프트 정규화 포맷 생성
-    const date = dayjs().format("MMMM D, YYYY.");
+  // 요청 날짜 기반 프롬프트 정규화 포맷 생성
+  const date = dayjs().format("MMMM D, YYYY.");
 
-    // 요청 날짜 기반 사용자 프롬프트 생성
-    const currentDateUserPrompt = `
+  // 요청 날짜 기반 사용자 프롬프트 생성
+  const currentDateUserPrompt = `
         Today is ${date}.
 
         Analyze Korean fashion trends from the last 30 days.
@@ -85,127 +86,123 @@ export const generateTrendKeywordJobs = async () => {
         Return the top 10 styles ordered by popularity.
     `;
 
-    const functionSchema = {
-        name: "trend_keyword_collection",
-        description:
-          "Generate fashion trend keywords for the current month",
-        parameters: {
-          type: "object",
-          properties: {
-            trendKeywords: {
-              type: "array",
-              items: {
+  const functionSchema = {
+    name: "trend_keyword_collection",
+    description: "Generate fashion trend keywords for the current month",
+    parameters: {
+      type: "object",
+      properties: {
+        trendKeywords: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              name: {
+                type: "string",
+                description: "Primary Korean fashion style keyword",
+              },
+              description: {
+                type: "string",
+                description:
+                  "One sentence Korean language description of the fashion trend keyword",
+              },
+              aliases: {
+                type: "array",
+                minItems: 1,
+                items: { type: "string" },
+                description:
+                  "Must include at least one English Latin-alphabet alias (A-Z, a-z, digits, spaces, hyphens only), e.g. Sportism. Optional Korean variants may follow.",
+              },
+              category: {
+                type: "string",
+                description:
+                  "Broad fashion category (e.g. Sports, Street, Casual)",
+              },
+              confidence: {
+                type: "number",
+                description: "Confidence score between 0 and 1",
+              },
+              season: {
+                type: "array",
+                items: {
+                  type: "string",
+                  enum: ["SS", "FW"],
+                },
+                description: "Applicable seasons",
+              },
+              relatedStyles: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    name: { type: "string" },
+                    score: {
+                      type: "number",
+                      description: "Relatedness score between 0 and 1",
+                    },
+                  },
+                  required: ["name", "score"],
+                },
+              },
+              children: {
                 type: "object",
                 properties: {
-                  name: {
-                    type: "string",
-                    description: "Primary Korean fashion style keyword",
-                  },
-                  description: {
-                    type: "string",
-                    description:
-                      "One sentence Korean language description of the fashion trend keyword",
-                  },
-                  aliases: {
+                  tops: {
                     type: "array",
-                    minItems: 1,
                     items: { type: "string" },
-                    description:
-                      "Must include at least one English Latin-alphabet alias (A-Z, a-z, digits, spaces, hyphens only), e.g. Sportism. Optional Korean variants may follow.",
                   },
-                  category: {
-                    type: "string",
-                    description:
-                      "Broad fashion category (e.g. Sports, Street, Casual)",
-                  },
-                  confidence: {
-                    type: "number",
-                    description: "Confidence score between 0 and 1",
-                  },
-                  season: {
+                  bottoms: {
                     type: "array",
-                    items: {
-                      type: "string",
-                      enum: ["SS", "FW"],
-                    },
-                    description: "Applicable seasons",
+                    items: { type: "string" },
                   },
-                  relatedStyles: {
+                  shoes: {
                     type: "array",
-                    items: {
-                      type: "object",
-                      properties: {
-                        name: { type: "string" },
-                        score: {
-                          type: "number",
-                          description: "Relatedness score between 0 and 1",
-                        },
-                      },
-                      required: ["name", "score"],
-                    },
-                  },
-                  children: {
-                    type: "object",
-                    properties: {
-                      tops: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
-                      bottoms: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
-                      shoes: {
-                        type: "array",
-                        items: { type: "string" },
-                      },
-                    },
-                    required: ["tops", "bottoms", "shoes"],
+                    items: { type: "string" },
                   },
                 },
-                required: [
-                  "name",
-                  "description",
-                  "aliases",
-                  "category",
-                  "confidence",
-                  "season",
-                  "relatedStyles",
-                  "children",
-                ],
+                required: ["tops", "bottoms", "shoes"],
               },
             },
+            required: [
+              "name",
+              "description",
+              "aliases",
+              "category",
+              "confidence",
+              "season",
+              "relatedStyles",
+              "children",
+            ],
           },
-          required: ["trendKeywords"],
         },
-      };
+      },
+      required: ["trendKeywords"],
+    },
+  };
 
+  // 월별 트랜드 키워드 데이터 수집을 위한 OpenAI 호출
+  const trendKeyword = await openAIService.generateOpenAI({
+    systemPrompt: trendKeywordSystemPrompt,
+    userPrompt: currentDateUserPrompt,
+    functionSchemaYn: true,
+    functionSchema: functionSchema,
+  });
 
-    // 월별 트랜드 키워드 데이터 수집을 위한 OpenAI 호출
-    const trendKeyword = await openAIService.generateOpenAI({
-        systemPrompt: trendKeywordSystemPrompt,
-        userPrompt: currentDateUserPrompt,
-        functionSchemaYn: true,
-        functionSchema: functionSchema,
-    });
+  if (!trendKeyword.success) {
+    console.error(`월별 트랜드 키워드 수집 실패: ${trendKeyword.err}`);
+    return;
+  }
 
-    if (!trendKeyword.success) {
-        console.error(`월별 트랜드 키워드 수집 실패: ${trendKeyword.err}`);
-        return;
+  if (trendKeyword.recommend.trendKeywords.length > 0) {
+    const result = await trendKeywordRepository.save(
+      trendKeyword.recommend.trendKeywords
+    );
+
+    if (!result.success) {
+      console.error("월별 트랜드 키워드 저장 실패", result.err);
+      return;
     }
 
-    if (trendKeyword.recommend.trendKeywords.length > 0) {
-        const result = await trendKeywordRepository.save(
-            trendKeyword.recommend.trendKeywords
-        );
-
-        if (!result.success) {
-            console.error("월별 트랜드 키워드 저장 실패", result.err);
-            return;
-        }
-
-        console.log(
-            `트랜드 키워드 저장 완료: created=${result.created}, updated=${result.updated}, skipped=${result.skipped}`
-        );
-    }
+    // await searchClothesBytrendKeyword();
+  }
 };

@@ -219,11 +219,11 @@ Navbar.Menu = styled.ul`
 // 모바일 반응형 헤더 네비게이션 영역
 Navbar.ResponsiveNav = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+  color: #fff;
 `;
 
 Navbar.ResponsiveLogo = styled.div`
@@ -232,21 +232,33 @@ Navbar.ResponsiveLogo = styled.div`
 
   a {
     display: flex;
-    gap: 5px;
+    gap: 10px;
     align-items: center;
     width: 200px;
     height: 100%;
 
-    & > img {
-      width: 3rem;
-      height: 3rem;
+    .logo-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 8px;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: -0.05em;
+
+      & > img {
+        width: 32px;
+        height: 32px;
+      }
     }
 
     & > h1 {
       font-weight: 500;
       font-size: 1.2rem;
       font-family: "Pacifico", cursive;
-      color: var(--colorMain);
+      color: #fff;
       text-align: center;
     }
   }
@@ -257,26 +269,25 @@ Navbar.ResponsiveMenu = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 6.25rem;
-  height: 100%;
 `;
 
 Navbar.ResponsiveButton = styled.div`
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 20px;
   cursor: pointer;
 `;
 
 Navbar.SearchButton = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 20px;
   cursor: pointer;
 `;
 
