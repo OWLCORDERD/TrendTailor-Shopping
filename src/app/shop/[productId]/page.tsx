@@ -12,32 +12,25 @@ const getCurrentProduct = async (productId: string) => {
     return [];
   }
 
-  const clothesData: clothes[] = [];
+  const clothesData: trendClothes[] = [];
 
   doc.forEach((doc) => {
     const data = doc.data();
 
     clothesData.push({
-      doc_id: doc.id,
+      productId: data.productId,
       title: data.title,
       image: data.image,
       link: data.link,
-      lprice: data.lprice,
-      hprice: data.hprice,
-      mallName: data.mallName,
-      productId: data.productId,
-      productType: data.productType,
+      price: data.price,
+      category: data.category,
+      genderCategory: data.genderCategory,
+      createdAt: data.createdAt,
       brand: data.brand,
-      maker: data.maker,
-      category1: data.category1,
-      category2: data.category2,
-      category3: data.category3,
-      category4: data.category4,
       viewCount: data.viewCount,
       likeCount: data.likeCount,
-      collectedAt: data.collectedAt,
-      searchStyle: data.searchStyle,
-      searchCategory: data.searchCategory,
+      updatedAt: data.updatedAt,
+      keywordName: data.keywordName,
     })
   })
 
@@ -49,13 +42,13 @@ const getCurrentProduct = async (productId: string) => {
 }
 
 const ProductPage = async ({ params }: any) => {
-
-  console.log(params);
-
+  const currentProductDB: any = await getCurrentProduct(params.productId);
   return (
-    <div className='wrap'>
-      {/* <ProductDetail staticProduct={currentProductDB} /> */}
-    </div>
+    <section className='product-detail'>
+      <div className='wrap'>
+        <ProductDetail staticProduct={currentProductDB as trendClothes} />
+      </div>
+    </section>
   );
 };
 

@@ -146,21 +146,39 @@ Dashboard.Hero = styled.section`
       }
 
       .description {
+        max-width: 80%;
+        word-break: keep-all;
         color: var(--text-muted);
         font-size: 14px;
         line-height: 1.6;
       }
     }
 
-    .hero-graph {
+    .keyword-force-graph {
       position: relative;
       min-height: 620px;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: radial-gradient(
         circle at 50% 50%,
         rgba(59, 91, 255, 0.08),
         transparent 70%
       );
+
+      .no-data {
+        width: fit-content;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+
+        & > p {
+          font-size: 18px;
+          color: #fff;
+          font-weight: bold;
+        }
+      }
     }
   }
 `;

@@ -81,9 +81,8 @@ declare global {
     };
   }
 
-  // 네이버 쇼핑 API 의류 데이터 타입
+  // 네이버 쇼핑 API 조회 의류 데이터 타입
   interface clothes {
-    doc_id: string;
     title: string;
     link: string;
     image: string;
@@ -98,11 +97,23 @@ declare global {
     category2?: string;
     category3?: string;
     category4?: string;
+  }
+
+  // 트랜드 키워드 검색 의류 데이터 타입
+  interface trendClothes {
+    productId: string; // 상품 ID
+    image: string; // 상품 이미지
+    link: string; // 상품 링크
+    price: number; // 가격 (lprice or hprice)
+    brand: string; // 브랜드명 (mallName or brand)
+    category: string; // 검색 카테고리 (상의/하의/신발)
+    title: string; // 의류 제목
+    keywordName: string; // 검색 트랜드 키워드명
+    genderCategory: string; // 성별 카테고리 (남성/여성)
     viewCount: number; // 조회 수 (인기 순 필터링에 활용)
     likeCount: number; // 좋아요 수 (인기 순 필터링에 활용)
-    collectedAt: string; // 추천 일시
-    searchStyle: string; // 검색 스타일 키워드
-    searchCategory: string; // 검색 카테고리 키워드
+    createdAt: string; // 생성 일시
+    updatedAt: string; // 수정 일시
   }
 
   interface recommendClothes {

@@ -177,7 +177,7 @@ Navbar.LoginUser = styled.div`
     border: none;
 
     svg {
-      fill: #333;
+      fill: #fff;
       width: 2rem;
       height: 2rem;
     }

@@ -82,10 +82,68 @@ export const recommendOpenAI = createAsyncThunk(
   async (clothesData: clothes[], { getState, dispatch }) => {
     const state = getState() as { chatBubble: ChatBubbleState };
     try {
+      // 1. 파라미터 전달받은 트랜드 추천 필터 의류 데이터 기반 프롬프트 구성
+      const prompt = {
+        systemPrompt: `You are a professional fashion store staff
+    
+        Rules:
+        - Only use the provided product information
+        - Do not invent materials or technical details
+        - Keep explanations natural and concise
+        - Focus on mood, usage, and styling
+        - Respond only using the provided function schema`,
+
+        userPrompt: `For each product below:
+        1. Infer key fashion characteristics from the title, brand, category, and style
+        2. Introduce the product naturally as a clothing store staff
+        3. Keep it concise and practical
+        products: ${JSON.stringify(clothesData)}`
+      }
+
+      // 2. 챗봇 답변 템플릿화 > function calling 스키마 셋팅
+      const functionSchema =
+        {
+          name: "keyword_recommendation",
+          description:
+            "Generate fashion staff style descriptions for multiple clothing products",
+          parameters: {
+            type: "object",
+            properties: {
+              products: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    productId: { type: "string" },
+                    summary: {
+                      type: "string",
+                      description:
+                        "One sentence korean language summary as a clothing store staff",
+                    },
+                    keyPoints: {
+                      type: "array",
+                      items: { type: "string" },
+                      description: "2~3 korean language key selling points",
+                    },
+                    stylingTip: {
+                      type: "string",
+                      description: "Simple korean language styling suggestion",
+                    },
+                  },
+                  required: ["productId", "summary", "keyPoints", "stylingTip"],
+                },
+              },
+            },
+            required: ["products"],
+          },
+      };
+
       const res = await fetch("/api/recommendOpenAI", {
         method: "POST",
         body: JSON.stringify({
-          selectClothes: clothesData,
+          type: "consulting",
+          prompt: prompt,
+          functionSchema: functionSchema,
         }),
       });
 

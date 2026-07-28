@@ -99,8 +99,7 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
 
                 <CSS.ProductInfo>
                   <CSS.ProductTitle>{clothes.title}</CSS.ProductTitle>
-                  <CSS.ProductMall>{clothes.mallName}</CSS.ProductMall>
-                  <CSS.ProductPrice>{clothes.lprice}원</CSS.ProductPrice>
+                  <CSS.ProductMall>{clothes.brand}</CSS.ProductMall>
                 </CSS.ProductInfo>
               </Link>
             </CSS.ProductItem>

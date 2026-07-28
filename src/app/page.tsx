@@ -3,6 +3,9 @@ import Timeline from "@/component/Main/Peed/TimeLine";
 import DashboardSection from "@/component/Dashboard/Section";
 import SystemLabel from "@/component/Dashboard/ui/SystemLabel";
 import TrendTailorAI from "@/component/Main/Peed/TrendTailorAI";
+import useSWR, { SWRResponse } from "swr";
+import { FetcherResponse } from "swr/dist/_internal";
+import KeywordForceGraph from "@/component/Dashboard/structure/KeywordForceGraph";
 
 interface HeaderChildren {
   title?: string;
@@ -58,13 +61,14 @@ const page = async () => {
     children: (
       <>
         {/* 키워드 그래프 */}
-        {/* <KeywordMapGraph /> */}
+        <KeywordForceGraph />
       </>
     ),
     label: {
       labelTxt: "TRENDY KEYWORD VECTOR GRAPH",
     }
   }
+
   return (
     <>
       {/* 본문 헤더 & KPI 통계 그래프 영역 */}

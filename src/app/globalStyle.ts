@@ -50,7 +50,9 @@ $lightFont-Color: #000;
         &:has(.shop-container),
         &:has(.notice-container),
         &:has(.login-container),
-        &:has(.signup-container) {
+        &:has(.signup-container),
+        &:has(.product-detail),
+        &:has(.trendly-container) {
             background: #fff;
 
             header {
@@ -67,7 +69,9 @@ $lightFont-Color: #000;
             &:has(.shop-container),
             &:has(.notice-container),
             &:has(.login-container),
-            &:has(.signup-container) {
+            &:has(.signup-container),
+            &:has(.product-detail),
+            &:has(.trendly-container) {
                 max-width: 100%;
                 padding: 0;
             }

@@ -17,7 +17,7 @@ interface selectSize {
 }
 
 interface staticProductType {
-  staticProduct: clothes | undefined;
+  staticProduct: trendClothes | undefined;
 }
 
 const ProductDetail = ({ staticProduct }: staticProductType) => {
@@ -25,7 +25,7 @@ const ProductDetail = ({ staticProduct }: staticProductType) => {
     return state.searchDB.currentProduct;
   });
 
-  const currentProductDB =
+  const currentProductDB: trendClothes | any =
     staticProduct === undefined ? searchProduct : staticProduct;
 
   const { data, status } = useSession();
@@ -58,7 +58,7 @@ const ProductDetail = ({ staticProduct }: staticProductType) => {
       const sizeObject = {
         size: currentSize,
         count: 1,
-        price: Number(currentProductDB.lprice),
+        price: Number(currentProductDB.price),
       };
 
       let updateSizeArray = [...selectSize];

@@ -1,5 +1,5 @@
 import { db } from "@/shared/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 interface selectType {
@@ -13,10 +13,8 @@ export async function POST(req: NextRequest) {
   const type = body.type; // 요청 유형 구분 변수
   // 챗봇 컨설팅 모드 설문 답변 목록
   const selectQAList = body?.select as selectType[];
-  const searchQuery = body?.query; // 의류 검색 키워드
-  const display = body?.display; // 검색 결과 노출 개수
 
-  // 2025.12.29: 챗봇 컨설팅 모드에서 요청한 케이스
+  // CASE A. 챗봇 컨설팅 모드 > 사용자 컨설팅 추천 의류 필터링 요청 케이스
   if (type === "consulting") {
     const selectType = {
       clothes_type: selectQAList[0].selectLabel ?? "", // 의류 종류
@@ -39,31 +37,24 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      const clothesData: clothes[] = [];
+      const clothesData: trendClothes[] = [];
 
       docs.forEach((doc) => {
         const data = doc.data();
         clothesData.push({
-          doc_id: doc.id,
+          productId: data.productId,
           title: data.title,
           image: data.image,
           link: data.link,
-          lprice: data.lprice,
-          hprice: data.hprice,
-          mallName: data.mallName,
-          productId: data.productId,
-          productType: data.productType,
+          price: data.price,
           brand: data.brand,
-          maker: data.maker,
-          category1: data.category1,
-          category2: data.category2,
-          category3: data.category3,
-          category4: data.category4,
+          category: data.category,
+          createdAt: data.createdAt,
           viewCount: data.viewCount,
           likeCount: data.likeCount,
-          collectedAt: data.collectedAt,
-          searchStyle: data.searchStyle,
-          searchCategory: data.searchCategory,
+          updatedAt: data.updatedAt,
+          keywordName: data.keywordName,
+          genderCategory: data.genderCategory,
         });
       });
 
@@ -92,7 +83,7 @@ export async function POST(req: NextRequest) {
       // 1단계: 사용자 선택한 의류 종류 필터링
       const filterByType = clothesData.filter((item) => {
         return (
-          item.searchCategory === selectValueFormatter(selectType.clothes_type)
+          item.category === selectValueFormatter(selectType.clothes_type)
         );
       });
 
@@ -106,7 +97,7 @@ export async function POST(req: NextRequest) {
       // 2단계: 사용자 선택한 선호 스타일 필터링
       const filterByStyle = filterByType.filter((item) => {
         return (
-          item.searchStyle === selectValueFormatter(selectType.clothes_style)
+          item.keywordName === selectValueFormatter(selectType.clothes_style)
         );
       });
 
@@ -125,11 +116,11 @@ export async function POST(req: NextRequest) {
         if (selectType.gender === "male") {
           // 중분류 카테고리 기준 남성/여성패션 필터링
           filterByGender = filterByStyle.filter((item) => {
-            return item.category2 === "남성의류";
+            return item.genderCategory === "남성의류";
           });
         } else {
           filterByGender = filterByStyle.filter((item) => {
-            return item.category2 === "여성의류";
+            return item.genderCategory === "여성의류";
           });
         }
 
@@ -146,9 +137,7 @@ export async function POST(req: NextRequest) {
 
       // 4단계: 사용자가 선택한 가격과 비교하여 의류 필터링
       const priceComparison = filterByGender.filter((item) => {
-        const productPrice = item.hprice
-          ? parseInt(item.hprice)
-          : parseInt(item.lprice);
+        const productPrice = item.price
 
         if (Number(selectType.price) >= productPrice) {
           return item;
@@ -171,7 +160,7 @@ export async function POST(req: NextRequest) {
         case "cheap":
           // 최종단계: 가격 낮은 순 상위 정렬
           const sortByLowerPrice = priceComparison.sort(
-            (a, b) => parseInt(a.lprice) - parseInt(b.lprice)
+            (a, b) => a.price - b.price
           );
 
           return NextResponse.json({
@@ -186,4 +175,57 @@ export async function POST(req: NextRequest) {
       });
     }
   }
+
+  // CASE B. 트랜드 의류 키워드 조합 쿼리로 의류 데이터 조회 요청 케이스
+  if (type === "search") {
+    const searchQuery = body?.query; // 의류 검색 키워드
+    const display = body.display ? body.display : 10; // 검색 결과 노출 개수 (기본 10개)
+  
+    const naverOpenAPI: any = {
+      endPoint: "https://openapi.naver.com/v1/search/shop.json",
+      headers: {
+        "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
+        "X-Naver-Client-Secret":
+          process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
+      },
+    };
+
+    try {
+      const searchRequest = await fetch(
+        `${naverOpenAPI.endPoint}?query=${searchQuery}&display=${display}`,
+        {
+          headers: naverOpenAPI.headers,
+        }
+      );
+    
+      // 응답 데이터 파싱
+      const res = await searchRequest.json();
+      const clothesData: clothes[] = res.items; // 응답 객체 items 배열 추출
+    
+      // 조회 의류 데이터 존재 시, 필드별 title 태그 제거 후 응답 값 반환
+      if (clothesData.length > 0) {
+        return NextResponse.json({
+          status: 200,
+          clothesData: clothesData.map((clothes) => {
+            return {
+              ...clothes,
+              title: clothes.title.replace(/<[^>]*>/g, ""),
+            }
+          })
+        });
+      } else {
+        // 조회된 데이터가 없는 경우
+        return NextResponse.json({
+          status: 404,
+          err: "검색 결과가 없습니다.",
+        });
+      }
+    } catch (err) {
+      // 조회 응답 실패 or 과정 중 파싱 오류 발생 시
+      return NextResponse.json({
+        status: 500,
+        err: "검색 결과 조회 중 오류가 발생했습니다.",
+      });
+    }
+  };
 }

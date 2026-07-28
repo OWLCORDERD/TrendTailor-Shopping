@@ -1,109 +1,111 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
+interface promptType {
+  systemPrompt: string;
+  userPrompt: string;
+}
+
 export async function POST(req: NextRequest) {
   // 클라이언트 상태관리에서 전달받은 답변 선택 배열 값 파싱
   const body = await req.json();
-  const selectClothes: clothes[] = body.selectClothes;
+  const type: string = body.type; // 요청 타입 (consulting, keyword)
+  const prompt: promptType = body.prompt;
+  const functionSchema: any = body.functionSchema;
+
+  // 프롬프트가 없는 경우 오류 반환 후 종료
+  if (!prompt || !prompt.systemPrompt || !prompt.userPrompt) {
+    return NextResponse.json({
+      status: 400,
+      err: "요청할 프롬프트 정보가 없습니다.",
+    });
+  }
 
   const openAI = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   }); // OpenAI 생성자 객체 생성
 
-  // (채널 검색어 키워드 추천용) System/User 프롬프트
-  const keywordPrompt = {
-    systemPrompt: `You are a professional fashion store staff
-    
-    Rules:
-    - Only use the provided product information
-    - Do not invent materials or technical details
-    - Keep explanations natural and concise
-    - Focus on mood, usage, and styling
-    - Respond only using the provided function schema`,
-
-    userPrompt: `For each product below:
-
-1. Infer key fashion characteristics from the title, brand, category, and style
-2. Introduce the product naturally as a clothing store staff
-3. Keep it concise and practical
-
-products: ${JSON.stringify(selectClothes)}`,
+  const defaultOptions: any = {
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: prompt.systemPrompt,
+      },
+      { role: "user", content: prompt.userPrompt },
+    ],
+    temperature: 0.6,
+    max_tokens: 1800,
+    top_p: 1,
   };
 
-  try {
-    // 사용자가 선택한 답변들을 토대로 추천 키워드 추출하기 위한
-    // openAI Chat Completion API 호출
-    const completion = await openAI.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: keywordPrompt.systemPrompt,
-        },
-        { role: "user", content: keywordPrompt.userPrompt },
-      ],
-      temperature: 0.6,
-      max_tokens: 1800,
-      top_p: 1,
-      // 답변을 원하는 JSON 객체 형태로 셋팅 가능한 함수 선언
-      functions: [
-        {
-          name: "keyword_recommendation",
-          description:
-            "Generate fashion staff style descriptions for multiple clothing products",
-          parameters: {
-            type: "object",
-            properties: {
-              products: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    productId: { type: "string" },
-                    summary: {
-                      type: "string",
-                      description:
-                        "One sentence korean language summary as a clothing store staff",
-                    },
-                    keyPoints: {
-                      type: "array",
-                      items: { type: "string" },
-                      description: "2~3 korean language key selling points",
-                    },
-                    stylingTip: {
-                      type: "string",
-                      description: "Simple korean language styling suggestion",
-                    },
-                  },
-                  required: ["productId", "summary", "keyPoints", "stylingTip"],
-                },
-              },
-            },
-            required: ["products"],
-          },
-        },
-      ],
-      // 답변 JSON 객체 형태 콜백 함수 선언
-      function_call: {
+  
+  // 전체 의류 데이터 중, 필터링된 컨설팅 트랜드 의류 필드별 추천 데이터 객체화 추출
+  if (type === "consulting") {
+    // function calling 스키마 넘겨받은 케이스에 따라 옵션 셋팅
+    if (functionSchema) {
+      defaultOptions.functions = [functionSchema];
+      defaultOptions.function_call = {
         name: "keyword_recommendation",
-      },
-    });
-
-    // 응답 답변 데이터 추출
-    const recommendInformation =
-      completion.choices[0].message.function_call?.arguments ?? "{}";
-
-    if (!recommendInformation) {
-      return NextResponse.json({
-        status: 404,
-        err: "추천 키워드 정보를 불러오지 못했습니다.",
-      });
+      };
     }
 
-    const parsedRecommend = await JSON.parse(recommendInformation);
+    try {
+      // 사용자가 선택한 답변들을 토대로 추천 키워드 추출하기 위한
+      // openAI Chat Completion API 호출
+      const completion = await openAI.chat.completions.create({
+        ...defaultOptions,
+      });
+  
+      // 응답 답변 데이터 추출
+      const recommendInformation =
+        completion.choices[0].message.function_call?.arguments ?? "{}";
+  
+      if (!recommendInformation) {
+        return NextResponse.json({
+          status: 404,
+          err: "추천 키워드 정보를 불러오지 못했습니다.",
+        });
+      }
+  
+      const parsedRecommend = await JSON.parse(recommendInformation);
+  
+      return NextResponse.json({ recommend: parsedRecommend, status: 200 });
+    } catch (err) {
+      return NextResponse.error();
+    }
+  } else if (type === "trend_keyword") {
+    // function calling 스키마 넘겨받은 케이스에 따라 옵션 셋팅
+    if (functionSchema) {
+      defaultOptions.functions = [functionSchema];
+      defaultOptions.function_call = {
+        name: "trend_keyword_collection",
+      };
+    }
 
-    return NextResponse.json({ recommend: parsedRecommend, status: 200 });
-  } catch (err) {
-    return NextResponse.error();
+    try {
+      // 월별 트랜드 키워드 데이터 수집을 위한
+      // openAI Chat Completion API 호출
+      const completion = await openAI.chat.completions.create({
+        ...defaultOptions,
+      });
+  
+      // 응답 답변 데이터 추출
+      const recommendInformation =
+        completion.choices[0].message.function_call?.arguments ?? "{}";
+  
+      if (!recommendInformation) {
+        return NextResponse.json({
+          status: 404,
+          err: "월별 트랜드 키워드 데이터 수집 실패",
+        });
+      }
+  
+      const trendKeywords = await JSON.parse(recommendInformation);
+  
+      return NextResponse.json({ recommend: trendKeywords, status: 200 });
+    } catch (err) {
+      return NextResponse.error();
+    }
   }
 }

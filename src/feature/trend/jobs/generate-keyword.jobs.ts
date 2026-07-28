@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import * as openAIService from "../services/api/openai.service";
-import * as trendKeywordRepository from "../repositories/trend.repository";
-import { searchClothesBytrendKeyword } from "./collect-clothes.jobs";
+import { TrendKeywordRepository } from "../repositories/trend.repository";
 
 // 2026.07.19:
 // 월별 트랜드 키워드 데이터 수집을 위한 프롬프트
@@ -180,29 +179,54 @@ export const generateTrendKeywordJobs = async () => {
     },
   };
 
-  // 월별 트랜드 키워드 데이터 수집을 위한 OpenAI 호출
-  const trendKeyword = await openAIService.generateOpenAI({
-    systemPrompt: trendKeywordSystemPrompt,
-    userPrompt: currentDateUserPrompt,
-    functionSchemaYn: true,
-    functionSchema: functionSchema,
-  });
+  try {
+    // 월별 트랜드 키워드 데이터 수집을 위한 OpenAI 호출
+    const trendKeywordResponse: any = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/recommendOpenAI`, {
+      method: 'POST',
+      body: JSON.stringify({
+        type: 'trend_keyword',
+        prompt: {
+          systemPrompt: trendKeywordSystemPrompt,
+          userPrompt: currentDateUserPrompt,
+        },
+        functionSchema: functionSchema
+      }),
+    });
 
-  if (!trendKeyword.success) {
-    console.error(`월별 트랜드 키워드 수집 실패: ${trendKeyword.err}`);
-    return;
-  }
+    const data = await trendKeywordResponse.json();
 
-  if (trendKeyword.recommend.trendKeywords.length > 0) {
-    const result = await trendKeywordRepository.save(
-      trendKeyword.recommend.trendKeywords
-    );
-
-    if (!result.success) {
-      console.error("월별 트랜드 키워드 저장 실패", result.err);
-      return;
+    if (data.status !== 200) {
+      console.error('월별 트랜드 키워드 수집 실패');
+      return {
+        success: false,
+        message: '조회된 월별 트랜드 키워드가 없습니다.',
+      };
     }
 
-    // await searchClothesBytrendKeyword();
+    if (data.recommend.trendKeywords.length > 0) {
+      const trendKeywordRepository = new TrendKeywordRepository();
+      const result = await trendKeywordRepository.save(
+        data.recommend.trendKeywords
+      );
+  
+      if (!result.success) {
+        console.error("월별 트랜드 키워드 저장 실패", result.err);
+        return {
+          success: false,
+          message: '조회된 월별 트랜드 키워드를 DB에 저장하는데 실패하였습니다.'
+        };
+      }
+  
+      return {
+        success: true,
+        message: '조회된 월별 트랜드 키워드를 DB에 저장 완료하였습니다.'
+      }
+    }
+  } catch (err) {
+    console.error(err);
+    return {
+      success: false,
+      message: '월별 트랜드 키워드 수집 실패',
+    };
   }
 };

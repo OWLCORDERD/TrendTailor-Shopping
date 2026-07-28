@@ -16,12 +16,13 @@ interface propsSvgType {
 
 const PopupContainer = styled.div`
   position: absolute;
-  top: 4rem;
-  right: 5rem;
+  top: 5rem;
+  right: 40px;
   width: 20rem;
   height: max-content;
-  background-color: #333;
+  background-color: #000;
   border-radius: 10px;
+  overflow: hidden;
 `;
 
 const UserProfile = styled.div`
