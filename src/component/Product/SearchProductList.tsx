@@ -12,7 +12,7 @@ import { getSearchClothes } from "@/store/monthlyClothesSlice";
 const SearchProductList = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentPost, setCurrentPost] = useState<clothes[]>([]);
+  const [currentPost, setCurrentPost] = useState<trendClothes[]>([]);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
   const postMaxLength: number = mobileMQuery ? 8 : 15;
   const lastDataIndex = currentPage * postMaxLength;
@@ -124,9 +124,9 @@ const SearchProductList = () => {
                       />
                     </div>
                     <div className='product-content'>
-                      <span className='product-mall'>{clothes.mallName}</span>
+                      <span className='product-mall'>{clothes.brand}</span>
                       <div className='product-title'>{clothes.title}</div>
-                      <span className='product-price'>{clothes.lprice}원</span>
+                      <span className='product-price'>{clothes.price}원</span>
                     </div>
                   </Link>
                 </li>

@@ -275,6 +275,6 @@ export class TrendClothesRepository {
       return {
         ...doc.data(),
       };
-    }) as clothes[];
+    }) as trendClothes[];
   };
 }

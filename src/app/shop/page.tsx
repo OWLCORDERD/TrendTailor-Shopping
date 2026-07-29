@@ -38,30 +38,23 @@ const getTrendClothes = async () => {
   if (docs.empty) {
     return [];
   } else {
-    const clothesData: clothes[] = [];
+    const clothesData: trendClothes[] = [];
     docs.forEach((doc) => {
       const data = doc.data();
       clothesData.push({
-        doc_id: doc.id,
         title: data.title,
         image: data.image,
         link: data.link,
-        lprice: data.lprice,
-        hprice: data.hprice,
-        mallName: data.mallName,
+        price: data.lprice,
         productId: data.productId,
-        productType: data.productType,
         brand: data.brand,
-        maker: data.maker,
-        category1: data.category1,
-        category2: data.category2,
-        category3: data.category3,
-        category4: data.category4,
+        genderCategory: data.genderCategory,
         viewCount: data.viewCount,
         likeCount: data.likeCount,
-        collectedAt: data.collectedAt,
-        searchStyle: data.searchStyle,
-        searchCategory: data.searchCategory,
+        category: data.category,
+        keywordName: data.keywordName,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
       });
     });
     return clothesData;
@@ -165,7 +158,7 @@ const fetchNoticeList = async () => {
 };
 
 export default async function Shop() {
-  const allClothes: clothes[] | undefined = await getTrendClothes();
+  const allClothes: trendClothes[] | undefined = await getTrendClothes();
   const trendYoutuber: channelDataType[] | undefined = await getChannelData();
   const trendYoutubeVideo: videoType[] | undefined = await getYoutuberVideo();
   const slideList: slideType[] = await fetchSlideList();

@@ -7,13 +7,13 @@ import Link from "next/link";
 import Loading from "@/component/common/Loading";
 
 interface allClothesType {
-  trendClothes: clothes[];
+  trendClothes: trendClothes[];
 }
 
 const ProductList = ({ trendClothes }: allClothesType) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [mobileMQuery, setMobileMQuery] = useState<boolean>(false);
-  const [currentPost, setCurrentPost] = useState<clothes[]>([]);
+  const [currentPost, setCurrentPost] = useState<trendClothes[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const postMaxLength: number = mobileMQuery ? 8 : 15;
 
@@ -89,9 +89,9 @@ const ProductList = ({ trendClothes }: allClothesType) => {
                       />
                     </div>
                     <div className='product-content'>
-                      <span className='product-mall'>{clothes.mallName}</span>
+                      <span className='product-mall'>{clothes.brand}</span>
                       <div className='product-title'>{clothes.title}</div>
-                      <span className='product-price'>{clothes.lprice}원</span>
+                      <span className='product-price'>{clothes.price}원</span>
                     </div>
                   </Link>
                 </li>

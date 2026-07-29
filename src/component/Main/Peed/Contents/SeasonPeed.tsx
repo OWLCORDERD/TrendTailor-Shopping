@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 import "swiper/css/scrollbar";
 
 interface seasonClothesProps {
-  seasonClothes: clothes[] | undefined;
+  seasonClothes: trendClothes[] | undefined;
 }
 
 const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
@@ -113,7 +113,7 @@ const SeasonPeed = ({ seasonClothes }: seasonClothesProps) => {
                           </CSS.ProductBrand>
 
                           <CSS.ProductPrice>
-                            <span>{clothes.lprice}원</span>
+                            <span>{clothes.price}원</span>
                           </CSS.ProductPrice>
                         </CSS.ProductInfo>
                       </Link>

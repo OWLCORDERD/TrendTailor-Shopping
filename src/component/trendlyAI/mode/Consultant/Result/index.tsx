@@ -20,7 +20,7 @@ interface ResultTemplate {
   // 챗봇 답변 및 의류 데이터
   assistant: {
     recommendInfo: recommendClothes[];
-    products: clothes[];
+    products: trendClothes[];
   };
   createdAt: string;
   title: string;
@@ -66,7 +66,6 @@ const Result = ({ docId }: any) => {
 
       if (snapShotDoc.exists()) {
         const data = snapShotDoc.data();
-        console.log(data);
         setConsultingData(data as ResultTemplate);
       }
     } catch (err) {
@@ -96,7 +95,7 @@ const Result = ({ docId }: any) => {
       consultingData?.assistant.products &&
       consultingData?.assistant.products.length > 0
     ) {
-      const firstIdxMaker = consultingData.assistant.products[0].maker;
+      const firstIdxMaker = consultingData.assistant.products[0].brand;
       const productCount = Number(consultingData.assistant.products.length);
 
       if (productCount < 2) {
@@ -277,7 +276,7 @@ const Result = ({ docId }: any) => {
                         {item.title}
                       </h1>
 
-                      <span className='product-maker'>{item.maker}</span>
+                      <span className='product-maker'>{item.brand}</span>
                     </div>
 
                     <motion.button

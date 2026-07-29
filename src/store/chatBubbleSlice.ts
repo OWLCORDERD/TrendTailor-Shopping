@@ -14,7 +14,7 @@ interface ChatBubbleState {
   generateCreating: string; // 챗봇 답변 생성 여부
   consultingResultData: any; // 컨설팅 챗봇 답변 > 컨설턴트 정보 데이터
   clothesDetailMode: boolean; // 컨설팅 의류 상세 모드 여부
-  currentClothes: clothes | null; // 현재 선택한 컨설팅 의류 정보
+  currentClothes: trendClothes | null; // 현재 선택한 컨설팅 의류 정보
   clothesData: any[]; // 컨설팅용 의류 데이터
 }
 
@@ -37,7 +37,7 @@ interface ResultTemplate {
   };
   assistant: {
     recommendInfo: recommendClothes[];
-    products: clothes[];
+    products: trendClothes[];
   };
 }
 
@@ -79,7 +79,7 @@ const initialState: ChatBubbleState = {
 // 2025.09.07 [mhlim]: 선택한 답변 목록 전송 ->  추천 검색 결과 요청하는 thunk 함수
 export const recommendOpenAI = createAsyncThunk(
   "chatbubble/recommendOpenAI",
-  async (clothesData: clothes[], { getState, dispatch }) => {
+  async (clothesData: trendClothes[], { getState, dispatch }) => {
     const state = getState() as { chatBubble: ChatBubbleState };
     try {
       // 1. 파라미터 전달받은 트랜드 추천 필터 의류 데이터 기반 프롬프트 구성
@@ -192,7 +192,7 @@ export const recommendResultSession = createAsyncThunk(
             const searchData = await dispatch(
               getRecommendClothes(product.productId)
             );
-            return searchData.payload as clothes;
+            return searchData.payload as trendClothes;
           }
         );
 

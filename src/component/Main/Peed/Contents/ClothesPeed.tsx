@@ -9,21 +9,21 @@ import { ThemeContext } from "../../../../../context/ThemeContext";
 import Link from "next/link";
 
 interface allClothesProps {
-  clothesData: clothes[] | undefined;
+  clothesData: trendClothes[] | undefined;
 }
 
 const ClothesPeed = ({ clothesData }: allClothesProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(true);
   const postMaxlength = 10;
-  const [currentDB, setCurrentDB] = useState<clothes[]>([]);
+  const [currentDB, setCurrentDB] = useState<trendClothes[]>([]);
   const { mode } = useContext(ThemeContext);
   const lastIndex = currentPage * postMaxlength;
   const firstIndex = lastIndex - postMaxlength;
 
   const currentDBUpdate = useCallback(() => {
     if (clothesData !== undefined) {
-      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+      const currentData: trendClothes[] = clothesData.slice(firstIndex, lastIndex);
 
       const pushdata = [...currentDB];
 
@@ -49,7 +49,7 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
 
   const firstCurrentDB = () => {
     if (clothesData) {
-      const currentData: clothes[] = clothesData.slice(firstIndex, lastIndex);
+      const currentData: trendClothes[] = clothesData.slice(firstIndex, lastIndex);
 
       const pushdata = [...currentDB];
 

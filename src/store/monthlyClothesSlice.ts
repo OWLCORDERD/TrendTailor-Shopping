@@ -4,13 +4,13 @@ import { collection, getDocs } from "firebase/firestore";
 
 interface stateType {
   keyword: string;
-  searchData: clothes[];
-  searchRecommendData: clothes | null;
-  currentProduct: clothes | undefined;
+  searchData: trendClothes[];
+  searchRecommendData: trendClothes | null;
+  currentProduct: trendClothes | undefined;
 }
 
 interface resultType {
-  searchData: clothes[];
+  searchData: trendClothes[];
   searchQuery: string;
 }
 
@@ -24,7 +24,7 @@ const initialState: stateType = {
 const searchClothes = async (query: string, type: string) => {
   const resData = await getDocs(collection(db, 'clothes'));
 
-  const clothesData: clothes[] = [];
+  const clothesData: trendClothes[] = [];
 
   if (resData.empty) {
     return [];
@@ -37,26 +37,19 @@ const searchClothes = async (query: string, type: string) => {
       // 사용자가 검색한 키워드가 포함된 제목 의류만 필터링
       if (data.title.includes(query)) {
         clothesData.push({
-            doc_id: doc.id,
             title: data.title,
             image: data.image,
             link: data.link,
-            lprice: data.lprice,
-            hprice: data.hprice,
-            mallName: data.mallName,
+            price: data.price,
             productId: data.productId,
-            productType: data.productType,
             brand: data.brand,
-            maker: data.maker,
-            category1: data.category1,
-            category2: data.category2,
-            category3: data.category3,
-            category4: data.category4,
             viewCount: data.viewCount,
             likeCount: data.likeCount,
-            collectedAt: data.collectedAt,
-            searchStyle: data.searchStyle,
-            searchCategory: data.searchCategory,
+            genderCategory: data.genderCategory,
+            category: data.category,
+            keywordName: data.keywordName,
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt,
         });
       }
     })
@@ -69,26 +62,19 @@ const searchClothes = async (query: string, type: string) => {
       // 사용자가 검색한 키워드가 포함된 제목 의류만 필터링
       if (data.productId === query) {
         clothesData.push({
-            doc_id: doc.id,
-            title: data.title,
-            image: data.image,
-            link: data.link,
-            lprice: data.lprice,
-            hprice: data.hprice,
-            mallName: data.mallName,
-            productId: data.productId,
-            productType: data.productType,
-            brand: data.brand,
-            maker: data.maker,
-            category1: data.category1,
-            category2: data.category2,
-            category3: data.category3,
-            category4: data.category4,
-            viewCount: data.viewCount,
-            likeCount: data.likeCount,
-            collectedAt: data.collectedAt,
-            searchStyle: data.searchStyle,
-            searchCategory: data.searchCategory,
+          title: data.title,
+          image: data.image,
+          link: data.link,
+          price: data.price,
+          productId: data.productId,
+          brand: data.brand,
+          viewCount: data.viewCount,
+          likeCount: data.likeCount,
+          genderCategory: data.genderCategory,
+          category: data.category,
+          keywordName: data.keywordName,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
         });
       }
     })
@@ -111,7 +97,7 @@ const getRecommendClothes = createAsyncThunk(
   "api/recommendClothes",
   async (productId: string) => {
     const searchData = await searchClothes(productId, 'single');
-    return searchData as clothes | null;
+    return searchData as trendClothes | null;
   }
 );
 
