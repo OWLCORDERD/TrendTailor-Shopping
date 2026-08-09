@@ -69,6 +69,33 @@ const page = async () => {
     }
   }
 
+  const sectionChildren: {
+    title: string;
+    desc: string;
+    children: React.ReactNode;
+    label: {
+      labelTxt?: string;
+    };
+  } = {
+    title: "쿠팡 파트너스",
+    desc: `매월 수집된 트랜드 키워드를 통해 검색하는 트랜드 의류 데이터는 <strong>쿠팡 파트너스 API 서비스</strong>에서 제공받습니다.
+    <br/>
+    <br/>
+    이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.`,
+    children: (
+      <>
+      <a href="https://link.coupang.com/a/f41vm0e4dg" 
+        target="_blank"
+        referrerPolicy="unsafe-url">
+      <img src="https://image15.coupangcdn.com/image/affiliate/banner/edb3389639be65d5a29dbed2f3f5a4c1@2x.jpg" alt="쁘띠꼬모 남성 스트릿 디스트레스 컷오프 배기핏 와이드 헤비데님 팬츠 WTT121530" width="140" height="280" />
+      </a>
+      </>
+    ),
+    label: {
+      labelTxt: "트랜드 의류 검색 서비스",
+    }
+  }
+
   return (
     <>
       {/* 본문 헤더 & KPI 통계 그래프 영역 */}
@@ -85,6 +112,10 @@ const page = async () => {
         hero={heroChildren} />
 
       <TrendTailorAI />
+
+      <DashboardSection
+        type='section'
+        section={sectionChildren} />
     </>
   );
 };

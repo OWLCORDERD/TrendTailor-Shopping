@@ -1,6 +1,7 @@
 import { db } from "@/shared/lib/firebase";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
+import { searchNaverShop } from "@/feature/trend/services/api/coupang.service";
 
 interface selectType {
   step: number;
@@ -178,54 +179,31 @@ export async function POST(req: NextRequest) {
 
   // CASE B. 트랜드 의류 키워드 조합 쿼리로 의류 데이터 조회 요청 케이스
   if (type === "search") {
-    const searchQuery = body?.query; // 의류 검색 키워드
-    const display = body.display ? body.display : 10; // 검색 결과 노출 개수 (기본 10개)
-  
-    const naverOpenAPI: any = {
-      endPoint: "https://openapi.naver.com/v1/search/shop.json",
-      headers: {
-        "X-Naver-Client-Id": process.env.NEXT_PUBLIC_NAVER_API_CLIENT_ID,
-        "X-Naver-Client-Secret":
-          process.env.NEXT_PUBLIC_NAVER_API_CLIENT_SECRET,
-      },
-    };
+    const searchQuery = body?.query as string;
+    const display = body.display ? Number(body.display) : 10;
+    const result = await searchNaverShop(searchQuery, display);
 
-    try {
-      const searchRequest = await fetch(
-        `${naverOpenAPI.endPoint}?query=${searchQuery}&display=${display}`,
+    if (!result.success) {
+      return NextResponse.json(
         {
-          headers: naverOpenAPI.headers,
-        }
+          status: result.status,
+          err: result.err,
+        },
+        { status: result.status >= 400 ? result.status : 500 }
       );
-    
-      // 응답 데이터 파싱
-      const res = await searchRequest.json();
-      const clothesData: clothes[] = res.items; // 응답 객체 items 배열 추출
-    
-      // 조회 의류 데이터 존재 시, 필드별 title 태그 제거 후 응답 값 반환
-      if (clothesData.length > 0) {
-        return NextResponse.json({
-          status: 200,
-          clothesData: clothesData.map((clothes) => {
-            return {
-              ...clothes,
-              title: clothes.title.replace(/<[^>]*>/g, ""),
-            }
-          })
-        });
-      } else {
-        // 조회된 데이터가 없는 경우
-        return NextResponse.json({
-          status: 404,
-          err: "검색 결과가 없습니다.",
-        });
-      }
-    } catch (err) {
-      // 조회 응답 실패 or 과정 중 파싱 오류 발생 시
-      return NextResponse.json({
-        status: 500,
-        err: "검색 결과 조회 중 오류가 발생했습니다.",
-      });
     }
-  };
+
+    return NextResponse.json({
+      status: 200,
+      clothesData: result.clothesData,
+    });
+  }
+
+  return NextResponse.json(
+    {
+      status: 400,
+      err: "지원하지 않는 요청 유형입니다.",
+    },
+    { status: 400 }
+  );
 }

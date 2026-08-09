@@ -116,6 +116,35 @@ declare global {
     updatedAt: string; // 수정 일시
   }
 
+  interface trendNode {
+    id: string;
+    name: string;
+    aliases: string[];
+    category: string;
+    val: number;
+    confidence: number;
+    season: string[];
+    itemCounts: {
+      tops: number;
+      bottoms: number;
+      shoes: number;
+      totalCount: number;
+    };
+  }
+
+  interface trendGraphStats {
+    nodes: trendNode[];
+    links: {
+      source: string;
+      target: string;
+      value: number;
+      commonKeywords: string[];
+    };
+    totalKeywords: number;
+    totalClothes: number;
+    updatedAt: Date;
+  }
+
   interface recommendClothes {
     productId: string;
     summary: string;

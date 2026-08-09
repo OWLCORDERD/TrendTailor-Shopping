@@ -183,4 +183,60 @@ Dashboard.Hero = styled.section`
   }
 `;
 
+Dashboard.Section = styled.section`
+  position: relative;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin-bottom: 32px;
+
+  .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    min-height: 680px;
+
+    .section-left {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      &__title {
+        color: #fff;
+        max-width: 80%;
+        word-break: keep-all;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        font-size: 24px;
+
+        & > h2 {
+          margin: 0;
+
+          strong {
+            color: var(--accent);
+          }
+        }
+      }
+
+      &__desc {
+        max-width: 80%;
+        word-break: keep-all;
+        color: var(--text);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+    }
+
+    .section-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+`;
+
 export { Dashboard };

@@ -13,6 +13,7 @@ const Section = ({
   },
   section = {
     title: "",
+    desc: "",
     children: null,
   },
   hero = {
@@ -36,6 +37,7 @@ const Section = ({
   // 문단 컴포넌트 타입 - section
   section?: {
     title: string; // *필수* 제목
+    desc: string; // *필수* 설명
     children: React.ReactNode; // *필수* 문단 컨텐츠
     // 시스템 라벨 설정
     label?: {
@@ -193,6 +195,36 @@ const Section = ({
             </div>
           </CSS.Hero>
         </section>
+      )}
+
+      {type === "section" && (
+        <CSS.Section>
+          <div className='section-inner'>
+            <div className='section-left'>
+              <div className='section-left__label'>
+                {section.label && (
+                  <SystemLabel
+                    type={section.label.type || "eyebrow"}
+                    labelTxt={section.label.labelTxt}
+                    subTxt_B={section.label.subTxt_B}
+                  />
+                )}
+              </div>
+              <div className='section-left__title'>
+                <h2>쿠팡 파트너스와 함께하는 <br/>
+                  <strong>TrendTailor</strong>
+                </h2>
+              </div>
+              <div className='section-left__desc'>
+                <p dangerouslySetInnerHTML={{ __html: section.desc }} />
+              </div>
+            </div>  
+
+            <div className='section-right'>
+              {section.children}
+            </div>
+          </div>
+        </CSS.Section>
       )}
     </>
   );
