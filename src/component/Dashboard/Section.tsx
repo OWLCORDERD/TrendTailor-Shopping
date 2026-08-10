@@ -36,8 +36,9 @@ const Section = ({
   },
   // 문단 컴포넌트 타입 - section
   section?: {
-    title: string; // *필수* 제목
-    desc: string; // *필수* 설명
+    title: string; // 제목
+    desc: string; // 설명
+    type?: string; // 문단 타입 (banner, section 등)
     children: React.ReactNode; // *필수* 문단 컨텐츠
     // 시스템 라벨 설정
     label?: {
@@ -200,8 +201,9 @@ const Section = ({
       {type === "section" && (
         <CSS.Section>
           <div className='section-inner'>
-            <div className='section-left'>
-              <div className='section-left__label'>
+            {section.type === "banner" ? (
+              <>
+              <div className='banner'>
                 {section.label && (
                   <SystemLabel
                     type={section.label.type || "eyebrow"}
@@ -209,20 +211,22 @@ const Section = ({
                     subTxt_B={section.label.subTxt_B}
                   />
                 )}
-              </div>
-              <div className='section-left__title'>
-                <h2>쿠팡 파트너스와 함께하는 <br/>
-                  <strong>TrendTailor</strong>
-                </h2>
-              </div>
-              <div className='section-left__desc'>
-                <p dangerouslySetInnerHTML={{ __html: section.desc }} />
-              </div>
-            </div>  
 
-            <div className='section-right'>
-              {section.children}
-            </div>
+                <div className='banner-index'>
+                  <div className='banner-index__title'>
+                    <h2 dangerouslySetInnerHTML={{ __html: section.title }}/>
+                  </div>
+                  <p className='banner-index__desc' dangerouslySetInnerHTML={{ __html: section.desc }} />
+                </div>
+
+                <div className='banner-link'>
+                  {section.children}
+                </div>
+              </div>
+              </>
+            ) : (
+              <div className='section-content'>{section.children}</div>
+            )}
           </div>
         </CSS.Section>
       )}

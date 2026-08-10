@@ -191,50 +191,69 @@ Dashboard.Section = styled.section`
   overflow: hidden;
   margin-bottom: 32px;
 
+  &:has(.banner) {
+    background: transparent;
+    border: none;
+  }
+  
   .section-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    min-height: 680px;
 
-    .section-left {
-      padding: 32px;
+    .banner {
       display: flex;
       flex-direction: column;
       gap: 24px;
 
-      &__title {
-        color: #fff;
-        max-width: 80%;
-        word-break: keep-all;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        font-size: 24px;
+      .banner-index {
+        margin-bottom: 24px;
 
-        & > h2 {
-          margin: 0;
+        &__title {
+          color: #fff;
+          max-width: 80%;
+          word-break: keep-all;
+          font-weight: 700;
+          letter-spacing: -0.03em;
+          font-size: 28px;
 
-          strong {
-            color: var(--accent);
+          & > h2 {
+            margin: 0;
+
+            strong {
+              color: var(--accent);
+            }
           }
+        }
+
+        &__desc {
+          margin-top: 20px;
+          max-width: 60%;
+          word-break: keep-all;
+          color: var(--text);
+          font-size: 16px;
+          line-height: 1.6;
         }
       }
 
-      &__desc {
-        max-width: 80%;
-        word-break: keep-all;
-        color: var(--text);
-        font-size: 14px;
-        line-height: 1.6;
-      }
-    }
+      &-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 320px;
+        background: #000;
 
-    .section-right {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        a {
+          width: 100%;
+          display: block;
+          overflow: hidden;
+
+          & > img {
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+            object-fit: cover;
+          }
+        }
+      }
     }
   }
 `;

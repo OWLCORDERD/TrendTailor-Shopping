@@ -34,6 +34,7 @@ const nextConfig = {
       "i.ytimg.com",
       "firebasestorage.googleapis.com",
       "yt3.ggpht.com",
+      'ads-partners.coupang.com',
     ],
 
     formats: ["image/webp"],

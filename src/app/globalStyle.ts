@@ -3,9 +3,6 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Unbounded:wght@200..900&display=swap');
 
 $Raleway-font : 'Raleway', sans-serif;
 $Noto-Korean : 'Noto Sans KR', sans-serif;

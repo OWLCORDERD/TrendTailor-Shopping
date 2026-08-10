@@ -6,6 +6,7 @@ import TrendTailorAI from "@/component/Main/Peed/TrendTailorAI";
 import useSWR, { SWRResponse } from "swr";
 import { FetcherResponse } from "swr/dist/_internal";
 import KeywordForceGraph from "@/component/Dashboard/structure/KeywordForceGraph";
+import Image from "next/image";
 
 interface HeaderChildren {
   title?: string;
@@ -72,27 +73,25 @@ const page = async () => {
   const sectionChildren: {
     title: string;
     desc: string;
+    type: string;
     children: React.ReactNode;
-    label: {
-      labelTxt?: string;
-    };
   } = {
-    title: "쿠팡 파트너스",
-    desc: `매월 수집된 트랜드 키워드를 통해 검색하는 트랜드 의류 데이터는 <strong>쿠팡 파트너스 API 서비스</strong>에서 제공받습니다.
+    type: 'banner',
+    title: '쿠팡 파트너스와 함께하는 <strong>TrendTailor</strong>',
+    desc: `매월 수집된 트랜드 키워드를 기반으로 검색된 트랜드 의류 데이터는
+    <strong>쿠팡 파트너스 API 서비스</strong>에서 제공받습니다.
     <br/>
-    <br/>
-    이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.`,
+    TrendTailor 플랫폼에서 제공하는 모든 포스팅은 쿠팡 파트너스 활동의 일환으로,
+    이에 따른 일정액의 수수료를 제공받습니다.`,
     children: (
       <>
-      <a href="https://link.coupang.com/a/f41vm0e4dg" 
-        target="_blank"
-        referrerPolicy="unsafe-url">
-      <img src="https://image15.coupangcdn.com/image/affiliate/banner/edb3389639be65d5a29dbed2f3f5a4c1@2x.jpg" alt="쁘띠꼬모 남성 스트릿 디스트레스 컷오프 배기핏 와이드 헤비데님 팬츠 WTT121530" width="140" height="280" />
+      <a href="https://link.coupang.com/a/f5Fpvnkj4S" target="_blank" referrerPolicy="unsafe-url">
+        <Image src="https://ads-partners.coupang.com/banners/1015847?trackingCode=AF4784063&subId=&traceId=V0-301-5a8c79a76485eb21-I1015847&w=728&h=90" alt="쿠팡 파트너스 배너" width={728} height={90} />
       </a>
       </>
     ),
     label: {
-      labelTxt: "트랜드 의류 검색 서비스",
+      labelTxt: "PARTNERS ADVERTISEMENT",
     }
   }
 

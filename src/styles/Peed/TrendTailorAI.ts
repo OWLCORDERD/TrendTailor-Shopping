@@ -18,7 +18,7 @@ const styleOptions = {
       fontSize: "32px",
       color: "#fff",
       textTransform: "uppercase",
-      marginBottom: "6.25rem",
+      margin: "2rem 0 5rem 0",
     },
 
     ".description": {

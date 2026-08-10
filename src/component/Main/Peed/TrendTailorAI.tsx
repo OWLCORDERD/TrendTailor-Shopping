@@ -8,6 +8,7 @@ import { keywordSearch } from "@/component/svgData";
 import chatbotImg from "@/assets/images/chatbot.png";
 import sampleResultImg from "@/assets/images/clothes-list.png";
 import { motion, animate, useAnimation } from "framer-motion";
+import SystemLabel from "@/component/Dashboard/ui/SystemLabel";
 
 const TrendTailorAI = () => {
   const controls = useAnimation();
@@ -82,8 +83,12 @@ const TrendTailorAI = () => {
       initial='hidden'
       className='timeline-section'
     >
+      <SystemLabel
+        type="eyebrow"
+        labelTxt="TREND CONSULTING AI"
+      />
       <CSS.Intro>
-        <h2 className='title'>Trend Consulting Tailored AI</h2>
+        <h2 className='title'>TrendTailor AI</h2>
         <p className='description'>
           Trendly AI는 고객님의 설문조사 및 소통을 통해 원하는 스타일의 트랜드를
           컨설팅해드립니다.
