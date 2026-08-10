@@ -74,6 +74,9 @@ const page = async () => {
     title: string;
     desc: string;
     type: string;
+    label: {
+      labelTxt: string;
+    };
     children: React.ReactNode;
   } = {
     type: 'banner',
