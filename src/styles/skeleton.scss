@@ -1,4 +1,4 @@
-@import "app/globals.scss";
+@use "tokens" as *;
 
 .Skeleton-video{
     position: relative;

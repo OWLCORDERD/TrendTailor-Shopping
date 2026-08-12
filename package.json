@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "https://openapi.naver.com",
   "scripts": {
-    "local": "next dev --port 3001",
+    "local": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -48,6 +48,7 @@
     "redux-persist": "^6.0.0",
     "redux-toolkit": "^1.1.2",
     "sass": "^1.63.6",
+    "serpapi": "^2.2.1",
     "slick-carousel": "^1.8.1",
     "slugify": "^1.6.9",
     "styled-components": "^6.1.8",

@@ -18,14 +18,16 @@ export const searchClothesByTrendKeyword = async () => {
         };
     }
 
+    const collectedClothes: trendClothes[] = [];
+
     for (const trendKeyword of allTrendKeywords) {
         try {
             // 키워드별 순차 네이버 OPEN API 트랜드 의류 검색 수행
-            const collectedClothes = await clothesService.collectClothesForKeyword(trendKeyword);
+            const currentKeywordClothes = await clothesService.collectClothesForKeyword(trendKeyword);
 
             // 키워드별로 검색된 의류들을 DB에 순차 저장
-            if (collectedClothes.length > 0) {
-                await trendClothesRepository.save(collectedClothes);
+            if (currentKeywordClothes.length > 0) {
+                collectedClothes.push(...currentKeywordClothes);
             }
         } catch (err) {
             // 트랜드 키워드 의류 데이터 수집 중 하나라도 오류 발생 시, 강제 종료
@@ -33,6 +35,18 @@ export const searchClothesByTrendKeyword = async () => {
             return {
                 success: false,
                 message: `특정 키워드 의류 데이터 수집 중 오류가 발생하여 종료되었습니다: ${trendKeyword.name}`
+            };
+        }
+    }
+
+    if (collectedClothes.length > 0) {
+        try {
+            await trendClothesRepository.save(collectedClothes);
+        } catch (err) {
+            console.error(err);
+            return {
+                success: false,
+                message: `트랜드 키워드 의류 데이터 저장 중 오류가 발생하여 종료되었습니다: ${err}`
             };
         }
     }

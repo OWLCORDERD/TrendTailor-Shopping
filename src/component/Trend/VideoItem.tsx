@@ -33,8 +33,6 @@ const VideoItem = ({
     if (video) {
       setCurrentVideo(video);
     }
-
-    console.log(currentVideo);
   };
 
   const thumbnailVideoOpen = (video: videoType) => {

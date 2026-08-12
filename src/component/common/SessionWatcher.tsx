@@ -24,8 +24,6 @@ const SessionWatcher = () => {
 
     try {
       await sessionUpdate();
-
-      console.log(session);
     } finally {
       updatingFlight.current = false;
     }

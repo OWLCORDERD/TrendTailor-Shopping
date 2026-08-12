@@ -1,255 +1,281 @@
 ### 📚 Use Tech
 
-Develop language
+**주요 기술 스택**
 <br/>
 <br/>
 <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
 <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=SCSS&logoColor=white"/>
+<img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&amp;logo=styled-components&amp;logoColor=white">
 <img src="https://img.shields.io/badge/Firebase-DD2C00?style=flat-square&logo=Firebase&logoColor=white"/>
 <img src="https://img.shields.io/badge/Redux-764ABC?style=flat-square&logo=Redux&logoColor=white"/>
+<img src="https://img.shields.io/badge/openai-000000?style=flat-square&logo=openai&logoColor=white"/>
 <br/>
 <br/>
-Used API
+**REST API**
 <br/>
 <br/>
 <img src="https://img.shields.io/badge/Naver-03C75A?style=flat-square&logo=Naver&logoColor=white"/>
 <img src="https://img.shields.io/badge/YouTube-FF0000?style=flat-square&logo=YouTube&logoColor=white"/>
 <br/>
 <br/>
+**CI/CD 파이프라인**
+<br/>
+<br/>
+<img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&amp;logo=GitHub&amp;logoColor=white">
+<img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&amp;logo=Vercel&amp;logoColor=white">
 
-### 프로젝트 폴더 구조
 
-```
-📦src
- ┣ 📂app
- ┃ ┣ 📂about
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂addNotice
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂api
- ┃ ┃ ┣ 📂auth
- ┃ ┃ ┃ ┗ 📂[...nextauth]
- ┃ ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┣ 📂createNotice
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┣ 📂duplicationIdCheck
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┣ 📂hashPassword
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┣ 📂insertCart
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┣ 📂login
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┣ 📂recommendOpenAI
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┃ ┗ 📂viewCount
- ┃ ┃ ┃ ┗ 📜route.ts
- ┃ ┣ 📂member
- ┃ ┃ ┗ 📂cart
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂notice
- ┃ ┃ ┣ 📂[idx]
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂shop
- ┃ ┃ ┣ 📂search
- ┃ ┃ ┃ ┣ 📂[productId]
- ┃ ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┣ 📂[productId]
- ┃ ┃ ┃ ┗ 📜page.tsx
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂signin
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂signup
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📂trendly
- ┃ ┃ ┗ 📜page.tsx
- ┃ ┣ 📜globals.scss
- ┃ ┣ 📜globalStyle.ts
- ┃ ┣ 📜layout.tsx
- ┃ ┣ 📜loading.tsx
- ┃ ┣ 📜page.module.css
- ┃ ┣ 📜page.tsx
- ┃ ┣ 📜robots.ts
- ┃ ┣ 📜RootStyleRegistry.tsx
- ┃ ┗ 📜sitemap.ts
- ┣ 📂assets
- ┃ ┗ 📂images
- ┃ ┃ ┣ 📜chatbot.png
- ┃ ┃ ┗ 📜logo.png
- ┣ 📂component
- ┃ ┣ 📂About
- ┃ ┃ ┗ 📜AboutSection.tsx
- ┃ ┣ 📂ErrorPopup
- ┃ ┃ ┗ 📜ErrorPopup.tsx
- ┃ ┣ 📂fetchDB
- ┃ ┃ ┣ 📂loading
- ┃ ┃ ┃ ┗ 📜Loading.tsx
- ┃ ┃ ┗ 📜firebase.ts
- ┃ ┣ 📂Main
- ┃ ┃ ┣ 📂Peed
- ┃ ┃ ┃ ┣ 📂Contents
- ┃ ┃ ┃ ┃ ┣ 📜ClothesPeed.tsx
- ┃ ┃ ┃ ┃ ┗ 📜SeasonPeed.tsx
- ┃ ┃ ┃ ┗ 📂MainBoard
- ┃ ┃ ┃ ┃ ┣ 📜Banner.tsx
- ┃ ┃ ┃ ┃ ┣ 📜index.tsx
- ┃ ┃ ┃ ┃ ┗ 📜NoticeBoard.tsx
- ┃ ┃ ┣ 📂Responsive
- ┃ ┃ ┃ ┗ 📜ResponsiveMenu.tsx
- ┃ ┃ ┣ 📜Footer.tsx
- ┃ ┃ ┣ 📜Navbar.tsx
- ┃ ┃ ┗ 📜QuickMenu.tsx
- ┃ ┣ 📂Pagenation
- ┃ ┃ ┗ 📜Pagenation.tsx
- ┃ ┣ 📂Popup
- ┃ ┃ ┗ 📜UserPopup.tsx
- ┃ ┣ 📂Product
- ┃ ┃ ┣ 📜ProductDetail.tsx
- ┃ ┃ ┣ 📜ProductList.tsx
- ┃ ┃ ┗ 📜SearchProductList.tsx
- ┃ ┣ 📂Search
- ┃ ┃ ┗ 📜Search.tsx
- ┃ ┣ 📂slideButton
- ┃ ┃ ┣ 📜SlideBefore.tsx
- ┃ ┃ ┗ 📜SlideNext.tsx
- ┃ ┣ 📂Trend
- ┃ ┃ ┣ 📂PreviewVideo
- ┃ ┃ ┃ ┗ 📜PreviewVideo.tsx
- ┃ ┃ ┣ 📂Skeleton
- ┃ ┃ ┃ ┗ 📜Skeleton.tsx
- ┃ ┃ ┣ 📜CurrentVideo.tsx
- ┃ ┃ ┣ 📜Intro.tsx
- ┃ ┃ ┣ 📜TrendVideoList.tsx
- ┃ ┃ ┗ 📜VideoItem.tsx
- ┃ ┣ 📜AuthSession.tsx
- ┃ ┗ 📜svgData.js
- ┣ 📂store
- ┃ ┣ 📂provider
- ┃ ┃ ┗ 📜Provider.tsx
- ┃ ┣ 📜hooks.ts
- ┃ ┣ 📜searchClothes.ts
- ┃ ┗ 📜store.ts
- ┣ 📂styles
- ┃ ┣ 📂Banner
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂Loading
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂Navbar
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂NoticeBoard
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂Peed
- ┃ ┃ ┣ 📜ClothesPeed.ts
- ┃ ┃ ┗ 📜SeasonPeed.ts
- ┃ ┣ 📂PreviewVideo
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂ProductDetail
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂QuickMenu
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂ResponseMenu
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂ResponseMixin
- ┃ ┃ ┗ 📜_mixin.scss
- ┃ ┣ 📂Search
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📂swiper
- ┃ ┃ ┗ 📜swiper.css
- ┃ ┣ 📂Trendly
- ┃ ┃ ┗ 📜index.ts
- ┃ ┣ 📜about.scss
- ┃ ┣ 📜addNotice.scss
- ┃ ┣ 📜currentNotice.scss
- ┃ ┣ 📜currentVideo.scss
- ┃ ┣ 📜errorPopup.scss
- ┃ ┣ 📜index.js
- ┃ ┣ 📜notice.scss
- ┃ ┣ 📜preview.scss
- ┃ ┣ 📜register.scss
- ┃ ┣ 📜shop.scss
- ┃ ┣ 📜signIn.scss
- ┃ ┗ 📜skeleton.scss
- ┣ 📂types
- ┃ ┗ 📜global.d.ts
- ┗ 📂utils
- ┃ ┗ 📂hooks
- ┃ ┃ ┣ 📜ScrollToTop.tsx
- ┃ ┃ ┗ 📜useWindowSize.tsx
-```
+### 🧑‍💻 프로젝트 주요 디렉토리 구조 요약
 
-### 🔎 Previews
-
-#### Introduce
-
-```
-# UI 디자인
-https://www.figma.com/design/InDebQfEyMfUxDzWjaY6I6/WISH-STORE?node-id=0-1&t=rSDE9IpNmHwXwqrO-1
-# 배포 환경
-Next.js 프레임워크를 유지 관리하는 Vercel의 호스팅 서버를 사용하여 배포하였습니다.
-# DB 환경
-Firebase
-# 프로젝트 소개
-- Next.js 프레임워크를 활용한 트렌드 의류 커뮤니티 사이트입니다.
-- 메인 페이지에서 제공하는 트렌드 의류 컨텐츠들은 naver Open API 트렌드 의류 검색 쿼리를 활용하여 구현하였습니다.
-- 의류 페이지에서 사용자의 요청에 따라 원하는 의류 데이터를 검색할 수 있습니다.
-- 유튜버들을 트렌드 의류 컨설턴트로 선정하여 youtube API로 유튜버들의 채널 정보와 영상 데이터들을 수집하였습니다.
-- Redux 상태관리 라이브러리를 통해 데이터를 관리하고 사용자 요청에 따라 비즈니스 로직 처리를 진행하였습니다.
-- Next.js의 OAuth 인증 Next-Auth 라이브러리를 사용하여 로그인 인증을 구현하였기에 카카오 소셜 로그인도 가능합니다.
-- (2025.07.05 ~ ) 현재 OPENAI API를 활용한 컨설팅 챗봇 기능을 구현중입니다.
-# 프로젝트를 만들게 된 계기는?
-React의 SPA 기능이 가지고 있는 단점 개선 & 공용 사용 배포를 위한 검색 엔진 최적화를 위해 React 기반의 Next.js 프레임워크를 적용하였습니다.
-또한 패션 트렌드가 주도하고 있는 현시대에 사용자들에게 트렌드 정보들을 제공하고, 또한 트렌드에 처음 접근하는 사용자들에게 의상을 자동으로 컨실팅해주는
-AI 기능을 탑재해보면 어떨까 생각하여 제작하게 되었습니다.
+```markdown
+. 📂 src
+└── 📂 app/ *메인 앱 라우터*
+│  ├── 📄 RootStyleRegistry.tsx *SSR 스타일 태그 생성 레지스트리*
+│  └── 📂 about/ *페이지 소개 페이지*
+│    ├── 📄 page.tsx
+│  └── 📂 addNotice/ *공지사항 추가 페이지*
+│    ├── 📄 page.tsx
+│  └── 📂 api/ *Next.js 서버리스 함수 (API 서버 라우트)*
+│    └── 📂 auth/ *로그인 인증 API*
+│      └── 📂 [...nextauth]/ *NextAuth 로그인 인증*
+│    └── 📂 createNotice/ *공지사항 생성 API*
+│    └── 📂 duplicationIdCheck/ *회원가입 > 아이디 중복 체크 API*
+│    └── 📂 hashPassword/ *회원가입 > 비밀번호 암호화 API*
+│    └── 📂 login/ *로그인 API*
+│    └── 📂 monthly-collection/ *월별 트랜드 데이터 수집 파이프라인 API*
+│    └── 📂 recommendOpenAI/ *openai 프롬프트 답변 요청 API*
+│    └── 📂 searchClothes/ *의류 검색 및 컨설팅 챗봇 의류 필터링 API*
+│  ├── 📄 globalStyle.ts  *스타일 컴포넌트 전역 스타일*
+│  ├── 📄 globals.scss *SCSS 전역 스타일*
+│  ├── 📄 layout.tsx
+│  ├── 📄 loading.tsx *페이지 이동 로딩 오버레이*
+│  └── 📂 login/ *로그인 페이지*
+│    ├── 📄 page.tsx
+│  └── 📂 notice/ *공지사항 페이지*
+│    └── 📂 [idx]/ *공지사항 상세*
+│      ├── 📄 page.tsx
+│    ├── 📄 page.tsx
+│  ├── 📄 page.module.css
+│  ├── 📄 page.tsx
+│  ├── 📄 robots.ts
+│  └── 📂 shop/ *쇼핑 페이지*
+│    └── 📂 [productId]/ *의류 상세*
+│      ├── 📄 page.tsx
+│    ├── 📄 page.tsx
+│    └── 📂 search/ *검색 결과 페이지*
+│      └── 📂 [productId]/
+│        ├── 📄 page.tsx
+│      ├── 📄 page.tsx
+│  └── 📂 signup/ *회원가입 페이지*
+│    ├── 📄 page.tsx
+│  ├── 📄 sitemap.ts *검색엔진 사이트맵 파일*
+│  └── 📂 trendly/ *챗봇 페이지*
+│    └── 📂 [id]/ *컨설팅 결과 상세*
+│      ├── 📄 page.tsx
+│    ├── 📄 page.tsx
+└── 📂 assets/ *자원 폴더*
+│  └── 📂 images/
+│  └── 📂 lottie/
+│  └── 📂 svgs/
+└── 📂 component/ *컴포넌트 폴더*
+│  └── 📂 About/
+│  └── 📂 Dashboard/ *대시보드*
+│    └── 📂 architecture/
+│    └── 📂 structure/
+│    └── 📂 ui/
+│  └── 📂 Pagenation/ *페이지네이션*
+│  └── 📂 Popup/ *팝업*
+│  └── 📂 Product/ *상품 아이템*
+│  └── 📂 Search/ *검색 폼*
+│  └── 📂 Trend/ *트렌드 배너*
+│    └── 📂 PreviewVideo/
+│    └── 📂 Skeleton/
+│  └── 📂 common/ *공통*
+│    ├── 📄 AuthSession.tsx
+│    ├── 📄 BreadCrumb.tsx
+│    ├── 📄 Loading.tsx
+│    ├── 📄 NextImage.tsx
+│    ├── 📄 SessionWatcher.tsx
+│    └── 📂 modal/ *모달*
+│      ├── 📄 DynamicComponent.tsx
+│      ├── 📄 Error.tsx
+│      └── 📂 content/ *컨텐츠*
+│        ├── 📄 Login.tsx
+│        ├── 📄 Service.tsx
+│        ├── 📄 Signup.tsx
+│  ├── 📄 svgData.js *svg 컬렉션 관리*
+│  └── 📂 trendlyAI/ *trendly 챗봇*
+│    ├── 📄 Container.tsx *챗봇 팝업 컨테이너*
+│    └── 📂 bubble/ *말풍선*
+│      ├── 📄 Trendly.tsx
+│      ├── 📄 User.tsx
+│    └── 📂 mode/ *모드 템플릿*
+│      └── 📂 Chat/ *채팅*
+│        ├── 📄 Chat.tsx
+│      └── 📂 Consultant/ *컨설팅*
+│        ├── 📄 Consultant.tsx
+│        ├── 📄 Loading.tsx
+│        └── 📂 Result/ *컨설팅 결과*
+│          ├── 📄 index.tsx
+│      ├── 📄 Intro.tsx
+│    └── 📂 page/
+│      ├── 📄 ChatArea.tsx
+│      ├── 📄 RecentChatList.tsx
+└── 📂 feature/ *기능(features) 레이어*
+│  └── 📂 slug/ *트렌드 키워드 DB 저장 슬러그명 처리*
+│    ├── 📄 keyword-slug.ts
+│  └── 📂 trend/ *트렌드 데이터 수집 파이프라인*
+│    └── 📂 jobs/
+│      ├── 📄 build-graph.jobs.ts
+│      ├── 📄 collect-clothes.jobs.ts
+│      ├── 📄 generate-keyword.jobs.ts
+│    └── 📂 repositories/
+│      ├── 📄 trend.repository.ts
+│    └── 📂 services/
+│      └── 📂 api/
+│        ├── 📄 naver.service.ts
+│        ├── 📄 openai.service.ts
+│        ├── 📄 serpApi.service.ts
+│      ├── 📄 clothes.service.ts
+│      ├── 📄 trend.service.ts
+└── 📂 hooks/ *커스텀 훅*
+│  ├── 📄 ScrollToTop.tsx
+│  ├── 📄 useBreadcrumb.ts
+│  ├── 📄 useToastify.ts
+│  ├── 📄 useWindowSize.tsx
+└── 📂 shared/ *API 유틸리티 함수 및 타입 정의*
+│  └── 📂 lib/
+│    ├── 📄 customRenderer.js
+│    ├── 📄 firebase.ts
+│    ├── 📄 token.ts
+│  └── 📂 types/
+│    ├── 📄 global.d.ts
+│    ├── 📄 next-auth.d.ts
+└── 📂 store/ *Redux 상태관리*
+│  ├── 📄 chatBubbleSlice.ts *챗봇 질문/답변 관리*
+│  ├── 📄 hooks.ts
+│  ├── 📄 modalSlice.ts
+│  ├── 📄 monthlyClothesSlice.ts
+│  └── 📂 provider/
+│    ├── 📄 Provider.tsx *Redux Prodiver*
+│  ├── 📄 simulationInstance.ts *d3 force direct graph 관리*
+│  ├── 📄 store.ts *Redux Reducer Store*
+└── 📂 styles/ *스타일 폴더 (styled components, SCSS)*
+│  └── 📂 Banner/
+│    └── 📂 Clothes/
+│    └── 📂 Main/
+│  └── 📂 Dashboard/
+│  └── 📂 Navbar/
+│  └── 📂 NoticeBoard/
+│  └── 📂 Peed/
+│  └── 📂 PreviewVideo/
+│  └── 📂 ProductDetail/
+│  └── 📂 QuickMenu/
+│  └── 📂 ResponseMenu/
+│  └── 📂 ResponseMixin/
+│  └── 📂 Search/
+│  └── 📂 Trendly/
+│  └── 📂 swiper/
 ```
 
 <br/>
 
-### 프로젝트 핵심 사용 기술
+### 🔎 프로젝트 요약
 
-#### Naver Open API
+```
+# UI 디자인
+https://www.figma.com/design/InDebQfEyMfUxDzWjaY6I6/WISH-STORE?node-id=0-1&t=rSDE9IpNmHwXwqrO-1
 
-##### API End Point
+# 배포 환경
+Next.js 프레임워크 기반 CI(github) 자동화 빌드 파이프라인 CD(Vercel) 호스팅 서버를 사용하여 배포하였습니다.
 
-https://openapi.naver.com/v1/search/shop.json
+# DB 환경
+Firebase를 활용하여 이미지 스토리지와 트랜드 관련 데이터들을 관리하고 있습니다.
 
-- API 요청 시에 Header Parameter 값으로 ClientID값과 ClientSecret값을 담아서 요청
-- search(검색) API의 shop.json 경로로 Query parameter 값을 전송하여 의류 데이터 조회 가능
-- query : 검색 키워드
-- display : 검색 결과 개수 (최대 100개)
+# 프로젝트 소개
+- 매월 트렌드 키워드들과 키워드별 의류 컨텐츠들을 제공하며 대시보드를 통해 통계 데이터를
+시각화하여 제공하는 트랜드 패션 커뮤니티 사이트입니다.
 
-##### 📌 Naver Open API는 클라이언트에서 요청하는 것을 허용하지 않아서 프록시로 우회해야함
+- Next.js 14 버전 프레임워크 환경 app 라우터 구조 환경으로 프로젝트를 구성하였습니다.
 
-1. package.json 파일에 proxy 속성 추가 (https://openapi.naver.com)
-2. next.js의 경우에는 next.config.js 파일에 rewrites 함수를 추가
-   source : 사용자가 요청하는 경로
-   destination : naver open api 검색 API 주소
-   <br/>
+- 매월마다 `vercel cron jobs` 스케줄링 기능을 통해 `OPEN AI API`와 연동하여
+트랜드 키워드와 키워드 기반 의류 데이터를 수집하는 API 라우트 (서버리스 함수)를 호출합니다.
 
-#### Next.js
+- 사용자 의상 컨설팅 챗봇 기능을 제공합니다. 수집된 트랜드 의류 데이터들을 단계별 사용자 선택
+값을 통해 1차 필터링을 수행하며 OPEN AI API` AI 모델 비서가 각 의상별 추천 데이터를 확장합니다. 
 
-##### 📂 폴더 라우팅
+- Redux 라이브러리를 활용하여 클라이언트단 데이터 상태관리를 하고있으며
+사용자 요청에 따른 비동기 비즈니스 로직 처리를 진행하였습니다.
 
-Next.js 13버전 이후 app 폴더가 등장하면서 app 폴더 내부에 폴더를 생성하면 해당 폴더 이름으로 라우터가 생성됩니다.
-이를 통해서 백엔드와 통신하는 api route와 page route로 구조를 나누어 풀스택으로 개발하였습니다.
+- Next.js의 OAuth 인증 Next-Auth 라이브러리를 사용하여 FireStore 커스텀 로그인 방식과 
+소셜 로그인 인증을 구현하였습니다.
 
-- api route
+# 프로젝트를 만들게 된 계기는?
+최근 AI의 기술이 발전함에 따라`OPEN AI API` 프롬프트 기능을 적극적으로 활용하여 
+매월 데이터 수집을 자동화하고 수집된 플랫폼내의 데이터 풀 내에서 챗봇 서비스를
+구현해보고 싶었습니다. 주제를 생각하다보니 최근 사람들에게 패션 관련 트렌드가
+주도하고 있으며 유행에 뒤쳐진 사용자들을 대상으로 기획과 UI/UX를 
+여러 레퍼런스와 AI를 활용하여 구상되는데로 작업하기 시작하였습니다.
+```
 
-  1. api 폴더 내부에 하위 폴더를 생성한 뒤, 하위 폴더에 route 스크립트 파일을 생성
-  2. 클라이언트에서 해당 라우트에 요청할 때의 메소드 이름으로 비동기 함수 생성
-  3. NextResponse, NextRequest 타입을 통해서 req 받은 값을 활용하여 로직 처리한 결과값 json 형태로 반환하는 형태
+<br/>
 
-- page route
-  1. app 폴더 내부에 최상위에 위치하는 page 컴포넌트로 메인 페이지 라우팅
-  2. 서브 페이지 폴더에 page 컴포넌트 파일을 생성하면 서브 페이지 라우팅
+### 프로젝트 핵심 기술 소개
 
-##### 📌 page 동적 라우팅
+#### 의류 데이터 수집 파이프라인 활용 API
 
-제품 리스트에서 사용자가 클릭한 상품을 보여주기 위해선 상품의 id값같은 고유 값을 상세 페이지로 넘겨 보여줘야합니다.
-next.js에서는 동적 라우팅 기능을 제공하여 이를 쉽게 구현할 수 있었습니다.
+##### 📌 Naver Open API
 
-예시) /shop 페이지에서 상품을 클릭할 시, 하위 폴더인 /shop/[동적 라우팅] 경로로 제품 id값을 보내주면
-동적 라우팅 폴더 페이지 컴포넌트에서 해당 id 값으로 제품을 필터링하여 상세 페이지를 출력할 수 있습니다.
+- API End Point
+
+  `https://openapi.naver.com/v1/search/shop.json`
+
+- Naver Open API 클라이언트 요청 프록시 우회 처리
+
+  `next.config.js` 파일에 `rewrites` 정의 추가
+  - source : 사용자가 요청하는 경로
+  - destination : naver open api 검색 API 주소
+
+<br/>
+
+#### 📌 SerpApi (08.12 추가)
+
+##### Naver Open API 쇼핑 검색 서비스 종료
+6월달부터 `Naver Open API`가 `Naver API Hub`로 API들을 이관함에 따라 7.31 기준으로 `쇼핑몰 검색 엔진 API 지원 종료`되어 대체할만한 커머스 API를 조사해보았습니다.
+
+##### 쿠팡 파트너스 API
+그중 쿠팡 파트너스에서 제공하는 OPEN API를 추천받았고 프로젝트를 등록하였지만 `15만원 이상의 수익이 있어야 이용 가능`한 서비스로 확인되었습니다.
+
+##### 구글 노드 라이브러리 Puppeteer
+`페이지 스크립터 라이브러리 (Puppeteer)`를 통해 의류 검색 결과 페이지 DOM 셀렉터로 아이템에 접근하여 수집하는 방안도 있었지만 `정책에 어긋날 수 있어 구현 중단`하였습니다.
+
+**SerpApi?**
+
+  1. `구글, 네이버, 빙` 등의 `다양한 검색 엔진`의 결과를 실시간으로 제공하는 API 서비스입니다.
+  2. `월 250회 검색 무료 제한` 플랜이 있으며, 그 외에는 유료 플랜으로 전환됩니다.
+
+**구현 방안**
+  1. 검색 횟수 증폭 방지를 위해 트랜드 키워드별 의류 `검색 쿼리 Quota 최적화` 예정
+  2. 트렌드 키워드 1개당 3~4번 조회 방식 `트렌드 키워드 + 하위 카테고리(상의/하의/신발)` -> <br/> 키워드 1개당 1번만 수행 `트렌드 키워드 + 명시적 접미사 조합`
+<br/>
+<br/>
+
+#### 📌 OPEN AI API
+
+##### 노드 라이브러리 및 버전
+- `openai 4.81.0`
+
+##### 구현 범주
+- 공통 규격
+  - AI 활용 범주에 따라 최적화된 프롬프트 (유저/시스템) 정의
+  - 함수형 스키마 (function calling) 활용하여 정해진 스키마 형태로 응답받아서 처리
+
+- 현재 정의된 시스템 프롬프트 역할
+  - 사용자에게 컨설팅된 의류별 추천 이유와 팁 공유하는 `전문 패션 매장 직원`
+  - 월별 트랜드 키워드 수집하는 `한국 패션 트렌드 분석가`
+
+
+
+

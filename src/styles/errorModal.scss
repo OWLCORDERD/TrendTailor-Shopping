@@ -1,5 +1,5 @@
-@import "../app/globals.scss";
-@import "styles/ResponseMixin/_mixin";
+@use "tokens" as *;
+@use "mixin" as *;
 
 .error-modal {
     position: fixed;

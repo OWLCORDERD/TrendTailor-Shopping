@@ -239,7 +239,6 @@ const Register = () => {
     const checkRegex = /^0\d{1,2}-?\d{3,4}-?\d{4}$/;
 
     if (checkRegex.test(phoneNumber)) {
-      console.log(phoneNumber);
       setIsCheckPhoneNumber(true);
     } else {
       setIsCheckPhoneNumber(false);
@@ -525,8 +524,6 @@ const Register = () => {
         /* user 라우터에서 DB 연동과 로직 정상적으로 작동 되었을 시 로그인 페이지로 이동 */
         if (res.ok) {
           router.replace("/login");
-        } else {
-          console.log(res.status + "error status");
         }
       } catch (err) {
         console.error(err);

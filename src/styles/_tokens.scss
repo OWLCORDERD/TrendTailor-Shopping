@@ -1,0 +1,221 @@
+// ============================================================
+// Design Tokens — TrendTailor Shopping
+// Dart Sass module. Import: @use "tokens" as *;
+// ============================================================
+
+@use "sass:map";
+
+// ------------------------------------------------------------
+// Fonts
+// ------------------------------------------------------------
+$font-raleway: "Raleway", sans-serif;
+$font-noto: "Noto Sans KR", sans-serif;
+$font-pacifico: "Pacifico", cursive;
+$font-jamsil: "TheJamsil", sans-serif;
+
+// Legacy aliases (기존 SCSS 호환)
+$Raleway-font: $font-raleway;
+$Noto-Korean: $font-noto;
+$Pacifico-font: $font-pacifico;
+$Jamsil-font: $font-jamsil;
+$lightFont-Color: #000000;
+
+$fonts: (
+  raleway: $font-raleway,
+  noto: $font-noto,
+  pacifico: $font-pacifico,
+  jamsil: $font-jamsil,
+);
+
+// ------------------------------------------------------------
+// Color palette
+// ------------------------------------------------------------
+$color-main: #0a1440;
+$color-bg-elev: #111c55;
+$color-bg-card: #17245e;
+$color-border: rgba(255, 255, 255, 0.1);
+$color-text: #f4f4f0;
+$color-text-muted: #8892c4;
+$color-text-dim: #5a6ba8;
+$color-accent: #3b5bff;
+$color-accent-hover: #5a76ff;
+$color-accent-soft: rgba(59, 91, 255, 0.15);
+$color-hot: #ff4d6d;
+$color-warm: #ffb84d;
+$color-cool: #4dd4ff;
+$color-grid-line: rgba(255, 255, 255, 0.06);
+$color-sub-1: #e5e7eb;
+$color-sub-2: #f5f0eb;
+$color-txt: #1f1f1f;
+$color-sub-txt: #838383;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-disabled-bg: #d5d5d5;
+$color-disabled-txt: #303030;
+
+$colors: (
+  main: $color-main,
+  bg-elev: $color-bg-elev,
+  bg-card: $color-bg-card,
+  border: $color-border,
+  text: $color-text,
+  text-muted: $color-text-muted,
+  text-dim: $color-text-dim,
+  accent: $color-accent,
+  accent-hover: $color-accent-hover,
+  accent-soft: $color-accent-soft,
+  hot: $color-hot,
+  warm: $color-warm,
+  cool: $color-cool,
+  grid-line: $color-grid-line,
+  sub-1: $color-sub-1,
+  sub-2: $color-sub-2,
+  txt: $color-txt,
+  sub-txt: $color-sub-txt,
+  white: $color-white,
+  black: $color-black,
+  disabled-bg: $color-disabled-bg,
+  disabled-txt: $color-disabled-txt,
+);
+
+// ------------------------------------------------------------
+// Radius
+// ------------------------------------------------------------
+$radius-rg: 20px;
+$radius-lg: 24px;
+$radius-xl: 28px;
+$radius-full: 9999px;
+
+$radii: (
+  rg: $radius-rg,
+  lg: $radius-lg,
+  xl: $radius-xl,
+  full: $radius-full,
+);
+
+// ------------------------------------------------------------
+// Spacing / Layout
+// ------------------------------------------------------------
+$layout-max-width: 1440px;
+$layout-main-padding-x: 40px;
+$layout-main-padding-y: 32px;
+$layout-header-padding-x: 40px;
+
+$spacings: (
+  0: 0,
+  1: 4px,
+  2: 8px,
+  3: 12px,
+  4: 16px,
+  5: 20px,
+  6: 24px,
+  7: 32px,
+  8: 40px,
+  9: 48px,
+  10: 64px,
+);
+
+// ------------------------------------------------------------
+// Breakpoints
+// ------------------------------------------------------------
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+$breakpoint-macbook: 1480px;
+$breakpoint-desktop: 1440px;
+
+$breakpoints: (
+  mobile: $breakpoint-mobile,
+  tablet: $breakpoint-tablet,
+  macbook: $breakpoint-macbook,
+  desktop: $breakpoint-desktop,
+);
+
+// ------------------------------------------------------------
+// Z-index
+// ------------------------------------------------------------
+$z-header: 999;
+$z-quick-menu: 1001;
+$z-modal: 1001;
+$z-overlay: 10000;
+
+$z-indexes: (
+  header: $z-header,
+  quick-menu: $z-quick-menu,
+  modal: $z-modal,
+  overlay: $z-overlay,
+);
+
+// ------------------------------------------------------------
+// Transitions
+// ------------------------------------------------------------
+$transition-fast: 0.2s ease-in-out;
+$transition-base: 0.3s ease-in-out;
+$transition-slow: 0.5s ease-in-out;
+
+// ------------------------------------------------------------
+// Helpers
+// ------------------------------------------------------------
+@function token-color($key) {
+  @if not map.has-key($colors, $key) {
+    @error "Unknown color token: #{$key}";
+  }
+
+  @return map.get($colors, $key);
+}
+
+@function token-font($key) {
+  @if not map.has-key($fonts, $key) {
+    @error "Unknown font token: #{$key}";
+  }
+
+  @return map.get($fonts, $key);
+}
+
+@function token-space($key) {
+  @if not map.has-key($spacings, $key) {
+    @error "Unknown spacing token: #{$key}";
+  }
+
+  @return map.get($spacings, $key);
+}
+
+@function token-radius($key) {
+  @if not map.has-key($radii, $key) {
+    @error "Unknown radius token: #{$key}";
+  }
+
+  @return map.get($radii, $key);
+}
+
+@function token-bp($key) {
+  @if not map.has-key($breakpoints, $key) {
+    @error "Unknown breakpoint token: #{$key}";
+  }
+
+  @return map.get($breakpoints, $key);
+}
+
+/// CSS custom property map for :root emission
+$css-vars: (
+  --colorMain: #{$color-main},
+  --bg-elev: #{$color-bg-elev},
+  --bg-card: #{$color-bg-card},
+  --border: #{$color-border},
+  --text: #{$color-text},
+  --text-muted: #{$color-text-muted},
+  --text-dim: #{$color-text-dim},
+  --r-rg: #{$radius-rg},
+  --r-l: #{$radius-lg},
+  --r-lx: #{$radius-xl},
+  --accent: #{$color-accent},
+  --accent-hover: #{$color-accent-hover},
+  --accent-soft: #{$color-accent-soft},
+  --hot: #{$color-hot},
+  --warm: #{$color-warm},
+  --cool: #{$color-cool},
+  --grid-line: #{$color-grid-line},
+  --subColor1: #{$color-sub-1},
+  --subColor2: #{$color-sub-2},
+  --txtColor: #{$color-txt},
+  --subTxtColor: #{$color-sub-txt},
+);

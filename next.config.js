@@ -1,8 +1,16 @@
+const path = require("path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
     styledComponents: true,
+  },
+  // 2026.08.12: Dart Sass (@use "tokens" / @use "mixin") 
+  // 경로 해석 문제 해결을 위한 설정
+  sassOptions: {
+    includePaths: [path.join(__dirname, "src/styles")],
+    silenceDeprecations: ["legacy-js-api"],
   },
   images: {
     remotePatterns: [

@@ -1,5 +1,5 @@
-@import "../app/globals.scss";
-@import "./ResponseMixin/mixin";
+@use "tokens" as *;
+@use "mixin" as *;
 
 .wrap {
     position: relative;

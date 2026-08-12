@@ -44,8 +44,6 @@ export const searchNaverShop = async (
   const url = new URL(NAVER_SHOP_ENDPOINT);
   url.searchParams.set("query", query.trim());
   url.searchParams.set("display", String(safeDisplay));
-
-  console.log("현재 검색 쿼리 요청 url", url);
   
   try {
     const response = await fetch(url, {

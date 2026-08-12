@@ -1,0 +1,143 @@
+// ============================================================
+// Mixins — TrendTailor Shopping (Dart Sass)
+// Import: @use "mixin" as *;
+// ============================================================
+
+@use "tokens" as *;
+
+// ------------------------------------------------------------
+// Responsive
+// ------------------------------------------------------------
+@mixin mobile {
+  @media screen and (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: ($breakpoint-mobile + 1px)) and (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+/// 맥북 / 중형 데스크톱 (769px ~ 1480px)
+@mixin macbook {
+  @media screen and (min-width: ($breakpoint-mobile + 1px)) and (max-width: $breakpoint-macbook) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: ($breakpoint-macbook + 1px)) {
+    @content;
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  $value: token-bp($breakpoint);
+
+  @media screen and (max-width: $value) {
+    @content;
+  }
+}
+
+@mixin respond-from($breakpoint) {
+  $value: token-bp($breakpoint);
+
+  @media screen and (min-width: $value) {
+    @content;
+  }
+}
+
+// ------------------------------------------------------------
+// Layout helpers
+// ------------------------------------------------------------
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between($align: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: space-between;
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// ------------------------------------------------------------
+// Typography
+// ------------------------------------------------------------
+@mixin font($family: jamsil, $weight: 400, $size: null, $line-height: null) {
+  font-family: token-font($family);
+  font-weight: $weight;
+
+  @if $size {
+    font-size: $size;
+  }
+
+  @if $line-height {
+    line-height: $line-height;
+  }
+}
+
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+  }
+}
+
+// ------------------------------------------------------------
+// Visual
+// ------------------------------------------------------------
+@mixin glass-header {
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+}
+
+@mixin card-shadow($alpha: 0.1) {
+  box-shadow: 4px 4px 8px rgba($color-black, $alpha);
+}
+
+@mixin focus-ring($color: $color-accent) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+@mixin disabled {
+  &:disabled {
+    background-color: $color-disabled-bg;
+    color: $color-disabled-txt;
+    cursor: not-allowed;
+  }
+}
+
+// ------------------------------------------------------------
+// CSS custom properties (:root)
+// ------------------------------------------------------------
+@mixin emit-css-vars {
+  @each $name, $value in $css-vars {
+    #{$name}: #{$value};
+  }
+}

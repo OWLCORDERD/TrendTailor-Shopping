@@ -1,7 +1,7 @@
 import { db } from "@/shared/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
-import { searchNaverShop } from "@/feature/trend/services/api/coupang.service";
+import { searchNaverShop } from "@/feature/trend/services/api/naver.service";
 
 interface selectType {
   step: number;
