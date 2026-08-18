@@ -80,8 +80,9 @@ const ChatContainer = () => {
     e.preventDefault();
 
     const options: any = {
-      title: "개발 진행중입니다.",
-      dynamicComponent: "Service",
+      title: "개발 진행중인 서비스입니다.",
+      content: `현재 개발중인 기능이므로, <br /> 추후에 이용 가능합니다.`,
+      type: "construction"
     };
 
     if (modalOpen) {

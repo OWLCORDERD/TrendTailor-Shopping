@@ -6,7 +6,7 @@ import { RiErrorWarningFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const { title, modalClose } = useContext(ModalContext);
+  const { contents, modalClose } = useContext(ModalContext);
 
   const router = useRouter();
 
@@ -21,7 +21,7 @@ const Login = () => {
     <div className='cont-wrapper'>
       <div className='title-box danger'>
         <RiErrorWarningFill className='title-icon' />
-        <h2 className='title'>{title}</h2>
+        <h2 className='title'>{contents?.title}</h2>
       </div>
 
       <div className='content-box'>

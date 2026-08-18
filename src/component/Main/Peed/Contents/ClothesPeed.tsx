@@ -7,6 +7,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import Loading from "@/component/common/Loading";
 import { ThemeContext } from "../../../../../context/ThemeContext";
 import Link from "next/link";
+import { ThreeDots } from "react-loader-spinner";
+import NextImage from "@/component/common/NextImage";
 
 interface allClothesProps {
   clothesData: trendClothes[] | undefined;
@@ -74,6 +76,15 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
     currentDBUpdate();
   }, [currentPage]);
 
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+
+  const handleImgLoad = (productId: string) => {
+    setLoadedImages((prev) => {
+      if (prev.has(productId)) return prev;
+      return new Set(prev).add(productId);
+    });
+  };
+
   return (
     <CSS.Container>
       <CSS.TitleBox>
@@ -87,19 +98,28 @@ const ClothesPeed = ({ clothesData }: allClothesProps) => {
         {currentDB.map((clothes) => {
           return (
             <CSS.ProductItem key={clothes.productId} $mode={mode}>
-              <Link href={{ pathname: `/shop/${clothes.productId}` }}>
+              <Link href={clothes.link} target='_blank'>
                 <CSS.ProductImg>
-                  <Image
-                    src={clothes.image}
+                  <NextImage
+                    src={clothes.thumbnail}
                     alt={`${clothes.title} 이미지`}
-                    width='500'
-                    height='500'
+                    width={500}
+                    height={500}
+                    hasSkeleton={true}
                   />
                 </CSS.ProductImg>
 
                 <CSS.ProductInfo>
                   <CSS.ProductTitle>{clothes.title}</CSS.ProductTitle>
-                  <CSS.ProductMall>{clothes.brand}</CSS.ProductMall>
+                  <CSS.ProductMall>
+                    <Image
+                      src={clothes.brandIcon}
+                      alt={`${clothes.brand} 로고 아이콘`}
+                      width='20'
+                      height='20'
+                    />
+                    <span>{clothes.brand}</span>
+                  </CSS.ProductMall>
                 </CSS.ProductInfo>
               </Link>
             </CSS.ProductItem>

@@ -1,181 +1,100 @@
-import { db } from "@/shared/lib/firebase";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+// d3 Force Directed 런타임 데이터 > 노드 배열 데이터
 
-// 2026.08.03 트랜드 키워드/의류 데이터 기반
-// -> d3 force directed 벡터 그래픽 통계 데이터 생성 작업
-export const buildGraphJobs = async () => {
-  // 트랜드 키워드 컬렉션 전체 문서 조회
-  const trendKeywordsRef = collection(db, "trend-keywords");
-  const trendKeywordSnap = await getDocs(trendKeywordsRef);
+export interface KeywordNode {
+  id: string;
+  name: string;
+  type: 'keyword';
+  val: number;
+  clothesCount: number;
+  topBrands: string[];
+}
 
-  if (trendKeywordSnap.empty) {
-    return {
-      success: false,
-      message: "조회된 트랜드 키워드가 없습니다.",
-    };
-  }
+// d3 Force Directed 런타임 데이터 > 링크 배열 데이터
+export interface KeywordLink {
+  source: string;
+  target: string;
+  value: number;    // 선 굵기 (공통 브랜드 수 또는 유사도 점수)
+  distance: number; // D3 Force 거리 (유사도가 높을수록 짧게 설정)
+}
 
-  // 트랜드 의류 컬렉션 전체 문서 조회
-  const clothesRef = collection(db, "clothes");
-  const clothesList = await getDocs(clothesRef);
+export class BuildGraphJob {
+  /**
+   * SerpApi 수집 데이터를 D3 Force Directed Graph Runtime Data로 변환
+   */
+  public process(clothesList: trendClothes[]) {
+    // 키워드별 브랜드 및 통계 데이터 수집
+    const keywordBrandMap = new Map<string, Set<string>>();
+    const keywordStatsMap = new Map<string, { totalReviews: number; count: number }>();
 
-  if (clothesList.empty) {
-    return {
-      success: false,
-      message: "조회된 트랜드 의류 데이터가 없습니다.",
-    };
-  }
+    // 1. 키워드별 브랜드 및 통계 데이터 수집
+    clothesList.forEach((item) => {
+      const kw = item.keywordName;
+      if (!item.brand) return;
 
-  // 트랜드 의류 문서데이터 매핑 배열 생성
-  const clothesData: trendClothes[] = clothesList.docs.map((doc) => {
-    const data = doc.data();
+      // 브랜드 Map 생성
+      if (!keywordBrandMap.has(kw)) {
+        keywordBrandMap.set(kw, new Set<string>());
+        keywordStatsMap.set(kw, { totalReviews: 0, count: 0 });
+      }
 
-    return {
-      productId: data.productId,
-      title: data.title,
-      image: data.image,
-      link: data.link,
-      price: data.price,
-      category: data.category,
-      genderCategory: data.genderCategory,
-      keywordName: data.keywordName,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
-      brand: data.brand,
-      viewCount: data.viewCount,
-      likeCount: data.likeCount,
-    };
-  });
-
-  // 트랜드 키워드별 의류 카테고리 별 조회 수 매핑 객체 생성
-  const clothesCountMap: Record<
-    string,
-    { tops: number; bottoms: number; shoes: number; totalCount: number }
-  > = {};
-
-  clothesData.forEach((clothes: trendClothes) => {
-    // 조회 트랜드 키워드명
-    const slug = clothes.keywordName;
-    // 조회 카테고리 분류
-    const subCat = clothes.category as "tops" | "bottoms" | "shoes";
-
-    if (!clothesCountMap[slug]) {
-      clothesCountMap[slug] = {
-        tops: 0,
-        bottoms: 0,
-        shoes: 0,
-        totalCount: 0,
-      };
-    }
-
-    if (subCat && clothesCountMap[slug][subCat] !== undefined) {
-      clothesCountMap[slug][subCat] += 1;
-    }
-
-    clothesCountMap[slug].totalCount += 1;
-  });
-
-  const nodes: any[] = [];
-  const rawKeywords: any[] = [];
-
-  // 3. Nodes 생성
-  trendKeywordSnap.forEach((docSnap: any) => {
-    const data = docSnap.data();
-    const slug = docSnap.slug;
-    rawKeywords.push({ slug, ...data });
-
-    const counts = clothesCountMap[slug] || {
-      tops: 0,
-      bottoms: 0,
-      shoes: 0,
-      total: 0,
-    };
-
-    // Node Val 계산 (기본 10 + 수집 의류수 * confidence)
-    const confidence = data.confidence || 0.5;
-    const nodeVal = 10 + Math.round(counts.totalCount * 1.5 * confidence);
-
-    nodes.push({
-      id: slug,
-      name: data.name,
-      aliases: data.aliases || [],
-      category: data.aliases?.[0] || "General",
-      val: nodeVal,
-      confidence: confidence,
-      season: data.season || [],
-      itemCounts: counts,
+      keywordBrandMap.get(kw)!.add(item.brand.trim().toLowerCase());
+      
+      const stat = keywordStatsMap.get(kw)!;
+      stat.totalReviews += item.reviews || 0;
+      stat.count += 1;
     });
-  });
 
-  // 4. Links(Edges) 산출 - children 태그 및 aliases 교집합 기반
-  const links = [];
-  for (let i = 0; i < rawKeywords.length; i++) {
-    for (let j = i + 1; j < rawKeywords.length; j++) {
-      const k1 = rawKeywords[i];
-      const k2 = rawKeywords[j];
+    const keywords = Array.from(keywordBrandMap.keys());
+    const nodes: KeywordNode[] = [];
+    const links: KeywordLink[] = [];
 
-      // children 내 세부 키워드들의 교집합 계산
-      const k1Children = [
-        ...(k1.children?.tops || []),
-        ...(k1.children?.bottoms || []),
-        ...(k1.children?.shoes || []),
-      ];
-      const k2Children = [
-        ...(k2.children?.tops || []),
-        ...(k2.children?.bottoms || []),
-        ...(k2.children?.shoes || []),
-      ];
+    // 2. 키워드 노드 생성
+    keywords.forEach((kw) => {
+      const stat = keywordStatsMap.get(kw)!;
+      const brands = Array.from(keywordBrandMap.get(kw)!);
 
-      const intersection = k1Children.filter((item) =>
-        k2Children.includes(item)
-      );
+      nodes.push({
+        id: `kw_${kw}`,
+        name: kw,
+        type: 'keyword',
+        val: Math.max(30, 25 + Math.log10(stat.totalReviews + 1) * 8), // 노드 크기
+        clothesCount: stat.count,
+        topBrands: brands.slice(0, 5), // 상위 브랜드 5개
+      });
+    });
 
-      // 공통 분모가 있거나 aliases가 일치할 때 Link 연결
-      if (intersection.length > 0) {
-        const similarityScore = Number(
-          (
-            intersection.length / Math.min(k1Children.length, k2Children.length)
-          ).toFixed(2)
-        );
+    // 3. 키워드간 브랜드 자카드 유사도 연산 (N x N 조합)
+    const SIMILARITY_THRESHOLD = 0.15; // 최소 15% 이상 유사할 때만 연결 (노이즈 방지)
 
-        links.push({
-          source: k1.slug,
-          target: k2.slug,
-          value: similarityScore || 0.1,
-          commonKeywords: intersection,
-        });
+    for (let i = 0; i < keywords.length; i++) {
+      for (let j = i + 1; j < keywords.length; j++) {
+        const kwA = keywords[i];
+        const kwB = keywords[j];
+
+        const setA = keywordBrandMap.get(kwA)!;
+        const setB = keywordBrandMap.get(kwB)!;
+
+        // 교집합 및 합집합 산출
+        const intersection = new Set([...setA].filter((b) => setB.has(b)));
+        const union = new Set([...setA, ...setB]);
+
+        if (union.size === 0) continue;
+
+        const similarity = intersection.size / union.size; // 자카드 유사도 (0~1)
+
+        // 임계값(Threshold) 이상이거나 공통 브랜드가 2개 이상일 때 Link 형성
+        if (similarity >= SIMILARITY_THRESHOLD || intersection.size >= 2) {
+          links.push({
+            source: `kw_${kwA}`,
+            target: `kw_${kwB}`,
+            value: Number((similarity * 10).toFixed(1)), // 선 굵기 (0.1 ~ 10)
+            // 유사도가 높을수록(1.0에 가까울수록) distance를 좁혀 가까이 배치
+            distance: Math.max(50, 200 - similarity * 150),
+          });
+        }
       }
     }
+
+    return { nodes, links };
   }
-
-  const yearMonth = new Date().toISOString().split("T")[0];
-
-  try {
-    // 5. 최종 시각화 통계 문서 1개에 저장
-    await setDoc(doc(db, "trend_graph_stats", yearMonth), {
-      nodes,
-      links,
-      totalKeywords: nodes.length,
-      totalClothes: clothesData.length,
-      updatedAt: new Date(),
-    });
-
-    return {
-      success: true,
-      message: "트랜드 그래프 통계 저장 완료",
-      data: {
-        nodes,
-        links,
-        totalKeywords: nodes.length,
-        totalClothes: clothesData.length,
-      },
-    };
-  } catch (err) {
-    console.error("트랜드 그래프 통계 저장 실패", err);
-    return {
-      success: false,
-      message: "트랜드 그래프 통계 저장 실패",
-      err,
-    };
-  }
-};
+}

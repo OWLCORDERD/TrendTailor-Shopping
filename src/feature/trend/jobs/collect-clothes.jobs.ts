@@ -25,10 +25,13 @@ export const searchClothesByTrendKeyword = async () => {
             // 키워드별 순차 네이버 OPEN API 트랜드 의류 검색 수행
             const currentKeywordClothes = await clothesService.collectClothesForKeyword(trendKeyword);
 
-            // 키워드별로 검색된 의류들을 DB에 순차 저장
-            if (currentKeywordClothes.length > 0) {
-                collectedClothes.push(...currentKeywordClothes);
+            // 키워드 검색 결과가 없는 경우 다음 키워드 검색 처리
+            if (currentKeywordClothes.length === 0) {
+                continue;
             }
+
+            // 키워드별로 검색된 의류들을 DB에 순차 저장
+            collectedClothes.push(...currentKeywordClothes);
         } catch (err) {
             // 트랜드 키워드 의류 데이터 수집 중 하나라도 오류 발생 시, 강제 종료
             console.error(err);

@@ -34,6 +34,26 @@ const nextConfig = {
         protocol: "https",
         hostname: "yt3.ggpht.com",
       },
+      {
+        protocol: "https",
+        hostname: "encrypted-tbn0.gstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "encrypted-tbn1.gstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "encrypted-tbn2.gstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "encrypted-tbn3.gstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "serpapi.com",
+      }
     ],
 
     domains: [
@@ -43,6 +63,11 @@ const nextConfig = {
       "firebasestorage.googleapis.com",
       "yt3.ggpht.com",
       'ads-partners.coupang.com',
+      'encrypted-tbn0.gstatic.com',
+      'encrypted-tbn1.gstatic.com',
+      'encrypted-tbn2.gstatic.com',
+      'encrypted-tbn3.gstatic.com',
+      'serpapi.com'
     ],
 
     formats: ["image/webp"],

@@ -6,7 +6,7 @@ import TrendTailorAI from "@/component/Main/Peed/TrendTailorAI";
 import useSWR, { SWRResponse } from "swr";
 import { FetcherResponse } from "swr/dist/_internal";
 import KeywordForceGraph from "@/component/Dashboard/structure/KeywordForceGraph";
-import Image from "next/image";
+import SerpApiSample from "@/component/Dashboard/structure/SerpApiSample";
 
 interface HeaderChildren {
   title?: string;
@@ -80,21 +80,12 @@ const page = async () => {
     children: React.ReactNode;
   } = {
     type: 'banner',
-    title: '쿠팡 파트너스와 함께하는 <strong>TrendTailor</strong>',
-    desc: `매월 수집된 트랜드 키워드를 기반으로 검색된 트랜드 의류 데이터는
-    <strong>쿠팡 파트너스 API 서비스</strong>에서 제공받습니다.
-    <br/>
-    TrendTailor 플랫폼에서 제공하는 모든 포스팅은 쿠팡 파트너스 활동의 일환으로,
-    이에 따른 일정액의 수수료를 제공받습니다.`,
-    children: (
-      <>
-      <a href="https://link.coupang.com/a/f5Fpvnkj4S" target="_blank" referrerPolicy="unsafe-url">
-        <Image src="https://ads-partners.coupang.com/banners/1015847?trackingCode=AF4784063&subId=&traceId=V0-301-5a8c79a76485eb21-I1015847&w=728&h=90" alt="쿠팡 파트너스 배너" width={728} height={90} />
-      </a>
-      </>
-    ),
+    title: '다양한 검색 엔진 스크래핑 API 서비스 <strong>SerpApi</strong>',
+    desc: `월별마다 집계된 트렌드 키워드마다 검색 Quota를 초과하지 않도록 단일 검색 쿼리를 구성하여 <br/>
+    검색 엔진 스크래핑 API 서비스인 <strong>SerpApi</strong> 검색 결과를 통해 트랜드 의류 데이터를 수집합니다.`,
+    children: <SerpApiSample />,
     label: {
-      labelTxt: "PARTNERS ADVERTISEMENT",
+      labelTxt: "TrendData Collection Pipeline",
     }
   }
 

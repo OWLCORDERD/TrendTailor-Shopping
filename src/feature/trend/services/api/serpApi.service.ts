@@ -18,8 +18,6 @@ export interface SerpApiShoppingItem {
 }
 
 export default class SerpApiService {
-  private apiKey = process.env.SERPAPI_KEY!;
-
   /**
   * 영문 및 한글 상품명 대응 카테고리(tops, bottoms, shoes) 자동 분류
   */
@@ -40,15 +38,7 @@ export default class SerpApiService {
   /**
    * 키워드별 영문 alias를 우선 활용한 SerpApi Google Shopping 수집
    */
-  async searchShopping(keyword: TrendKeywordItem): Promise<{ success: boolean, clothesData: SerpApiShoppingItem[] }> {
-    if (!this.apiKey) {
-      console.warn('[SerpApi] API Key가 존재하지 않습니다.');
-      return {
-        success: false,
-        clothesData: [],
-      };
-    }
-
+  async searchShopping(keyword: TrendKeywordItem) {
     // 1. 영문 Alias 우선 선택 (없을 경우 한글 name 사용)
     const englishAlias = keyword.aliases?.find((a) => /^[A-Za-z0-9\s-]+$/.test(a));
     const searchQuery = englishAlias ? `${englishAlias} fashion` : `${keyword.name} 패션`;
@@ -56,47 +46,45 @@ export default class SerpApiService {
     console.log(`🔍 [SerpApi] 검색 쿼리 실행: "${searchQuery}" (원래 키워드: ${keyword.name})`);
 
     try {
-      return new Promise((resolve) => {
-        getJson(
-          {
-            engine: 'google_shopping',
-            q: searchQuery,
-            location_requested: 'South Korea',
-            location_used: 'South Korea',
-            google_domain: 'google.com',
-            hl: 'en', // 영문 결과 및 파싱
-            gl: 'kr', // 한국 지역 배송/쇼핑 기준
-            device: 'desktop',
-            num: 15,
-            api_key: this.apiKey,
-          },
-          (json) => {
-            const results = json.shopping_results || [];
+      const getJsonResponse = await fetch(`/api/serpApi?q=${searchQuery}`);
+
+      const data = await getJsonResponse.json();
+
+      if (data.success) {
+        const results = data.clothesData || [];
+
+        if (results.length === 0) {
+          return {
+            success: false,
+            clothesData: [],
+          };
+        }
   
-            const formattedItems = results.map((item: any, index: number) => {
-              const title = item.title || '';
-              
-              // 영문/한글 혼용 타이틀 대응 서브 카테고리 분류
-              const subCategory = this.classifySubCategory(title);
-  
-              return {
-                productId: item.product_id || `serp_${Date.now()}_${index}`,
-                title,
-                link: item.link,
-                image: item.thumbnail,
-                price: item.extracted_price || 0,
-                brand: item.merchant || 'Global Fashion',
-                subCategory,
-              };
-            });
-  
-            resolve({
-              success: true,
-              clothesData: formattedItems,
-            });
-          }
-        );
-      });
+        const formattedItems = results.map((item: any, index: number) => {
+          const title = item.title || '';
+          
+          // 영문/한글 혼용 타이틀 대응 서브 카테고리 분류
+          const subCategory = this.classifySubCategory(title);
+
+          return {
+            title,
+            product_id: item.product_id || `serp_${Date.now()}_${index}`,
+            product_link: item.product_link,
+            thumbnail: item.thumbnail,
+            price: item.extracted_price ?? 0,
+            source: item.source || 'Global Fashion',
+            source_icon: item.source_icon,
+            rating: item.rating || 0,
+            reviews: item.reviews || 0,
+            subCategory,
+          } as unknown as SerpApiClothes;
+        });
+
+        return {
+          success: true,
+          clothesData: formattedItems,
+        };
+      }
     } catch (err) {
       console.error(`검색 요청 중 오류 발생 [${keyword.name}]: ${err}`);
       return {

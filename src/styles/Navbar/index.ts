@@ -106,6 +106,7 @@ Navbar.LoginMenu = styled.div`
   justify-content: space-between;
   gap: 20px;
   height: 100%;
+  min-width: 180px;
 
   .login,
   .signup {

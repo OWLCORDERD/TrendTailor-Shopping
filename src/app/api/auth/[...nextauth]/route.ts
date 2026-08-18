@@ -25,6 +25,16 @@ interface currentType {
   password?: string;
 }
 
+interface userDocType {
+  id: string;
+  email: string;
+  password: string;
+  username: string;
+  image: string;
+  role: string;
+  refreshToken: string;
+}
+
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
@@ -49,55 +59,58 @@ const handler = NextAuth({
           // firebase 사용자 컬렉션 내부에 이메일 사용자 문서 조회
           const docRef = collection(db, "user");
           const q = query(docRef, where("id", "==", currentUserId));
-          const userDoc = await getDocs(q);
+          const querySnapShot = await getDocs(q);
 
           // 이메일과 일치하는 사용자 정보가 존재하지 않을 시, 401 null 반환
-          if (userDoc.empty) {
+          if (querySnapShot.empty) {
             return null;
           }
 
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/login`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                id: currentUserId,
-              }),
-            }
-          );
+          const user: userDocType = {
+            id: '',
+            email: '',
+            password: '',
+            username: '',
+            image: '',
+            role: '',
+            refreshToken: '',
+          };
 
-          const user = await res.json();
-
+          querySnapShot.forEach((doc) => {
+            user.id = doc.id;
+            user.email = doc.data()["email"];
+            user.password = doc.data()["password"];
+            user.username = doc.data()["username"];
+            user.image = doc.data()["image"];
+            user.role = doc.data()["role"];
+            user.refreshToken = doc.data()["refreshToken"];
+          })
+          
           const isValid = await bcrypt.compare(
             currentPassword,
-            user[0].password
+            user.password
           );
 
-          const username = user[0].username;
-          const userEmail = user[0].email;
+          const username = user.username;
+          const userEmail = user.email;
+          const userRole = user.role ? user.role : "user";
 
           if (user && isValid) {
-            const accessToken = getAccessToken(user[0]);
-            const refreshToken = getRefreshToken(user[0]);
+            // 기존 사용자 문서에 저장된 토큰 갱신 처리
+            const accessToken = getAccessToken(user);
+            const refreshToken = getRefreshToken(user);
 
-            let userId = "";
-            userDoc.forEach((doc: any) => {
-              userId = doc.id;
-            });
-
-            await updateDoc(doc(db, "user", userId), {
+            await updateDoc(doc(db, "user", user.id), {
               refreshToken: refreshToken,
             });
 
             return {
-              id: userId, // 사용자 컬렉션 DB > 로그인 사용자 문서 아이디
+              id: user.id, // 사용자 컬렉션 DB > 로그인 사용자 문서 아이디
               userId: currentUserId,
               name: username,
               email: userEmail,
-              image: user[0].image ? user[0].image : null,
+              role: userRole,
+              image: user.image ? user.image : null,
               accessToken: accessToken,
               refreshToken: refreshToken,
             };
@@ -134,12 +147,11 @@ const handler = NextAuth({
 
           // 엑세스 토큰 만료 날짜
           const expiredDate = parsePayload.exp;
-
-          token.id = user.id;
-          token.accessToken = (user as userType).accessToken;
-          token.refreshToken = (user as userType).refreshToken;
           token.accessTokenExpires = new Date(expiredDate * 1000);
         }
+
+        token.id = user.id;
+        token.role = (user as userType).role;
       }
 
       if (new Date() < new Date(token.accessTokenExpires)) return token;
@@ -154,6 +166,7 @@ const handler = NextAuth({
         email: token.email as string,
         name: token.name as string,
         image: token.picture as string,
+        role: token.role as string,
       };
       session.error = token.error;
 

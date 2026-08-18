@@ -12,6 +12,7 @@ import {
   setDoc,
   updateDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 
 export interface trendKeywordsType {
@@ -46,11 +47,6 @@ export interface searchKeywordType {
 type ExistingKeyword = {
   ref: DocumentReference;
   slug: string;
-};
-
-type ExistingClothes = {
-  ref: DocumentReference;
-  keywordName: string;
 };
 
 /**
@@ -200,61 +196,60 @@ export class TrendKeywordRepository {
  */
 export class TrendClothesRepository {
   private readonly collection = "clothes";
+  // Firestore writeBatch 최대 500건. 여유를 두고 400건씩 커밋
+  private readonly batchSize = 400;
 
-  // 1. 조회된 트랜드 키워드 중복체크 함수
-  // - 의류 컬렉션 내부 조회된 상품 아이디(productId) 또는 상품명(title) 일치하는 의류 문서 체크
-  async findExistingClothes(
-    clothes: trendClothes
-  ): Promise<ExistingClothes | null> {
-    const colRef = collection(db, this.collection);
+  private dedupeByProductId(clothesList: trendClothes[]) {
+    const unique = new Map<string, trendClothes>();
 
-    // 1. 상품 아이디(productId) 일치 조회
-    const productIdSnap = await getDocs(
-      query(colRef, where("productId", "==", clothes.productId), limit(1))
-    );
-    if (!productIdSnap.empty) {
-      const found = productIdSnap.docs[0];
-      return { ref: found.ref, keywordName: found.data().keywordName ?? found.id };
+    for (const clothes of clothesList) {
+      const productId = clothes.productId?.trim();
+      if (!productId) continue;
+      unique.set(productId, clothes);
     }
 
-    // 2. 키워드명(name) 일치 조회
-    const nameSnap = await getDocs(
-      query(colRef, where("title", "==", clothes.title), limit(1))
-    );
-    if (!nameSnap.empty) {
-      const found = nameSnap.docs[0];
-      return { ref: found.ref, keywordName: found.data().keywordName ?? found.id };
-    }
-
-    return null;
+    return Array.from(unique.values());
   }
 
+  private buildClothesPayload(clothes: trendClothes) {
+    const { createdAt: _createdAt, updatedAt: _updatedAt, ...data } = clothes;
+
+    return {
+      ...data,
+      updatedAt: serverTimestamp(),
+      createdAt: serverTimestamp(),
+    };
+  }
+
+  /**
+   * productId를 문서 ID로 사용해 메모리 중복 제거 후 batch upsert.
+   * 건당 조회 2회 + 쓰기 1회 대신 쓰기만 수행한다.
+   */
   async save(clothesList: trendClothes[]) {
     try {
-      let created = 0;
-      let updated = 0;
-      let skipped = 0;
-  
-      for (const clothes of clothesList) {
-        // 중복 의류 조회
-        const existing = await this.findExistingClothes(clothes);
-  
-        if (existing) {
-          await updateDoc(existing.ref, {
-            ...clothes,
-            updatedAt: serverTimestamp(),
-          });
-          updated += 1;
-        } else {
-          await setDoc(doc(db, this.collection, clothes.productId), {
-            ...clothes,
-            createdAt: serverTimestamp(),
-          });
-          created += 1;
+      const uniqueClothes = this.dedupeByProductId(clothesList);
+      const skipped = clothesList.length - uniqueClothes.length;
+      let upserted = 0;
+
+      for (let i = 0; i < uniqueClothes.length; i += this.batchSize) {
+        const chunk = uniqueClothes.slice(i, i + this.batchSize);
+        const batch = writeBatch(db);
+
+        for (const clothes of chunk) {
+          const ref = doc(db, this.collection, clothes.productId);
+          batch.set(ref, this.buildClothesPayload(clothes), { merge: true });
         }
+
+        await batch.commit();
+        upserted += chunk.length;
       }
-  
-      return { success: true as const, created, updated, skipped };
+
+      return {
+        success: true as const,
+        created: upserted,
+        updated: 0,
+        skipped,
+      };
     } catch (err) {
       console.error(err);
       return { success: false as const, err };

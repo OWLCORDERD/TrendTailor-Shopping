@@ -43,20 +43,8 @@ export async function POST(req: NextRequest) {
       docs.forEach((doc) => {
         const data = doc.data();
         clothesData.push({
-          productId: data.productId,
-          title: data.title,
-          image: data.image,
-          link: data.link,
-          price: data.price,
-          brand: data.brand,
-          category: data.category,
-          createdAt: data.createdAt,
-          viewCount: data.viewCount,
-          likeCount: data.likeCount,
-          updatedAt: data.updatedAt,
-          keywordName: data.keywordName,
-          genderCategory: data.genderCategory,
-        });
+          ...data,
+        } as trendClothes);
       });
 
       // 사용자 선택 라벨 -> 각 의류 데이터 종류, 스타일 키워드 매칭 변환
@@ -151,7 +139,7 @@ export async function POST(req: NextRequest) {
         case "popular":
           // 최종단계: 인기도 좋아요 기준 순으로 내림차순 정렬
           const sortByViewCount = priceComparison.sort(
-            (a, b) => b.likeCount - a.likeCount
+            (a, b) => b.reviews - a.reviews
           );
 
           return NextResponse.json({

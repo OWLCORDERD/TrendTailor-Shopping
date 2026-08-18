@@ -11,8 +11,6 @@ import "app/globals.scss";
 import "styles/signup.scss";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { IoIosImages, IoIosCloseCircle } from "react-icons/io";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -490,7 +488,9 @@ const Register = () => {
             modalOpen({
               title: "회원가입이 완료되었습니다.",
               type: "login",
-              dynamicComponent: "Signup",
+              description: `Trendtailer 회원이 되신걸 환영합니다!
+              <br />
+              로그인 페이지로 이동하시겠습니까?`,
             });
           }
         } else {
@@ -533,7 +533,6 @@ const Register = () => {
 
   return (
     <div className='signup-container'>
-      <ToastContainer />
       <div className='register-wrap'>
         <div className='register-title'>
           <h1 className='txt'>회원가입</h1>
@@ -581,6 +580,7 @@ const Register = () => {
                     type='text'
                     className='domain'
                     value={selectDomain}
+                    disabled={selectDomain !== ''}
                     onChange={(e) => setSelectDomain(e.target.value)}
                   />
                 </div>

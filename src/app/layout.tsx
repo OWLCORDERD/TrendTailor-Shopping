@@ -13,6 +13,8 @@ import SessionWatcher from "@/component/common/SessionWatcher";
 import { ModalProvider } from "../../context/ModalContext";
 import BreadCrumb from "@/component/common/BreadCrumb";
 import Navbar from "@/component/Main/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "TrendTailor",
@@ -51,6 +53,7 @@ export default function RootLayout({
             <ScrollToTop type='routeMove' />
             <html lang='ko'>
               <body>
+                <ToastContainer />
                 <ModalProvider>
                   <ThemeProvider>
                     <Navbar />

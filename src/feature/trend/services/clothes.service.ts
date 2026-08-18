@@ -38,34 +38,40 @@ export class ClothesService {
    * - 서버 잡에서 실행되므로 내부 /api/searchClothes 재호출 없이 네이버 API 직접 호출
    */
   async collectClothesForKeyword(keyword: searchKeywordType) {
-    // const searchTasks = this.generateSearchQueries(keyword);
     try {
       const serpApi = new SerpApiService();
-      // const result = await searchNaverShop(task.query, 5);
       const result = await serpApi.searchShopping(keyword);
 
-      if (!result.success) {
+      if (!result || !result.success) {
         console.error(`검색 요청 실패 [${keyword.name}]`);
         return [];
       }
 
+      // 정상 응답이지만 조회된 의류 데이터가 없는 경우 빈배열 반환 후 종료
+      if (result.clothesData.length === 0) {
+        console.error(`검색 결과가 없습니다. [${keyword.name}]`);
+        return [];
+      }
+
+      // 조회된 의류 데이터 스키마 > DB 저장 스키마 형태로 포맷팅하여 반환
       const formattedItems: trendClothes[] = result.clothesData.map(
-        (item) => ({
-          keywordName: keyword.name,
-          productId: item.productId,
-          genderCategory: "",
-          title: item.title,
-          image: item.image,
-          price: item.price,
-          brand: item.brand,
-          link: item.link,
-          category: item.subCategory,
-          viewCount: 0,
-          likeCount: 0,
-          createdAt: "",
-          updatedAt: "",
-        })
-      );
+        (item: any) => {
+          return {
+            title: item.title,
+            productId: item.product_id,
+            link: item.product_link,
+            thumbnail: item.thumbnail,
+            price: item.price || 0,
+            brand: item.source,
+            brandIcon: item.source_icon,
+            category: item.subCategory,
+            keywordName: keyword.name,
+            rating: item.rating || 0,
+            reviews: item.reviews || 0,
+            createdAt: "",
+            updatedAt: "",
+          };
+        });
 
       return formattedItems;
     } catch (err) {

@@ -3,11 +3,14 @@ declare global {
     setResponsiveMenuActive: React.Dispatch<SetStateAction<boolean>>;
   }
 
+  // ---------------커스텀 훅 타입 지정---------------//
   // 뷰포트 리사이징 시 업데이트되는 뷰포트 사이즈 값
   interface windowSize {
     width: number;
     height: number;
   }
+
+  // ---------------API 응답 타입 지정---------------//
 
   // 유튜브 API에서 받아오는 채널 데이터 타입
   interface channelDataType {
@@ -41,6 +44,7 @@ declare global {
     };
   }
 
+  // 컨설턴트 채널 데이터 타입
   interface consultantChannelType {
     snippet: {
       title: string;
@@ -81,37 +85,33 @@ declare global {
     };
   }
 
-  // 네이버 쇼핑 API 조회 의류 데이터 타입
-  interface clothes {
-    title: string;
-    link: string;
-    image: string;
-    lprice: string;
-    hprice?: string;
-    mallName: string;
-    productId: string;
-    productType: string;
-    brand: string;
-    maker: string;
-    category1?: string;
-    category2?: string;
-    category3?: string;
-    category4?: string;
+  // SerpApi 구글 쇼핑 검색엔진 API 조회 의류 타입
+  interface SerpApiClothes {
+    title: string; // 상품명
+    product_id: string; // 상품 아이디
+    product_link: string; // 상품 링크
+    source: string; // 브랜드명
+    source_icon: string; // 브랜드 아이콘
+    thumbnail: string; // 상품 이미지
+    price: string; // 상품 가격
+    rating?: number; // 상품 공식 평점
+    reviews?: number; // 상품 리뷰 수
+    subCategory: 'tops' | 'bottoms' | 'shoes'; // 검색 카테고리 (상의/하의/신발)
   }
 
   // 트랜드 키워드 검색 의류 데이터 타입
   interface trendClothes {
-    productId: string; // 상품 ID
-    image: string; // 상품 이미지
-    link: string; // 상품 링크
-    price: number; // 가격 (lprice or hprice)
-    brand: string; // 브랜드명 (mallName or brand)
-    category: string; // 검색 카테고리 (상의/하의/신발)
     title: string; // 의류 제목
+    productId: string; // 상품 ID
+    thumbnail: string; // 상품 썸네일 이미지 경로
+    link: string; // 상품 판매 경로
+    price: number; // 가격
+    brand: string; // 브랜드명
+    brandIcon: string; // 브랜드 아이콘 경로
+    category: string; // 검색 카테고리 (상의/하의/신발)
     keywordName: string; // 검색 트랜드 키워드명
-    genderCategory: string; // 성별 카테고리 (남성/여성)
-    viewCount: number; // 조회 수 (인기 순 필터링에 활용)
-    likeCount: number; // 좋아요 수 (인기 순 필터링에 활용)
+    rating: number; // 공식 평점 (인기 순 필터링에 활용)
+    reviews: number; // 공식 리뷰 수 (인기 순 필터링에 활용)
     createdAt: string; // 생성 일시
     updatedAt: string; // 수정 일시
   }

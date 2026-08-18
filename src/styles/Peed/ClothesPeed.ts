@@ -99,6 +99,21 @@ ClothesPeed.ProductImg = styled.div`
   height: 20rem;
   cursor: pointer;
 
+  .skeleton-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    z-index: 1;
+    color: var(--colorMain);
+    background: #fff;
+    animation: none;
+  }
+
   img {
     position: absolute;
     top: 0;
@@ -141,7 +156,10 @@ ClothesPeed.ProductTitle = styled.h2`
   }
 `;
 
-ClothesPeed.ProductMall = styled.p`
+ClothesPeed.ProductMall = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
   width: 100%;
   font-size: 12px;
   line-height: 2rem;

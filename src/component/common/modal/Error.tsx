@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { IoWarning } from "react-icons/io5";
-import "styles/errorModal.scss";
+import "@/styles/modal.scss";
 
 interface errorProps {
   errorMessage: string | "";

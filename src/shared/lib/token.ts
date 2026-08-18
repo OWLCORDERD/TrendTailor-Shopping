@@ -7,12 +7,12 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET!;
 
 // 최초 로그인 시, 액세스 토큰 발급
 export function getAccessToken(user: any) {
-  return jwt.sign(user, accessTokenSecret, { expiresIn: "2h" });
+  return jwt.sign({ id: user.id, role: user.role ?? 'user' }, accessTokenSecret, { expiresIn: "2h" });
 }
 
 // 최초 로그인 시, 리프레시 토큰 발급
 export function getRefreshToken(user: any) {
-  return jwt.sign(user, refreshTokenSecret, { expiresIn: "1days" });
+  return jwt.sign({ id: user.id, role: user.role ?? 'user' }, refreshTokenSecret, { expiresIn: "1d" });
 }
 
 // 엑세스 토큰 검증 요청 시, 인자로 전달받은 토큰으로 유효성 체크

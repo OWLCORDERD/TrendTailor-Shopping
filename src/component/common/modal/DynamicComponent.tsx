@@ -17,7 +17,7 @@ class ModalContentRenderer extends Component {
   render() {
     const DynamicComponent = dynamic(
       () =>
-        import(`@/component/common/modal/content/${this.state.componentPath}`),
+        import(`@/component/common/modal/content/${this.state.componentPath || "Slot"}`),
       {
         ssr: false,
         loading: () => <Loading colorTheme='#2D3A8C' height={300} />,

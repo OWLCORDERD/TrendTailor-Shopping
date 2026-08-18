@@ -10,6 +10,7 @@ declare module "next-auth" {
       email: string; // 사용자 이메일
       name: string; // 사용자 이름
       image: string; // 사용자 프로필 이미지
+      role?: string; // 사용자 권한 (admin, user)
     };
     error?: string; // 토큰 재발급 에러 시, 에러 상태 업데이트 값
   }
@@ -19,6 +20,7 @@ declare module "next-auth" {
     id?: string; // 로그인 사용자 컬렉션 문서 아이디
     accessToken?: string; // 엑세스 토큰 (64진수 hex)
     refreshToken?: string; // 리프레시 토큰 (64진수 hex)
+    role?: string; // 사용자 권한 (admin, user)
     accessTokenExpires?: any; // 로그인 시점 토큰 만료 시간 (밀리초)
     error?: string; // 토큰 재발급 에러 시, 에러 상태 업데이트 값
   }
@@ -28,6 +30,7 @@ declare module "next-auth" {
     email?: string | null;
     name?: string;
     image?: string | null;
+    role?: string; // 사용자 권한 (admin, user)
     accessToken?: string; // 엑세스 토큰 (64진수 hex)
     refreshToken?: string; // 리프레시 토큰 (64진수 hex)
   }

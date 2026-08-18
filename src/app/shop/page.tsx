@@ -42,20 +42,10 @@ const getTrendClothes = async () => {
     docs.forEach((doc) => {
       const data = doc.data();
       clothesData.push({
-        title: data.title,
-        image: data.image,
-        link: data.link,
-        price: data.lprice,
-        productId: data.productId,
-        brand: data.brand,
-        genderCategory: data.genderCategory,
-        viewCount: data.viewCount,
-        likeCount: data.likeCount,
-        category: data.category,
-        keywordName: data.keywordName,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
-      });
+        ...data,
+        createdAt: data.createdAt.toDate?.()?.toISOString?.() ?? "",
+        updatedAt: data.updatedAt.toDate?.()?.toISOString?.() ?? "",
+      } as trendClothes);
     });
     return clothesData;
   }

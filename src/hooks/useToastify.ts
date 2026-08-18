@@ -18,5 +18,8 @@ export const AlertToast = ({ str, type, theme }: AlertToastProps) => {
     closeButton: true,
     type: type,
     theme: theme,
+    bodyStyle: {
+      width: "500px"
+    }
   });
 };
