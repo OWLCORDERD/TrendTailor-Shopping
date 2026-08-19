@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
-import { Trendly as CSS } from "styles";
-import Chatbot from "assets/images/chatbot.png";
-import { motion } from "framer-motion";
-import { IoIosChatboxes } from "react-icons/io";
-import { HiDocumentCheck } from "react-icons/hi2";
-import { useAppDispatch } from "@/store/hooks";
-import { changeMode } from "@/store/chatBubbleSlice";
-import { openModal } from "@/store/modalSlice";
-import { ModalContext } from "../../../../context/ModalContext";
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import React, { useContext, useEffect, useState } from 'react';
+import { Trendly as CSS } from 'styles';
+import Chatbot from 'assets/images/chatbot.png';
+import { motion } from 'framer-motion';
+import { IoIosChatboxes } from 'react-icons/io';
+import { HiDocumentCheck } from 'react-icons/hi2';
+import { useAppDispatch } from '@/store/hooks';
+import { changeMode } from '@/store/chatBubbleSlice';
+import { openModal } from '@/store/modalSlice';
+import { ModalContext } from '../../../../context/ModalContext';
 
 const ChatContainer = () => {
   const { data, status } = useSession();
@@ -22,7 +22,7 @@ const ChatContainer = () => {
   // 챗봇 인트로 애니메이션
   const chatbotAnimated = {
     initial: {
-      y: "30",
+      y: '30',
       opacity: 0,
     },
     animate: {
@@ -42,11 +42,11 @@ const ChatContainer = () => {
   // 챗봇 메뉴 애니메이션
   const menuAnimated = {
     initial: {
-      display: "none",
+      display: 'none',
     },
 
     animate: {
-      display: "block",
+      display: 'block',
       transition: {
         duration: 2,
         delayChildren: 1,
@@ -59,11 +59,11 @@ const ChatContainer = () => {
     e.preventDefault();
 
     // 비로그인 사용자일 시, 로그인 모달 노출
-    if (status !== "authenticated") {
+    if (status !== 'authenticated') {
       const options: any = {
-        title: "로그인 후 이용 가능한 서비스입니다.",
-        type: "login",
-        dynamicComponent: "Login",
+        title: '로그인 후 이용 가능한 서비스입니다.',
+        type: 'login',
+        dynamicComponent: 'Login',
       };
 
       if (modalOpen) {
@@ -72,7 +72,13 @@ const ChatContainer = () => {
       return;
     } else {
       // 로그인 사용자일 시, 컨설턴트 모드 변경
-      dispatch(changeMode(modePayload));
+      modalOpen?.({
+        title: '컨설팅 챗봇 리뉴얼 안내',
+        content:
+          '의류 데이터 수집 환경 개선으로 인해 챗봇 리뉴얼 개발 진행중입니다. 더 개선된 기능으로 찾아뵙겠습니다. 감사합니다.',
+        type: 'construction',
+      });
+      // dispatch(changeMode(modePayload));
     }
   };
 
@@ -80,9 +86,9 @@ const ChatContainer = () => {
     e.preventDefault();
 
     const options: any = {
-      title: "개발 진행중인 서비스입니다.",
+      title: '개발 진행중인 서비스입니다.',
       content: `현재 개발중인 기능이므로, <br /> 추후에 이용 가능합니다.`,
-      type: "construction"
+      type: 'construction',
     };
 
     if (modalOpen) {
@@ -92,77 +98,73 @@ const ChatContainer = () => {
   };
 
   const modePayload: any = {
-    mode: "consultant",
+    mode: 'consultant',
     user: data?.user?.name,
   };
 
   return (
     <CSS.Intro>
       <motion.div
-        className='character'
+        className="character"
         variants={chatbotAnimated}
-        initial='initial'
-        animate='animate'
-        exit='exit'
+        initial="initial"
+        animate="animate"
+        exit="exit"
       >
-        <div className='character-logo'>
-          <Image src={Chatbot} width={310} height={250} alt='챗봇 아이콘' />
+        <div className="character-logo">
+          <Image src={Chatbot} width={310} height={250} alt="챗봇 아이콘" />
         </div>
 
         <motion.ul
-          className='character-bubble'
+          className="character-bubble"
           variants={chatbotAnimated}
-          initial='initial'
-          animate='animate'
-          exit='exit'
+          initial="initial"
+          animate="animate"
+          exit="exit"
         >
-          <motion.li variants={chatbotAnimated} className='bubble'>
+          <motion.li variants={chatbotAnimated} className="bubble">
             <span>요즘 유행하는 룩이 궁금하신가요?</span>
           </motion.li>
 
-          <motion.li variants={chatbotAnimated} className='bubble'>
+          <motion.li variants={chatbotAnimated} className="bubble">
             <span>당신에게 어울릴 의상을 컨설팅 해드릴게요.</span>
           </motion.li>
         </motion.ul>
       </motion.div>
 
       <motion.div
-        className='comment-menu'
+        className="comment-menu"
         variants={menuAnimated}
-        initial='initial'
-        animate='animate'
+        initial="initial"
+        animate="animate"
       >
-        <div className='intro-comment'>
-          {status === "authenticated" ? (
-            <h1 className='title'>
+        <div className="intro-comment">
+          {status === 'authenticated' ? (
+            <h1 className="title">
               안녕하세요 <strong>{data?.user?.name}님,</strong>
             </h1>
           ) : (
-            <h1 className='title'>
+            <h1 className="title">
               안녕하세요 <strong>익명의 회원님,</strong>
             </h1>
           )}
-          <p className='desc'>
+          <p className="desc">
             오늘 당신의 패션 컨설턴트입니다.
             <br />
             무엇을 도와드릴까요?
           </p>
         </div>
 
-        <div className='intro-menu'>
+        <div className="intro-menu">
           <button
-            type='button'
-            className='menu-btn'
-            onClick={(e) => consultantMode(e)}
+            type="button"
+            className="menu-btn"
+            onClick={e => consultantMode(e)}
           >
             <HiDocumentCheck fontSize={30} />
             맞춤 컨설팅 시작
           </button>
-          <button
-            type='button'
-            className='menu-btn'
-            onClick={(e) => chatMode(e)}
-          >
+          <button type="button" className="menu-btn" onClick={e => chatMode(e)}>
             <IoIosChatboxes fontSize={30} />
             채팅 시작
           </button>

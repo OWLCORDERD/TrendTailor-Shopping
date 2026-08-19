@@ -1,4 +1,4 @@
-import { StyledInstance, StyledObject, styled } from "styled-components";
+import { StyledInstance, StyledObject, styled } from 'styled-components';
 
 const Dashboard: any = {};
 
@@ -158,13 +158,68 @@ Dashboard.Hero = styled.section`
       position: relative;
       min-height: 620px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: stretch;
       justify-content: center;
-      background: radial-gradient(
-        circle at 50% 50%,
-        rgba(59, 91, 255, 0.08),
-        transparent 70%
+      background: linear-gradient(
+        0deg,
+        rgba(10, 20, 64, 1) 0%,
+        rgba(51, 51, 51, 1) 100%,
+        rgba(0, 0, 0, 1) 50%
       );
+
+      &__toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(17, 19, 24, 0.72);
+        backdrop-filter: blur(8px);
+      }
+
+      &__toolbar-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      &__toolbar-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+
+      &__filter {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      &__filter-label {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      &__filter-select {
+        min-width: 132px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:focus {
+          outline: 2px solid var(--accent-soft);
+          border-color: var(--accent);
+        }
+      }
 
       .no-data {
         width: fit-content;
@@ -197,10 +252,10 @@ Dashboard.Hero = styled.section`
         border: 1px solid rgba(255, 255, 255, 0.08);
 
         &__content {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          margin: 12px;
         }
 
         &__caption {
@@ -217,7 +272,7 @@ Dashboard.Hero = styled.section`
             color: var(--hot);
 
             &::before {
-              content: "🚨";
+              content: '🚨';
               margin-right: 8px;
               color: var(--hot);
             }
@@ -257,7 +312,7 @@ Dashboard.Hero = styled.section`
           text-transform: uppercase;
 
           &::before {
-            content: "</>";
+            content: '</>';
             margin-right: 8px;
             color: #7dd3fc;
           }
@@ -303,9 +358,8 @@ Dashboard.Section = styled.section`
     background: transparent;
     border: none;
   }
-  
-  .section-inner {
 
+  .section-inner {
     .banner {
       display: flex;
       flex-direction: column;
@@ -383,7 +437,7 @@ Dashboard.Section = styled.section`
           color: var(--hot);
 
           &::before {
-            content: "🚨";
+            content: '🚨';
             margin-right: 8px;
             color: var(--hot);
           }
@@ -423,7 +477,7 @@ Dashboard.Section = styled.section`
         text-transform: uppercase;
 
         &::before {
-          content: "</>";
+          content: '</>';
           margin-right: 8px;
           color: #7dd3fc;
         }

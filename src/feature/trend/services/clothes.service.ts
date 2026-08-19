@@ -1,6 +1,5 @@
-import { searchKeywordType } from "../repositories/trend.repository";
-import { searchNaverShop } from "./api/naver.service";
-import SerpApiService from "./api/serpApi.service";
+import { searchKeywordType } from '../repositories/trend.repository';
+import SerpApiService from './api/serpApi.service';
 
 export class ClothesService {
   /**
@@ -68,10 +67,11 @@ export class ClothesService {
             keywordName: keyword.name,
             rating: item.rating || 0,
             reviews: item.reviews || 0,
-            createdAt: "",
-            updatedAt: "",
+            createdAt: '',
+            updatedAt: '',
           };
-        });
+        }
+      );
 
       return formattedItems;
     } catch (err) {

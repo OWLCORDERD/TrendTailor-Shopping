@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Loading from "@/component/common/Loading";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "store/hooks";
-import Pagenation from "../Pagenation/Pagenation";
-import { useSearchParams } from "next/navigation";
-import { getSearchClothes } from "@/store/monthlyClothesSlice";
+import Loading from '@/component/common/Loading';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import Pagenation from '../Pagenation/Pagenation';
+import { useSearchParams } from 'next/navigation';
+import { getSearchClothes } from '@/store/monthlyClothesSlice';
 
 const SearchProductList = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,7 +20,7 @@ const SearchProductList = () => {
 
   const searchParams = useSearchParams();
 
-  const searchQuery = searchParams ? searchParams.get("q") : null;
+  const searchQuery = searchParams ? searchParams.get('q') : null;
 
   const dispatch = useAppDispatch();
 
@@ -36,11 +36,11 @@ const SearchProductList = () => {
     }
   }, [searchQuery]);
 
-  const searchClothesData = useAppSelector((state) => {
+  const searchClothesData = useAppSelector(state => {
     return state.searchDB.searchData;
   });
 
-  const searchKeyword = useAppSelector((state) => {
+  const searchKeyword = useAppSelector(state => {
     return state.searchDB.keyword;
   });
 
@@ -65,16 +65,16 @@ const SearchProductList = () => {
   };
 
   useEffect(() => {
-    const mql = window.matchMedia("screen and (max-width : 768px)");
+    const mql = window.matchMedia('screen and (max-width : 768px)');
 
     if (mql.matches) {
       setMobileMQuery(mql.matches);
     }
 
-    mql.addEventListener("change", screenChange);
+    mql.addEventListener('change', screenChange);
 
     return () => {
-      mql.removeEventListener("change", screenChange);
+      mql.removeEventListener('change', screenChange);
     };
   }, []);
 
@@ -90,13 +90,13 @@ const SearchProductList = () => {
   }, [mobileMQuery]);
 
   return (
-    <section className='productList-container'>
-      <div className='List-tabMenu'>
-        <div className='tabMenu-title'>
-          <h1 className='default-title'>{`'${searchKeyword}' 통합 검색 결과`}</h1>
+    <section className="productList-container">
+      <div className="List-tabMenu">
+        <div className="tabMenu-title">
+          <h1 className="default-title">{`'${searchKeyword}' 통합 검색 결과`}</h1>
         </div>
 
-        <div className='product-count'>
+        <div className="product-count">
           <span>
             {searchClothesData.length}
             개의 상품
@@ -104,29 +104,29 @@ const SearchProductList = () => {
         </div>
       </div>
 
-      <div className='product-Box'>
-        <ul className='all-product'>
+      <div className="product-Box">
+        <ul className="all-product">
           {!loading ? (
-            currentPost.map((clothes) => {
+            currentPost.map(clothes => {
               return (
-                <li className='product-item' key={clothes.productId}>
+                <li className="product-item" key={clothes.productId}>
                   <Link
                     href={{
                       pathname: `/shop/search/${clothes.productId}`,
                     }}
                   >
-                    <div className='product-image'>
+                    <div className="product-image">
                       <Image
-                        src={clothes.image}
+                        src={clothes.thumbnail}
                         alt={`${clothes.title} 의류 이미지 사진`}
-                        width='400'
-                        height='480'
+                        width="400"
+                        height="480"
                       />
                     </div>
-                    <div className='product-content'>
-                      <span className='product-mall'>{clothes.brand}</span>
-                      <div className='product-title'>{clothes.title}</div>
-                      <span className='product-price'>{clothes.price}원</span>
+                    <div className="product-content">
+                      <span className="product-mall">{clothes.brand}</span>
+                      <div className="product-title">{clothes.title}</div>
+                      <span className="product-price">{clothes.price}원</span>
                     </div>
                   </Link>
                 </li>

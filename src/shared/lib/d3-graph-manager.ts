@@ -5,6 +5,9 @@ export interface GraphNode extends d3.SimulationNodeDatum {
   name: string;
   type: 'keyword' | 'clothing' | 'brand';
   val: number;
+  rank?: number;
+  clothesCount?: number;
+  topBrands?: string[];
   category?: string;
   price?: number;
   rating?: number;
@@ -126,23 +129,21 @@ export class D3TrendGraphManager {
     // 노드 원형(Circle) 채우기
     const circle = node
       .append('circle')
-      .attr('r', d => d.val / 2)
+      .attr('r', d => d.val)
       .attr('fill', d => {
-        return keywordColorsMap.get(d.id) || this.getRandomRGB();
+        const currentNodeColor = this.getRandomRGB();
+        keywordColorsMap.set(d.id, currentNodeColor);
+        return currentNodeColor;
       })
-      .attr('stroke', '#FFFFFF')
-      .attr('stroke-width', 2)
-      .on('mouseover', d => {
-        d3.select(d.target)
-          .attr('r', (d: any) => d.val / 2 + 12)
-          .transition()
-          .duration(300)
-          .ease(d3.easeLinear);
-      })
-      .on('mouseout', d => {
-        d3.select(d.target).attr('r', (d: any) => d.val / 2);
-      });
-    circle.transition().duration(300).ease(d3.easeLinear);
+      .attr('fill-opacity', 0.18)
+      .attr('filter', 'url(#nodeGlow)')
+      .attr('stroke', (d: any) => keywordColorsMap.get(d.id) || '#FFFFFF')
+      .attr('stroke-width', 1.5);
+
+    const dot = node
+      .append('circle')
+      .attr('r', d => d.val / 2)
+      .attr('fill', d => keywordColorsMap.get(d.id) || '#FFFFFF');
 
     // 노드 텍스트 라벨 (Label)
     node
@@ -152,7 +153,9 @@ export class D3TrendGraphManager {
           ? d.name.length > 10
             ? `${d.name.slice(0, 10)}...`
             : d.name
-          : d.name
+          : d.rank
+            ? `#${d.rank} ${d.name}`
+            : d.name
       )
       .attr('x', 0)
       .attr('y', d => d.val + 14)

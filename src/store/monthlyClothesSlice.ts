@@ -1,6 +1,6 @@
-import { db } from "@/shared/lib/firebase";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, getDocs } from "firebase/firestore";
+import { db } from '@/shared/lib/firebase';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { collection, getDocs } from 'firebase/firestore';
 
 interface stateType {
   keyword: string;
@@ -15,7 +15,7 @@ interface resultType {
 }
 
 const initialState: stateType = {
-  keyword: "",
+  keyword: '',
   searchData: [],
   searchRecommendData: null,
   currentProduct: undefined,
@@ -31,53 +31,33 @@ const searchClothes = async (query: string, type: string) => {
   }
 
   if (type === 'all') {
-    resData.forEach((doc) => {
+    resData.forEach(doc => {
       const data = doc.data();
-  
+
       // 사용자가 검색한 키워드가 포함된 제목 의류만 필터링
       if (data.title.includes(query)) {
         clothesData.push({
-            title: data.title,
-            image: data.image,
-            link: data.link,
-            price: data.price,
-            productId: data.productId,
-            brand: data.brand,
-            viewCount: data.viewCount,
-            likeCount: data.likeCount,
-            genderCategory: data.genderCategory,
-            category: data.category,
-            keywordName: data.keywordName,
-            createdAt: data.createdAt,
-            updatedAt: data.updatedAt,
-        });
+          ...data,
+          createdAt: data.createdAt.toDate().toISOString(),
+          updatedAt: data.updatedAt.toDate().toISOString(),
+        } as trendClothes);
       }
-    })
+    });
 
     return clothesData;
   } else {
-    resData.forEach((doc) => {
+    resData.forEach(doc => {
       const data = doc.data();
-  
+
       // 사용자가 검색한 키워드가 포함된 제목 의류만 필터링
       if (data.productId === query) {
         clothesData.push({
-          title: data.title,
-          image: data.image,
-          link: data.link,
-          price: data.price,
-          productId: data.productId,
-          brand: data.brand,
-          viewCount: data.viewCount,
-          likeCount: data.likeCount,
-          genderCategory: data.genderCategory,
-          category: data.category,
-          keywordName: data.keywordName,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-        });
+          ...data,
+          createdAt: data.createdAt.toDate().toISOString(),
+          updatedAt: data.updatedAt.toDate().toISOString(),
+        } as trendClothes);
       }
-    })
+    });
 
     return clothesData[0];
   }
@@ -85,7 +65,7 @@ const searchClothes = async (query: string, type: string) => {
 
 // 2026.01.06: 의류 검색 조회
 const getSearchClothes = createAsyncThunk(
-  "api/searchAllClothes",
+  'api/searchAllClothes',
   async (searchQuery: string) => {
     const searchData = await searchClothes(searchQuery, 'all');
     return { searchData, searchQuery } as resultType;
@@ -94,7 +74,7 @@ const getSearchClothes = createAsyncThunk(
 
 // 2026.01.06: 추천 의류 단일 조회
 const getRecommendClothes = createAsyncThunk(
-  "api/recommendClothes",
+  'api/recommendClothes',
   async (productId: string) => {
     const searchData = await searchClothes(productId, 'single');
     return searchData as trendClothes | null;
@@ -102,17 +82,17 @@ const getRecommendClothes = createAsyncThunk(
 );
 
 export const searchClothesDB = createSlice({
-  name: "clothes",
+  name: 'clothes',
   initialState,
   reducers: {
     currentSearchProduct(state, action) {
       const findIndex = state.searchData.find(
-        (item) => item.productId === action.payload
+        item => item.productId === action.payload
       );
       state.currentProduct = findIndex;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addCase(getSearchClothes.fulfilled, (state, action) => {
       state.searchData = action.payload.searchData;
       state.keyword = action.payload.searchQuery;

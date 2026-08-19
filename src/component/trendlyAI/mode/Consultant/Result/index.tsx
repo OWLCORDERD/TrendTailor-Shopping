@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import React, { useEffect, useMemo, useState } from "react";
-import { Trendly as CSS } from "@/styles";
-import Image from "next/image";
-import searchError from "@/assets/images/search-error.png";
-import { retryRecommendOpenAI } from "@/store/chatBubbleSlice";
-import { collection, doc, getDoc } from "firebase/firestore";
-import { db } from "@/shared/lib/firebase";
-import { keywordSearch } from "@/component/svgData";
-import Trendly from "@/component/trendlyAI/bubble/Trendly";
-import { FaPlus } from "react-icons/fa6";
-import NextImage from "@/component/common/NextImage";
-import { motion } from "framer-motion";
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Trendly as CSS } from '@/styles';
+import Image from 'next/image';
+import searchError from '@/assets/images/search-error.png';
+import { retryRecommendOpenAI } from '@/store/chatBubbleSlice';
+import { collection, doc, getDoc } from 'firebase/firestore';
+import { db } from '@/shared/lib/firebase';
+import { keywordSearch } from '@/component/svgData';
+import Trendly from '@/component/trendlyAI/bubble/Trendly';
+import { FaPlus } from 'react-icons/fa6';
+import NextImage from '@/component/common/NextImage';
+import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
 import loadingAnimation from '@/assets/lottie/list.json';
 
@@ -48,7 +48,7 @@ const Result = ({ docId }: any) => {
   useEffect(() => {
     if (searchFlag) return;
 
-    if (docId !== "" || docId !== undefined) {
+    if (docId !== '' || docId !== undefined) {
       setSearchFlag(true);
 
       getConsultingResult();
@@ -59,7 +59,7 @@ const Result = ({ docId }: any) => {
     setLoading(true);
 
     try {
-      const chatCollection = collection(db, "recent-chats");
+      const chatCollection = collection(db, 'recent-chats');
       const docRef = doc(chatCollection, docId);
 
       const snapShotDoc = await getDoc(docRef);
@@ -69,26 +69,26 @@ const Result = ({ docId }: any) => {
         setConsultingData(data as ResultTemplate);
       }
     } catch (err) {
-      console.error("컨설팅 결과 조회 오류:", err);
+      console.error('컨설팅 결과 조회 오류:', err);
     }
 
     setLoading(false);
   };
 
   const generateCreatingStatus = useAppSelector(
-    (state) => state.chatBubble.generateCreating
+    state => state.chatBubble.generateCreating
   );
 
   const resultMessage: messageType = useMemo(() => {
     if (loading) {
       return {
-        type: "chat",
-        content: "키워드 관련 의류 데이터를 조회 중입니다...",
-      }
+        type: 'chat',
+        content: '키워드 관련 의류 데이터를 조회 중입니다...',
+      };
     }
     const message = {
-      type: "chat",
-      content: "",
+      type: 'chat',
+      content: '',
     };
 
     if (
@@ -113,38 +113,38 @@ const Result = ({ docId }: any) => {
   const displayLabelType = (label: string) => {
     switch (label) {
       // 의류 종류 키워드
-      case "top":
-        return "상의";
-      case "bottom":
-        return "하의";
-      case "outer":
-        return "아우터";
+      case 'top':
+        return '상의';
+      case 'bottom':
+        return '하의';
+      case 'outer':
+        return '아우터';
       // 스타일 키워드
-      case "office":
-        return "오피스룩";
-      case "sportify":
-        return "스포티/운동룩";
-      case "street":
-        return "스트릿룩";
-      case "minimal":
-        return "미니멀룩";
-      case "vintage":
-        return "빈티지룩";
+      case 'office':
+        return '오피스룩';
+      case 'sportify':
+        return '스포티/운동룩';
+      case 'street':
+        return '스트릿룩';
+      case 'minimal':
+        return '미니멀룩';
+      case 'vintage':
+        return '빈티지룩';
       // 성별 키워드
-      case "female":
-        return "여성";
-      case "male":
-        return "남성";
-      case "default":
-        return "남녀공용";
+      case 'female':
+        return '여성';
+      case 'male':
+        return '남성';
+      case 'default':
+        return '남녀공용';
       // 추천 기준 키워드
-      case "cheap":
-        return "가성비";
-      case "popular":
-        return "인기";
+      case 'cheap':
+        return '가성비';
+      case 'popular':
+        return '인기';
       // 이외의 라벨은 가격선 라벨로 간주하여 처리
       default:
-        return `${label.split("0")[0]}만원 이하`;
+        return `${label.split('0')[0]}만원 이하`;
     }
   };
 
@@ -153,13 +153,13 @@ const Result = ({ docId }: any) => {
   const clothesDetailBtn = {
     btnEl: {
       initial: {
-        width: "40px",
-        height: "40px",
-        borderRadius: "50%",
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
       },
       animate: {
-        width: "150px",
-        borderRadius: "5px",
+        width: '150px',
+        borderRadius: '5px',
         transition: {
           staggerChildren: 0.2,
         },
@@ -167,18 +167,18 @@ const Result = ({ docId }: any) => {
     },
     iconEl: {
       initial: {
-        transform: "rotate(0deg)",
+        transform: 'rotate(0deg)',
       },
       animate: {
-        transform: "rotate(360deg)",
+        transform: 'rotate(360deg)',
       },
     },
     txtEl: {
       initial: {
-        display: "none",
+        display: 'none',
       },
       animate: {
-        display: "block",
+        display: 'block',
       },
     },
   };
@@ -186,31 +186,31 @@ const Result = ({ docId }: any) => {
   return (
     <CSS.RecommendResult>
       <CSS.ResultSection>
-        <div className='result-info'>
-          <span className='result-info-icon'>{keywordSearch.icon()}</span>
+        <div className="result-info">
+          <span className="result-info-icon">{keywordSearch.icon()}</span>
 
-          <h1 className='result-info-title'>회원님의 선택 키워드는</h1>
+          <h1 className="result-info-title">회원님의 선택 키워드는</h1>
 
-          <div className='select-keyword'>
-            <div className='select-keyword-item'>
-              <span className='index-title'>스타일 키워드</span>
+          <div className="select-keyword">
+            <div className="select-keyword-item">
+              <span className="index-title">스타일 키워드</span>
               {loading ? (
-                <ul className='keyword-list'>
-                  {Array.from({ length: 3}).map((_, index: number) => {
-                      return (
-                          <li className='keyword' key={index}>
-                              <div className='loader'></div>
-                          </li>
-                        );
+                <ul className="keyword-list">
+                  {Array.from({ length: 3 }).map((_, index: number) => {
+                    return (
+                      <li className="keyword" key={index}>
+                        <div className="loader"></div>
+                      </li>
+                    );
                   })}
                 </ul>
-              ): (
-                <ul className='keyword-list'>
+              ) : (
+                <ul className="keyword-list">
                   {consultingData?.user.QA_select.filter(
-                    (item) => Number(item.step) <= 2
+                    item => Number(item.step) <= 2
                   ).map((item, index) => {
                     return (
-                      <li className='keyword' key={index}>
+                      <li className="keyword" key={index}>
                         {displayLabelType(item.selectLabel)}
                       </li>
                     );
@@ -219,30 +219,30 @@ const Result = ({ docId }: any) => {
               )}
             </div>
 
-            <div className='select-keyword-item'>
-              <span className='index-title'>선별 기준 키워드</span>
+            <div className="select-keyword-item">
+              <span className="index-title">선별 기준 키워드</span>
               {loading ? (
-                <ul className='keyword-list'>
-                  {Array.from({ length: 3}).map((_, index: number) => {
-                      return (
-                          <li className='keyword' key={index}>
-                              <div className='loader'></div>
-                          </li>
-                      );
+                <ul className="keyword-list">
+                  {Array.from({ length: 3 }).map((_, index: number) => {
+                    return (
+                      <li className="keyword" key={index}>
+                        <div className="loader"></div>
+                      </li>
+                    );
                   })}
                 </ul>
-              ): (
-              <ul className='keyword-list'>
-                {consultingData?.user.QA_select.filter(
-                  (item) => Number(item.step) > 2
-                ).map((item, index) => {
-                  return (
-                    <li className='keyword' key={index}>
-                      {displayLabelType(item.selectLabel)}
-                    </li>
-                  );
-                })}
-              </ul>
+              ) : (
+                <ul className="keyword-list">
+                  {consultingData?.user.QA_select.filter(
+                    item => Number(item.step) > 2
+                  ).map((item, index) => {
+                    return (
+                      <li className="keyword" key={index}>
+                        {displayLabelType(item.selectLabel)}
+                      </li>
+                    );
+                  })}
+                </ul>
               )}
             </div>
           </div>
@@ -250,89 +250,96 @@ const Result = ({ docId }: any) => {
           <Trendly message={resultMessage} viewOnly={true} />
         </div>
 
-        <ul className='product-list'>
+        <ul className="product-list">
           {loading && (
-            <div className='loader-wrap'>
-              <Lottie animationData={loadingAnimation} loop={true} className='loading-animation'/>
-              <p className='loading-text'>키워드 관련 의류 데이터를 조회 중입니다...</p>
+            <div className="loader-wrap">
+              <Lottie
+                animationData={loadingAnimation}
+                loop={true}
+                className="loading-animation"
+              />
+              <p className="loading-text">
+                키워드 관련 의류 데이터를 조회 중입니다...
+              </p>
             </div>
           )}
-          {!loading && consultingData?.assistant.products.map((item, index) => {
-            return (
-              <li className='product-list-item' key={index}>
-                <div className='product-inner'>
-                  <div className='product-img'>
-                    <NextImage
-                      src={item.image}
-                      width={150}
-                      height={200}
-                      alt='추천 의류 이미지'
-                    />
-                  </div>
-
-                  <div className='product-info'>
-                    <div className='product-index'>
-                      <h1 className='product-title' title={item.title}>
-                        {item.title}
-                      </h1>
-
-                      <span className='product-maker'>{item.brand}</span>
+          {!loading &&
+            consultingData?.assistant.products.map((item, index) => {
+              return (
+                <li className="product-list-item" key={index}>
+                  <div className="product-inner">
+                    <div className="product-img">
+                      <NextImage
+                        src={item.thumbnail}
+                        width={150}
+                        height={200}
+                        alt="추천 의류 이미지"
+                      />
                     </div>
 
-                    <motion.button
-                      type='button'
-                      className='ai-recommend-btn'
-                      variants={clothesDetailBtn.btnEl}
-                      initial='initial'
-                      whileHover='animate'
-                      onClick={() => window.open(item.link, "_blank")}
-                    >
-                      <motion.div
-                        className='icon'
-                        variants={clothesDetailBtn.iconEl}
+                    <div className="product-info">
+                      <div className="product-index">
+                        <h1 className="product-title" title={item.title}>
+                          {item.title}
+                        </h1>
+
+                        <span className="product-maker">{item.brand}</span>
+                      </div>
+
+                      <motion.button
+                        type="button"
+                        className="ai-recommend-btn"
+                        variants={clothesDetailBtn.btnEl}
+                        initial="initial"
+                        whileHover="animate"
+                        onClick={() => window.open(item.link, '_blank')}
                       >
-                        <FaPlus />
-                      </motion.div>
-                      <motion.span
-                        className='txt'
-                        variants={clothesDetailBtn.txtEl}
-                      >
-                        의류 상세보기
-                      </motion.span>
-                    </motion.button>
+                        <motion.div
+                          className="icon"
+                          variants={clothesDetailBtn.iconEl}
+                        >
+                          <FaPlus />
+                        </motion.div>
+                        <motion.span
+                          className="txt"
+                          variants={clothesDetailBtn.txtEl}
+                        >
+                          의류 상세보기
+                        </motion.span>
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
       </CSS.ResultSection>
-      {generateCreatingStatus === "error" && (
+      {generateCreatingStatus === 'error' && (
         <CSS.ResultError>
           {/* 추천 컨설턴트 채널 검색 실패 시, 활성화 화면 */}
-          <div className='error-icon'>
+          <div className="error-icon">
             <Image
               src={searchError}
               width={140}
               height={140}
-              alt='검색 실패 아이콘'
+              alt="검색 실패 아이콘"
             />
           </div>
 
-          <div className='txt-wrap'>
-            <h1 className='error-txt'>
+          <div className="txt-wrap">
+            <h1 className="error-txt">
               서버 혹은 프롬프트 오류로 인해 <br />
               컨설턴트 검색에 실패하였습니다.
             </h1>
 
-            <span className='error-sub-txt'>
+            <span className="error-sub-txt">
               선택한 답변들로 다시 시도하시겠습니까?
             </span>
           </div>
 
           <button
-            type='button'
-            className='retry-btn'
+            type="button"
+            className="retry-btn"
             onClick={() => dispatch(retryRecommendOpenAI())}
           >
             재요청하기
@@ -340,7 +347,7 @@ const Result = ({ docId }: any) => {
         </CSS.ResultError>
       )}
     </CSS.RecommendResult>
-  )
+  );
 };
 
 export default Result;

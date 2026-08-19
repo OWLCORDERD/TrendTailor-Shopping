@@ -488,7 +488,7 @@ const Register = () => {
             modalOpen({
               title: "회원가입이 완료되었습니다.",
               type: "login",
-              description: `Trendtailer 회원이 되신걸 환영합니다!
+              content: `Trendtailer 회원이 되신걸 환영합니다!
               <br />
               로그인 페이지로 이동하시겠습니까?`,
             });
