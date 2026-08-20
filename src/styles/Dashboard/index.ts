@@ -161,14 +161,13 @@ Dashboard.Hero = styled.section`
       flex-direction: column;
       align-items: stretch;
       justify-content: center;
-      background: linear-gradient(
-        0deg,
-        rgba(10, 20, 64, 1) 0%,
-        rgba(51, 51, 51, 1) 100%,
-        rgba(0, 0, 0, 1) 50%
-      );
+      background: #111318;
 
       &__toolbar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -210,7 +209,7 @@ Dashboard.Hero = styled.section`
         padding: 8px 12px;
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.04);
+        background: var(--bg-elev);
         color: #fff;
         font-size: 13px;
         cursor: pointer;

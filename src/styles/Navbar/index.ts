@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { fontPacifico, fontRaleway } from "@/styles/fontFamilies";
 
 const Navbar: any = {};
 
@@ -49,7 +50,7 @@ Navbar.Logo = styled.div`
     .logo-title {
       font-weight: 400;
       font-size: 1.5rem;
-      font-family: "Pacifico", cursive;
+      font-family: ${fontPacifico};
       color: #fff;
       text-align: center;
     }
@@ -124,7 +125,7 @@ Navbar.LoginMenu = styled.div`
     span {
       line-height: 1.5rem;
       font-size: 10px;
-      font-family: "Raleway", sans-serif;
+      font-family: ${fontRaleway};
       font-weight: bold;
       text-transform: uppercase;
       cursor: pointer;
@@ -200,7 +201,7 @@ Navbar.Menu = styled.ul`
 
     a {
       width: max-content;
-      font-family: "Raleway", sans-serif;
+      font-family: ${fontRaleway};
       font-size: 12px;
       font-weight: bold;
       text-transform: uppercase;
@@ -258,7 +259,7 @@ Navbar.ResponsiveLogo = styled.div`
     & > h1 {
       font-weight: 500;
       font-size: 1.2rem;
-      font-family: "Pacifico", cursive;
+      font-family: ${fontPacifico};
       color: #fff;
       text-align: center;
     }

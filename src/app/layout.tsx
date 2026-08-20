@@ -1,35 +1,36 @@
-import type { Metadata } from "next";
-import AuthSession from "@/component/common/AuthSession";
-import { ThemeProvider } from "../../context/ThemeContext";
-import StyledComponentsRegistry from "./RootStyleRegistry";
-import ReduxProvider from "store/provider/Provider";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Footer from "component/Main/Footer";
-import QuickMenu from "component/Main/QuickMenu";
-import { ScrollToTop } from "@/hooks/ScrollToTop";
-import "./globals.scss";
-import SessionWatcher from "@/component/common/SessionWatcher";
-import { ModalProvider } from "../../context/ModalContext";
-import BreadCrumb from "@/component/common/BreadCrumb";
-import Navbar from "@/component/Main/Navbar";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import type { Metadata } from 'next';
+import AuthSession from '@/component/common/AuthSession';
+import { ThemeProvider } from '../../context/ThemeContext';
+import StyledComponentsRegistry from './RootStyleRegistry';
+import ReduxProvider from 'store/provider/Provider';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Footer from 'component/Main/Footer';
+import QuickMenu from 'component/Main/QuickMenu';
+import { ScrollToTop } from '@/hooks/ScrollToTop';
+import './globals.scss';
+import SessionWatcher from '@/component/common/SessionWatcher';
+import { ModalProvider } from '../../context/ModalContext';
+import BreadCrumb from '@/component/common/BreadCrumb';
+import Navbar from '@/component/Main/Navbar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './fonts';
 
 export const metadata: Metadata = {
-  title: "TrendTailor",
+  title: 'TrendTailor',
   openGraph: {
-    title: "TrendTailor, 트렌드를 재단해보세요.",
+    title: 'TrendTailor, 트렌드를 재단해보세요.',
     description:
-      "WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.",
+      'WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.',
   },
   description:
-    "WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.",
+    'TrendTailor 플랫폼은 매월 새로운 트렌드 키워드들을 제공하며 구글 쇼핑 검색 엔진을 통해 트렌드 의류와 그 외의 정보를 공유하는 포트폴리오 플랫폼 사이트입니다.',
   verification: {
-    google: "Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0",
+    google: 'Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0',
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: '/favicon.ico',
   },
 };
 
@@ -50,14 +51,14 @@ export default function RootLayout({
           {/* 스타일 컴포넌트 SSR Preload 레지스트리 */}
           <StyledComponentsRegistry>
             {/* 스크롤 상단 이동 */}
-            <ScrollToTop type='routeMove' />
-            <html lang='ko'>
+            <ScrollToTop type="routeMove" />
+            <html lang="ko">
               <body>
                 <ToastContainer />
                 <ModalProvider>
                   <ThemeProvider>
                     <Navbar />
-                    <main className='page' id='page-root'>
+                    <main className="page" id="page-root">
                       <BreadCrumb />
                       <QuickMenu />
                       {children}

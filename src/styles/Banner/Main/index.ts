@@ -1,5 +1,6 @@
 import { styled, StyledObject } from "styled-components";
 import { motion } from "framer-motion";
+import { fontPacifico, fontRaleway } from "@/styles/fontFamilies";
 
 const MainBanner: any = {};
 const KeywordPreviewMotion = {
@@ -85,13 +86,13 @@ MainBanner.Index = styled.div`
 `;
 
 MainBanner.Title = styled.h1`
-  font-family: "Pacifico", cursive;
+  font-family: ${fontPacifico};
   font-size: 50px;
   font-weight: bold;
 `;
 
 MainBanner.Subtitle = styled.p`
-  font-family: "Raleway", sans-serif;
+  font-family: ${fontRaleway};
   font-size: 24px;
   line-height: 1.5;
   font-weight: bold;
@@ -125,7 +126,7 @@ MainBanner.TimelineControl = styled.div`
   width: 100%;
 
   .timeline-title {
-    font-family: "Raleway", sans-serif;
+    font-family: ${fontRaleway};
     font-size: 18px;
     text-transform: uppercase;
     color: #fff;
@@ -171,7 +172,7 @@ MainBanner.TimelineItem = styled.li`
       font-size: 22px;
       text-transform: uppercase;
       font-weight: bold;
-      font-family: "Raleway", sans-serif;
+      font-family: ${fontRaleway};
     }
 
     .timeline-kr {
@@ -314,7 +315,7 @@ MainBanner.FilterTab = styled.div`
     border-bottom: 2px solid transparent;
     color: rgba(205, 205, 205, 0.5);
     font-size: 14px;
-    font-family: "Raleway", sans-serif;
+    font-family: ${fontRaleway};
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s ease-in-out;

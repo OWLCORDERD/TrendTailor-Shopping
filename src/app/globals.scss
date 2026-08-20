@@ -1,26 +1,23 @@
-@use "tokens" as *;
-@use "mixin" as *;
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Unbounded:wght@200..900&display=swap");
+@use 'tokens' as *;
+@use 'mixin' as *;
 
 @font-face {
-  font-family: "TheJamsil";
-  src: url("/fonts/TheJamsil-Regular.ttf") format("woff2");
+  font-family: 'TheJamsil';
+  src: url('/fonts/TheJamsil-Regular.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "TheJamsil";
-  src: url("/fonts/TheJamsil-Medium.ttf") format("woff2");
+  font-family: 'TheJamsil';
+  src: url('/fonts/TheJamsil-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "TheJamsil";
-  src: url("/fonts/TheJamsil-Bold.ttf") format("woff2");
+  font-family: 'TheJamsil';
+  src: url('/fonts/TheJamsil-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
@@ -41,8 +38,7 @@
     &:has(.notice-container),
     &:has(.login-container),
     &:has(.signup-container),
-    &:has(.product-detail)
-    &:has(.trendly-container) {
+    &:has(.product-detail) &:has(.trendly-container) {
       background: $color-white;
 
       header {

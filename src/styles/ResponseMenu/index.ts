@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { fontPacifico } from "@/styles/fontFamilies";
 
 const ResponseMenu: any = {};
 
@@ -36,7 +37,7 @@ ResponseMenu.Header = styled.div`
     h1 {
       font-weight: 400;
       font-size: 1.2rem;
-      font-family: "Pacifico", cursive;
+      font-family: ${fontPacifico};
       color: var(--colorMain);
       text-align: center;
     }
