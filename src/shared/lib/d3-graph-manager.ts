@@ -14,6 +14,7 @@ export interface GraphNode extends d3.SimulationNodeDatum {
   reviews?: number;
   thumbnail?: string;
   link?: string;
+  brandTotalCount?: number;
 }
 
 export interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
@@ -62,14 +63,14 @@ export class D3TrendGraphManager {
     // Zoom Container 생성
     this.gContainer = svg.append('g').attr('class', 'graph-container');
 
-    const zoom = d3
-      .zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.2, 4])
-      .on('zoom', event => {
-        this.gContainer?.attr('transform', event.transform);
-      });
+    // const zoom = d3
+    //   .zoom<SVGSVGElement, unknown>()
+    //   .scaleExtent([0.2, 4])
+    //   .on('zoom', event => {
+    //     this.gContainer?.attr('transform', event.transform);
+    //   });
 
-    svg.call(zoom as any);
+    // svg.call(zoom as any);
   }
 
   /**
@@ -164,6 +165,72 @@ export class D3TrendGraphManager {
       .attr('font-size', d => (d.type === 'keyword' ? '14px' : '11px'))
       .attr('font-weight', d => (d.type === 'keyword' ? 'bold' : 'normal'));
 
+    // 키워드 노드 상세 정보 툴팁 레이어
+    const tooltipLayer = this.gContainer
+      .append('g')
+      .attr('class', 'keyword-tooltip-layer')
+      .style('pointer-events', 'none');
+
+    // 툴팁 너비/높이
+    const tooltipWidth = 200;
+    const tooltipHeight = 72;
+
+    // 툴팁 레이어 전체 제거
+    const hideTooltip = () => {
+      tooltipLayer.selectAll('*').remove();
+    };
+
+    // 현재 키워드 노드 툴팁 렌더링
+    const showTooltip = (d: GraphNode) => {
+      const x = (d.x ?? 0) - tooltipWidth / 2;
+      const y = (d.y ?? 0) - d.val - tooltipHeight - 8;
+
+      // 툴팁 레이어 내 foreignObject 조회
+      let foreignObject =
+        tooltipLayer.select<SVGForeignObjectElement>('foreignObject');
+
+      // 현재 생성된 툴팁 레이어 내 foreignObject 없을 시
+      if (foreignObject.empty()) {
+        // 툴팁 레이어 내 foreignObject 생성
+        foreignObject = tooltipLayer
+          .append('foreignObject')
+          .attr('width', tooltipWidth)
+          .attr('height', tooltipHeight);
+
+        const infoList = foreignObject
+          .append('xhtml:ul')
+          .attr(
+            'style',
+            'box-sizing: border-box; width: 100%; height: 100%; margin: 0; list-style: none; background-color: #111; padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 14px; line-height: 1.6;'
+          );
+
+        infoList.append('li').attr('class', 'clothes-count');
+        infoList.append('li').attr('class', 'brand-count');
+      }
+
+      foreignObject.attr('x', x).attr('y', y);
+      foreignObject
+        .select('.clothes-count')
+        .text(`총 의류 수: ${d.clothesCount ?? 0}`);
+      foreignObject
+        .select('.brand-count')
+        .text(`총 브랜드 수: ${d.brandTotalCount ?? 0}`);
+    };
+
+    let hoveredNode: GraphNode | null = null;
+
+    node
+      .on('mouseenter', function (_, d) {
+        hoveredNode = d;
+        d3.select(this).raise();
+        tooltipLayer.raise();
+        showTooltip(d);
+      })
+      .on('mouseleave', () => {
+        hoveredNode = null;
+        hideTooltip();
+      });
+
     // 4. Tick 이벤트로 위치 갱신
     this.simulation.on('tick', () => {
       nodes.forEach(d => {
@@ -179,6 +246,10 @@ export class D3TrendGraphManager {
         .attr('y2', (d: any) => d.target.y);
 
       node.attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+      if (hoveredNode) {
+        showTooltip(hoveredNode);
+      }
     });
   }
 

@@ -9,7 +9,13 @@ import { db } from '@/shared/lib/firebase';
 import { D3TrendGraphManager } from '@/shared/lib/d3-graph-manager';
 import { collection, getDocs } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { PiGraph } from 'react-icons/pi';
 import { ModalContext } from '../../../../context/ModalContext';
 
@@ -235,8 +241,8 @@ const KeywordForceGraph = () => {
 
         {graphMeta && (
           <span className="keyword-force-graph__toolbar-meta">
-            {rankRangeLabel} · {graphMeta.nodeCount}노드 · {graphMeta.linkCount}
-            링크 · 전체 {graphMeta.totalKeywords}키워드
+            {rankRangeLabel} · 키워드 연관 링크 {graphMeta.linkCount}개 · 전체
+            키워드 {graphMeta.totalKeywords}개
           </span>
         )}
       </div>

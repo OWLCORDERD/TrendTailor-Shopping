@@ -7,7 +7,6 @@ Dashboard.PageHeader = styled.section`
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 32px;
-  gap: 32px;
 
   .index {
     &__title {
@@ -53,6 +52,64 @@ Dashboard.PageHeader = styled.section`
           vertical-align: middle;
           font-weight: 700;
           color: #fff;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1250px) {
+    .index {
+      &__title {
+        font-size: 3rem;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .index {
+      &__title {
+        max-width: 320px;
+        word-break: keep-all;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+
+        strong {
+          color: var(--accent);
+        }
+
+        &:hover {
+          strong {
+            color: var(--accent-hover);
+          }
+        }
+      }
+    }
+
+    .page-sub {
+      .count {
+        display: flex;
+        align-items: center;
+        margin-top: 16px;
+        gap: 8px;
+
+        .count-item {
+          font-size: 12px;
+          color: var(--text-muted);
+
+          &__label {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: 500;
+            margin-right: 5px;
+          }
+
+          &__value {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: 700;
+            color: #fff;
+          }
         }
       }
     }
@@ -112,6 +169,14 @@ Dashboard.KPIGraphItem = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 750px) {
+    .kpi {
+      &__value {
+        font-size: 18px;
+      }
+    }
+  }
 `;
 
 Dashboard.Hero = styled.section`
@@ -129,6 +194,11 @@ Dashboard.Hero = styled.section`
     border-radius: var(--r-lg);
     overflow: hidden;
     min-height: 680px;
+
+    @media screen and (max-width: 1040px) {
+      display: flex;
+      flex-direction: column;
+    }
 
     .hero-left {
       padding: 32px;
@@ -151,6 +221,23 @@ Dashboard.Hero = styled.section`
         color: var(--text-muted);
         font-size: 14px;
         line-height: 1.6;
+      }
+
+      .hero-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        line-height: 100%;
+        max-width: 350px;
+        padding: 15px 12px;
+        font-size: 13px;
+        color: #fff;
+        background: var(--accent);
+        transition: ease-in-out 0.2s;
+
+        &:hover {
+          background: var(--accent-hover);
+        }
       }
     }
 
@@ -237,6 +324,10 @@ Dashboard.Hero = styled.section`
       &__container {
         width: 100%;
         height: 100%;
+
+        @media screen and (max-width: 1040px) {
+          min-height: 680px;
+        }
       }
 
       .sample-block {
@@ -351,7 +442,7 @@ Dashboard.Section = styled.section`
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
   overflow: hidden;
-  margin-bottom: 32px;
+  margin: 32px 0;
 
   &:has(.banner) {
     background: transparent;
@@ -391,6 +482,17 @@ Dashboard.Section = styled.section`
           color: var(--text);
           font-size: 16px;
           line-height: 1.6;
+        }
+
+        @media screen and (max-width: 1250px) {
+          &__title {
+            font-size: 20px;
+          }
+
+          &__desc {
+            max-width: 100%;
+            font-size: 13px;
+          }
         }
       }
 

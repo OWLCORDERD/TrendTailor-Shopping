@@ -172,6 +172,7 @@ export class BuildGraphJob {
       val: Math.max(30, 25 + Math.log10(item.totalReviews + 1) * 8),
       clothesCount: item.count,
       topBrands: Array.from(item.brands).slice(0, 5),
+      brandTotalCount: item.brands.size,
     }));
   }
 
