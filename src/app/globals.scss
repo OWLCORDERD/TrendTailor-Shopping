@@ -38,7 +38,9 @@
     &:has(.notice-container),
     &:has(.login-container),
     &:has(.signup-container),
-    &:has(.product-detail) &:has(.trendly-container) {
+    &:has(.product-detail),
+    &:has(.trendly-container),
+    &:has(.current-NoticeBoard) {
       background: $color-white;
 
       header {
@@ -57,7 +59,8 @@
       &:has(.login-container),
       &:has(.signup-container),
       &:has(.product-detail),
-      &:has(.trendly-container) {
+      &:has(.trendly-container),
+      &:has(.current-NoticeBoard) {
         max-width: 100%;
         padding: 0;
       }
