@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 const QuickMenu: any = {};
 
@@ -7,20 +7,17 @@ QuickMenu.Menu = styled.ul`
   flex-direction: column;
   gap: 15px;
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--bg-card);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
-  font-family: "TheJamsil", sans-serif;
+  font-family: 'TheJamsil', sans-serif;
   border-radius: 20px;
+  border: 1px solid var(--border);
 
   .menu-item {
     width: 100%;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #f8f9fa;
-    }
 
     a {
       display: flex;
@@ -31,7 +28,7 @@ QuickMenu.Menu = styled.ul`
       padding: 10px;
       font-size: 1rem;
       font-weight: 500;
-      color: #333;
+      color: #fff;
       text-decoration: none;
 
       .menu-icon {

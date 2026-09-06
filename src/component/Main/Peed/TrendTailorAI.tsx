@@ -5,9 +5,10 @@ import { TrendTailorAI as CSS } from '@/styles/Peed/TrendTailorAI';
 import { FaUser } from 'react-icons/fa';
 import NextImage from '@/component/common/NextImage';
 import { keywordSearch } from '@/component/svgData';
-import chatbotImg from '@/assets/images/chatbot.png';
-import sampleResultList from '@/assets/images/consultant/clothes-list.png';
-import sampleResultNav from '@/assets/images/consultant/navigator.png';
+import chatbotImg from '@/assets/images/chatbot-2.png';
+// import sampleResultList from '@/assets/images/consultant/clothes-list.png';
+// import sampleResultNav from '@/assets/images/consultant/navigator.png';
+import sampleResult from '@/assets/images/consultant/consultant-renewal.png';
 import SystemLabel from '@/component/Dashboard/ui/SystemLabel';
 
 const TrendTailorAI = () => {
@@ -144,18 +145,13 @@ const TrendTailorAI = () => {
           </CSS.AgentBubble>
         </CSS.SampleChat>
 
-        <CSS.SampleResult variants={elementByMotion.sampleResult}>
+        {/* <CSS.SampleResult variants={elementByMotion.sampleResult}>
           <NextImage
-            src={sampleResultNav}
+            src={sampleResult}
             alt="트랜드 컨설팅 결과 이미지"
-            width={280}
+            width={650}
           />
-          <NextImage
-            src={sampleResultList}
-            alt="트랜드 컨설팅 결과 이미지"
-            width={420}
-          />
-        </CSS.SampleResult>
+        </CSS.SampleResult> */}
       </CSS.Contents>
     </CSS.Container>
   );

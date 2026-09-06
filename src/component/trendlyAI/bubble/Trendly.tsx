@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import { Trendly as CSS } from "@/styles";
-import chatbotImg from "@/assets/images/chatbot.png";
-import Image from "next/image";
-import { questionIcon } from "@/component/svgData";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import React, { useState } from 'react';
+import { Trendly as CSS } from '@/styles';
+import chatbotImg from '@/assets/images/chatbot.png';
+import Image from 'next/image';
+import { questionIcon } from '@/component/svgData';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   changeMode,
   handleSurveySelect,
   nextStep,
-} from "@/store/chatBubbleSlice";
-import { IoIosArrowDown } from "react-icons/io";
-import ErrorModal from "@/component/common/modal/Error";
+  searchTrendKeywords,
+} from '@/store/chatBubbleSlice';
+import { IoIosArrowDown } from 'react-icons/io';
+import ErrorModal from '@/component/common/modal/Error';
 
 interface messageType {
   type: string;
@@ -22,7 +23,7 @@ interface messageType {
 interface selectOptions {
   step: number;
   selectLabel: string;
-};
+}
 
 const Trendly = ({
   message,
@@ -31,20 +32,21 @@ const Trendly = ({
   message: string | messageType;
   viewOnly?: boolean;
 }) => {
-  const QAstep = useAppSelector((state) => state.chatBubble.QA_step);
-  const QAselect = useAppSelector((state) => state.chatBubble.QA_select);
+  const QAstep = useAppSelector(state => state.chatBubble.QA_step);
+  const QAselect = useAppSelector(state => state.chatBubble.QA_select);
+  const messages = useAppSelector(state => state.chatBubble.messages);
   const dispatch = useAppDispatch();
 
-  const [directlyInput, setDirectlyInput] = useState<string>("");
+  const [directlyInput, setDirectlyInput] = useState<string>('');
 
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>('');
 
   const directlyInputUpdate = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    if (directlyInput.trim() === "") {
-      setError("answer-error");
+    if (directlyInput.trim() === '') {
+      setError('answer-error');
       return;
     }
 
@@ -52,7 +54,7 @@ const Trendly = ({
       const surveySelect: selectOptions = {
         step: message.content.step,
         selectLabel: directlyInput,
-      } 
+      };
 
       await dispatch(
         handleSurveySelect({
@@ -63,20 +65,26 @@ const Trendly = ({
     }
   };
 
-  const nextQuestionStep = () => {
+  // 2026.09.06. 챗봇 컨설팅 모드 설문 시작 함수
+  const nextQuestionStep = async () => {
+    // 시작 시, 전체 수집된 트렌드 키워드 목록 조회하여 전역 상태 저장
+    await dispatch(searchTrendKeywords());
+    // 질문 1단계 활성화
     dispatch(nextStep());
   };
 
   const selectQuestion = (cont: string) => {
     const currentSelect: any = {};
 
-    // 채팅 전용 메시지가 아닌 설문 단계별 선택 메시지인 경우 
+    // 채팅 전용 메시지가 아닌 설문 단계별 선택 메시지인 경우
     if (typeof message !== 'string') {
       currentSelect.step = message.content.step;
       currentSelect.selectLabel = cont;
-    };
+    }
 
     dispatch(handleSurveySelect(currentSelect));
+
+    console.log('메시지 목록', messages);
   };
 
   const stepSelectDisabled = (currentStep: number, selectLabel: string) => {
@@ -84,14 +92,14 @@ const Trendly = ({
 
     return (
       QAselect.find((item: any) => item.step === currentStep)?.selectLabel !==
-        "" &&
+        '' &&
       QAselect.find((item: any) => item.step === message.content.step)
         ?.selectLabel !== selectLabel
     );
   };
 
   const introMode: any = {
-    mode: "intro",
+    mode: 'intro',
   };
 
   return (
@@ -101,33 +109,33 @@ const Trendly = ({
         <CSS.ChatBotBubble>
           <CSS.BubbleWrap>
             <CSS.ChatBotIcon>
-              <Image src={chatbotImg} alt='Chat Bot Icon' />
+              <Image src={chatbotImg} alt="Chat Bot Icon" />
             </CSS.ChatBotIcon>
             <CSS.ChatBotMessage>{message}</CSS.ChatBotMessage>
           </CSS.BubbleWrap>
         </CSS.ChatBotBubble>
       )}
       {/* 챗봇 답변 영역 */}
-      {typeof message !== 'string' && message.type === "chat" && (
+      {typeof message !== 'string' && message.type === 'chat' && (
         <CSS.ChatBotBubble>
           <CSS.BubbleWrap>
             <CSS.ChatBotIcon>
-              <Image src={chatbotImg} alt='Chat Bot Icon' />
+              <Image src={chatbotImg} alt="Chat Bot Icon" />
             </CSS.ChatBotIcon>
             <CSS.ChatBotMessage>{message.content}</CSS.ChatBotMessage>
           </CSS.BubbleWrap>
           {QAstep === 0 && !viewOnly && (
-            <div className='btn-wrap'>
+            <div className="btn-wrap">
               <button
-                type='button'
-                className='start-btn'
+                type="button"
+                className="start-btn"
                 onClick={() => nextQuestionStep()}
               >
                 시작하기
               </button>
               <button
-                type='button'
-                className='exit-btn'
+                type="button"
+                className="exit-btn"
                 onClick={() => dispatch(changeMode(introMode.mode))}
               >
                 돌아가기
@@ -137,25 +145,25 @@ const Trendly = ({
         </CSS.ChatBotBubble>
       )}
       {/* 챗봇 질문 선택 영역 */}
-      {typeof message !== 'string' && message.type === "question" && (
-        <CSS.ChatBotQuestion class='title'>
+      {typeof message !== 'string' && message.type === 'question' && (
+        <CSS.ChatBotQuestion class="title">
           <CSS.QuestionTitle>
-            <span className='question-icon'>{questionIcon.icon()}</span>
+            <span className="question-icon">{questionIcon.icon()}</span>
             {message.content.title}
           </CSS.QuestionTitle>
           {/* 질문 선택 옵션 목록 */}
           {QAselect.find((item: any) => item.step === message.content.step)
-            ?.selectLabel === "etc" && (
+            ?.selectLabel === 'etc' && (
             <CSS.UserDirectInput>
               <input
-                type='text'
+                type="text"
                 placeholder={message.content.placeholder}
-                onChange={(e) => setDirectlyInput(e.target.value)}
+                onChange={e => setDirectlyInput(e.target.value)}
               />
               <button
-                type='button'
-                className='submit-btn'
-                onClick={(e) => directlyInputUpdate(e)}
+                type="button"
+                className="submit-btn"
+                onClick={e => directlyInputUpdate(e)}
               >
                 다음 단계로 이동
               </button>
@@ -184,9 +192,9 @@ const Trendly = ({
           </CSS.QuestionOptions>
         </CSS.ChatBotQuestion>
       )}
-      {error === "answer-error" && (
+      {error === 'answer-error' && (
         <ErrorModal
-          errorMessage='답변을 입력해야 다음 단계로 넘어갈 수 있습니다.'
+          errorMessage="답변을 입력해야 다음 단계로 넘어갈 수 있습니다."
           setError={setError}
         />
       )}

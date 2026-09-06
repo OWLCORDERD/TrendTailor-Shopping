@@ -1,24 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Trendly as CSS } from "@/styles";
-import TrendlyBubble from "@/component/trendlyAI/bubble/Trendly";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import UserBubble from "@/component/trendlyAI/bubble/User";
-import { warningIcon } from "@/component/svgData";
-import Loading from "./Loading";
-import Result from "./Result";
-import { chatClose, recommendResultSession } from "@/store/chatBubbleSlice";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from 'react';
+import { Trendly as CSS } from '@/styles';
+import TrendlyBubble from '@/component/trendlyAI/bubble/Trendly';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import UserBubble from '@/component/trendlyAI/bubble/User';
+import { warningIcon } from '@/component/svgData';
+import Loading from './Loading';
+import Result from './Result';
+import { chatClose, recommendResultSession } from '@/store/chatBubbleSlice';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { PiWarningCircle } from 'react-icons/pi';
 
 const Consultant = () => {
-  const messages = useAppSelector((state) => state.chatBubble.messages);
-  const QA_step = useAppSelector((state) => state.chatBubble.QA_step);
+  const messages = useAppSelector(state => state.chatBubble.messages);
+  const QA_step = useAppSelector(state => state.chatBubble.QA_step);
   const generateRecommendation = useAppSelector(
-    (state) => state.chatBubble.generateCreating
+    state => state.chatBubble.generateCreating
   );
   // 컨설팅 챗봇 결과 응답 데이터
   const consultingResultData = useAppSelector(
-    (state) => state.chatBubble.consultingResultData
+    state => state.chatBubble.consultingResultData
   );
 
   const chatArea = useRef<HTMLDivElement>(null);
@@ -32,7 +33,7 @@ const Consultant = () => {
       if (chatArea.current) {
         chatArea.current.scrollTo({
           top: chatArea.current.scrollHeight,
-          behavior: "smooth",
+          behavior: 'smooth',
         });
       }
     }
@@ -41,11 +42,11 @@ const Consultant = () => {
   // 2025.08.26: 컨설팅 모드 상태에 따른 화면 전환 관리
   const dynamicChatScreen = () => {
     switch (generateRecommendation) {
-      case "before":
+      case 'before':
         return (
-          <div className='chat-area' ref={chatArea}>
+          <div className="chat-area" ref={chatArea}>
             {messages.map((message: messagesType, index: number) => {
-              return message.role === "user" ? (
+              return message.role === 'user' ? (
                 <UserBubble message={message.message} key={index} />
               ) : (
                 <TrendlyBubble message={message.message} key={index} />
@@ -54,15 +55,15 @@ const Consultant = () => {
             {/* 챗봇 채팅창 영역 */}
           </div>
         );
-      case "creating":
+      case 'creating':
         return <Loading />;
-      case "complete":
+      case 'complete':
         dispatch(chatClose());
-      case "error":
+      case 'error':
         return (
-          <div className='chat-area' ref={chatArea}>
+          <div className="chat-area" ref={chatArea}>
             {messages.map((message: messagesType, index: number) => {
-              return message.role === "user" ? (
+              return message.role === 'user' ? (
                 <UserBubble message={message.message} key={index} />
               ) : (
                 <TrendlyBubble message={message.message} key={index} />
@@ -94,8 +95,8 @@ const Consultant = () => {
       {dynamicChatScreen()}
 
       <CSS.WarningText>
-        <span className='warning-icon'>{warningIcon.icon()}</span>
-        <span className='warning-txt'>
+        <PiWarningCircle className="warning-icon" />
+        <span className="warning-txt">
           챗봇의 안내에 따라 설문조사에 답변해주세요.
           <br />
           결과는 서버 상태에 따라 최대 몇분 소요될 수 있습니다.

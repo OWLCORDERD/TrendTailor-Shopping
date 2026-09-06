@@ -72,13 +72,13 @@ const ChatContainer = () => {
       return;
     } else {
       // 로그인 사용자일 시, 컨설턴트 모드 변경
-      modalOpen?.({
-        title: '컨설팅 챗봇 리뉴얼 안내',
-        content:
-          '의류 데이터 수집 환경 개선으로 인해 챗봇 리뉴얼 개발 진행중입니다. 더 개선된 기능으로 찾아뵙겠습니다. 감사합니다.',
-        type: 'construction',
-      });
-      // dispatch(changeMode(modePayload));
+      // modalOpen?.({
+      //   title: '컨설팅 챗봇 리뉴얼 안내',
+      //   content:
+      //     '의류 데이터 수집 환경 개선으로 인해 챗봇 리뉴얼 개발 진행중입니다. 더 개선된 기능으로 찾아뵙겠습니다. 감사합니다.',
+      //   type: 'construction',
+      // });
+      dispatch(changeMode(modePayload));
     }
   };
 

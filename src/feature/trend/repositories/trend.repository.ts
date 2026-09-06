@@ -1,5 +1,5 @@
-import { createTrendSlug } from "@/feature/slug/keyword-slug";
-import { db } from "@/shared/lib/firebase";
+import { createTrendSlug } from '@/feature/slug/keyword-slug';
+import { db } from '@/shared/lib/firebase';
 import {
   collection,
   doc,
@@ -13,7 +13,7 @@ import {
   updateDoc,
   where,
   writeBatch,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
 export interface trendKeywordsType {
   name: string;
@@ -22,6 +22,7 @@ export interface trendKeywordsType {
   category: string;
   confidence: number;
   season: string[];
+  slug: string;
   relatedStyles: {
     name: string;
     score: number;
@@ -53,7 +54,7 @@ type ExistingKeyword = {
  * 2026.07.25 트랜드 키워드 컬렉션 관리 리포지토리
  */
 export class TrendKeywordRepository {
-  private readonly collection = "trend-keywords";
+  private readonly collection = 'trend-keywords';
 
   // 1. 조회된 트랜드 키워드 중복체크 함수
   // - 트랜드 키워드 컬렉션 내부 조회된 키워드 slug명과 일치하는 키워드 문서 체크
@@ -72,7 +73,7 @@ export class TrendKeywordRepository {
 
     // 2. 키워드명(name) 일치 조회
     const nameSnap = await getDocs(
-      query(colRef, where("name", "==", trendKeyword.name), limit(1))
+      query(colRef, where('name', '==', trendKeyword.name), limit(1))
     );
     if (!nameSnap.empty) {
       const found = nameSnap.docs[0];
@@ -83,7 +84,7 @@ export class TrendKeywordRepository {
     const candidates = Array.from(
       new Set(
         [trendKeyword.name, ...trendKeyword.aliases]
-          .map((v) => v.trim())
+          .map(v => v.trim())
           .filter(Boolean)
       )
     ).slice(0, 10);
@@ -93,7 +94,7 @@ export class TrendKeywordRepository {
     }
 
     const nameInSnap = await getDocs(
-      query(colRef, where("name", "in", candidates), limit(1))
+      query(colRef, where('name', 'in', candidates), limit(1))
     );
     if (!nameInSnap.empty) {
       const found = nameInSnap.docs[0];
@@ -101,7 +102,11 @@ export class TrendKeywordRepository {
     }
 
     const aliasesSnap = await getDocs(
-      query(colRef, where("aliases", "array-contains-any", candidates), limit(1))
+      query(
+        colRef,
+        where('aliases', 'array-contains-any', candidates),
+        limit(1)
+      )
     );
     if (!aliasesSnap.empty) {
       const found = aliasesSnap.docs[0];
@@ -132,10 +137,10 @@ export class TrendKeywordRepository {
       let created = 0;
       let updated = 0;
       let skipped = 0;
-  
+
       for (const trendKeyword of trendKeywords) {
         const slug = createTrendSlug(trendKeyword);
-  
+
         if (!slug) {
           console.error(
             `영문 alias가 없어 slug를 생성할 수 없습니다. name=${trendKeyword.name}`
@@ -143,10 +148,13 @@ export class TrendKeywordRepository {
           skipped += 1;
           continue;
         }
-  
+
         const existing = await this.findExistingKeyword(trendKeyword, slug);
-        const payload = this.buildKeywordPayload(trendKeyword, existing?.slug ?? slug);
-  
+        const payload = this.buildKeywordPayload(
+          trendKeyword,
+          existing?.slug ?? slug
+        );
+
         if (existing) {
           await updateDoc(existing.ref, payload);
           updated += 1;
@@ -158,13 +166,13 @@ export class TrendKeywordRepository {
           created += 1;
         }
       }
-  
+
       return { success: true as const, created, updated, skipped };
     } catch (err) {
       console.error(err);
       return { success: false as const, err };
     }
-  };
+  }
 
   // 트랜드 키워드 컬렉션에 저장된 문서 전체 조회하여 검색 쿼리 반환
   async getTrendKeywordDocs() {
@@ -176,7 +184,7 @@ export class TrendKeywordRepository {
       return [];
     }
 
-    return getColRefDocs.docs.map((doc) => {
+    return getColRefDocs.docs.map(doc => {
       return {
         name: doc.data().name,
         aliases: doc.data().aliases,
@@ -188,14 +196,14 @@ export class TrendKeywordRepository {
         },
       };
     }) as searchKeywordType[];
-  };
+  }
 }
 
 /**
  * 2026.07.25 트랜드 의류 컬렉션 관리 리포지토리
  */
 export class TrendClothesRepository {
-  private readonly collection = "clothes";
+  private readonly collection = 'clothes';
   // Firestore writeBatch 최대 500건. 여유를 두고 400건씩 커밋
   private readonly batchSize = 400;
 
@@ -254,7 +262,7 @@ export class TrendClothesRepository {
       console.error(err);
       return { success: false as const, err };
     }
-  };
+  }
 
   // 트랜드 키워드 컬렉션에 저장된 문서 전체 조회하여 검색 쿼리 반환
   async getClothesDocs() {
@@ -266,10 +274,10 @@ export class TrendClothesRepository {
       return [];
     }
 
-    return getColRefDocs.docs.map((doc) => {
+    return getColRefDocs.docs.map(doc => {
       return {
         ...doc.data(),
       };
     }) as trendClothes[];
-  };
+  }
 }

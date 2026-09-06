@@ -197,9 +197,10 @@ footer {
     bottom: 50px;
     max-width: 500px;
     height: 650px;
-    background-color: #fff;
+    background-color: var(--colorMain);
     border-radius: 20px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--border);
 
     .modal-header {
       display: flex;
@@ -215,7 +216,7 @@ footer {
         text-align: center;
         font-size: 28px;
         background-color: transparent;
-        color: #000;
+        color: #fff;
         border: none;
       }
 
@@ -226,7 +227,7 @@ footer {
         border: none;
         background: transparent;
         padding: 5px 10px;
-        color: #3d3d3d;
+        color: #fff;
         font-size: 14px;
         font-weight: 500;
         font-family: ${fontJamsil};
@@ -257,10 +258,10 @@ footer {
         text-align: center;
         font-size: 28px;
         background-color: transparent;
-        color: #000;
+        color: #fff;
         border: none;
         border-radius: 50%;
-        box-shadow: 0 0 2px inset rgba(0, 0, 0, 0.8);
+        box-shadow: 0 0 2px inset rgba(255, 255, 255, 0.8);
       }
     }
   }

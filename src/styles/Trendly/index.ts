@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Trendly: any = {};
 
@@ -10,7 +10,7 @@ Trendly.Intro = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  font-family: "TheJamsil", sans-serif;
+  font-family: 'TheJamsil', sans-serif;
   padding: 30px 30px 0 30px;
 
   .character {
@@ -42,17 +42,17 @@ Trendly.Intro = styled.div`
         width: 100%;
         padding: 10px 20px;
         box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+        background-color: var(--bg-card);
         border-radius: 20px;
-        border: 1px solid rgb(188, 188, 188);
-        background-color: #fff;
+        border: 1px solid var(--border);
 
         & > span {
           display: block;
           width: 100%;
           font-size: 13px;
-          font-weight: bold;
-          color: var(--subTxtColor);
-          text-align: center;
+          font-weight: 500;
+          color: #fff;
+          word-break: keep-all;
         }
       }
     }
@@ -64,6 +64,7 @@ Trendly.Intro = styled.div`
     .intro-comment {
       width: 100%;
       padding: 20px 0 30px 0;
+      color: #fff;
 
       .title {
         display: block;
@@ -89,6 +90,7 @@ Trendly.Intro = styled.div`
         margin-bottom: 2rem;
         font-size: 16px;
         text-align: center;
+        color: #fff;
       }
 
       .menu-btn {
@@ -103,19 +105,19 @@ Trendly.Intro = styled.div`
         cursor: pointer;
         transition: all 0.2s ease-in-out;
         margin-bottom: 1.5rem;
+        border: none;
 
         &:nth-child(1) {
-          color: var(--colorMain);
-          border: 2px solid var(--colorMain);
+          color: #fff;
+          background-color: var(--accent);
           margin-bottom: 20px;
 
           & > svg {
-            fill: var(--colorMain);
+            fill: #fff;
           }
 
           &:hover {
             color: #fff;
-            background-color: var(--colorMain);
 
             & > svg {
               fill: #fff;
@@ -124,17 +126,8 @@ Trendly.Intro = styled.div`
         }
 
         &:nth-child(2) {
-          border: 2px solid var(--txtColor);
-          color: var(--txtColor);
-
-          &:hover {
-            color: #fff;
-            background-color: var(--txtColor);
-
-            & > svg {
-              color: #fff;
-            }
-          }
+          border: 2px solid var(--accent-hover);
+          color: #fff;
         }
       }
     }
@@ -152,6 +145,10 @@ Trendly.ConsultantMode = styled.div`
     height: calc(100% - 150px);
     overflow-y: auto;
     padding: 30px 20px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -174,12 +171,12 @@ Trendly.SearchInput = styled.div`
   width: 100%;
   height: 50px;
 
-  & > input[type="text"] {
+  & > input[type='text'] {
     width: 80%;
     height: 100%;
     background: transparent;
     border: none;
-    font-family: "TheJamsil", sans-serif;
+    font-family: 'TheJamsil', sans-serif;
     font-size: 16px;
 
     &:focus {
@@ -223,7 +220,7 @@ Trendly.ChatBotBubble = styled.div`
       color: #fff;
       text-align: center;
       line-height: 30px;
-      background-color: var(--colorMain);
+      background-color: var(--accent);
       border: none;
     }
 
@@ -250,18 +247,17 @@ Trendly.ChatBotMessage = styled.div`
   width: calc(100% - 80px);
   padding: 20px 30px;
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+  background-color: var(--border);
   border-radius: 20px;
-  background-color: #fff;
   word-break: keep-all;
   font-size: 14px;
+  color: #fff;
 `;
 
 Trendly.ChatBotIcon = styled.div`
   display: block;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #fff;
+  width: 120px;
+  height: 80px;
   padding: 10px;
 
   & > img {
@@ -287,6 +283,7 @@ Trendly.QuestionTitle = styled.div`
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   background-color: var(--colorMain);
+  border: 1px solid var(--border);
   color: #fff;
 `;
 
@@ -295,14 +292,14 @@ Trendly.UserDirectInput = styled.div`
   width: 100%;
   padding: 20px 0;
 
-  & > input[type="text"] {
+  & > input[type='text'] {
     width: 100%;
     height: 50px;
     padding: 0 20px;
     border: 1px solid #d5d5d5;
     border-radius: 20px;
     font-size: 16px;
-    font-family: "TheJamsil", sans-serif;
+    font-family: 'TheJamsil', sans-serif;
 
     &:focus {
       outline: none;
@@ -321,6 +318,7 @@ Trendly.UserDirectInput = styled.div`
     border: none;
     padding: 10px 20px;
     background-color: var(--colorMain);
+    border: 1px solid var(--accent);
   }
 `;
 
@@ -392,18 +390,18 @@ Trendly.QuestionOption = styled.button<{ $select: string }>`
   width: calc(100% / 2 - 20px);
   padding: 20px;
   font-size: 16px;
-  color: #777;
-  border: ${(props) =>
-    props.$select ? "2px solid var(--colorMain)" : "2px solid transparent"};
-  background-color: #fff;
+  color: #fff;
+  border: ${props =>
+    props.$select ? '2px solid var(--accent)' : '2px solid transparent'};
+  background-color: var(--bg-card);
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
-  pointer-events: ${(props) => (props.$select ? "none" : "auto")};
+  pointer-events: ${props => (props.$select ? 'none' : 'auto')};
 
   &:hover {
-    border: 2px solid var(--colorMain);
+    border: 2px solid var(--accent);
   }
 `;
 
@@ -445,11 +443,11 @@ Trendly.RecommendationLoading = styled.div`
       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
       border-radius: 20px;
       border: 1px solid rgb(188, 188, 188);
-      background-color: #fff;
+      background-color: var(--bg-card);
 
       .comment {
         font-weight: bold;
-        color: var(--colorMain);
+        color: #fff;
       }
 
       .loading-dot {
@@ -461,7 +459,7 @@ Trendly.RecommendationLoading = styled.div`
           width: 5px;
           height: 5px;
           border-radius: 50%;
-          background-color: var(--colorMain);
+          background-color: #fff;
           animation: dotBlink 1s infinite forwards;
           opacity: 0;
           margin-bottom: 2px;
@@ -496,7 +494,7 @@ Trendly.RecommendationLoading = styled.div`
     width: calc(100% - 50px);
     margin: 0 auto;
     text-align: center;
-    color: #333;
+    color: #fff;
     padding-top: 50px;
     font-size: 16px;
   }
@@ -511,11 +509,13 @@ Trendly.WarningText = styled.div`
   .warning-icon {
     width: 30px;
     height: 30px;
+    color: var(--text-muted);
   }
 
   .warning-txt {
-    font-size: 16px;
-    color: var(--colorMain);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
   }
 `;
 
@@ -537,7 +537,8 @@ Trendly.UserMessage = styled.div`
   background-color: var(--colorMain);
   word-break: keep-all;
   font-size: 14px;
-  color: #fff;
+  background-color: #fff;
+  color: #333;
 `;
 
 Trendly.UserProfile = styled.div`
@@ -548,6 +549,7 @@ Trendly.UserProfile = styled.div`
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
+  background-color: #fff;
 
   img {
     width: 100%;
@@ -572,7 +574,7 @@ Trendly.ResultSection = styled.div`
 
   .result-info {
     max-width: 500px;
-    
+
     &-title {
       display: block;
       margin-top: 10px;
@@ -606,7 +608,7 @@ Trendly.ResultSection = styled.div`
             .loader {
               width: 25px;
               height: 25px;
-              border: 4px solid #FFF;
+              border: 4px solid #fff;
               border-bottom-color: transparent;
               border-radius: 50%;
               display: inline-block;
@@ -616,12 +618,12 @@ Trendly.ResultSection = styled.div`
 
             @keyframes rotation {
               0% {
-                  transform: rotate(0deg);
+                transform: rotate(0deg);
               }
               100% {
-                  transform: rotate(360deg);
+                transform: rotate(360deg);
               }
-            } 
+            }
 
             &:first-child {
               margin-left: 0;
@@ -911,7 +913,7 @@ Trendly.ChannelDetail = styled.div`
 `;
 
 Trendly.ChatArea = styled.div<{ $sideActive: boolean }>`
-  width: ${(props) => (props.$sideActive ? "calc(100% - 350px)" : "100%")};
+  width: ${props => (props.$sideActive ? 'calc(100% - 350px)' : '100%')};
   height: 100vh;
   display: flex;
   align-items: center;
@@ -935,7 +937,7 @@ Trendly.ChatInner = styled.div`
 
 /* 좌측 네비게이션 바 */
 Trendly.RecentChatSideBar = styled.div<{ $sideActive: boolean }>`
-  width: ${(props) => (props.$sideActive ? "350px" : "100px")};
+  width: ${props => (props.$sideActive ? '350px' : '100px')};
   background-color: #f5f5f5;
   height: 100vh;
   padding: 15px 20px;

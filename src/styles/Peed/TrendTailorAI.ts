@@ -48,7 +48,7 @@ const styleOptions = {
     display: 'flex',
     flexDirection: 'column',
     gap: '2.5rem',
-    width: 'calc(100% - 750px)',
+    width: '100%',
 
     '@media screen and (max-width: 1250px)': {
       width: '100%',
@@ -125,8 +125,7 @@ const styleOptions = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '700px',
-    backgroundColor: '#fff',
-    borderRadius: '20px',
+    height: '600px',
     padding: '0 1.5rem',
     overflow: 'hidden',
 
