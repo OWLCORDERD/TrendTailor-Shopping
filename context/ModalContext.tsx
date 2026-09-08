@@ -66,19 +66,15 @@ export const ModalProvider = ({ children }: ReactType) => {
     setShowModal(true);
     setIsConfirming(false);
 
-    // 보조 설명 텍스트가 존재하는 경우 설정
-    if (content && content.trim() !== "") {
-      setContents({ title, description: content });
-      setDynamic({
-        componentPath: "Slot",
-      });
-    } else {
-      setContents({ title: title || "" });
-      // 동적 컨텐츠 컴포넌트 경로 설정
-      setDynamic({
-        componentPath: dynamicComponent ?? "",
-      });
-    }
+    setContents({
+      title: title || "",
+      description: content?.trim() ? content : undefined,
+    });
+
+    // 동적 컴포넌트가 있으면 우선 사용 (content만 있을 때는 Slot)
+    setDynamic({
+      componentPath: dynamicComponent || (content?.trim() ? "Slot" : ""),
+    });
 
     setType(type ?? "");
     emitFnRef.current = typeof fn === "function" ? fn : null;
@@ -150,7 +146,7 @@ export const ModalProvider = ({ children }: ReactType) => {
       {showModal && (
         <div className='alert-modal'>
           <motion.div
-            className='modal-inner'
+            className={`modal-inner${type === 'recent-chats' ? ' is-recent-chats' : ''}`}
             variants={animateVariants}
             animate='animate'
             initial='initial'
@@ -162,7 +158,7 @@ export const ModalProvider = ({ children }: ReactType) => {
                 type='button'
                 onClick={(e) => modalClose(e)}
               >
-                <IoIosClose color='#000' />
+                <IoIosClose color={type === 'recent-chats' ? '#F4F4F0' : '#000'} />
               </button>
             </div>
             <div className='modal-cont'>
@@ -191,13 +187,15 @@ export const ModalProvider = ({ children }: ReactType) => {
                 </button>
               )}
 
-              <button
-                type='button'
-                className='close-btn'
-                onClick={(e) => modalClose(e)}
-              >
-                닫기
-              </button>
+              {type !== 'recent-chats' && (
+                <button
+                  type='button'
+                  className='close-btn'
+                  onClick={(e) => modalClose(e)}
+                >
+                  닫기
+                </button>
+              )}
             </div>
           </motion.div>
         </div>

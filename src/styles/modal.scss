@@ -1,152 +1,531 @@
-@use "tokens" as *;
-@use "mixin" as *;
+@use 'tokens' as *;
+@use 'mixin' as *;
 
 .alert-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 1200;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 1200;
 
-    .modal-inner {
-        position: absolute;
-        top: 50%;
-        width: 650px;
-        padding: 20px 50px 50px;
-        background-color: #fff;
-        box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 20px;
-        overflow: hidden;
+  &:has(.modal-inner.is-recent-chats) {
+    background-color: rgba($color-main, 0.72);
+    backdrop-filter: blur(12px) saturate(120%);
+  }
 
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            height: 50px;
+  .modal-inner {
+    position: absolute;
+    top: 50%;
+    width: 650px;
+    padding: 20px 50px 50px;
+    background-color: #fff;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
 
-            .close-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 50px;
-                height: 50px;
-                border: none;
-                background-color: transparent;
-                color: #fff;
-                font-size: 40px;
-            }
+    // Trendly 최근 대화 내역 (다크 테마 Grid 모달)
+    &.is-recent-chats {
+      width: min(720px, calc(100vw - 32px));
+      padding: 24px 50px 32px;
+      background: color-mix(in oklab, $color-main 88%, transparent);
+      border: 1px solid rgba($color-cool, 0.35);
+      border-radius: $radius-lg;
+      box-shadow:
+        0 0 0 1px rgba($color-accent, 0.12),
+        0 24px 64px rgba($color-black, 0.45);
+      backdrop-filter: blur(18px) saturate(140%);
+      color: $color-text;
+
+      .modal-header {
+        .close-btn {
+          width: auto;
+          height: auto;
+          min-width: 72px;
+          padding: 8px 14px;
+          border: 1px solid rgba($color-cool, 0.45);
+          border-radius: 999px;
+          color: $color-text;
+          font-size: 13px;
+          font-family: $Jamsil-font;
+          background: transparent;
+
+          svg {
+            display: none;
+          }
+
+          &::after {
+            content: 'Close';
+          }
+
+          &:hover {
+            border-color: $color-accent-hover;
+            background: $color-accent-soft;
+          }
         }
+      }
 
-        .modal-cont {
-            margin: 0 auto;
-            width: 80%;
-            min-height: 280px;
-            font-family: $Jamsil-font;
+      .modal-cont {
+        width: 100%;
+        min-height: auto;
+        margin: 0;
+      }
 
-                .title-box {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 20px;
-                    width: 100%;
-
-                    .title-icon {
-                        width: 50px;
-                        height: 50px;
-                    }
-
-                    .title {
-                        font-size: 24px;
-                        font-weight: bold;
-                    }
-
-                    &.danger {
-                        .title-icon {
-                            color: #AA1414;
-                        }
-                        .title {
-                            color: #AA1414;
-                        }
-                    }
-
-
-                    &.success {
-                        .title-icon {
-                            color: var(--colorMain);
-                        }
-                        .title {
-                            color: var(--colorMain);
-                        }
-                    }
-                }
-
-                .content-box {
-                    margin-top: 40px;
-
-                    .desc {
-                        width: 80%;
-                        margin: 0 auto;
-                        word-break: keep-all;
-                        font-size: 16px;
-                        color: #2d2d2d;
-                        text-align: center;
-                    }
-
-                    .signup-link {
-                        display: block;
-                        margin: 20px auto 0;
-                        background-color: transparent;
-                        border: none;
-                        font-size: 12px;
-                        text-underline-offset: 4px;
-                        font-weight: bold;
-                        text-decoration: underline;
-                        color: #5d5d5d;
-                    }
-                }
-        }
-
-        .btn-wrap {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 50px;
-            display: flex;
-
-            .login-btn {
-                flex: 1;
-                background-color: var(--colorMain);
-                font-family: $Jamsil-font;
-                color: #fff;
-                border: none;
-                font-weight: bold;
-                text-align: center;
-                line-height: 40px;
-                transition: all 0.3s ease-in-out;
-                cursor: pointer;
-            }
-
-            .close-btn {
-                flex: 1;
-                background-color: #d5d5d5;
-                border: none;
-                font-family: $Jamsil-font;
-                color: #5d5d5d;
-                font-weight: bold;
-                text-align: center;
-                line-height: 40px;
-                transition: all 0.3s ease-in-out;
-                cursor: pointer;
-            }  
-        }
+      .btn-wrap {
+        display: none;
+      }
     }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 50px;
+
+      .close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border: none;
+        background-color: transparent;
+        color: #fff;
+        font-size: 40px;
+      }
+    }
+
+    .modal-cont {
+      margin: 0 auto;
+      width: 80%;
+      min-height: 280px;
+      font-family: $Jamsil-font;
+
+      .title-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+
+        .title-icon {
+          width: 50px;
+          height: 50px;
+        }
+
+        .title {
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        &.danger {
+          .title-icon {
+            color: #aa1414;
+          }
+          .title {
+            color: #aa1414;
+          }
+        }
+
+        &.success {
+          .title-icon {
+            color: var(--colorMain);
+          }
+          .title {
+            color: var(--colorMain);
+          }
+        }
+      }
+
+      .content-box {
+        margin-top: 40px;
+
+        .desc {
+          width: 80%;
+          margin: 0 auto;
+          word-break: keep-all;
+          font-size: 16px;
+          color: #2d2d2d;
+          text-align: center;
+        }
+
+        .signup-link {
+          display: block;
+          margin: 20px auto 0;
+          background-color: transparent;
+          border: none;
+          font-size: 12px;
+          text-underline-offset: 4px;
+          font-weight: bold;
+          text-decoration: underline;
+          color: #5d5d5d;
+        }
+      }
+    }
+
+    .btn-wrap {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      display: flex;
+
+      .login-btn {
+        flex: 1;
+        background-color: var(--colorMain);
+        font-family: $Jamsil-font;
+        color: #fff;
+        border: none;
+        font-weight: bold;
+        text-align: center;
+        line-height: 40px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+      }
+
+      .close-btn {
+        flex: 1;
+        background-color: #d5d5d5;
+        border: none;
+        font-family: $Jamsil-font;
+        color: #5d5d5d;
+        font-weight: bold;
+        text-align: center;
+        line-height: 40px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+      }
+    }
+  }
+
+  // Trendly 챗봇 > 최근 대화 내역 CSS
+  .recent-chats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    color: $color-text;
+    font-family: $Jamsil-font;
+
+    &__intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      &-box {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    &__greeting {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: $color-text;
+
+      strong {
+        color: $color-white;
+        font-weight: 700;
+      }
+    }
+
+    &__sub {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: $color-text-muted;
+      word-break: keep-all;
+    }
+
+    &__section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    &__section-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: $color-white;
+    }
+
+    &__mute {
+      border: none;
+      background: transparent;
+      color: $color-cool;
+      font-size: 12px;
+      font-family: $Jamsil-font;
+      cursor: pointer;
+      padding: 4px 0;
+
+      &:hover {
+        color: $color-accent-hover;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-height: 340px;
+      overflow-y: auto;
+      padding-right: 4px;
+      list-style: none;
+      margin: 0;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba($color-cool, 0.35);
+        border-radius: 999px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+    }
+
+    &__card {
+      min-width: 0;
+    }
+
+    &__card-btn {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 108px;
+      padding: 14px;
+      text-align: left;
+      border: 1px solid $color-border;
+      border-radius: 14px;
+      background: $color-bg-elev;
+      color: inherit;
+      cursor: pointer;
+      transition: $transition-fast;
+
+      &:hover {
+        border-color: rgba($color-accent, 0.55);
+        background: $color-bg-card;
+        box-shadow: 0 0 0 1px $color-accent-soft;
+      }
+    }
+
+    &__card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    &__badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+
+      &.is-consult {
+        color: $color-hot;
+        background: rgba($color-hot, 0.14);
+      }
+
+      &.is-chat {
+        color: $color-cool;
+        background: rgba($color-cool, 0.14);
+      }
+    }
+
+    &__card-title {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      font-weight: 700;
+      color: $color-white;
+    }
+
+    &__card-desc {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      font-size: 12px;
+      line-height: 1.45;
+      color: $color-text-muted;
+      word-break: keep-all;
+    }
+
+    &__card-date {
+      margin-top: auto;
+      font-size: 11px;
+      color: $color-text-dim;
+    }
+
+    &__thumb {
+      flex-shrink: 0;
+      width: 64px;
+      height: 84px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: $color-bg-card;
+      border: 1px solid $color-border;
+    }
+
+    &__thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &__thumb-fallback {
+      @include flex-center;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        160deg,
+        rgba($color-accent, 0.2),
+        rgba($color-cool, 0.08)
+      );
+
+      img {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .alert-modal {
+    .modal-inner.is-recent-chats {
+      width: calc(100vw - 24px);
+      padding: 18px 16px 24px;
+
+      .recent-chats {
+        &__greeting {
+          font-size: 18px;
+        }
+
+        &__grid {
+          grid-template-columns: 1fr;
+          max-height: 52vh;
+        }
+
+        &__thumb {
+          width: 56px;
+          height: 74px;
+        }
+      }
+    }
+  }
 }
 
 .error-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 1200;
+
+  .modal-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 35rem;
+    height: 18rem;
+    padding: 0 2rem;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #000;
+
+    .error-icon {
+      width: 5rem;
+      height: 5rem;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        color: #970303;
+      }
+    }
+
+    .modal-cont {
+      width: 22rem;
+      height: 12rem;
+      font-family: $Jamsil-font;
+
+      .message {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        width: 100%;
+        height: 6rem;
+
+        h1 {
+          width: 100%;
+          word-break: keep-all;
+          font-weight: bold;
+          font-size: 16px;
+          color: #970303;
+        }
+      }
+
+      button {
+        margin-top: 3rem;
+        width: 100%;
+        height: 3rem;
+        background-color: transparent;
+        border: 1px solid #000;
+        font-family: $Jamsil-font;
+        color: #000;
+        font-weight: bold;
+        text-align: center;
+        line-height: 3rem;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+@include mobile {
+  .error-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -157,207 +536,126 @@
     z-index: 1200;
 
     .modal-inner {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 35rem;
-        height: 18rem;
-        padding: 0 2rem;
-        background-color: rgb(255, 255, 255);
-        border: 2px solid #000;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 20rem;
+      height: 12rem;
+      padding: 0 1rem;
+      background-color: rgb(255, 255, 255);
+      border: 2px solid #000;
 
-        .error-icon {
-            width: 5rem;
-            height: 5rem;
+      .error-icon {
+        width: 3rem;
+        height: 3rem;
+      }
 
-            svg {
-                width: 100%;
-                height: 100%;
-                color: #970303;
-            }
+      .modal-cont {
+        width: 12rem;
+        height: 10rem;
+        font-family: $Jamsil-font;
+
+        .message {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          width: 100%;
+          height: 5.5rem;
+
+          h1 {
+            width: 100%;
+            word-break: keep-all;
+            font-weight: bold;
+            font-size: 14px;
+            color: #970303;
+          }
         }
 
-        .modal-cont {
-            width: 22rem;
-            height: 12rem;
-            font-family: $Jamsil-font;
-
-            .message {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: flex-start;
-                width: 100%;
-                height: 6rem;
-
-                h1 {
-                    width: 100%;
-                    word-break: keep-all;
-                    font-weight: bold;
-                    font-size: 16px;
-                    color: #970303;
-                }
-            }
-
-            button {
-                margin-top: 3rem;
-                width: 100%;
-                height: 3rem;
-                background-color: transparent;
-                border: 1px solid #000;
-                font-family: $Jamsil-font;
-                color: #000;
-                font-weight: bold;
-                text-align: center;
-                line-height: 3rem;
-                transition: all 0.3s ease-in-out;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #000;
-                    color: #fff;
-                }
-            }
+        button {
+          margin-top: 2rem;
+          height: 2.5rem;
+          font-family: $Jamsil-font;
+          color: #000;
+          font-weight: bold;
+          text-align: center;
+          line-height: 2.5rem;
+          transition: all 0.3s ease-in-out;
+          cursor: pointer;
         }
+      }
     }
+  }
 }
 
 @include mobile {
-    .error-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(10px);
-        z-index: 1200;
-    
-        .modal-inner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 20rem;
-            height: 12rem;
-            padding: 0 1rem;
-            background-color: rgb(255, 255, 255);
-            border: 2px solid #000;
-    
-            .error-icon {
-                width: 3rem;
-                height: 3rem;
-            }
-    
-            .modal-cont {
-                width: 12rem;
-                height: 10rem;
-                font-family: $Jamsil-font;
-    
-                .message {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: flex-start;
-                    width: 100%;
-                    height: 5.5rem;
-    
-                    h1 {
-                        width: 100%;
-                        word-break: keep-all;
-                        font-weight: bold;
-                        font-size: 14px;
-                        color: #970303;
-                    }
-                }
-    
-                button {
-                    margin-top: 2rem;
-                    height: 2.5rem;
-                    font-family: $Jamsil-font;
-                    color: #000;
-                    font-weight: bold;
-                    text-align: center;
-                    line-height: 2.5rem;
-                    transition: all 0.3s ease-in-out;
-                    cursor: pointer;
-                }
-            }
-        }
-    }
-}
+  .error-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 1200;
 
-@include mobile {
-    .error-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(10px);
-        z-index: 1200;
-    
-        .modal-inner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 20rem;
-            height: 12rem;
-            padding: 0 1rem;
-            background-color: rgb(255, 255, 255);
-            border: 2px solid #000;
-    
-            .error-icon {
-                width: 3rem;
-                height: 3rem;
-            }
-    
-            .modal-cont {
-                width: 12rem;
-                height: 10rem;
-                font-family: $Jamsil-font;
-    
-                .message {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: flex-start;
-                    width: 100%;
-                    height: 5.5rem;
-    
-                    h1 {
-                        width: 100%;
-                        word-break: keep-all;
-                        font-weight: bold;
-                        font-size: 14px;
-                        color: #970303;
-                    }
-                }
-    
-                button {
-                    margin-top: 2rem;
-                    height: 2.5rem;
-                    font-family: $Jamsil-font;
-                    color: #000;
-                    font-weight: bold;
-                    text-align: center;
-                    line-height: 2.5rem;
-                    transition: all 0.3s ease-in-out;
-                    cursor: pointer;
-                }
-            }
+    .modal-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 20rem;
+      height: 12rem;
+      padding: 0 1rem;
+      background-color: rgb(255, 255, 255);
+      border: 2px solid #000;
+
+      .error-icon {
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .modal-cont {
+        width: 12rem;
+        height: 10rem;
+        font-family: $Jamsil-font;
+
+        .message {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-start;
+          width: 100%;
+          height: 5.5rem;
+
+          h1 {
+            width: 100%;
+            word-break: keep-all;
+            font-weight: bold;
+            font-size: 14px;
+            color: #970303;
+          }
         }
+
+        button {
+          margin-top: 2rem;
+          height: 2.5rem;
+          font-family: $Jamsil-font;
+          color: #000;
+          font-weight: bold;
+          text-align: center;
+          line-height: 2.5rem;
+          transition: all 0.3s ease-in-out;
+          cursor: pointer;
+        }
+      }
     }
+  }
 }

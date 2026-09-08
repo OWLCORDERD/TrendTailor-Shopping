@@ -1,30 +1,29 @@
-import Loading from "@/component/common/Loading";
-import dynamic from "next/dynamic";
-import { Component, useMemo } from "react";
+'use client';
 
-class ModalContentRenderer extends Component {
-  state: {
-    componentPath: string;
-  };
-  constructor(props: { componentPath: string }) {
-    super(props);
+import Loading from '@/component/common/Loading';
+import dynamic from 'next/dynamic';
+import { useMemo } from 'react';
 
-    this.state = {
-      componentPath: props.componentPath,
-    };
-  }
+const ModalContentRenderer = ({
+  componentPath = 'Slot',
+}: {
+  componentPath?: string;
+}) => {
+  const path = componentPath || 'Slot';
 
-  render() {
-    const DynamicComponent = dynamic(
-      () =>
-        import(`@/component/common/modal/content/${this.state.componentPath || "Slot"}`),
-      {
-        ssr: false,
-        loading: () => <Loading colorTheme='#2D3A8C' height={300} />,
-      }
-    );
-    return DynamicComponent ? <DynamicComponent /> : null;
-  }
-}
+  const DynamicComponent = useMemo(
+    () =>
+      dynamic(
+        () => import(`@/component/common/modal/content/${path}`),
+        {
+          ssr: false,
+          loading: () => <Loading colorTheme="#2D3A8C" height={300} />,
+        }
+      ),
+    [path]
+  );
+
+  return <DynamicComponent key={path} />;
+};
 
 export default ModalContentRenderer;

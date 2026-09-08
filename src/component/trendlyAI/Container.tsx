@@ -2,7 +2,7 @@
 
 import Intro from '@/component/trendlyAI/mode/Intro';
 import Consultant from '@/component/trendlyAI/mode/Consultant/Consultant';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { IoClose, IoReturnUpForwardSharp } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
@@ -13,16 +13,17 @@ import {
 } from '@/store/chatBubbleSlice';
 import { TiHome } from 'react-icons/ti';
 import { GoHistory } from 'react-icons/go';
-import { useRouter } from 'next/navigation';
+import { ModalContext } from '../../../context/ModalContext';
+import { useSession } from 'next-auth/react';
 
 const Container = () => {
-  // 현재 활성화된 채팅 모드
   const chatMode = useAppSelector(state => state.chatBubble.mode);
   const clothesDetailMode = useAppSelector(
     state => state.chatBubble.clothesDetailMode
   );
   const dispatch = useDispatch();
-
+  const { modalOpen } = useContext(ModalContext);
+  const { status, data: session } = useSession();
   const dynamicImport = () => {
     switch (chatMode) {
       case 'consultant':
@@ -36,11 +37,21 @@ const Container = () => {
     mode: 'intro',
   };
 
-  const router = useRouter();
-
-  const moveTrendlyPage = () => {
-    dispatch(chatClose());
-    router.push('/trendly');
+  const openRecentChatsModal = () => {
+    if (status === 'authenticated') {
+      modalOpen?.({
+        title: 'User history',
+        content: '이전에 진행했던 컨설팅·채팅 내역을 이어서 확인할 수 있어요.',
+        type: 'recent-chats',
+        dynamicComponent: 'RecentChats',
+      });
+    } else {
+      modalOpen?.({
+        title: '로그인 후 이용 가능합니다.',
+        type: 'login',
+        dynamicComponent: 'Login',
+      });
+    }
   };
 
   return (
@@ -65,13 +76,16 @@ const Container = () => {
           </button>
         )}
 
-        {/* <button className='chat-history' onClick={() => moveTrendlyPage()}>
+        <button
+          type="button"
+          className="chat-history"
+          onClick={openRecentChatsModal}
+        >
           <GoHistory fontSize={18} />
-          <span className='txt'>채팅 내역</span>
-        </button> */}
+          <span className="txt">채팅 내역</span>
+        </button>
       </div>
-      {/* 인트로 화면 */}
-      {/* 컨설팅 관련 채팅 화면 */}
+
       {dynamicImport()}
 
       {chatMode === 'consultant' && (
