@@ -1,75 +1,80 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import { ModalContext } from '../../../../../context/ModalContext';
 import chatbotCharacter from '@/assets/images/chatbot.png';
-
-/** 초안 퍼블리싱용 더미 데이터 (추후 Firestore recent-chats 연동) */
-const DRAFT_HISTORY = [
-  {
-    id: 'draft-1',
-    title: '한갈라소 재발보님,',
-    description: '스포티 룩 컨설팅 · 아우터 추천',
-    type: 'consulting',
-    createdAt: '2026.03.12',
-    thumbnail: null,
-  },
-  {
-    id: 'draft-2',
-    title: '미니멀 오피스룩',
-    description: '가성비 중심 · 상의 추천',
-    type: 'consulting',
-    createdAt: '2026.03.08',
-    thumbnail: null,
-  },
-  {
-    id: 'draft-3',
-    title: '스트릿 캐주얼',
-    description: '인기 브랜드 · 하의 매칭',
-    type: 'consulting',
-    createdAt: '2026.02.27',
-    thumbnail: null,
-  },
-  {
-    id: 'draft-4',
-    title: '빈티지 데일리',
-    description: '웜톤 키워드 · 아우터',
-    type: 'chat',
-    createdAt: '2026.02.20',
-    thumbnail: null,
-  },
-  {
-    id: 'draft-5',
-    title: '여름 레이어드',
-    description: '쿨톤 · 상의 추천',
-    type: 'consulting',
-    createdAt: '2026.02.14',
-    thumbnail: null,
-  },
-  {
-    id: 'draft-6',
-    title: '주말 아웃핏',
-    description: '캐주얼 · 세트 매칭',
-    type: 'chat',
-    createdAt: '2026.02.01',
-    thumbnail: null,
-  },
-];
+import { db } from '@/shared/lib/firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import Loading from '../../Loading';
+import { openReport } from '@/store/chatBubbleSlice';
 
 const RecentChats = () => {
+  // 로그인 사용자만 접근 가능 > 사용자 정보 조회
   const { data: session } = useSession();
   const { contents, modalClose } = useContext(ModalContext);
-  const router = useRouter();
+  const dispatch = useDispatch();
 
-  const userName = session?.user?.name ?? '회원';
+  const [recentData, setRecentData] = useState<recentChatsType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSelect = (id: string) => {
-    // modalClose?.();
-    alert('준비 중입니다.');
-    // router.push(`/trendly/${id}`);
+    if (!id) return;
+    dispatch(openReport({ id, from: 'history' }));
+    modalClose?.();
+  };
+
+  const { data } = useSession();
+
+  // 2026.01.14: 현재 로그인 사용자 최근 채팅 내역 조회
+  const currentUserRecentListLoad = async () => {
+    setLoading(true);
+
+    try {
+      // 조회 컬렉션 경로
+      const collectionRef = collection(db, 'recent-chats');
+
+      // 조회 조건 쿼리
+      const selectQuery = query(
+        collectionRef,
+        where('user.info.email', '==', data?.user?.email)
+      );
+
+      // 쿼리 참조하여 컬렉션 내부 문서 조회
+      const querySnapshot = await getDocs(selectQuery);
+
+      if (querySnapshot.empty) {
+        setLoading(false);
+        throw new Error('최근 채팅 내역이 없습니다.');
+      }
+
+      const snapShotData: any = [];
+      querySnapshot.forEach(doc => {
+        const data = doc.data(); // 문서 데이터
+
+        // 조회 문서 아이디와 데이터 함께 저장 처리
+        snapShotData.push({
+          id: doc.id,
+          ...data,
+        });
+      });
+
+      setRecentData(snapShotData);
+    } catch (err) {
+      console.error('최근 채팅 내역 불러오기 오류', err);
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    currentUserRecentListLoad();
+  }, [session]);
+
+  const dateFormat = (date: string) => {
+    return new Date(date).toLocaleDateString('ko-KR');
   };
 
   return (
@@ -77,7 +82,7 @@ const RecentChats = () => {
       <div className="recent-chats__intro">
         <div className="recent-chats__intro-box">
           <h2 className="recent-chats__greeting">
-            반갑습니다, <strong>{userName}님</strong>
+            반갑습니다, <strong>{session?.user?.name}님</strong>
           </h2>
           <p className="recent-chats__sub">
             {contents?.description ||
@@ -91,19 +96,21 @@ const RecentChats = () => {
       </div>
 
       <div className="recent-chats__section-head">
-        <h3 className="recent-chats__section-title">User history</h3>
+        <h3 className="recent-chats__section-title">최근 대화 내역</h3>
         <button type="button" className="recent-chats__mute">
           Mute all
         </button>
       </div>
 
+      {loading && <Loading />}
+
       <ul className="recent-chats__grid">
-        {DRAFT_HISTORY.map(item => (
+        {recentData.map(item => (
           <li key={item.id} className="recent-chats__card">
             <button
               type="button"
               className="recent-chats__card-btn"
-              onClick={() => handleSelect(item.id)}
+              onClick={() => handleSelect(item.id?.toString() ?? '')}
             >
               <div className="recent-chats__card-body">
                 <span
@@ -116,9 +123,7 @@ const RecentChats = () => {
                 <strong className="recent-chats__card-title">
                   {item.title}
                 </strong>
-                <span className="recent-chats__card-desc">
-                  {item.description}
-                </span>
+                <span className="recent-chats__card-desc">{item.priority}</span>
                 <time className="recent-chats__card-date">
                   {item.createdAt}
                 </time>
@@ -126,7 +131,12 @@ const RecentChats = () => {
 
               <div className="recent-chats__thumb">
                 <div className="recent-chats__thumb-fallback">
-                  <Image src={chatbotCharacter} alt="" width={40} height={40} />
+                  <Image
+                    src={item.assistant.products[0].thumbnail}
+                    alt=""
+                    width={40}
+                    height={40}
+                  />
                 </div>
               </div>
             </button>

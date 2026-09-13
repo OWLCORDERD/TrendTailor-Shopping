@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Trendly as CSS } from '@/styles';
 import TrendlyBubble from '@/component/trendlyAI/bubble/Trendly';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import UserBubble from '@/component/trendlyAI/bubble/User';
-import { warningIcon } from '@/component/svgData';
 import Loading from './Loading';
-import Result from './Result';
-import { chatClose, recommendResultSession } from '@/store/chatBubbleSlice';
+import { recommendResultSession } from '@/store/chatBubbleSlice';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { PiWarningCircle } from 'react-icons/pi';
 
 const Consultant = () => {
@@ -58,7 +55,7 @@ const Consultant = () => {
       case 'creating':
         return <Loading />;
       case 'complete':
-        dispatch(chatClose());
+        return <Loading />;
       case 'error':
         return (
           <div className="chat-area" ref={chatArea}>

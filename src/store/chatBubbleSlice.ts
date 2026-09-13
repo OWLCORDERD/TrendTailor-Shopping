@@ -22,6 +22,31 @@ interface ChatBubbleState {
   currentClothes: trendClothes | null; // 현재 선택한 컨설팅 의류 정보
   clothesData: any[]; // 컨설팅용 의류 데이터
   trendKeywords: trendKeywordsType[]; // 수집된 전체 트렌드 키워드 목록
+  reportId: string | null; // 챗봇 레이어 리포트 문서 아이디
+  reportFrom: 'history' | 'consultant' | null; // 리포트 진입 경로
+  previousMode: string | null; // 히스토리에서 리포트 진입 전 모드
+  optionCollection: {
+    category: {
+      // 조회 카테고리 종류
+      label: string;
+      value: string;
+    }[];
+    gender: {
+      // 성별
+      label: string;
+      value: string;
+    }[];
+    budget: {
+      // 예산
+      label: string;
+      value: string;
+    }[];
+    priority: {
+      // 우선순위
+      label: string;
+      value: string;
+    }[];
+  };
 }
 
 export interface selectType {
@@ -45,6 +70,7 @@ interface ResultTemplate {
     recommendInfo: recommendClothes[];
     products: trendClothes[];
   };
+  title: string;
 }
 
 const initialState: ChatBubbleState = {
@@ -75,12 +101,46 @@ const initialState: ChatBubbleState = {
       selectLabel: '',
     },
   ],
+  // 컨설팅 설문 유형별 문항 옵션 목록
+  optionCollection: {
+    category: [
+      { label: '상의', value: 'tops' },
+      { label: '하의', value: 'bottoms' },
+      { label: '신발/잡화', value: 'shoes' },
+    ],
+    gender: [
+      { label: '남성', value: 'male' },
+      { label: '여성', value: 'female' },
+      { label: '상관없음', value: 'unisex' },
+    ],
+    budget: [
+      { label: '5만원 이하', value: '50000' },
+      { label: '10만원 이하', value: '100000' },
+      { label: '20만원 이하', value: '200000' },
+      { label: '상관없음', value: 'whatever' },
+      { label: '직접입력', value: 'etc' },
+    ],
+    priority: [
+      {
+        label: '트렌드/인기도 (리뷰/평점 기반)',
+        value: 'popular',
+      },
+      { label: '가성비', value: 'cheap' },
+      {
+        label: '실구매자 만족도 (평점 4.5점 이상)',
+        value: 'rating',
+      },
+    ],
+  },
   generateCreating: 'before', // 챗봇 답변 생성 중 여부 (기본값 true)
   consultingResultData: null, // 챗봇 답변 메시지
   clothesDetailMode: false, // 컨설팅 의류 상세 모드 여부
   currentClothes: null, // 현재 선택한 컨설팅 의류 정보
   clothesData: [], // 컨설팅용 의류 데이터
   trendKeywords: [], // 수집된 전체 트렌드 키워드 목록
+  reportId: null,
+  reportFrom: null,
+  previousMode: null,
 };
 
 // 2025.09.07 [mhlim]: 선택한 답변 목록 전송 ->  추천 검색 결과 요청하는 thunk 함수
@@ -189,6 +249,7 @@ export const recommendResultSession = createAsyncThunk(
           recommendInfo: [],
           products: [],
         },
+        title: '',
       };
 
       // 추천 의류 목록 데이터 조회
@@ -207,10 +268,46 @@ export const recommendResultSession = createAsyncThunk(
       template.assistant.recommendInfo =
         state.chatBubble.consultingResultData.products;
 
+      // 2026.09.13. 설문 유형별 옵션 라벨 값 조회
+      const optionLabelConverter = (type: string, value: string) => {
+        return state.chatBubble.optionCollection[
+          type as keyof typeof state.chatBubble.optionCollection
+        ].find(item => item.value === value)?.label;
+      };
+
+      // 2026.09.13. 컨설팅 카테고리, 성별, 우선순위 설문 선택 단계별 답변 라벨
+      const majorSelectOptions = {
+        category: optionLabelConverter(
+          'category',
+          state.chatBubble.QA_select[0].selectLabel
+        ),
+        gender: optionLabelConverter(
+          'gender',
+          state.chatBubble.QA_select[2].selectLabel
+        ),
+        priority: optionLabelConverter(
+          'priority',
+          state.chatBubble.QA_select[4].selectLabel
+        ),
+      };
+
+      // 2026.09.13. 컨설팅 키워드 설문 답변 기반 전체 트렌드 키워드 풀 내에서 조회
+      const selectKeyword = state.chatBubble.trendKeywords.find(
+        (keyword: trendKeywordsType) => {
+          return state.chatBubble.QA_select[1].selectLabel === keyword.name;
+        }
+      );
+
+      // 2026.09.13. 제목 생성 -> [{카테고리}] {성별} {키워드} 추천 의류
+      const generateTitle = `[${majorSelectOptions.category}] ${majorSelectOptions.gender} ${selectKeyword?.name} 추천 의류`;
+
       const recentChatsCollection = collection(db, 'recent-chats');
 
       const res = await addDoc(recentChatsCollection, {
         ...template,
+        title: generateTitle,
+        priority: majorSelectOptions.priority,
+        type: 'consulting',
         createAt: new Date().toISOString(),
       });
 
@@ -330,6 +427,9 @@ const chatBubbleSlice = createSlice({
       state.consultingResultData = {}; // 컨설팅 챗봇 답변 데이터 초기화
       state.clothesDetailMode = false; // 컨설팅 의류 상세 모드 비활성화
       state.currentClothes = null; // 현재 선택한 컨설팅 의류 정보 초기화
+      state.reportId = null;
+      state.reportFrom = null;
+      state.previousMode = null;
     },
     // 챗봇 모드 변경
     changeMode: (state, action: any) => {
@@ -342,6 +442,9 @@ const chatBubbleSlice = createSlice({
       state.consultingResultData = {}; // 컨설팅 챗봇 답변 데이터 초기화
       state.clothesDetailMode = false; // 컨설팅 의류 상세 모드 비활성화
       state.currentClothes = null; // 현재 선택한 컨설팅 의류 정보 초기화
+      state.reportId = null;
+      state.reportFrom = null;
+      state.previousMode = null;
 
       if (action.payload.mode === 'consultant') {
         state.messages = [
@@ -379,11 +482,7 @@ const chatBubbleSlice = createSlice({
                   title: '01. 어떤 아이템을 찾고 계신가요?',
                   step: 1,
                   placeholder: '의류 종류 키워드를 입력하세요.',
-                  options: [
-                    { label: '상의', value: 'tops' },
-                    { label: '하의', value: 'bottoms' },
-                    { label: '신발/잡화', value: 'shoes' },
-                  ],
+                  options: state.optionCollection.category,
                 },
               },
             });
@@ -418,11 +517,7 @@ const chatBubbleSlice = createSlice({
                 content: {
                   title: '03. 어떤 성별의 스타일을 추천받고 싶으신가요?',
                   step: 3,
-                  options: [
-                    { label: '여성', value: 'female' },
-                    { label: '남성', value: 'male' },
-                    { label: '상관없음', value: 'unisex' },
-                  ],
+                  options: state.optionCollection.gender,
                 },
               },
             });
@@ -438,13 +533,7 @@ const chatBubbleSlice = createSlice({
                   title: '04. 생각하시는 예산 범위를 선택해주세요',
                   step: 4,
                   placeholder: '원하시는 가격을 숫자로 직접 입력하세요.',
-                  options: [
-                    { label: '5만원 이하', value: '50000' },
-                    { label: '10만원 이하', value: '100000' },
-                    { label: '20만원 이하', value: '200000' },
-                    { label: '상관없음', value: 'whatever' },
-                    { label: '직접입력', value: 'etc' },
-                  ],
+                  options: state.optionCollection.budget,
                 },
               },
             });
@@ -460,17 +549,7 @@ const chatBubbleSlice = createSlice({
                   title:
                     '05. 추천 상품을 선별할 때 어떤 요소를 가장 중요하게 볼까요?',
                   step: 5,
-                  options: [
-                    {
-                      label: '트렌드/인기도 (리뷰/평점 기반)',
-                      value: 'popular',
-                    },
-                    { label: '가성비', value: 'cheap' },
-                    {
-                      label: '실구매자 만족도 (평점 4.5점 이상)',
-                      value: 'rating',
-                    },
-                  ],
+                  options: state.optionCollection.priority,
                 },
               },
             });
@@ -544,6 +623,42 @@ const chatBubbleSlice = createSlice({
       state.currentClothes = null;
       state.clothesDetailMode = false; // 컨설팅 의류 상세 모드 비활성화
     },
+    // 최근 대화 목록 > 컨설팅 결과 리포트 세션 상세 페이지 진입
+    openReport: (
+      state,
+      action: {
+        payload: { id: string; from: 'history' | 'consultant' };
+      }
+    ) => {
+      state.chatOpen = true;
+      if (action.payload.from === 'history') {
+        state.previousMode = state.mode === 'report' ? 'intro' : state.mode;
+      }
+      state.mode = 'report';
+      state.reportId = action.payload.id;
+      state.reportFrom = action.payload.from;
+      state.clothesDetailMode = false;
+    },
+    // 최근 대화 목록 > 컨설팅 결과 리포트 세션 상세 페이지 닫기
+    closeReport: state => {
+      const from = state.reportFrom;
+      state.reportId = null;
+      state.reportFrom = null;
+
+      if (from === 'history') {
+        state.mode = state.previousMode || 'intro';
+        state.previousMode = null;
+        return;
+      }
+
+      state.previousMode = null;
+      state.mode = 'intro';
+      state.messages = [];
+      state.QA_step = 0;
+      state.QA_select = initialState.QA_select;
+      state.generateCreating = 'before';
+      state.consultingResultData = {};
+    },
   },
   extraReducers: builder => {
     (builder.addCase(recommendOpenAI.pending, state => {
@@ -563,8 +678,12 @@ const chatBubbleSlice = createSlice({
         action.payload.id &&
         `recent-chats/${action.payload.id}` === action.payload.path
       ) {
-        state.generateCreating = 'complete'; // 챗봇 답변 생성 완료
-        window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/trendly/${action.payload.id}`;
+        state.generateCreating = 'complete';
+        state.chatOpen = true;
+        state.mode = 'report';
+        state.reportId = action.payload.id;
+        state.reportFrom = 'consultant';
+        state.previousMode = null;
       }
     });
     builder.addCase(recommendResultSession.rejected, state => {
@@ -586,6 +705,8 @@ export const {
   retryConsulting,
   consultingClothesDetail,
   closeClothesDetail,
+  openReport,
+  closeReport,
   stepDirectInputUpdate,
   recommendAIError,
 } = chatBubbleSlice.actions;

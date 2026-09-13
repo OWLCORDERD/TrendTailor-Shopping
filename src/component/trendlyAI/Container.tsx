@@ -2,14 +2,17 @@
 
 import Intro from '@/component/trendlyAI/mode/Intro';
 import Consultant from '@/component/trendlyAI/mode/Consultant/Consultant';
+import Report from '@/component/trendlyAI/mode/Report';
 import React, { useContext } from 'react';
 import { useAppSelector } from '@/store/hooks';
-import { IoClose, IoReturnUpForwardSharp } from 'react-icons/io5';
+import { IoChevronBack, IoClose } from 'react-icons/io5';
+import { IoReturnUpForwardSharp } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
 import {
   changeMode,
   chatClose,
   closeClothesDetail,
+  closeReport,
 } from '@/store/chatBubbleSlice';
 import { TiHome } from 'react-icons/ti';
 import { GoHistory } from 'react-icons/go';
@@ -21,13 +24,17 @@ const Container = () => {
   const clothesDetailMode = useAppSelector(
     state => state.chatBubble.clothesDetailMode
   );
+  const reportFrom = useAppSelector(state => state.chatBubble.reportFrom);
   const dispatch = useDispatch();
   const { modalOpen } = useContext(ModalContext);
-  const { status, data: session } = useSession();
+  const { status } = useSession();
+
   const dynamicImport = () => {
     switch (chatMode) {
       case 'consultant':
         return <Consultant />;
+      case 'report':
+        return <Report />;
       default:
         return <Intro />;
     }
@@ -54,10 +61,38 @@ const Container = () => {
     }
   };
 
+  const handleReportBack = () => {
+    const from = reportFrom;
+    dispatch(closeReport());
+    if (from === 'history') {
+      openRecentChatsModal();
+    }
+  };
+
   return (
-    <div className="modal trendly">
+    <div
+      className={`modal trendly${chatMode === 'report' ? ' is-report' : ''}`}
+    >
       <div className="modal-header">
-        {clothesDetailMode ? (
+        {chatMode === 'report' ? (
+          <>
+            <button
+              type="button"
+              className="back-btn"
+              onClick={handleReportBack}
+            >
+              <IoChevronBack />
+              뒤로가기
+            </button>
+            <button
+              type="button"
+              className="close-btn is-pill"
+              onClick={() => dispatch(chatClose())}
+            >
+              Close
+            </button>
+          </>
+        ) : clothesDetailMode ? (
           <button
             type="button"
             className="close-btn"
@@ -76,14 +111,16 @@ const Container = () => {
           </button>
         )}
 
-        <button
-          type="button"
-          className="chat-history"
-          onClick={openRecentChatsModal}
-        >
-          <GoHistory fontSize={18} />
-          <span className="txt">채팅 내역</span>
-        </button>
+        {chatMode !== 'report' && (
+          <button
+            type="button"
+            className="chat-history"
+            onClick={openRecentChatsModal}
+          >
+            <GoHistory fontSize={18} />
+            <span className="txt">채팅 내역</span>
+          </button>
+        )}
       </div>
 
       {dynamicImport()}

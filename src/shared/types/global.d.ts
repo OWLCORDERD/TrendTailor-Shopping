@@ -66,6 +66,28 @@ declare global {
     keyword: string;
   }
 
+  interface recentChatsType {
+    id?: number;
+    type: 'consulting' | 'chat';
+    title: string;
+    priority: string;
+    assistant: {
+      products: trendClothes[];
+      recommendInfo: recommendClothes[];
+    };
+    createdAt: string;
+    user: {
+      QA_select: {
+        selectLabel: string;
+        step: number;
+      }[];
+      info: {
+        userName: string;
+        email: string;
+      };
+    };
+  }
+
   // 유튜브 API에서 받아오는 비디오 데이터 타입
   interface videoType {
     id: {
@@ -174,54 +196,6 @@ declare global {
     label: string; // 옵션
     // 레이블
     value: string; // 옵션 값
-  }
-
-  interface genderBodyOption {
-    gender: [
-      {
-        label: string; // 성별 레이블
-        value: string; // 성별 값
-      }
-    ];
-    body: [
-      {
-        label: string; // 체형 레이블
-        value: string; // 체형 값
-      }
-    ];
-  }
-
-  interface bodyGenderSelect {
-    gender: {
-      label: string; // 성별 레이블
-    };
-    body: {
-      label: string; // 체형 레이블
-    };
-  }
-
-  // 추천 의류 아이템 타입
-  interface recommendItem {
-    itemType: string;
-    productName: string;
-    brand: string;
-    price: number;
-    imageUrl: string;
-    purchaseUrl: string;
-  }
-
-  // 결과 답변 타입
-  interface assistantAnswerType {
-    stylePurpose: string; // 스타일 목적
-    styleTone: string[]; // 스타일 톤은 여러개 선택 가능
-    season: string; // 계절
-    // 예시: "봄", "여름", "가을", "겨울", "간절기"
-    gender: string; // 성별
-    bodyType: string; // 체형
-    budget: string; // 가격대
-    preferredBrands: string[]; // 선호 브랜드는 여러개 선택 가능
-    recommendations: recommendItem[]; // 추천 아이템 목록
-    aiComment: string; // 챗봇 멘트
   }
 }
 

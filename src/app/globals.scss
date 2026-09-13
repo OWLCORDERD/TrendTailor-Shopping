@@ -197,6 +197,8 @@ footer {
 
   // trendly 챗봇 모달
   &.trendly {
+    display: flex;
+    flex-direction: column;
     right: 200px;
     bottom: 50px;
     max-width: 500px;
@@ -205,6 +207,7 @@ footer {
     border-radius: 20px;
     @include card-shadow(0.1);
     border: 2px solid var(--border);
+    overflow: hidden;
 
     .modal-header {
       display: flex;
@@ -235,6 +238,71 @@ footer {
         font-size: 14px;
         font-weight: 500;
         font-family: $Jamsil-font;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: $color-text;
+        font-family: $Jamsil-font;
+        font-size: 14px;
+        cursor: pointer;
+
+        svg {
+          font-size: 18px;
+        }
+      }
+    }
+
+    /* 컨설팅 챗봇 결과 리포트 상세 모달 */
+    &.is-report {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      max-width: none;
+      height: 100vh;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      z-index: $z-overlay;
+      background: rgba(0, 0, 0, 0.7);
+      overflow-y: auto;
+
+      .modal-header {
+        height: 72px;
+        padding: 28px 30px 8px;
+        width: min(1080px, 100%);
+        margin: 50px auto 0;
+        background: color-mix(in oklab, #0a1440 100%, transparent);
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+
+        @include mobile {
+          padding: 20px 20px 8px;
+        }
+
+        .close-btn.is-pill {
+          min-width: 72px;
+          height: auto;
+          padding: 8px 14px;
+          border: 1px solid rgba($color-cool, 0.45);
+          border-radius: 999px;
+          font-family: $Jamsil-font;
+          font-size: 13px;
+          line-height: 1;
+          color: $color-text;
+
+          &:hover {
+            border-color: $color-accent-hover;
+            background: $color-accent-soft;
+          }
+        }
       }
     }
 

@@ -193,6 +193,8 @@ footer {
   z-index: 1001;
 
   &.trendly {
+    display: flex;
+    flex-direction: column;
     right: 200px;
     bottom: 50px;
     max-width: 500px;
@@ -201,6 +203,7 @@ footer {
     border-radius: 20px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
     border: 2px solid var(--border);
+    overflow: hidden;
 
     .modal-header {
       display: flex;
@@ -232,6 +235,7 @@ footer {
         font-weight: 500;
         font-family: ${fontJamsil};
       }
+
     }
 
     &::-webkit-scrollbar {
