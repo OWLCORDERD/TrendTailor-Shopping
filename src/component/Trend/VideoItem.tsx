@@ -1,7 +1,7 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import PreviewVideo from "./PreviewVideo/PreviewVideo";
-import { IoIosPlayCircle } from "react-icons/io";
+import Image from 'next/image';
+import React, { useState } from 'react';
+import PreviewVideo from './PreviewVideo/PreviewVideo';
+import { IoIosPlayCircle } from 'react-icons/io';
 
 interface videoItemProps {
   video: videoType;
@@ -46,47 +46,47 @@ const VideoItem = ({
   return (
     <>
       <div
-        className='trend-video'
-        key={video.id.videoId}
+        className="trend-video"
+        key={video.id}
         onMouseMove={() => thumbnailVideoOpen(video)}
         onMouseOut={() => thumbnailVideoClose()}
       >
-        <div className='video-thumbnail' onClick={(e) => viewVideo(e, video)}>
+        <div className="video-thumbnail" onClick={e => viewVideo(e, video)}>
           {/* {currentVideo && currentVideo.id.videoId === video.id.videoId ? (
               <PreviewVideo
                 currentVideo={currentVideo.id.videoId}
                 currentIndex={key}
               /> */}
           <Image
-            src={video.snippet.thumbnails.high.url}
+            src={video.thumbnails.high}
             width={480}
             height={360}
-            alt={`${video.snippet.title} 썸네일 이미지`}
+            alt={`${video.title} 썸네일 이미지`}
           />
         </div>
 
-        <div className='video-infoBox'>
-          <div className='channel-img'>
+        <div className="video-infoBox">
+          <div className="channel-img">
             <Image
               src={
-                channelData ? channelData[0].snippet.thumbnails.high.url : ""
+                channelData ? channelData[0].snippet.thumbnails.high.url : ''
               }
-              width='100'
-              height='100'
+              width="100"
+              height="100"
               alt={
                 channelData
                   ? `${channelData[0].snippet.title} 채널 이미지`
-                  : "기본 이미지"
+                  : '기본 이미지'
               }
             />
           </div>
-          <div className='title-channel'>
-            <div className='video-title'>
-              <span>{video.snippet.title}</span>
+          <div className="title-channel">
+            <div className="video-title">
+              <span>{video.title}</span>
             </div>
 
-            <div className='video-channel'>
-              <span>{video.snippet.channelTitle}</span>
+            <div className="video-channel">
+              <span>{video.channelTitle}</span>
             </div>
           </div>
         </div>

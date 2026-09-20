@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import "styles/currentVideo.scss";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import Loading from "../common/Loading";
+import React, { useState, useRef, useEffect } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import 'styles/currentVideo.scss';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Loading from '../common/Loading';
 
 interface currentIdPropsType {
   currentVideo: videoType | null;
@@ -73,18 +73,18 @@ const CurrentVideo = ({
 
     if (pagination.currentPage >= pagination.totalPage) {
       if (paginationRef.current) {
-        paginationRef.current.style.display = "none";
+        paginationRef.current.style.display = 'none';
       }
     }
   }, [pagination.currentPage]);
 
   useEffect(() => {
-    if (currentVideo?.id.videoId && allVideo.length > 0) {
+    if (currentVideo?.id && allVideo.length > 0) {
       const filterCurrentVideo = allVideo.filter(
-        (video) => video.id.videoId !== currentVideo?.id.videoId
+        video => video.id !== currentVideo?.id
       );
 
-      setPagination((prev) => ({
+      setPagination(prev => ({
         ...prev,
         totalCount: filterCurrentVideo.length,
         totalPage: Math.ceil(filterCurrentVideo.length / prev.perPage),
@@ -97,10 +97,10 @@ const CurrentVideo = ({
   useEffect(() => {
     if (paginationRef.current) {
       const intersectionObserver: IntersectionObserver =
-        new IntersectionObserver((entries) => {
+        new IntersectionObserver(entries => {
           if (entries[0].isIntersecting) {
             setTimeout(() => {
-              setPagination((prev) => ({
+              setPagination(prev => ({
                 ...prev,
                 currentPage: prev.currentPage + 1,
               }));
@@ -122,26 +122,26 @@ const CurrentVideo = ({
     currentVideo
   );
 
-  const [iframeSrc, setIframeSrc] = useState<string>("");
+  const [iframeSrc, setIframeSrc] = useState<string>('');
 
   /* currentVideo Component가 마운트 되어 props값을 selectVideoData에 업데이트하거나,
   비디오를 선택 할때마다 해당 useEffect 로직이 실행되어 iframe src경로를 생성하여 iframeSrc 상태값 저장*/
   useEffect(() => {
-    const update_src = `https://www.youtube.com/embed/${selectVideoData?.id.videoId}`;
+    const update_src = `https://www.youtube.com/embed/${selectVideoData?.id}`;
 
     setIframeSrc(update_src);
   }, [selectVideoData]);
 
   useEffect(() => {
-    const body = document.querySelector("body");
+    const body = document.querySelector('body');
 
     if (body) {
-      body.style.overflow = "hidden";
+      body.style.overflow = 'hidden';
     }
 
     return () => {
       if (body) {
-        body.style.removeProperty("overflow");
+        body.style.removeProperty('overflow');
       }
     };
   }, []);
@@ -168,53 +168,51 @@ const CurrentVideo = ({
   };
 
   return (
-    <div className='video-container' ref={currentRef}>
+    <div className="video-container" ref={currentRef}>
       <motion.div
-        className='container-wrapper'
+        className="container-wrapper"
         variants={openAnimate}
-        animate='animate'
-        initial='initial'
+        animate="animate"
+        initial="initial"
       >
         <button
-          type='button'
-          className='close-button'
-          onClick={(e) => closeBtn(e)}
+          type="button"
+          className="close-button"
+          onClick={e => closeBtn(e)}
         >
-          <AiOutlineClose color={"#fff"} />
+          <AiOutlineClose color={'#fff'} />
         </button>
 
-        <motion.div className='current-player' variants={openCurrentVideo}>
-          <div className='video-iframe'>
+        <motion.div className="current-player" variants={openCurrentVideo}>
+          <div className="video-iframe">
             <iframe
-              width='560'
-              height='315'
+              width="560"
+              height="315"
               frameBorder={0}
               src={iframeSrc}
-              title='YouTube video player'
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             />
           </div>
 
-          <div className='video-cont'>
-            <h2 className='video-title'>{selectVideoData?.snippet.title}</h2>
-            <p className='video-channel'>
-              {selectVideoData?.snippet.channelTitle}
-            </p>
-            <div className='video-desc'>
-              <span>{selectVideoData?.snippet.description}</span>
+          <div className="video-cont">
+            <h2 className="video-title">{selectVideoData?.title}</h2>
+            <p className="video-channel">{selectVideoData?.channelTitle}</p>
+            <div className="video-desc">
+              <span>{selectVideoData?.description}</span>
             </div>
           </div>
         </motion.div>
 
-        <motion.div className='video-list' variants={openCurrentVideo}>
+        <motion.div className="video-list" variants={openCurrentVideo}>
           <>
-            <div className='count'>
-              <span className='total-count'>
+            <div className="count">
+              <span className="total-count">
                 총 <strong>{pagination.totalCount}건</strong>
               </span>
 
-              <span className='page-count'>
+              <span className="page-count">
                 {pagination.currentPage} / {pagination.totalPage} 페이지
               </span>
             </div>
@@ -222,24 +220,24 @@ const CurrentVideo = ({
               ? currentPageList.map((video: any) => {
                   return (
                     <div
-                      className='video-item'
-                      key={video.id.videoId}
-                      onClick={(e) => viewVideo(e, video)}
-                      role='presentation'
+                      className="video-item"
+                      key={video.id}
+                      onClick={e => viewVideo(e, video)}
+                      role="presentation"
                     >
-                      <div className='video-thumbnail'>
+                      <div className="video-thumbnail">
                         <Image
-                          width='250'
-                          height='150'
-                          src={video.snippet.thumbnails.high.url}
-                          alt={`${video.snippet.title} 영상 썸네일`}
+                          width="250"
+                          height="150"
+                          src={video.thumbnails.high}
+                          alt={`${video.title} 영상 썸네일`}
                         />
                       </div>
 
-                      <div className='video-cont'>
-                        <h2 className='video-title'>{video.snippet.title}</h2>
-                        <span className='video-channel'>
-                          {video.snippet.channelTitle}
+                      <div className="video-cont">
+                        <h2 className="video-title">{video.title}</h2>
+                        <span className="video-channel">
+                          {video.channelTitle}
                         </span>
                       </div>
                     </div>
@@ -247,8 +245,8 @@ const CurrentVideo = ({
                 })
               : null}
 
-            <div className='pagination' ref={paginationRef}>
-              <Loading colorTheme={"#fff"} />
+            <div className="pagination" ref={paginationRef}>
+              <Loading colorTheme={'#fff'} />
             </div>
           </>
         </motion.div>

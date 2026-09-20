@@ -90,21 +90,16 @@ declare global {
 
   // 유튜브 API에서 받아오는 비디오 데이터 타입
   interface videoType {
-    id: {
-      kind: string;
-      videoId: string;
-    };
-    snippet: {
-      channelId: string;
-      channelTitle: string;
-      description: string;
-      thumbnails: {
-        high: {
-          url: string;
-        };
-      };
-      title: string;
-    };
+    id: string; // 영상 아이디
+    title: string; // 영상 제목
+    description: string; // 영상 설명
+    thumbnails: {
+      high: string;
+      default: string;
+    }; // 영상 썸네일 이미지
+    publishedAt: string; // 영상 업로드 일시
+    durationSeconds: number; // 영상 재생시간 (초)
+    channelTitle: string; // 채널 제목
   }
 
   // SerpApi 구글 쇼핑 검색엔진 API 조회 의류 타입
