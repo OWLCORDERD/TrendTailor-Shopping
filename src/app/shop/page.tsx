@@ -55,7 +55,7 @@ const getTrendClothes = async () => {
 // 2025.06.22: 금주 1위 컨설턴트 유튜버 채널 영상 조회
 const getYoutuberVideo = async () => {
   const channelId = 'UC8a6z7i9qypp9PqJ_0HhBrw'; // 채널 ID
-  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY ?? '';
 
   try {
     const videos = await getFilteredChannelVideos(channelId, apiKey);

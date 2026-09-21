@@ -1,13 +1,3 @@
-export interface YouTubeVideoItem {
-  id: string;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  publishedAt: string;
-  durationSeconds: number;
-  channelTitle: string;
-}
-
 const youtubeAPI = 'https://www.googleapis.com/youtube/v3';
 
 /**
@@ -62,7 +52,7 @@ export async function getFilteredChannelVideos(
   minMinutes = 4, // 영상 최소 시간 (숏츠 제외하기 위한 기본 4분 설정)
   maxMinutes = 20, // 영상 최대 시간 (기본 20분 설정)
   maxResults = 50 // 영상 최대 결과 수
-): Promise<YouTubeVideoItem[]> {
+): Promise<videoType[]> {
   // 채널 업로드 재생목록 ID 조회
   const uploadsPlaylistId = await getUploadsPlaylistId(channelId, apiKey);
 
@@ -101,12 +91,12 @@ export async function getFilteredChannelVideos(
   const maxSeconds = maxMinutes * 60;
 
   // 3. Duration 파싱 및 4분~20분 필터링
-  const filteredVideos: YouTubeVideoItem[] = (videosData.items || [])
+  const filteredVideos: videoType[] = (videosData.items || [])
     .map((item: any) => {
       const durationStr = item.contentDetails?.duration || '';
       const durationSeconds = parseISO8601Duration(durationStr);
 
-      // 비디오 필드 스키마 반환 (YouTubeVideoItem 타입)
+      // 비디오 필드 스키마 반환 (videoType 타입)
       return {
         id: item.id,
         title: item.snippet?.title || '',
@@ -120,7 +110,7 @@ export async function getFilteredChannelVideos(
         channelTitle: item.snippet?.channelTitle || '',
       };
     })
-    .filter((video: YouTubeVideoItem) => {
+    .filter((video: videoType) => {
       return (
         video.durationSeconds >= minSeconds &&
         video.durationSeconds <= maxSeconds
