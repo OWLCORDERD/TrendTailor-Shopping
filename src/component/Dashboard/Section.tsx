@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Dashboard as CSS } from '@/styles';
 import SystemLabel from './ui/SystemLabel';
 import { IoArrowRedoSharp } from 'react-icons/io5';
+import TrendKpiStats from './structure/TrendKpiStats';
+import DashboardHeader from './structure/Header';
 
 const Section = ({
   type,
@@ -66,115 +68,17 @@ const Section = ({
 }) => {
   const hasTitleYn = useMemo(() => {
     return header.title !== '' || section.title !== '' || hero.title !== '';
-  }, [header.title, section.title, hero.title]);
-
-  const newDate = dayjs().locale('ko').toDate();
-
-  const currentDate = useMemo(() => {
-    return dayjs(newDate).format('YYYY년 MM월');
-  }, [newDate]);
-
-  const dashboardTitle = useMemo(() => {
-    if (header.title && header.title !== '') {
-      return { __html: header.title as any };
-    }
-
-    const monthlySeasonCollection: any = {
-      '01': '겨울',
-      '02': '겨울',
-      '03': '봄',
-      '04': '봄',
-      '05': '봄',
-      '06': '여름',
-      '07': '여름',
-      '08': '여름',
-      '09': '가을',
-      '10': '가을',
-      '11': '겨울',
-      '12': '겨울',
-    };
-
-    // 현재 날짜의 월(MM) 형태 추출
-    const currentMonth = (newDate.getMonth() + 1).toString().padStart(2, '0');
-
-    // 컬렉션에서 월에 해당하는 시즌 텍스트 출력하여 대시보드 제목 생성
-    if (monthlySeasonCollection[currentMonth]) {
-      const fullTxt = `올해 ${monthlySeasonCollection[currentMonth]}, 사람들이 가장 <strong>주목한 스타일</strong>`;
-
-      return { __html: fullTxt };
-    }
-  }, [newDate, header.title]);
-
-  const dummyData = [
-    {
-      type: 'top-keyword',
-      data: {
-        title: '블록코어',
-        value: '+ 14',
-      },
-    },
-    {
-      type: 'new-clothes',
-      data: {
-        title: '7월 신상 의류',
-        value: '+ 700',
-      },
-    },
-    {
-      type: 'new-keyword',
-      data: {
-        title: '블록코어 외',
-        value: '+ 7',
-      },
-    },
-  ];
-
-  const getTypeLabel = (type: string) => {
-    switch (type) {
-      case 'top-keyword':
-        return 'TOP 인기상승 키워드';
-      case 'new-clothes':
-        return '신규 등록 아이템';
-      case 'new-keyword':
-        return '신규 등록 키워드';
-    }
-  };
+  }, [section.title, hero.title])
 
   return (
     <>
       {/* 랜딩 페이지 상단 헤더 유형 */}
       {type === 'header' && (
-        <CSS.PageHeader>
-          <div className="index">
-            {header.label && (
-              <SystemLabel
-                type={header.label.type || 'eyebrow'}
-                labelTxt={header.label.labelTxt || currentDate}
-                subTxt_B={header.label.subTxt_B}
-              />
-            )}
-            <h1
-              className="index__title"
-              dangerouslySetInnerHTML={dashboardTitle}
-            ></h1>
-          </div>
-
-          <div className="page-sub">{header.children}</div>
-        </CSS.PageHeader>
+        <DashboardHeader />
       )}
 
-      {/* kpi 통계 그래프 유형 */}
-      {type === 'kpi' && (
-        <CSS.KPIGraph>
-          {dummyData.map((item, index) => (
-            <CSS.KPIGraphItem key={index}>
-              <div className="kpi__label">{getTypeLabel(item.type)}</div>
-              <div className="kpi__value">{item.data.title}</div>
-              <div className="kpi__delta">{item.data.value}</div>
-            </CSS.KPIGraphItem>
-          ))}
-        </CSS.KPIGraph>
-      )}
+      {/* kpi 통계 — 의류/키워드 풀에서 렌더 시점 집계 */}
+      {type === 'kpi' && <TrendKpiStats />}
 
       {/* 랜딩 페이지 본문 인트로 영역 */}
       {type === 'hero' && (

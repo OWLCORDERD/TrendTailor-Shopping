@@ -31,32 +31,6 @@ interface HeroChildren {
   buttonText?: string;
 }
 const page = async () => {
-  const headerChildren: HeaderChildren = {
-    children: (
-      <>
-        <SystemLabel
-          type="dot"
-          labelTxt="실시간 업데이트"
-          subTxt_B="7월 15일 22:40"
-        />
-        <div className="count">
-          <div className="count-item">
-            <div className="count-item__label">아이템</div>
-            <div className="count-item__value">1,234</div>
-          </div>
-
-          <div className="count-item">
-            <div className="count-item__label">분석된 키워드</div>
-            <div className="count-item__value">12</div>
-          </div>
-        </div>
-      </>
-    ),
-    label: {
-      subTxt_B: '트랜드 스타일 대시보드',
-    },
-  };
-
   const heroChildren: HeroChildren = {
     title: '올해 트렌드 키워드들을 분석해보세요.',
     desc: `월별마다 자동화된 트랜드 키워드 수집부터 의류 데이터 수집 파이프라인을 통해 최신화된 데이터를 기반으로
@@ -84,8 +58,7 @@ const page = async () => {
   } = {
     type: 'banner',
     title: '검색 엔진 스크래핑 API 서비스 <strong>SerpApi</strong>',
-    desc: `월별마다 OPEN AI 프롬프트를 통해 집계된 트렌드 키워드별 검색 쿼리를 구성하여 <br/>
-    검색 엔진 스크래핑 API 서비스 <strong>SerpApi</strong> 구글 쇼핑 검색 엔진의 검색 결과를 통해 키워드별로 의류 데이터를 수집합니다.`,
+    desc: `월별마다 집계된 트렌드 키워드별 검색 쿼리를 구성하여 검색 엔진 스크래핑 API 서비스 <strong>SerpApi</strong> 구글 쇼핑 검색 엔진으로 의류 데이터를 수집하며 키워드 간의 메타데이터 관계 정의한 스키마 형태로 최종 저장합니다.`,
     children: <SerpApiSample />,
     label: {
       labelTxt: 'TrendData Collection Pipeline',
@@ -94,8 +67,9 @@ const page = async () => {
 
   return (
     <>
-      {/* 본문 헤더 & KPI 통계 그래프 영역 */}
-      <DashboardSection type="header" header={headerChildren} />
+      {/* 2026.10.05 본문 헤더 & KPI 통계 그래프 영역
+      서버 컴포넌트 props 구조 아닌 독립적인 클라이언트 사이드 컴포넌트로 분리 */}
+      <DashboardSection type="header" />
 
       <DashboardSection type="kpi" />
 

@@ -5,6 +5,7 @@ import {
   doc,
   DocumentReference,
   getDoc,
+  getCountFromServer,
   getDocs,
   limit,
   query,
@@ -38,12 +39,44 @@ export interface searchKeywordType {
   name: string; // 트랜드 키워드명
   aliases: string[]; // 트랜드 키워드 별칭
   createdAt: Date; // 트랜드 키워드 생성일
+  updatedAt?: Date; // 트랜드 키워드 수정일 (월별 수집 갱신)
   children: {
     top: string[];
     bottom: string[];
     shoes: string[];
   };
 }
+
+const toJsDate = (value: unknown): Date | null => {
+  if (!value) return null;
+
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? null : value;
+  }
+
+  if (typeof value === 'object') {
+    const maybeTimestamp = value as {
+      toDate?: () => Date;
+      seconds?: number;
+    };
+
+    if (typeof maybeTimestamp.toDate === 'function') {
+      const parsed = maybeTimestamp.toDate();
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    if (typeof maybeTimestamp.seconds === 'number') {
+      return new Date(maybeTimestamp.seconds * 1000);
+    }
+  }
+
+  if (typeof value === 'string' || typeof value === 'number') {
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  return null;
+};
 
 type ExistingKeyword = {
   ref: DocumentReference;
@@ -185,17 +218,38 @@ export class TrendKeywordRepository {
     }
 
     return getColRefDocs.docs.map(doc => {
+      const data = doc.data();
+      const createdAt =
+        toJsDate(data.createdAt) ?? toJsDate(data.updatedAt) ?? new Date(0);
+      const updatedAt = toJsDate(data.updatedAt) ?? undefined;
+
       return {
-        name: doc.data().name,
-        aliases: doc.data().aliases,
-        createdAt: doc.data().createdAt.toDate(),
+        name: data.name,
+        aliases: data.aliases,
+        createdAt,
+        updatedAt,
         children: {
-          top: doc.data().children.tops,
-          bottom: doc.data().children.bottoms,
-          shoes: doc.data().children.shoes,
+          top: data.children?.tops ?? [],
+          bottom: data.children?.bottoms ?? [],
+          shoes: data.children?.shoes ?? [],
         },
       };
     }) as searchKeywordType[];
+  }
+
+  /** 키워드 문서 중 updatedAt(없으면 createdAt) 최신순 1건의 날짜 */
+  getLatestUpdatedAt(keywords: searchKeywordType[]): Date | null {
+    const sorted = [...keywords].sort((a, b) => {
+      const aTime = (a.updatedAt ?? a.createdAt)?.getTime() ?? 0;
+      const bTime = (b.updatedAt ?? b.createdAt)?.getTime() ?? 0;
+      return bTime - aTime;
+    });
+
+    const latest = sorted[0];
+    if (!latest) return null;
+
+    const date = latest.updatedAt ?? latest.createdAt;
+    return date?.getTime() ? date : null;
   }
 }
 
@@ -279,5 +333,10 @@ export class TrendClothesRepository {
         ...doc.data(),
       };
     }) as trendClothes[];
+  }
+
+  async getClothesCount() {
+    const snap = await getCountFromServer(collection(db, this.collection));
+    return snap.data().count;
   }
 }
