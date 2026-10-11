@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import AuthSession from '@/component/common/AuthSession';
 import { ThemeProvider } from '../../context/ThemeContext';
 import StyledComponentsRegistry from './RootStyleRegistry';
-import ReduxProvider from 'store/provider/Provider';
+import ReduxProvider from '@/feature/store/provider/Provider';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Footer from 'component/Main/Footer';

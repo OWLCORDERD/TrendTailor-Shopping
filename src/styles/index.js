@@ -6,7 +6,6 @@ import { NoticeBoard } from "styles/NoticeBoard";
 import { SeasonPeed } from "styles/Peed/SeasonPeed";
 import { ClothesPeed } from "./Peed/ClothesPeed";
 import { PreviewVideo } from "./PreviewVideo";
-import { ProductDetail } from "./ProductDetail";
 import { Trendly } from "./Trendly/index";
 import { QuickMenu } from "./QuickMenu";
 import { Loading } from "./Loading";
@@ -23,7 +22,6 @@ export {
   SeasonPeed,
   ClothesPeed,
   PreviewVideo,
-  ProductDetail,
   Trendly,
   QuickMenu,
   Loading,
