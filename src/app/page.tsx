@@ -78,7 +78,7 @@ const page = async () => {
 
       <TrendTailorAI />
 
-      <DashboardSection type="section" section={sectionChildren} />
+      {/* <DashboardSection type="section" section={sectionChildren} /> */}
     </>
   );
 };

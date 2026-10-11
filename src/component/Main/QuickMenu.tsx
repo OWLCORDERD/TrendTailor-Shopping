@@ -9,10 +9,9 @@ import ChatbotIcon from 'assets/images/chatbot-2.png';
 import { useWindowSize } from '@/hooks/useWindowSize';
 import Image from 'next/image';
 import { ScrollToTop } from '@/hooks/ScrollToTop';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { chatOpen } from '@/store/chatBubbleSlice';
+import { useAppDispatch, useAppSelector } from '@/feature/store/hooks';
+import { chatOpen } from '@/feature/store/chatBubbleSlice';
 import TrendlyContainer from '@/component/trendlyAI/Container';
-import { AnimatePresence } from 'framer-motion';
 
 const QuickMenu = () => {
   const { width } = useWindowSize();

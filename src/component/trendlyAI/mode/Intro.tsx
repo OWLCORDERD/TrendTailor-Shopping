@@ -2,15 +2,14 @@
 
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Trendly as CSS } from 'styles';
 import Chatbot from 'assets/images/chatbot.png';
 import { motion } from 'framer-motion';
 import { IoIosChatboxes } from 'react-icons/io';
 import { HiDocumentCheck } from 'react-icons/hi2';
-import { useAppDispatch } from '@/store/hooks';
-import { changeMode } from '@/store/chatBubbleSlice';
-import { openModal } from '@/store/modalSlice';
+import { useAppDispatch } from '@/feature/store/hooks';
+import { changeMode } from '@/feature/store/chatBubbleSlice';
 import { ModalContext } from '../../../../context/ModalContext';
 
 const ChatContainer = () => {

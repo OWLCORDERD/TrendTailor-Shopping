@@ -9,7 +9,7 @@ import chatbotCharacter from '@/assets/images/chatbot.png';
 import { db } from '@/shared/lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import Loading from '../../Loading';
-import { openReport } from '@/store/chatBubbleSlice';
+import { openReport } from '@/feature/store/chatBubbleSlice';
 
 const RecentChats = () => {
   // 로그인 사용자만 접근 가능 > 사용자 정보 조회

@@ -1,8 +1,8 @@
-import React from "react";
-import { Trendly as CSS } from "@/styles";
-import Intro from "@/component/trendlyAI/mode/Intro";
-import { useAppSelector } from "@/store/hooks";
-import Consultant from "@/component/trendlyAI/mode/Consultant/Consultant";
+import React from 'react';
+import { Trendly as CSS } from '@/styles';
+import Intro from '@/component/trendlyAI/mode/Intro';
+import { useAppSelector } from '@/feature/store/hooks';
+import Consultant from '@/component/trendlyAI/mode/Consultant/Consultant';
 
 interface propsType {
   sideBarActive: boolean;
@@ -10,13 +10,13 @@ interface propsType {
 }
 
 const ChatArea = ({ sideBarActive, setSideBarActive }: propsType) => {
-  const chatMode = useAppSelector((state) => state.chatBubble.mode);
+  const chatMode = useAppSelector(state => state.chatBubble.mode);
 
   const dynamicScreenRenderer = () => {
     switch (chatMode) {
-      case "intro":
+      case 'intro':
         return <Intro />;
-      case "consultant":
+      case 'consultant':
         return <Consultant />;
       default:
         return <Intro />;

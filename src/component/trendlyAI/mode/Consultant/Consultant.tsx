@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { Trendly as CSS } from '@/styles';
 import TrendlyBubble from '@/component/trendlyAI/bubble/Trendly';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/feature/store/hooks';
 import UserBubble from '@/component/trendlyAI/bubble/User';
 import Loading from './Loading';
-import { recommendResultSession } from '@/store/chatBubbleSlice';
+import { recommendResultSession } from '@/feature/store/chatBubbleSlice';
 import { useSession } from 'next-auth/react';
 import { PiWarningCircle } from 'react-icons/pi';
 

@@ -4,10 +4,10 @@ import Loading from '@/component/common/Loading';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from '@/feature/store/hooks';
 import Pagenation from '../Pagenation/Pagenation';
 import { useSearchParams } from 'next/navigation';
-import { getSearchClothes } from '@/store/monthlyClothesSlice';
+import { getSearchClothes } from '@/feature/store/monthlyClothesSlice';
 
 const SearchProductList = () => {
   const [loading, setLoading] = useState<boolean>(true);

@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { Trendly as CSS } from "@/styles";
-import TrendlyBubble from "@/component/trendlyAI/bubble/Trendly";
-import { IoIosAttach } from "react-icons/io";
-import { FaSearch } from "react-icons/fa";
-import { useAppSelector } from "@/store/hooks";
-import UserBubble from "@/component/trendlyAI/bubble/User";
-import { warningIcon } from "@/component/svgData";
+import React, { useState } from 'react';
+import { Trendly as CSS } from '@/styles';
+import TrendlyBubble from '@/component/trendlyAI/bubble/Trendly';
+import { useAppSelector } from '@/feature/store/hooks';
+import UserBubble from '@/component/trendlyAI/bubble/User';
 
 const Consultant = () => {
-  const [openAIQuestion, setOpenAIQuestion] = useState<string>("");
+  const [openAIQuestion, setOpenAIQuestion] = useState<string>('');
 
-  const messages = useAppSelector((state) => state.chatBubble.messages);
+  const messages = useAppSelector(state => state.chatBubble.messages);
   // // 2025.02.02: openAI API 질문 요청
   // const requestOpenAI = async (e: React.KeyboardEvent<HTMLInputElement>) => {
   //   // 입력칸에서 enter 키 눌렀을때만 실행
@@ -36,7 +33,7 @@ const Consultant = () => {
     <CSS.ConsultantMode>
       <CSS.ChatArea>
         {messages.map((message: any, index: number) => {
-          return message.role === "user" ? (
+          return message.role === 'user' ? (
             <UserBubble message={message.message} />
           ) : (
             <TrendlyBubble message={message.message} />

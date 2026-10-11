@@ -7,7 +7,7 @@ import { HiSparkles } from 'react-icons/hi2';
 import Image from 'next/image';
 import { Trendly as CSS } from '@/styles';
 import { db } from '@/shared/lib/firebase';
-import { useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/feature/store/hooks';
 import chatbotCharacter from '@/assets/images/chatbot.png';
 import NextImage from '@/component/common/NextImage';
 

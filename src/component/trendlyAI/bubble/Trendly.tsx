@@ -3,14 +3,13 @@ import { Trendly as CSS } from '@/styles';
 import chatbotImg from '@/assets/images/chatbot.png';
 import Image from 'next/image';
 import { questionIcon } from '@/component/svgData';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/feature/store/hooks';
 import {
   changeMode,
   handleSurveySelect,
   nextStep,
   searchTrendKeywords,
-} from '@/store/chatBubbleSlice';
-import { IoIosArrowDown } from 'react-icons/io';
+} from '@/feature/store/chatBubbleSlice';
 import ErrorModal from '@/component/common/modal/Error';
 
 interface messageType {

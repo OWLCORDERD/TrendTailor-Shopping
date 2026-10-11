@@ -1,11 +1,11 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/feature/store/hooks';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trendly as CSS } from '@/styles';
 import Image from 'next/image';
 import searchError from '@/assets/images/search-error.png';
-import { retryRecommendOpenAI } from '@/store/chatBubbleSlice';
+import { retryRecommendOpenAI } from '@/feature/store/chatBubbleSlice';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/shared/lib/firebase';
 import { keywordSearch } from '@/component/svgData';

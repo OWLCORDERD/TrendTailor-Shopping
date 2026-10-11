@@ -1,4 +1,4 @@
-import { selectType } from '@/store/chatBubbleSlice';
+import { selectType } from '@/feature/store/chatBubbleSlice';
 import {
   searchKeywordType,
   TrendClothesRepository,

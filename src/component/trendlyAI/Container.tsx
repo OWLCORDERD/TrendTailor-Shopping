@@ -4,7 +4,7 @@ import Intro from '@/component/trendlyAI/mode/Intro';
 import Consultant from '@/component/trendlyAI/mode/Consultant/Consultant';
 import Report from '@/component/trendlyAI/mode/Report';
 import React, { useContext } from 'react';
-import { useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/feature/store/hooks';
 import { IoChevronBack, IoClose } from 'react-icons/io5';
 import { IoReturnUpForwardSharp } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ import {
   chatClose,
   closeClothesDetail,
   closeReport,
-} from '@/store/chatBubbleSlice';
+} from '@/feature/store/chatBubbleSlice';
 import { TiHome } from 'react-icons/ti';
 import { GoHistory } from 'react-icons/go';
 import { ModalContext } from '../../../context/ModalContext';
