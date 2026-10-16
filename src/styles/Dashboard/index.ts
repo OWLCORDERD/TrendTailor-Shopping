@@ -154,6 +154,10 @@ Dashboard.KPIGraphItem = styled.div`
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       color: #fff;
+
+      &.is-loaded {
+        animation: kpi-rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
     }
 
     &__delta {
@@ -167,6 +171,27 @@ Dashboard.KPIGraphItem = styled.div`
       &.down {
         color: #ff6b6b;
       }
+    }
+  }
+
+  &:nth-child(2) .kpi__value.is-loaded {
+    animation-delay: 0.08s;
+  }
+
+  &:nth-child(3) .kpi__value.is-loaded {
+    animation-delay: 0.16s;
+  }
+
+  @keyframes kpi-rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kpi__value.is-loaded {
+      animation: none;
     }
   }
 
@@ -190,8 +215,7 @@ Dashboard.Hero = styled.section`
   .hero-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
+    grid-template-rows: auto 1fr;
     overflow: hidden;
     min-height: 680px;
 
@@ -201,6 +225,8 @@ Dashboard.Hero = styled.section`
     }
 
     .hero-left {
+      grid-column: 1;
+      grid-row: 1;
       padding: 32px;
       display: flex;
       flex-direction: column;
@@ -241,9 +267,159 @@ Dashboard.Hero = styled.section`
       }
     }
 
+    /* 그래프 포커스 키워드 인사이트 패널 (KeywordForceGraph 내부에서 렌더) */
+    .keyword-insight {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin: 0 32px 32px;
+      padding: 24px;
+      border-radius: var(--r-rg);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      word-break: keep-all;
+
+      &__head {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+      }
+
+      &__rank {
+        font-size: 64px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        font-variant-numeric: tabular-nums;
+        transition: color 0.25s ease;
+
+        small {
+          margin-left: 2px;
+          font-size: 18px;
+          font-weight: 700;
+        }
+      }
+
+      &__name {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--text);
+      }
+
+      &__stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        margin: 0;
+        background: var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+
+        & > div {
+          padding: 12px 16px;
+          background: var(--bg-elev);
+        }
+
+        dt {
+          font-size: 12px;
+          color: var(--text-muted);
+        }
+
+        dd {
+          margin: 4px 0 0;
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--text);
+          font-variant-numeric: tabular-nums;
+        }
+      }
+
+      &__group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      &__caption,
+      &__hint,
+      &__empty {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+
+      &__hint {
+        font-size: 12px;
+        color: var(--text-dim);
+      }
+
+      &__chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        & > li {
+          padding: 6px 12px;
+          border-radius: 999px;
+          font-size: 13px;
+          color: var(--text);
+          background: var(--accent-soft);
+        }
+
+        & > li:has(button) {
+          padding: 0;
+          background: none;
+        }
+
+        button {
+          padding: 6px 12px;
+          border-radius: 999px;
+          border: 1px solid var(--border);
+          background: transparent;
+          color: var(--text);
+          font-size: 13px;
+          cursor: pointer;
+          transition:
+            border-color 0.2s ease,
+            background 0.2s ease;
+
+          &:hover,
+          &:focus-visible {
+            border-color: var(--cool);
+            background: rgba(77, 212, 255, 0.12);
+          }
+
+          &:focus-visible {
+            outline: 2px solid var(--cool);
+            outline-offset: 2px;
+          }
+        }
+      }
+
+      @media screen and (max-width: 1040px) {
+        order: 1;
+        margin: 0;
+        border-radius: 0;
+        border-width: 1px 0 0;
+      }
+    }
+
     .keyword-force-graph {
+      grid-column: 2;
+      grid-row: 1 / span 2;
       position: relative;
       min-height: 620px;
+
+      .node-group:focus {
+        outline: none;
+      }
       display: flex;
       flex-direction: column;
       align-items: stretch;

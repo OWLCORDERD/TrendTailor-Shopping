@@ -207,6 +207,9 @@ $css-vars: (
   --r-rg: #{$radius-rg},
   --r-l: #{$radius-lg},
   --r-lx: #{$radius-xl},
+  // styled-components(Dashboard)에서 사용하는 이름 - 미정의로 radius가 0이 되던 문제 보정
+  --r-lg: #{$radius-lg},
+  --r-xl: #{$radius-xl},
   --accent: #{$color-accent},
   --accent-hover: #{$color-accent-hover},
   --accent-soft: #{$color-accent-soft},
