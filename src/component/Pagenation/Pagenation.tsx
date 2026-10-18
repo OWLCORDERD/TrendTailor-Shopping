@@ -133,7 +133,7 @@ const Pagenation = ({
   return (
     <Container>
       <RiArrowLeftDoubleLine
-        onClick={(e) => prevPage(e)}
+        onClick={(e: React.MouseEvent<SVGElement>) => prevPage(e)}
         cursor='pointer'
         visibility={pageCount === 1 ? "hidden" : "auto"}
       />
@@ -152,7 +152,7 @@ const Pagenation = ({
         })}
       </PageList>
       <RiArrowRightDoubleLine
-        onClick={(e) => nextPage(e)}
+        onClick={(e: React.MouseEvent<SVGElement>) => nextPage(e)}
         cursor='pointer'
         visibility={
           totalDBlength > 0 &&
