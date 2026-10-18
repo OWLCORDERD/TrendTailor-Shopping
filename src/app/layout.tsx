@@ -17,15 +17,31 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './fonts';
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://trendtailor-store.vercel.app';
+
+const SITE_DESCRIPTION =
+  'TrendTailor 플랫폼은 매월 새로운 트렌드 키워드들을 제공하며 구글 쇼핑 검색 엔진을 통해 트렌드 의류와 그 외의 정보를 공유하는 포트폴리오 플랫폼 사이트입니다.';
+
 export const metadata: Metadata = {
-  title: 'TrendTailor',
+  metadataBase: new URL(SITE_URL),
+  // './'는 요청 경로 기준으로 해석되어 페이지마다 자기 URL이 canonical로 지정됨
+  alternates: { canonical: './' },
+  // 2026.10.18: 하위 페이지 제목은 "페이지명 | TrendTailor" 형식으로 표시
+  title: {
+    default: 'TrendTailor - 월별 패션 트렌드 키워드 분석 대시보드',
+    template: '%s | TrendTailor',
+  },
   openGraph: {
+    type: 'website',
+    url: './',
+    siteName: 'TrendTailor',
+    locale: 'ko_KR',
     title: 'TrendTailor, 트렌드를 재단해보세요.',
     description:
-      'WISH 쇼핑몰에서는 네이버 의류 API와 연동하여 트렌드 의류와 계절별 의류를 공유하고 유튜브 API와 연동하여 패션 트렌드 영상을 제공하는 포트폴리오 의류 사이트입니다.',
+      'TrendTailor는 매월 자동으로 수집한 패션 트렌드 키워드와 구글 쇼핑 의류 데이터를 분석해 대시보드로 제공하는 포트폴리오 플랫폼입니다.',
   },
-  description:
-    'TrendTailor 플랫폼은 매월 새로운 트렌드 키워드들을 제공하며 구글 쇼핑 검색 엔진을 통해 트렌드 의류와 그 외의 정보를 공유하는 포트폴리오 플랫폼 사이트입니다.',
+  description: SITE_DESCRIPTION,
   verification: {
     google: 'Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0',
   },

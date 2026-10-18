@@ -34,7 +34,7 @@ NoticeBoard.TitleBox = styled.div`
   }
 `;
 
-NoticeBoard.Title = styled.h1`
+NoticeBoard.Title = styled.h2`
   line-height: 5rem;
   font-family: "Raleway", sans-serif;
   font-size: 1.5rem;

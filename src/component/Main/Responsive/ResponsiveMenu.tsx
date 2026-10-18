@@ -95,7 +95,7 @@ const ResponsiveMenu = ({
         <div className='logo'>
           <Link href='/' prefetch={true} className='logo'>
             <Image src={Logo} alt='TrendTailor 로고 이미지' />
-            <h1 className='logo-title'>TrendTailor</h1>
+            <span className='logo-title'>TrendTailor</span>
           </Link>
         </div>
 

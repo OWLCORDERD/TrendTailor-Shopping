@@ -1,6 +1,6 @@
 "use client";
 
-import { NoticeType } from "app/notice/page";
+import { NoticeType } from "@/feature/notice/notice.service";
 import Link from "next/link";
 import React, { useState, useEffect, useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";

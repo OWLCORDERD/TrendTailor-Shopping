@@ -154,7 +154,7 @@ Banner.titleBox = styled.div`
   }
 `;
 
-Banner.infoTitle = styled.h1`
+Banner.infoTitle = styled.h2`
   line-height: 6.25rem;
   font-size: 1.5rem;
   font-weight: 700;

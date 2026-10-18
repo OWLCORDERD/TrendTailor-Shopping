@@ -21,7 +21,7 @@ const AboutSection = () => {
 
             <div className='AboutWISH-info'>
               <p>
-                At wish, we are continuously updating through four intensive
+                At TrendTailor, we are continuously updating through four intensive
                 search solutions.
               </p>
             </div>
@@ -35,7 +35,7 @@ const AboutSection = () => {
 
               <div className='solution-content'>
                 <div className='solution-title'>
-                  <h1>search trand clothes</h1>
+                  <h2>search trend clothes</h2>
                 </div>
 
                 <div className='solution-info'>
@@ -54,7 +54,7 @@ const AboutSection = () => {
 
               <div className='solution-content'>
                 <div className='solution-title'>
-                  <h1>seasonal clothing shop</h1>
+                  <h2>seasonal clothing shop</h2>
                 </div>
 
                 <div className='solution-info'>
@@ -73,7 +73,7 @@ const AboutSection = () => {
 
               <div className='solution-content'>
                 <div className='solution-title'>
-                  <h1>CLOTHING YOUTUBE INFORMATION COLLECTION</h1>
+                  <h2>CLOTHING YOUTUBE INFORMATION COLLECTION</h2>
                 </div>
 
                 <div className='solution-info'>
@@ -92,7 +92,7 @@ const AboutSection = () => {
 
               <div className='solution-content'>
                 <div className='solution-title'>
-                  <h1>SHARING CLOTHING INFORMATION FEED</h1>
+                  <h2>SHARING CLOTHING INFORMATION FEED</h2>
                 </div>
 
                 <div className='solution-info'>
@@ -110,7 +110,7 @@ const AboutSection = () => {
       <article className='AboutSeason-container'>
         <div className='Season-content'>
           <div className='Season-title'>
-            <h1>Seasonal Collection</h1>
+            <h2>Seasonal Collection</h2>
           </div>
           <div className='Season-info'>
             <p>
@@ -127,7 +127,7 @@ const AboutSection = () => {
 
                 <div className='Season-state'>
                   <div className='Season-name'>
-                    <h2>{name}</h2>
+                    <h3>{name}</h3>
                   </div>
 
                   <div className='Season-date'>

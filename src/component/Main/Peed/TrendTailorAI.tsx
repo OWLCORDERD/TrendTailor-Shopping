@@ -100,7 +100,6 @@ const TrendTailorAI = () => {
       variants={elementByMotion.container}
       initial="hidden"
       animate={hasPlayed ? 'show' : 'hidden'}
-      className="timeline-section"
     >
       <SystemLabel type="eyebrow" labelTxt="TREND CONSULTING AI" />
       <CSS.Intro>

@@ -53,12 +53,12 @@
     
                         &:first-child{
                             width: 60%;
-                            h1{
+                            span{
                                 text-align: center;
                             }
                         }
     
-                        h1{
+                        span{
                             font-size: 1rem;
                             text-align: center;
                         }
@@ -123,7 +123,7 @@
                                 width: 50%;
                             }
         
-                            h1{
+                            span{
                                 font-size: 12px;
                                 text-align: center;
                             }

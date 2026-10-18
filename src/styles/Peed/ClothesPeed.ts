@@ -28,7 +28,7 @@ ClothesPeed.TitleBox = styled.div`
   }
 `;
 
-ClothesPeed.Title = styled.h1`
+ClothesPeed.Title = styled.h2`
   width: 100%;
   font-size: 1.8rem;
   text-transform: uppercase;
@@ -139,7 +139,7 @@ ClothesPeed.ProductInfo = styled.div`
   overflow: hidden;
 `;
 
-ClothesPeed.ProductTitle = styled.h2`
+ClothesPeed.ProductTitle = styled.h3`
   display: flex;
   align-items: center;
   width: 100%;

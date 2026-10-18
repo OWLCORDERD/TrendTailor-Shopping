@@ -3,15 +3,17 @@ const path = require("path");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // 2026.10.17: .babelrc 제거 후 SWC 컴파일러로 styled-components 변환 처리
   compiler: {
     styledComponents: true,
   },
   // 2026.08.12: Dart Sass (@use "tokens" / @use "mixin") 
   // 경로 해석 문제 해결을 위한 설정
+  // 2026.10.17: Next.js 16 sass-loader v16(Modern Sass API) 적용으로 includePaths → loadPaths 변경
   sassOptions: {
-    includePaths: [path.join(__dirname, "src/styles")],
-    silenceDeprecations: ["legacy-js-api"],
+    loadPaths: [path.join(__dirname, "src/styles")],
   },
+  // 2026.10.17: Next.js 16 마이그레이션 - deprecated된 images.domains > remotePatterns로 통합
   images: {
     remotePatterns: [
       {
@@ -36,6 +38,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "ads-partners.coupang.com",
+      },
+      {
+        protocol: "https",
         hostname: "encrypted-tbn0.gstatic.com",
       },
       {
@@ -56,48 +62,10 @@ const nextConfig = {
       }
     ],
 
-    domains: [
-      "localhost",
-      "shopping-phinf.pstatic.net",
-      "i.ytimg.com",
-      "firebasestorage.googleapis.com",
-      "yt3.ggpht.com",
-      'ads-partners.coupang.com',
-      'encrypted-tbn0.gstatic.com',
-      'encrypted-tbn1.gstatic.com',
-      'encrypted-tbn2.gstatic.com',
-      'encrypted-tbn3.gstatic.com',
-      'serpapi.com'
-    ],
-
     formats: ["image/webp"],
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: [
-        {
-          loader: "@svgr/webpack",
-          options: {
-            svgo: true,
-            demensions: false,
-          },
-        },
-      ],
-    });
-
-    return config;
-  },
-  experimental: {
-    turbo: false,
-  },
   async rewrites() {
-    return [
-      {
-        source: "/api/clothes",
-        destination: "https://openapi.naver.com/v1/search/shop.json",
-      },
-    ];
+    return [];
   },
 };
 
