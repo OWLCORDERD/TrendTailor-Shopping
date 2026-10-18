@@ -256,7 +256,7 @@ Navbar.ResponsiveLogo = styled.div`
       }
     }
 
-    & > h1 {
+    & > .logo-title {
       font-weight: 500;
       font-size: 1.2rem;
       font-family: ${fontPacifico};

@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Dashboard as CSS } from '@/styles';
 import SystemLabel from '../ui/SystemLabel';
 import dayjs from 'dayjs';
+import useCountUp from '@/hooks/useCountUp';
 import {
   TrendClothesRepository,
   TrendKeywordRepository,
@@ -18,6 +19,8 @@ const DashboardHeader = () => {
   const [itemCount, setItemCount] = useState(0);
   const [keywordCount, setKeywordCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const displayItemCount = useCountUp(itemCount);
+  const displayKeywordCount = useCountUp(keywordCount);
 
   const currentDate = useMemo(() => {
     return dayjs(newDate).format('YYYY년 MM월');
@@ -109,14 +112,14 @@ const DashboardHeader = () => {
           <div className="count-item">
             <div className="count-item__label">아이템</div>
             <div className="count-item__value">
-              {isLoading ? '—' : itemCount.toLocaleString('ko-KR')}
+              {isLoading ? '—' : displayItemCount.toLocaleString('ko-KR')}
             </div>
           </div>
 
           <div className="count-item">
             <div className="count-item__label">분석된 키워드</div>
             <div className="count-item__value">
-              {isLoading ? '—' : keywordCount.toLocaleString('ko-KR')}
+              {isLoading ? '—' : displayKeywordCount.toLocaleString('ko-KR')}
             </div>
           </div>
         </div>

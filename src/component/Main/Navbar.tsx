@@ -82,7 +82,7 @@ const Navbar = () => {
                     <div className='logo-icon'>
                       <Image src={Logo} alt='TrendTailor 로고 이미지' />
                     </div>
-                    <h1 className='logo-title'>TrendTailor</h1>
+                    <span className='logo-title'>TrendTailor</span>
                   </Link>
                 </CSS.ResponsiveLogo>
                 <CSS.ResponsiveMenu>
@@ -123,7 +123,7 @@ const Navbar = () => {
                     <div className='logo-icon'>
                       <Image src={Logo} alt='TrendTailor 로고 이미지' />
                     </div>
-                    <h1 className='logo-title'>TrendTailor</h1>
+                    <span className='logo-title'>TrendTailor</span>
                   </Link>
                 </CSS.Logo>
 

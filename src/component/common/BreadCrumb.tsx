@@ -1,7 +1,7 @@
 "use client";
 
 import useBreadcurmbSetting from "@/hooks/useBreadcrumb";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -20,14 +20,20 @@ const BreadCrumb = () => {
     }
   }, [currentBreadcrumb]);
 
-  // 메인 인트로 홈, 쇼핑 or 챗봇 페이지에서는 브레드크럼 제외 처리
+  // 메인 인트로 홈, 쇼핑 or 챗봇 페이지, 미등록 경로(404)에서는 브레드크럼 제외
   const filterRoute = route !== "/" && !route.includes("trendly");
+  const showBreadcrumb = filterRoute && currentBreadcrumb.isKnownPath;
+
+  // 2026.10.18: 상세 페이지(/notice/[idx] 등)는 본문 제목이 H1이므로 배너 제목은 헤딩에서 제외
+  const lastPath =
+    currentBreadcrumb.breadcrumb[currentBreadcrumb.breadcrumb.length - 1]?.path;
+  const TitleTag = route === lastPath ? "h1" : "p";
 
   return (
     <>
-      {filterRoute && (
+      {showBreadcrumb && (
         <div className='page-banner'>
-          <h1 className='page-title'>{pageTitle}</h1>
+          <TitleTag className='page-title'>{pageTitle}</TitleTag>
 
           <ul className='breadcrumb-list'>
             {currentBreadcrumb.breadcrumb.map((item, index) => {

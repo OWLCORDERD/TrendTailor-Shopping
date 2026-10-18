@@ -1,10 +1,6 @@
 import React from 'react';
-import Timeline from '@/component/Main/Peed/TimeLine';
 import DashboardSection from '@/component/Dashboard/Section';
-import SystemLabel from '@/component/Dashboard/ui/SystemLabel';
 import TrendTailorAI from '@/component/Main/Peed/TrendTailorAI';
-import useSWR, { SWRResponse } from 'swr';
-import { FetcherResponse } from 'swr/dist/_internal';
 import KeywordForceGraph from '@/component/Dashboard/structure/KeywordForceGraph';
 import SerpApiSample from '@/component/Dashboard/structure/SerpApiSample';
 

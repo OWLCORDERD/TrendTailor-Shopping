@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import 'styles/shop.scss';
 import ClothesPeed from '@/component/Main/Peed/Contents/ClothesPeed';
 import Banner, { slideType } from '@/component/Main/Peed/Clothes/Banner';
@@ -6,7 +7,10 @@ import NoticeBoard from '@/component/Main/Peed/Clothes/NoticeBoard';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/shared/lib/firebase';
 import TrendConsultant from '@/component/Main/Peed/TrendConsultant';
-import { NoticeType } from '../notice/page';
+import {
+  getNoticeList,
+  NoticeType,
+} from '@/feature/notice/notice.service';
 import { getFilteredChannelVideos } from '@/feature/trend/services/api/youtube';
 
 // const fetchClothes = async () => {
@@ -58,6 +62,7 @@ const getYoutuberVideo = async () => {
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY ?? '';
 
   try {
+    // 유튜버 채널 추천 영상 > 유튜브 서비스 객체 파이프라인 호출
     const videos = await getFilteredChannelVideos(channelId, apiKey);
 
     return videos;
@@ -89,7 +94,8 @@ const getChannelData = async () => {
   }
 };
 
-const fetchSlideList = async () => {
+// 상단 배너 슬라이드 조회
+const bannerList = async () => {
   const docs = await getDocs(collection(db, 'slide'));
 
   const slideList: slideType[] = [];
@@ -107,53 +113,24 @@ const fetchSlideList = async () => {
   return slideList;
 };
 
-const fetchNoticeList = async () => {
-  const docs = await getDocs(collection(db, 'notice'));
-
-  const postsData: NoticeType[] = [];
-
-  docs.forEach(doc => {
-    const docsData = {
-      id: doc.id,
-      date: doc.data()['date'].toDate(),
-      image: doc.data()['image'],
-      text: doc.data()['text'],
-      title: doc.data()['title'],
-      view_cnt: doc.data()['view_cnt'],
-    };
-
-    // 파이어베이스에 저장된 공지사항 date 필드 값
-    const date = docsData.date;
-    // date 필드 값 월(month) 데이터 추출
-    const month = date.getMonth();
-    // date 필드 값 일(date) 데이터 추출
-    const day = date.getDate();
-
-    // 월, 일 데이터가 10보다 작으면 0 붙인 숫자값으로 return
-    const filterMonth = month < 10 ? '0' + month : month;
-    const filterDay = day < 10 ? '0' + day : day;
-
-    // 0000-00-00 형식으로 포맷 후 기존 date 문자열 데이터 값 업데이트
-    docsData.date = date.getFullYear() + '-' + filterMonth + '-' + filterDay;
-
-    postsData.push(docsData);
-  });
-
-  return postsData;
+export const metadata: Metadata = {
+  title: '트렌드 쇼핑',
+  description:
+    '월간 트렌드 키워드로 수집한 금주 트렌드 의류와 패션 컨설턴트 유튜버 영상을 한 곳에서 살펴보세요.',
+  alternates: { canonical: '/shop' },
 };
 
 export default async function Shop() {
   const allClothes: trendClothes[] | undefined = await getTrendClothes();
   const trendYoutuber: channelDataType[] | undefined = await getChannelData();
   const trendYoutubeVideo: videoType[] | undefined = await getYoutuberVideo();
-  const slideList: slideType[] = await fetchSlideList();
-  const noticeList: NoticeType[] = await fetchNoticeList();
+  const slideList: slideType[] = await bannerList();
+  const noticeList: NoticeType[] = await getNoticeList();
   return (
     <section className="shop-container">
       <Banner slideDB={slideList} />
       <NoticeBoard noticeDB={noticeList} />
       <div className="Peed-wrapper">
-        {/* <SeasonPeed seasonClothes={seasonClothes} /> */}
         <TrendConsultant
           trendYoutuber={trendYoutuber}
           trendYoutubeVideo={trendYoutubeVideo}

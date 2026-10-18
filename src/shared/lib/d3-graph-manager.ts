@@ -40,6 +40,8 @@ export class D3TrendGraphManager {
     null,
     undefined
   > | null = null;
+  // 키워드 포커스(하이라이트) 처리 함수 - render 시점에 바인딩
+  private focusHandler: ((id: string | null) => void) | null = null;
 
   constructor(svgElement: SVGSVGElement, width: number, height: number) {
     this.svgSelector = svgElement;
@@ -56,7 +58,7 @@ export class D3TrendGraphManager {
       .select(this.svgSelector)
       .attr('width', '100%')
       .attr('height', '100%')
-      .attr('viewBox', `0 0 ${this.width * 1.2} ${this.height * 1.2}`);
+      .attr('viewBox', `0 0 ${this.width} ${this.height}`);
 
     svg.selectAll('*').remove(); // 기존 요소 초기화
 
@@ -76,14 +78,31 @@ export class D3TrendGraphManager {
   /**
    * Firestore에서 가져온 (nodes, links) 데이터 기반 그래프 렌더링
    */
-  public render(data: GraphData, onNodeClick?: (node: GraphNode) => void) {
+  public render(
+    data: GraphData,
+    onNodeClick?: (node: GraphNode) => void,
+    onNodeFocus?: (node: GraphNode | null) => void
+  ) {
     if (!this.gContainer) return;
 
     // 객체 깊은 복사 (D3 Simulation이 x, y, vx, vy 값을 직접 변형하므로 원본 보호)
     const nodes: GraphNode[] = data.nodes.map(d => ({ ...d }));
     const links: GraphLink[] = data.links.map(d => ({ ...d }));
 
-    const keywordColorsMap = new Map<string, string>();
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    // 연결된 키워드 조회용 인접 맵
+    const neighbors = new Map<string, Set<string>>(
+      nodes.map(d => [d.id, new Set([d.id])])
+    );
+    links.forEach(l => {
+      const s = typeof l.source === 'string' ? l.source : l.source.id;
+      const t = typeof l.target === 'string' ? l.target : l.target.id;
+      neighbors.get(s)?.add(t);
+      neighbors.get(t)?.add(s);
+    });
 
     // 1. Force Simulation 설정
     this.simulation = d3
@@ -110,8 +129,8 @@ export class D3TrendGraphManager {
       .data(links)
       .enter()
       .append('line')
-      .attr('stroke', '#334155')
-      .attr('stroke-opacity', 0.6)
+      .attr('stroke', '#5a6ba8')
+      .attr('stroke-opacity', 0.35)
       .attr('stroke-width', d => Math.sqrt(d.value));
 
     // 3. Nodes Group 렌더링 (SVG G element)
@@ -124,27 +143,50 @@ export class D3TrendGraphManager {
       .append('g')
       .attr('class', 'node-group')
       .style('cursor', 'pointer')
+      .style('transition', 'opacity 0.25s ease')
+      .attr('tabindex', 0)
+      .attr('role', 'button')
+      .attr('aria-label', d => `${d.rank ?? ''}위 ${d.name}`)
       .call(this.drag(this.simulation))
-      .on('click', (_, d) => onNodeClick && onNodeClick(d));
+      .on('click', (_, d) => onNodeClick && onNodeClick(d))
+      .on('keydown', (event: KeyboardEvent, d) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onNodeClick && onNodeClick(d);
+        }
+      });
 
     // 노드 원형(Circle) 채우기
     const circle = node
       .append('circle')
       .attr('r', d => d.val)
-      .attr('fill', d => {
-        const currentNodeColor = this.getRandomRGB();
-        keywordColorsMap.set(d.id, currentNodeColor);
-        return currentNodeColor;
-      })
-      .attr('fill-opacity', 0.18)
-      .attr('filter', 'url(#nodeGlow)')
-      .attr('stroke', (d: any) => keywordColorsMap.get(d.id) || '#FFFFFF')
+      .attr('fill', d => this.getRankColor(d.rank))
+      .attr('fill-opacity', 0.16)
+      .attr('stroke', d => this.getRankColor(d.rank))
       .attr('stroke-width', 1.5);
 
     const dot = node
       .append('circle')
       .attr('r', d => d.val / 2)
-      .attr('fill', d => keywordColorsMap.get(d.id) || '#FFFFFF');
+      .attr('fill', d => this.getRankColor(d.rank));
+
+    // 최초 렌더 시 순위 순서대로 노드 등장 (모션 최소화 설정 시 생략)
+    if (!reduceMotion) {
+      const delay = (d: GraphNode) => (((d.rank ?? 1) - 1) % 10) * 70;
+      circle
+        .attr('r', 0)
+        .transition()
+        .delay(delay)
+        .duration(500)
+        .ease(d3.easeBackOut)
+        .attr('r', d => d.val);
+      dot
+        .attr('r', 0)
+        .transition()
+        .delay(d => delay(d) + 120)
+        .duration(400)
+        .attr('r', d => d.val / 2);
+    }
 
     // 노드 텍스트 라벨 (Label)
     node
@@ -201,7 +243,7 @@ export class D3TrendGraphManager {
           .append('xhtml:ul')
           .attr(
             'style',
-            'box-sizing: border-box; width: 100%; height: 100%; margin: 0; list-style: none; background-color: #111; padding: 10px 12px; border-radius: 8px; color: #fff; font-size: 14px; line-height: 1.6;'
+            'box-sizing: border-box; width: 100%; height: 100%; margin: 0; list-style: none; background-color: #17245e; border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 12px; border-radius: 12px; color: #f4f4f0; font-size: 14px; line-height: 1.6;'
           );
 
         infoList.append('li').attr('class', 'clothes-count');
@@ -219,17 +261,44 @@ export class D3TrendGraphManager {
 
     let hoveredNode: GraphNode | null = null;
 
+    // 선택 키워드와 연결된 키워드만 강조, 나머지는 흐리게 처리
+    const isLinked = (l: any, id: string) =>
+      l.source.id === id || l.target.id === id;
+
+    const highlight = (id: string | null) => {
+      const related = id ? neighbors.get(id) : null;
+      node.style('opacity', d => (!related || related.has(d.id) ? 1 : 0.18));
+      circle.attr('stroke-width', d => (d.id === id ? 3 : 1.5));
+      link
+        .attr('stroke', l => (id && isLinked(l, id) ? '#4dd4ff' : '#5a6ba8'))
+        .attr('stroke-opacity', l =>
+          !id ? 0.35 : isLinked(l, id) ? 0.9 : 0.06
+        );
+    };
+
+    this.focusHandler = highlight;
+
+    const enter = function (this: SVGGElement, _: unknown, d: GraphNode) {
+      hoveredNode = d;
+      d3.select(this).raise();
+      tooltipLayer.raise();
+      showTooltip(d);
+      highlight(d.id);
+      onNodeFocus?.(d);
+    };
+
+    const leave = () => {
+      hoveredNode = null;
+      hideTooltip();
+      highlight(null);
+      onNodeFocus?.(null);
+    };
+
     node
-      .on('mouseenter', function (_, d) {
-        hoveredNode = d;
-        d3.select(this).raise();
-        tooltipLayer.raise();
-        showTooltip(d);
-      })
-      .on('mouseleave', () => {
-        hoveredNode = null;
-        hideTooltip();
-      });
+      .on('mouseenter', enter)
+      .on('focus', enter)
+      .on('mouseleave', leave)
+      .on('blur', leave);
 
     // 4. Tick 이벤트로 위치 갱신
     this.simulation.on('tick', () => {
@@ -275,11 +344,21 @@ export class D3TrendGraphManager {
       });
   }
 
-  public getRandomRGB() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
+  /**
+   * 외부(인사이트 패널 등)에서 특정 키워드 강조 / 해제 (onNodeFocus 미호출)
+   */
+  public focus(id: string | null) {
+    this.focusHandler?.(id);
+  }
+
+  /**
+   * 순위 기반 노드 색상 - 전역 테마 토큰(warm / accent-hover / cool)에서 파생
+   * 구간 내 1위는 warm, 이후 순위는 accent → cool 순으로 점진 변화
+   */
+  public getRankColor(rank = 1) {
+    const position = (rank - 1) % 10;
+    if (position === 0) return '#ffb84d';
+    return d3.interpolateRgb('#5a76ff', '#4dd4ff')((position - 1) / 8);
   }
 
   /**

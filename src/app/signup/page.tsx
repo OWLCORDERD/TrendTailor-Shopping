@@ -10,7 +10,6 @@ import React, {
 import "app/globals.scss";
 import "styles/signup.scss";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { IoIosImages, IoIosCloseCircle } from "react-icons/io";
 import Image from "next/image";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -268,16 +267,14 @@ const Register = () => {
     e.preventDefault();
 
     if (isUserId) {
-      const res = await axios.get("api/duplicationIdCheck", {
-        params: {
-          userId: registerInfo.id,
-        },
+      const res = await fetch(`api/duplicationIdCheck?userId=${registerInfo.id}`, {
+        method: "GET",
       });
 
-      if (res.status === 200) {
-        const duplicate = await res.data.duplicate;
+      if (res.ok) {
+        const data = await res.json();
 
-        if (!duplicate) {
+        if (!data.duplicate) {
           AlertToast({
             str: "사용 가능한 아이디입니다.",
             type: "success",
@@ -541,7 +538,7 @@ const Register = () => {
         {/* 개인정보 입력 폼 영역 */}
         <div className='info-form'>
           <div className='form-title'>
-            <h1>개인정보입력</h1>
+            <p>개인정보입력</p>
           </div>
 
           <div className='form-input'>
@@ -557,7 +554,7 @@ const Register = () => {
               </div>
               {isName === false ? (
                 <div className='Valid-errorTxt'>
-                  <h1>2~8글자 이내로 입력해주세요.</h1>
+                  <span>2~8글자 이내로 입력해주세요.</span>
                 </div>
               ) : null}
             </div>
@@ -601,7 +598,7 @@ const Register = () => {
 
               {isEmail === false ? (
                 <div className='Valid-errorTxt'>
-                  <h1>이메일 형식에 맞게 입력해주세요.</h1>
+                  <span>이메일 형식에 맞게 입력해주세요.</span>
                 </div>
               ) : null}
             </div>
@@ -621,7 +618,7 @@ const Register = () => {
               </div>
               {isCheckPhoneNumber === false ? (
                 <div className='Valid-errorTxt'>
-                  <h1>휴대전화를 올바르게 입력하세요.</h1>
+                  <span>휴대전화를 올바르게 입력하세요.</span>
                 </div>
               ) : null}
             </div>
@@ -631,7 +628,7 @@ const Register = () => {
         {/* 프로필 정보 입력 폼 영역 */}
         <div className='profile-form'>
           <div className='form-title'>
-            <h1>회원 프로필 입력</h1>
+            <p>회원 프로필 입력</p>
           </div>
 
           <div className='inner-wrap'>
@@ -659,7 +656,7 @@ const Register = () => {
                       <IoIosImages />
                     </div>
                     <div className='upload-text'>
-                      <p>사진</p>
+                      <span>사진</span>
                       <span>
                         드래그하여 이미지를 첨부하거나 첨부 버튼으로 직접 첨부
                         가능합니다.
@@ -695,9 +692,9 @@ const Register = () => {
                     />
                     {isUserId === false ? (
                       <div className='Valid-errorTxt'>
-                        <h1>
+                        <span>
                           영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다
-                        </h1>
+                        </span>
                       </div>
                     ) : (
                       <div></div>
@@ -725,10 +722,10 @@ const Register = () => {
                     />
                     {isPassword === false ? (
                       <div className='Valid-errorTxt'>
-                        <h1>
+                        <span>
                           특수문자 / 문자 / 숫자 포함 형태의 8~15자리 이내로
                           입력해주세요.{" "}
-                        </h1>
+                        </span>
                       </div>
                     ) : (
                       <div></div>
@@ -749,7 +746,7 @@ const Register = () => {
 
                     {isCheckPassword === false ? (
                       <div className='Valid-errorTxt'>
-                        <h1>입력하신 패스워드와 일치하지 않습니다.</h1>
+                        <span>입력하신 패스워드와 일치하지 않습니다.</span>
                       </div>
                     ) : null}
                   </div>

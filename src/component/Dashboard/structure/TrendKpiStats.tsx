@@ -76,7 +76,13 @@ const TrendKpiStats = () => {
       {displayCards.map(item => (
         <CSS.KPIGraphItem key={item.type}>
           <div className="kpi__label">{item.label}</div>
-          <div className="kpi__value">{isLoading ? '—' : item.title}</div>
+          {/* key 변경으로 로딩 완료 시 진입 애니메이션 1회 재생 */}
+          <div
+            key={isLoading ? 'loading' : 'loaded'}
+            className={`kpi__value${isLoading ? '' : ' is-loaded'}`}
+          >
+            {isLoading ? '—' : item.title}
+          </div>
           <div className={`kpi__delta${item.deltaUp ? ' up' : ''}`}>
             {isLoading ? '' : item.value}
           </div>

@@ -51,8 +51,9 @@ const Logo = styled.div`
 const MainLogo = styled.div`
   width: 100%;
 
-  h1 {
+  .footer-logo {
     font-family: "Raleway", sans-serif;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: 1.5rem;
     color: #fff;
@@ -62,7 +63,7 @@ const MainLogo = styled.div`
   @media screen and (max-width: 768px) {
     width: 25%;
 
-    h1 {
+    .footer-logo {
       line-height: 5rem;
       font-size: 1.5rem;
     }
@@ -184,7 +185,7 @@ const Footer = () => {
         <MainCont>
           <Logo>
             <MainLogo>
-              <h1>TrendTailor</h1>
+              <p className="footer-logo">TrendTailor</p>
             </MainLogo>
 
             <LogoInfo>
@@ -228,7 +229,7 @@ const Footer = () => {
         </SubCont>
 
         <SubCont>
-          <CopyRight>Copyright (c) WISH. All Rights Reserved</CopyRight>
+          <CopyRight>Copyright (c) TrendTailor. All Rights Reserved</CopyRight>
         </SubCont>
       </Inner>
     </footer>

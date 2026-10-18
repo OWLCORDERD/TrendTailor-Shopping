@@ -34,7 +34,7 @@ ResponseMenu.Header = styled.div`
       object-fit: cover;
     }
 
-    h1 {
+    .logo-title {
       font-weight: 400;
       font-size: 1.2rem;
       font-family: ${fontPacifico};

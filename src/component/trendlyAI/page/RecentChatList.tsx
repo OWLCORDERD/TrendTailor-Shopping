@@ -117,7 +117,7 @@ const RecentChatList = ({ sideBarActive, setSideBarActive }: propsType) => {
 
       {sideBarActive && (
         <div className='recent-chat-list'>
-          <h1 className='chat-list-title'>최근 채팅 내역</h1>
+          <h2 className='chat-list-title'>최근 채팅 내역</h2>
 
           <motion.ul
             className='chat-list'

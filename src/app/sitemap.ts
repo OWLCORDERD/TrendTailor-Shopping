@@ -1,48 +1,17 @@
 import { MetadataRoute } from "next";
-import { NoticeType } from "./notice/page";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/shared/lib/firebase";
+import { getNoticeList } from "@/feature/notice/notice.service";
 
-interface example {
-  url: string;
-  lastModified: string;
-}
+// 2026.10.18: 새 공지사항이 반영되도록 1시간마다 재생성
+export const revalidate = 3600;
 
-const publicURL: string = "https://wishstore.vercel.app";
-
-const getNoticePosts = async () => {
-  const docsRef = collection(db, "notice");
-  const querySnapShot = await getDocs(docsRef);
-
-  if (querySnapShot.empty) {
-    return [];
-  }
-
-  const noticeData: NoticeType[] = [];
-
-  querySnapShot.forEach((doc) => {
-    const docData = {
-      id: doc.id,
-      title: doc.data()["title"],
-      writer: doc.data()["writer"],
-      image: doc.data()["image"],
-      date: doc.data()["date"].toDate(),
-      text: doc.data()["text"],
-      view_cnt: doc.data()["view_cnt"],
-    };
-
-    noticeData.push(docData);
-  });
-
-  return noticeData;
-};
+const publicURL: string = "https://trendtailor-store.vercel.app";
 
 const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const posts: NoticeType[] = await getNoticePosts();
+  const posts = await getNoticeList();
 
-  const postUrls: example[] = posts?.map((post) => ({
+  const postUrls: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${publicURL}/notice/${post.id}`,
-    lastModified: post.date,
+    lastModified: post.isoDate,
   }));
 
   return [
@@ -63,7 +32,7 @@ const Sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       lastModified: new Date(),
     },
     {
-      url: `${publicURL}/trend`,
+      url: `${publicURL}/trendly`,
       lastModified: new Date(),
     },
     ...postUrls,

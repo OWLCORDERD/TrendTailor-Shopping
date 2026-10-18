@@ -1,107 +1,104 @@
-"use client";
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import 'styles/currentNotice.scss';
+import { getNoticeById } from '@/feature/notice/notice.service';
 
-import { db } from "@/shared/lib/firebase";
-import Loading from "@/component/common/Loading";
-import { doc, getDoc } from "firebase/firestore";
-import Image from "next/image";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import "styles/currentNotice.scss";
-import { NoticeType } from "../page";
+// 2026.10.18: 조회수가 즉시 반영되도록 요청마다 서버에서 렌더링
+export const dynamic = 'force-dynamic';
 
-const CurrentNotice = ({ params }: any) => {
-  const notice_id = params.idx;
-  const [loading, setLoading] = useState<boolean>(true);
-  const [currentPost, setCurrentPost] = useState<NoticeType | undefined>();
+interface NoticePageProps {
+  params: Promise<{ idx: string }>;
+}
 
-  const findPost = async () => {
-    const ref = doc(db, "notice", notice_id);
+// 2026.10.18: 게시글 제목, 본문 앞부분을 페이지 제목, 설명으로 사용
+export async function generateMetadata({
+  params,
+}: NoticePageProps): Promise<Metadata> {
+  const { idx } = await params;
+  const post = await getNoticeById(idx);
 
-    const docSnapshot = await getDoc(ref);
+  if (!post) {
+    notFound();
+  }
 
-    if (docSnapshot.exists()) {
-      const docData = {
-        id: docSnapshot.id,
-        title: docSnapshot.data()["title"],
-        writer: docSnapshot.data()["writer"],
-        image: docSnapshot.data()["image"],
-        date: docSnapshot.data()["date"].toDate(),
-        text: docSnapshot.data()["text"],
-        view_cnt: docSnapshot.data()["view_cnt"],
-      };
+  const description = post.text.replace(/\s+/g, ' ').trim().slice(0, 120);
 
-      const date = docData.date;
-
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-      const filterMonth = month < 10 ? "0" + month : month;
-      const filterDay = day < 10 ? "0" + day : day;
-      docData.date = date.getFullYear() + "-" + filterMonth + "-" + filterDay;
-
-      setCurrentPost(docData);
-
-      setLoading(false);
-    }
+  return {
+    title: `${post.title} - 공지사항`,
+    description,
+    alternates: { canonical: `/notice/${post.id}` },
+    openGraph: {
+      type: 'article',
+      siteName: 'TrendTailor',
+      locale: 'ko_KR',
+      title: post.title,
+      description,
+      url: `/notice/${post.id}`,
+      publishedTime: post.isoDate,
+      ...(post.image ? { images: [post.image] } : {}),
+    },
   };
+}
 
-  useEffect(() => {
-    findPost();
-  }, [notice_id]);
+// 2026.10.18: useEffect 클라이언트 조회 → 서버 컴포넌트 조회로 전환 (검색엔진에 본문 노출)
+const CurrentNotice = async ({ params }: NoticePageProps) => {
+  const { idx } = await params;
+  const currentPost = await getNoticeById(idx);
+
+  if (!currentPost) {
+    notFound();
+  }
 
   return (
-    <div className='wrap'>
-      <section className='current-NoticeBoard'>
-        {!loading && currentPost ? (
-          <>
-            <div className='currentBoard-header'>
-              <span className='static'>공지사항</span>
-              <h1 className='title'>{currentPost.title}</h1>
-            </div>
+    <div className="wrap">
+      <article className="current-NoticeBoard">
+        <div className="currentBoard-header">
+          <span className="static">공지사항</span>
+          <h1 className="title">{currentPost.title}</h1>
+        </div>
 
-            <div className='currentBoard-info'>
-              <div className='view-count'>
-                <p>조회수</p>
-                <span>{currentPost.view_cnt}</span>
-              </div>
-              <div className='upload-date'>
-                <span>{currentPost.date}</span>
-              </div>
-            </div>
+        <div className="currentBoard-info">
+          <div className="view-count">
+            <p>조회수</p>
+            <span>{currentPost.view_cnt}</span>
+          </div>
+          <div className="upload-date">
+            <time dateTime={currentPost.isoDate}>{currentPost.date}</time>
+          </div>
+        </div>
 
-            <div className='currentBoard-text'>
-              {currentPost.text.split("\n").map((keyword) => {
-                return (
-                  <p key={currentPost.id}>
-                    {keyword}
-                    <br />
-                  </p>
-                );
-              })}
-            </div>
+        <div className="currentBoard-text">
+          {currentPost.text.split('\n').map((keyword, index) => {
+            return (
+              <p key={index}>
+                {keyword}
+                <br />
+              </p>
+            );
+          })}
+        </div>
 
-            {currentPost.image ? (
-              <div className='upload-imageBox'>
-                <div className='upload-image'>
-                  <Image
-                    src={currentPost.image}
-                    alt='공지사항 이미지'
-                    width='400'
-                    height='500'
-                  />
-                </div>
-              </div>
-            ) : null}
-
-            <div className='currentNotice-button'>
-              <div className='NoticeList-button'>
-                <Link href='/notice'>목록으로</Link>
-              </div>
+        {currentPost.image ? (
+          <div className="upload-imageBox">
+            <div className="upload-image">
+              <Image
+                src={currentPost.image}
+                alt={`${currentPost.title} 첨부 이미지`}
+                width="400"
+                height="500"
+              />
             </div>
-          </>
-        ) : (
-          <Loading height={500} />
-        )}
-      </section>
+          </div>
+        ) : null}
+
+        <div className="currentNotice-button">
+          <div className="NoticeList-button">
+            <Link href="/notice">목록으로</Link>
+          </div>
+        </div>
+      </article>
     </div>
   );
 };

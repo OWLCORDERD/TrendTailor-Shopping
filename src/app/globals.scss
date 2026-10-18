@@ -65,6 +65,11 @@
         padding: 0;
       }
 
+      // 404(not-found)는 레이아웃 자식으로 들어오므로 robots 메타를 읽지 않고 마크업으로 숨김
+      &:has(.not-found-container) .page-banner {
+        display: none;
+      }
+
       .page-banner {
         display: block;
         width: 100%;
@@ -74,6 +79,8 @@
 
         .page-title {
           width: 100%;
+          font-size: 2em;
+          font-weight: bold;
           line-height: 3rem;
           text-align: center;
           margin: 0 auto 20px auto;
@@ -337,8 +344,51 @@ footer {
   }
 }
 
-.trendly-container {
+.not-found-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $color-white;
+  height: calc(100vh - 101px);
+
+  .not-found {
+    &-code {
+      display: block;
+      font-size: 80px;
+      font-weight: 300;
+      letter-spacing: 8px;
+      margin: 20px 0 30px;
+    }
+
+    &-title {
+      display: block;
+      font-size: $font-size-2xl;
+      font-weight: 300;
+      margin: 20px 0 40px;
+    }
+
+    &-description {
+      display: block;
+      font-size: $font-size-lg;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  .dashboard-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: $font-size-lg;
+    font-weight: 500;
+    text-align: center;
+    margin: 20px 0 30px;
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 }
 
 section {

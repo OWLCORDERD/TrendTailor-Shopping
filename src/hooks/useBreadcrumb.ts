@@ -86,9 +86,14 @@ const useBreadcurmbSetting = (currentPath: string) => {
     { name: "Home", path: "/", icon: IoHomeSharp },
   ];
 
+  const matchesMenuPath = (menuUrl: string, path: string) => {
+    if (menuUrl === '/') return path === '/';
+    return path === menuUrl || path.startsWith(`${menuUrl}/`);
+  };
+
   if (currentPath && currentPath !== "") {
     menuList.forEach((menu) => {
-      if (currentPath.includes(menu.menuUrl)) {
+      if (matchesMenuPath(menu.menuUrl, currentPath)) {
         currentBreadcrumbItems.push({
           name: menu.menuName,
           path: menu.menuUrl,
@@ -99,7 +104,7 @@ const useBreadcurmbSetting = (currentPath: string) => {
       // 1뎁스 자식 2뎁스 존재할 시, 메뉴 추가
       if (menu.children.length > 0) {
         menu.children.forEach((child) => {
-          if (currentPath.includes(child.menuUrl)) {
+          if (matchesMenuPath(child.menuUrl, currentPath)) {
             currentBreadcrumbItems.push({
               name: child.menuName,
               path: child.menuUrl,
@@ -110,9 +115,16 @@ const useBreadcurmbSetting = (currentPath: string) => {
     });
   }
 
+  const isKnownPath = menuList.some(
+    menu =>
+      matchesMenuPath(menu.menuUrl, currentPath) ||
+      menu.children.some(child => matchesMenuPath(child.menuUrl, currentPath))
+  );
+
   return {
     breadcrumb: currentBreadcrumbItems, // 루트 경로(home) > 현재 경로 브래드크럼 배열 반환
     menuList: menuList, // 플랫폼 전체 메뉴 목록 반환
+    isKnownPath,
   };
 };
 
