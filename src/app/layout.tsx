@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   verification: {
-    google: 'A6iqSdzs9pSlgN5ffUfMmsQxLKPiZtT0vcVEiydn-QY',
+    google: 'Y46ulKgr26amG4IdAHROTHgXqKB2TH_SF7iHftuFkH0',
   },
   icons: {
     icon: '/favicon.ico',
