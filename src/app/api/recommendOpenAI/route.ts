@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+// 2026.10.25: 월별 트렌드 키워드 생성(약 4000 토큰 응답)은 기본 실행 시간(10초)을 넘길 수 있어 상향
+// Vercel Hobby 플랜 상한은 Fluid compute 설정에 따라 다르므로 프로젝트 설정에서 확인 필요
+export const maxDuration = 60;
+
 interface createOptionsType {
   model: string;
   messages: any[];

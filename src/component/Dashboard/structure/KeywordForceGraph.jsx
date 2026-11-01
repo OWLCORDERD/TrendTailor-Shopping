@@ -1,216 +1,80 @@
 'use client';
 
-import {
-  BuildGraphJob,
-  GRAPH_PAGE_SIZE,
-} from '@/feature/trend/jobs/build-graph.jobs';
-import { AlertToast } from '@/hooks/useToastify';
-import { db } from '@/shared/lib/firebase';
 import { D3TrendGraphManager } from '@/shared/lib/d3-graph-manager';
-import { collection, getDocs } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { PiGraph } from 'react-icons/pi';
-import { ModalContext } from '../../../../context/ModalContext';
+import { DashboardContext } from '../../../../context/DashboardContext';
 
 const RANK_TIER_LABEL = {
   'top1-10': 'TOP 1-10',
   'top11-20': 'TOP 11-20',
 };
 
-const KeywordForceGraph = () => {
-  const { status, data: session } = useSession();
-  const { modalOpen, modalClose } = useContext(ModalContext);
+const DEFAULT_RANK_TIER = 'top1-10';
 
-  const [pipelineStart, setPipelineStart] = useState(false);
-  const [generateComplete, setGenerateComplete] = useState(false);
-  const [rankTier, setRankTier] = useState('top1-10');
-  const [graphMeta, setGraphMeta] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+/**
+ * 2026.11.01 인기 키워드 연관 그래프
+ * - 랭킹 구간별 nodes/links는 서버(ISR)에서 미리 계산해 DashboardContext로 전달
+ * - 클라이언트는 최초 TOP 1-10 구간만 d3 렌더러로 그리고, 구간 변경 시 해당 구간 데이터로 다시 그림
+ */
+const KeywordForceGraph = () => {
+  const { graphTiers } = useContext(DashboardContext);
+
+  const [rankTier, setRankTier] = useState(DEFAULT_RANK_TIER);
   const [graphData, setGraphData] = useState(null);
   const [focusedNode, setFocusedNode] = useState(null);
 
   const managerRef = useRef(null);
   const svgRef = useRef(null);
-  const clothesListRef = useRef([]);
 
-  const renderGraph = useCallback((clothesList, selectedRankTier) => {
-    if (!svgRef.current) return null;
+  const graphMeta = graphData?.meta ?? null;
 
-    const buildGraphJob = new BuildGraphJob();
-    const graphData = buildGraphJob.process(clothesList, {
-      rankTier: selectedRankTier,
-    });
+  const renderGraph = useCallback(
+    selectedRankTier => {
+      const tierData = graphTiers[selectedRankTier];
+      if (!svgRef.current || !tierData) return;
 
-    if (managerRef.current) {
-      managerRef.current.destroy();
-    }
+      managerRef.current?.destroy();
 
-    const width = svgRef.current.clientWidth || 678;
-    const height = svgRef.current.clientHeight || 678;
+      const width = svgRef.current.clientWidth || 678;
+      const height = svgRef.current.clientHeight || 678;
 
-    const manager = new D3TrendGraphManager(svgRef.current, width, height);
-    manager.render(
-      graphData,
-      node => {
-        alert(
-          `[${node.rank}위] ${node.name}\n현재 키워드 의류 상세 팝업 서비스 구현중입니다.`
-        );
-      },
-      setFocusedNode
-    );
-
-    managerRef.current = manager;
-    setGraphMeta(graphData.meta);
-    setGraphData(graphData);
-    setFocusedNode(null);
-
-    if (!graphData.meta.availableTiers.includes(selectedRankTier)) {
-      setRankTier(graphData.meta.rankTier);
-    }
-
-    return graphData;
-  }, []);
-
-  const fetchClothesList = useCallback(async () => {
-    const clothesRef = collection(db, 'clothes');
-    const clothesSnapShot = await getDocs(clothesRef);
-
-    if (clothesSnapShot.empty) {
-      return [];
-    }
-
-    const clothesList = [];
-    clothesSnapShot.forEach(doc => {
-      clothesList.push(doc.data());
-    });
-
-    return clothesList;
-  }, []);
-
-  const buildGraphRender = useCallback(
-    async (selectedRankTier = rankTier) => {
-      setIsLoading(true);
-
-      try {
-        const clothesList =
-          clothesListRef.current.length > 0
-            ? clothesListRef.current
-            : await fetchClothesList();
-
-        if (clothesList.length === 0) {
-          AlertToast({
-            str: '트랜드 의류 데이터가 없습니다.',
-            type: 'error',
-            theme: 'dark',
-          });
-          return;
-        }
-
-        clothesListRef.current = clothesList;
-        renderGraph(clothesList, selectedRankTier);
-        setGenerateComplete(true);
-      } catch (err) {
-        console.error(err);
-        AlertToast({
-          str: '트랜드 분석 그래프 데이터 생성 실패',
-          type: 'error',
-          theme: 'dark',
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [fetchClothesList, rankTier, renderGraph]
-  );
-
-  const handleGenerateGraph = async () => {
-    setPipelineStart(true);
-
-    if (session?.user?.role !== 'admin') {
-      AlertToast({
-        str: '관리자 권한이 없습니다.',
-        type: 'error',
-        theme: 'dark',
-      });
-      return;
-    }
-
-    if (modalOpen) {
-      modalOpen({
-        title: '트랜드 분석 그래프 데이터 생성 안내',
-        content: `d3 Force Directed 그래프 런타임 데이터 생성 후 DB 저장까지 수행합니다. <br/>
-        진행하시겠습니까?`,
-        type: 'code',
-        fn: async () => {
-          try {
-            clothesListRef.current = await fetchClothesList();
-
-            if (clothesListRef.current.length === 0) {
-              AlertToast({
-                str: '트랜드 의류 데이터가 없습니다.',
-                type: 'error',
-                theme: 'dark',
-              });
-              modalClose?.();
-              return;
-            }
-
-            renderGraph(clothesListRef.current, rankTier);
-
-            AlertToast({
-              str: '트랜드 분석 그래프 데이터 생성 완료',
-              type: 'success',
-              theme: 'dark',
-            });
-
-            setGenerateComplete(true);
-          } catch (err) {
-            console.error(err);
-            AlertToast({
-              str: '트랜드 분석 그래프 데이터 생성 실패',
-              type: 'error',
-              theme: 'dark',
-            });
-          } finally {
-            modalClose?.();
-          }
+      // d3 매니저 내부에서 nodes/links를 복사해 시뮬레이션하므로 컨텍스트 원본은 변경되지 않음
+      const manager = new D3TrendGraphManager(svgRef.current, width, height);
+      manager.render(
+        tierData,
+        node => {
+          alert(
+            `[${node.rank}위] ${node.name}
+현재 키워드 의류 상세 팝업 서비스 구현중입니다.`
+          );
         },
-      });
-    }
-  };
+        setFocusedNode
+      );
+
+      managerRef.current = manager;
+      setGraphData(tierData);
+      setFocusedNode(null);
+    },
+    [graphTiers]
+  );
 
   const handleRankTierChange = event => {
     const nextTier = event.target.value;
     setRankTier(nextTier);
-
-    if (clothesListRef.current.length > 0) {
-      renderGraph(clothesListRef.current, nextTier);
-    }
+    renderGraph(nextTier);
   };
 
-  // 최초 마운트 시 1회 로드 (rankTier 변경은 select 핸들러에서 처리)
+  // 최초 마운트(및 ISR 데이터 변경) 시 TOP 1-10 구간 렌더링
   useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      if (cancelled) return;
-      await buildGraphRender('top1-10');
-    })();
+    setRankTier(DEFAULT_RANK_TIER);
+    renderGraph(DEFAULT_RANK_TIER);
 
     return () => {
-      cancelled = true;
       managerRef.current?.destroy();
       managerRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [renderGraph]);
 
   const rankRangeLabel =
     graphMeta?.rankRange.from && graphMeta?.rankRange.to
@@ -310,9 +174,7 @@ const KeywordForceGraph = () => {
           </>
         ) : (
           <p className="keyword-insight__empty">
-            {isLoading
-              ? '키워드 그래프를 불러오는 중입니다.'
-              : '표시할 트렌드 키워드가 없습니다.'}
+            표시할 트렌드 키워드가 없습니다.
           </p>
         )}
       </aside>
@@ -336,7 +198,7 @@ const KeywordForceGraph = () => {
             className="keyword-force-graph__filter-select"
             value={rankTier}
             onChange={handleRankTierChange}
-            disabled={isLoading || !graphMeta}
+            disabled={!graphMeta}
           >
             {(graphMeta?.availableTiers ?? ['top1-10']).map(tier => (
               <option key={tier} value={tier}>
@@ -357,40 +219,6 @@ const KeywordForceGraph = () => {
       <div className="keyword-force-graph__container">
         <svg ref={svgRef} width="100%" height="100%"></svg>
       </div>
-
-      {status === 'authenticated' &&
-        session?.user?.role === 'admin' &&
-        !generateComplete && (
-          <div className="sample-block">
-            <div className="sample-block__toolbar">
-              <span className="sample-block__method">Admin Pipeline test</span>
-            </div>
-
-            <div className="sample-block__content">
-              <div className="sample-block__caption">
-                <p>
-                  수집된 트렌드 의류 컬렉션 기반으로 d3 Force Directed 그래프
-                  런타임 데이터를 생성합니다. 기본 {GRAPH_PAGE_SIZE}개 구간만
-                  렌더링하여 프레임 드랍을 방지합니다.
-                  <br />
-                </p>
-                <strong>관리자 외에는 이용 불가능한 서비스입니다.</strong>
-              </div>
-              <button
-                type="button"
-                className="sample-block__button"
-                disabled={
-                  pipelineStart ||
-                  status !== 'authenticated' ||
-                  session?.user?.role !== 'admin'
-                }
-                onClick={handleGenerateGraph}
-              >
-                호출
-              </button>
-            </div>
-          </div>
-        )}
     </div>
     </>
   );

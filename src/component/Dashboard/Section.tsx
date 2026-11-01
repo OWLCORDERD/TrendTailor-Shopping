@@ -1,13 +1,10 @@
 'use client';
 
-import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { Dashboard as CSS } from '@/styles';
 import SystemLabel from './ui/SystemLabel';
 import { IoArrowRedoSharp } from 'react-icons/io5';
-import TrendKpiStats from './structure/TrendKpiStats';
-import DashboardHeader from './structure/Header';
 
 const Section = ({
   type,
@@ -72,14 +69,6 @@ const Section = ({
 
   return (
     <>
-      {/* 랜딩 페이지 상단 헤더 유형 */}
-      {type === 'header' && (
-        <DashboardHeader />
-      )}
-
-      {/* kpi 통계 — 의류/키워드 풀에서 렌더 시점 집계 */}
-      {type === 'kpi' && <TrendKpiStats />}
-
       {/* 랜딩 페이지 본문 인트로 영역 */}
       {type === 'hero' && (
         <section className="hero">

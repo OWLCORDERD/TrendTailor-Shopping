@@ -340,8 +340,6 @@ export const handleSurveySelect = createAsyncThunk(
     // 실시간 상태관리 호출
     const state = getState() as { chatBubble: ChatBubbleState };
 
-    console.log('사용자 설문 답변 저장', state.chatBubble.QA_select);
-
     // 모든 단계의 선택이 완료되었다면 프롬프트 문자 구성
     const allStepSelect = state.chatBubble.QA_select.every(
       item => item.selectLabel !== '' && item.selectLabel !== '직접입력'
@@ -376,7 +374,6 @@ export const searchConsultingClothes = createAsyncThunk(
         throw new Error('Failed to fetch consulting clothes data');
       } else {
         if (res.data && res.data.length > 0) {
-          console.log('사용자 설문 기반 추천 의류 필터링 결과', res.data);
           // 2단계: 필터링 데이터 기반 챗봇 답변 요청
           await dispatch(recommendOpenAI(res.data));
         }

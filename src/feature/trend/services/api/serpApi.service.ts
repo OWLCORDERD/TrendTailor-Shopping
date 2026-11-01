@@ -43,10 +43,8 @@ export default class SerpApiService {
     const englishAlias = keyword.aliases?.find((a) => /^[A-Za-z0-9\s-]+$/.test(a));
     const searchQuery = englishAlias ? `${englishAlias} fashion` : `${keyword.name} 패션`;
 
-    console.log(`🔍 [SerpApi] 검색 쿼리 실행: "${searchQuery}" (원래 키워드: ${keyword.name})`);
-
     try {
-      const getJsonResponse = await fetch(`/api/serpApi?q=${searchQuery}`);
+      const getJsonResponse = await fetch(`/api/serpApi?q=${encodeURIComponent(searchQuery)}`);
 
       const data = await getJsonResponse.json();
 

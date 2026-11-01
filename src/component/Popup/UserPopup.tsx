@@ -9,6 +9,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface propsSvgType {
   setUserPopupOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -119,6 +120,33 @@ const MenuItem = styled.li`
   }
 `;
 
+const MyHomeLink = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  padding: 0 2rem;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  svg {
+    font-size: 1.2rem;
+    color: #fff !important;
+  }
+
+  span {
+    width: 80%;
+    line-height: 3rem;
+    font-family: "Noto sans KR", sans-serif;
+    font-size: 12px;
+    text-align: center;
+    color: #fff !important;
+  }
+`;
+
 const LogoutMenu = styled.div`
   display: flex;
   justify-content: space-between;
@@ -189,6 +217,11 @@ const UserPopup = ({ setUserPopupOpen }: propsSvgType) => {
           </>
         ) : null}
       </UserProfile>
+
+      <MyHomeLink href='/mypage' onClick={() => setUserPopupOpen(false)}>
+        <FaUserCircle />
+        <span>마이홈</span>
+      </MyHomeLink>
 
       <LogoutMenu onClick={logoutUser}>
         <IoMdLogOut />

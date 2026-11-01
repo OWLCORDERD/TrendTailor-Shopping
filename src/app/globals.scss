@@ -66,8 +66,11 @@
       }
 
       // 404(not-found)는 레이아웃 자식으로 들어오므로 robots 메타를 읽지 않고 마크업으로 숨김
-      &:has(.not-found-container) .page-banner {
-        display: none;
+      &:has(.not-found-container),
+      &:has(.myhome-container) {
+        .page-banner {
+          display: none;
+        }
       }
 
       .page-banner {

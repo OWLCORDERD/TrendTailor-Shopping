@@ -67,6 +67,82 @@ export const searchClothesByTrendKeyword = async () => {
   };
 };
 
+export type CollectStepStatus = 'pending' | 'running' | 'done' | 'empty' | 'failed';
+
+export interface CollectStep {
+  keyword: string;
+  status: CollectStepStatus;
+  count: number; // 저장된 의류 수
+}
+
+/**
+ * 2026.10.25. 관리자 마이홈 > 키워드 단위 의류 수집 파이프라인
+ * - Vercel Hobby 플랜 함수 실행 시간 제한으로 cron 일괄 호출 대신 클라이언트에서 키워드별로 나눠 호출
+ * - 키워드마다 즉시 저장하므로 중간에 중단·실패해도 완료된 키워드 데이터는 유지
+ * - SerpApi 검색은 키워드당 1회 (무료 플랜 월 250회 제한)
+ */
+export const collectClothesByKeywordSteps = async ({
+  onReady,
+  onStep,
+  signal,
+}: {
+  onReady?: (steps: CollectStep[]) => void; // 수집 대상 키워드 목록 확정 시 호출
+  onStep?: (index: number, step: CollectStep) => void; // 키워드별 상태 변경 시 호출
+  signal?: AbortSignal; // 관리자 중단 요청
+}) => {
+  const clothesService = new ClothesService();
+  const trendClothesRepository = new TrendClothesRepository();
+  const allTrendKeywords = await new TrendKeywordRepository().getTrendKeywordDocs();
+
+  if (allTrendKeywords.length === 0) {
+    return { success: false, aborted: false, saved: 0, message: '트랜드 키워드 데이터가 없습니다.' };
+  }
+
+  onReady?.(
+    allTrendKeywords.map(keyword => ({ keyword: keyword.name, status: 'pending', count: 0 }))
+  );
+
+  let saved = 0;
+  let failed = 0;
+
+  for (const [index, trendKeyword] of allTrendKeywords.entries()) {
+    if (signal?.aborted) {
+      return { success: false, aborted: true, saved, message: `관리자 요청으로 중단되었습니다. (${saved}건 저장)` };
+    }
+
+    onStep?.(index, { keyword: trendKeyword.name, status: 'running', count: 0 });
+
+    // collectClothesForKeyword는 요청 실패도 빈 배열로 반환하므로 empty로 표기
+    const clothes = await clothesService.collectClothesForKeyword(trendKeyword);
+
+    if (clothes.length === 0) {
+      onStep?.(index, { keyword: trendKeyword.name, status: 'empty', count: 0 });
+      continue;
+    }
+
+    const result = await trendClothesRepository.save(clothes);
+
+    if (!result.success) {
+      failed += 1;
+      onStep?.(index, { keyword: trendKeyword.name, status: 'failed', count: 0 });
+      continue;
+    }
+
+    saved += result.created;
+    onStep?.(index, { keyword: trendKeyword.name, status: 'done', count: result.created });
+  }
+
+  return {
+    success: failed === 0,
+    aborted: false,
+    saved,
+    message:
+      failed === 0
+        ? `트랜드 키워드 의류 데이터 ${saved}건 수집 완료`
+        : `${failed}개 키워드 저장 실패 (${saved}건 저장)`,
+  };
+};
+
 // 2026.09.06. 챗봇 컨설팅 모드 > 사용자 설문 답변 기반 추천 의류 필터링
 export const searchClothesByConsulting = async (QASelect: selectType[]) => {
   const clothesService = new TrendClothesRepository();

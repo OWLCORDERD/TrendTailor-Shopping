@@ -125,6 +125,7 @@ Dashboard.KPIGraph = styled.div`
   border-radius: var(--r-lg);
   overflow: hidden;
   margin-bottom: 24px;
+  min-height: 120px;
 `;
 
 Dashboard.KPIGraphItem = styled.div`
@@ -134,6 +135,7 @@ Dashboard.KPIGraphItem = styled.div`
   flex-direction: column;
   gap: 8px;
   transition: ease-in-out 0.2s;
+  min-height: 120px;
 
   &:hover {
     background: var(--bg-card);

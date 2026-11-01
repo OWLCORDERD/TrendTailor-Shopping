@@ -1,79 +1,33 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import React, { useContext, useEffect, useState } from 'react';
 import { Dashboard as CSS } from '@/styles';
-import { db } from '@/shared/lib/firebase';
 import {
-  BuildKpiJob,
   KpiCard,
-  KpiKeywordDoc,
 } from '@/feature/trend/jobs/build-kpi.jobs';
+import { DashboardContext } from '../../../../context/DashboardContext';
 
 const TrendKpiStats = () => {
   const [cards, setCards] = useState<KpiCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { kpiCards } = useContext(DashboardContext);
 
   useEffect(() => {
-    let cancelled = false;
-
-    const loadKpi = async () => {
+    if (kpiCards.length > 0) {
       setIsLoading(true);
-
       try {
-        const [clothesSnap, keywordSnap] = await Promise.all([
-          getDocs(collection(db, 'clothes')),
-          getDocs(collection(db, 'trend-keywords')),
-        ]);
-
-        const clothesList: trendClothes[] = [];
-        clothesSnap.forEach(docSnap => {
-          clothesList.push(docSnap.data() as trendClothes);
-        });
-
-        const keywordDocs: KpiKeywordDoc[] = keywordSnap.docs.map(docSnap => {
-          const data = docSnap.data();
-          const createdAtValue = data.createdAt;
-          const createdAt =
-            createdAtValue && typeof createdAtValue.toDate === 'function'
-              ? createdAtValue.toDate()
-              : createdAtValue instanceof Date
-                ? createdAtValue
-                : null;
-
-          return {
-            name: data.name ?? '',
-            createdAt,
-          };
-        });
-
-        if (cancelled) return;
-
-        const kpiCards = new BuildKpiJob().process(clothesList, keywordDocs);
         setCards(kpiCards);
-      } catch (error) {
-        console.error('KPI 통계 집계 실패:', error);
-        if (!cancelled) {
-          setCards(new BuildKpiJob().process([], []));
-        }
+      } catch (err) {
+        console.error('KPI 통계 집계 실패:', err);
       } finally {
-        if (!cancelled) setIsLoading(false);
+        setIsLoading(false);
       }
-    };
-
-    loadKpi();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const displayCards =
-    cards.length > 0 ? cards : new BuildKpiJob().process([], []);
+    }
+  }, [kpiCards]);
 
   return (
     <CSS.KPIGraph>
-      {displayCards.map(item => (
+      {kpiCards.map(item => (
         <CSS.KPIGraphItem key={item.type}>
           <div className="kpi__label">{item.label}</div>
           {/* key 변경으로 로딩 완료 시 진입 애니메이션 1회 재생 */}

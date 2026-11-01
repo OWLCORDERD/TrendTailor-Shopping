@@ -79,6 +79,15 @@ const useBreadcurmbSetting = (currentPath: string) => {
       isNavigate: true, // 네비게이션 활성화 여부
       children: [],
     },
+    {
+      id: 7,
+      menuUrl: "/mypage",
+      menuName: "마이홈",
+      menuIcon: FaUser,
+      menuDepth: 1,
+      isNavigate: false, // 상단 메뉴 대신 프로필 팝업에서 진입
+      children: [],
+    },
   ];
 
   // 루트 경로(home) 시작점부터 현재 경로에 따른 브래드크럼 배열 생성

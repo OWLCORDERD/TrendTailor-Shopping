@@ -184,13 +184,22 @@ export const generateTrendKeywordJobs = async () => {
       `${process.env.NEXT_PUBLIC_CLIENT_DOMAIN}/api/recommendOpenAI`,
       {
         method: "POST",
+        // 2026.10.25: /api/recommendOpenAI 요청 계약({ type, options })에 맞춰 수정
+        // (기존 prompt/functionSchema 필드는 라우트에서 읽지 않아 항상 400 응답)
         body: JSON.stringify({
-          type: "trend_keyword",
-          prompt: {
-            systemPrompt: trendKeywordSystemPrompt,
-            userPrompt: currentDateUserPrompt,
+          type: "function_call",
+          options: {
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: trendKeywordSystemPrompt },
+              { role: "user", content: currentDateUserPrompt },
+            ],
+            temperature: 0.6,
+            // 키워드 10개 × 하위 필드 구조라 기본 1800 토큰이면 JSON이 잘릴 수 있음
+            max_tokens: 4000,
+            functions: [functionSchema],
+            function_call: { name: functionSchema.name },
           },
-          functionSchema: functionSchema,
         }),
       }
     );
@@ -222,9 +231,14 @@ export const generateTrendKeywordJobs = async () => {
 
       return {
         success: true,
-        message: "조회된 월별 트랜드 키워드를 DB에 저장 완료하였습니다.",
+        message: `월별 트랜드 키워드 저장 완료 (신규 ${result.created} · 갱신 ${result.updated} · 제외 ${result.skipped})`,
       };
     }
+
+    return {
+      success: false,
+      message: "조회된 월별 트랜드 키워드가 없습니다.",
+    };
   } catch (err) {
     console.error(err);
     return {

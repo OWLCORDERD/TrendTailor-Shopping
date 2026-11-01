@@ -129,7 +129,7 @@ const Navbar = () => {
 
                 <CSS.NavMenu>
                   {currentBreadcrumb.menuList
-                    .filter((menu) => !hasLoginMenu(menu.menuUrl))
+                    .filter((menu) => menu.isNavigate && !hasLoginMenu(menu.menuUrl))
                     .map((menu) => {
                       return (
                         <Link

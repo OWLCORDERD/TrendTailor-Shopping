@@ -1,24 +1,37 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Dashboard as CSS } from '@/styles';
 import SystemLabel from '../ui/SystemLabel';
 import dayjs from 'dayjs';
 import useCountUp from '@/hooks/useCountUp';
-import {
-  TrendClothesRepository,
-  TrendKeywordRepository,
-} from '@/feature/trend/repositories/trend.repository';
+import { DashboardContext } from '../../../../context/DashboardContext';
 
 const DashboardHeader = () => {
   const newDate = dayjs().locale('ko').toDate();
-  const keywordRepository = useMemo(() => new TrendKeywordRepository(), []);
-  const clothesRepository = useMemo(() => new TrendClothesRepository(), []);
+  // 2026.11.01 브라우저 Firestore 직접 조회 > 서버(ISR) 집계 헤더 통계 컨텍스트로 변경
+  const {
+    headerStats: { keywordCount, itemCount, latestUpdatedAt },
+  } = useContext(DashboardContext);
+  // ISR 재생성 서버(UTC)와 브라우저 시간대가 달라 하이드레이션 불일치가 나지 않도록 KST 고정 포맷
+  const lastUpdatedLabel = useMemo(() => {
+    if (!latestUpdatedAt) return '-';
 
-  const [lastUpdatedLabel, setLastUpdatedLabel] = useState('-');
-  const [itemCount, setItemCount] = useState(0);
-  const [keywordCount, setKeywordCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+    const parts = Object.fromEntries(
+      new Intl.DateTimeFormat('ko-KR', {
+        timeZone: 'Asia/Seoul',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23',
+      })
+        .formatToParts(new Date(latestUpdatedAt))
+        .map(part => [part.type, part.value])
+    );
+
+    return `${parts.month}월 ${parts.day}일 ${parts.hour}:${parts.minute}`;
+  }, [latestUpdatedAt]);
   const displayItemCount = useCountUp(itemCount);
   const displayKeywordCount = useCountUp(keywordCount);
 
@@ -53,41 +66,6 @@ const DashboardHeader = () => {
     };
   }, [newDate]);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadHeaderStats = async () => {
-      setIsLoading(true);
-
-      try {
-        const [keywords, clothesCount] = await Promise.all([
-          keywordRepository.getTrendKeywordDocs(),
-          clothesRepository.getClothesCount(),
-        ]);
-
-        if (cancelled) return;
-
-        const latestDate = keywordRepository.getLatestUpdatedAt(keywords);
-
-        setLastUpdatedLabel(
-          latestDate ? dayjs(latestDate).format('M월 D일 HH:mm') : '-'
-        );
-        setKeywordCount(keywords.length);
-        setItemCount(clothesCount);
-      } catch (error) {
-        console.error('대시보드 헤더 통계 조회 실패:', error);
-      } finally {
-        if (!cancelled) setIsLoading(false);
-      }
-    };
-
-    loadHeaderStats();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [clothesRepository, keywordRepository]);
-
   return (
     <CSS.PageHeader>
       <div className="index">
@@ -106,20 +84,20 @@ const DashboardHeader = () => {
         <SystemLabel
           type="dot"
           labelTxt="실시간 업데이트"
-          subTxt_B={isLoading ? '—' : lastUpdatedLabel}
+          subTxt_B={lastUpdatedLabel}
         />
         <div className="count">
           <div className="count-item">
             <div className="count-item__label">아이템</div>
             <div className="count-item__value">
-              {isLoading ? '—' : displayItemCount.toLocaleString('ko-KR')}
+              {displayItemCount.toLocaleString('ko-KR')}
             </div>
           </div>
 
           <div className="count-item">
             <div className="count-item__label">분석된 키워드</div>
             <div className="count-item__value">
-              {isLoading ? '—' : displayKeywordCount.toLocaleString('ko-KR')}
+              {displayKeywordCount.toLocaleString('ko-KR')}
             </div>
           </div>
         </div>

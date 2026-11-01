@@ -82,8 +82,6 @@ const Trendly = ({
     }
 
     dispatch(handleSurveySelect(currentSelect));
-
-    console.log('메시지 목록', messages);
   };
 
   const stepSelectDisabled = (currentStep: number, selectLabel: string) => {
