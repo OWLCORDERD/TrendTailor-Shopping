@@ -5,6 +5,8 @@ import { IoIosPlayCircle } from 'react-icons/io';
 
 interface videoItemProps {
   video: videoType;
+  key: number;
+  mobileMQuery: boolean;
   setVideoOpen: React.Dispatch<React.SetStateAction<boolean>>;
   channelData: channelDataType[] | undefined;
   currentVideo: videoType | null;
@@ -12,9 +14,12 @@ interface videoItemProps {
 }
 
 const VideoItem = ({
+  key,
   video,
+  mobileMQuery,
   setVideoOpen,
   setCurrentVideo,
+  currentVideo,
   channelData,
 }: videoItemProps) => {
   const viewVideo = (
